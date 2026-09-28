@@ -15,7 +15,7 @@ Where the same product appears in several places (card, bag line, "complete the 
 - **Generate at the pixel size given** (2× the Figma size) or larger with the same aspect ratio. In Figma, select the `ph/` layer → Fill → Image → **Fill** mode.
 - **Consistency:** generate each template's product shots in one session with the same seed / style reference so light and backdrop match across the grid.
 - **Negative prompt (paste into every generation that supports one):**
-  `text, letters, logo, watermark, signature, brand label, extra fingers, distorted hands, warped fabric, plastic skin, oversaturated, neon, HDR, lens flare, busy background, props clutter, mannequin, cartoon, illustration, 3D render`
+  `text, letters, logo, watermark, signature, brand label, extra fingers, distorted hands, warped fabric, plastic skin, oversaturated, neon, HDR, lens flare, busy background, props clutter, visible mannequin, cartoon, illustration, 3D render`
 
 ---
 
