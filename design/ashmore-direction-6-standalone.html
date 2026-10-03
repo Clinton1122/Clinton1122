@@ -1,0 +1,757 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Ashmore Dentistry Direction Six</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&family=Archivo:wght@400;500;600&display=swap">
+<style>
+/* Layout: one dark world. Each section has one dominant element and its own composition:
+   hero = full-width question, then choice + answer; facts = a single quiet strip;
+   treatments = four full-width rows; nervous = full-bleed coral moment; house = text + arched lace window;
+   team = credits set in large type; visit = the phone number as the headline. */
+:root{
+  --bg:#161211;
+  --bg-2:#1F1918;
+  --ink:#F4E9E6;
+  --mute:#B3A39F;
+  --hair:#332927;
+  --coral:#F58D94;        /* brand coral: surfaces + large display accents */
+  --coral-text:#FCB4B9;   /* coral for small text on dark */
+  --on-coral:#1B1413;
+  --on-coral-mute:#4A2D2F;
+  --lace-on-coral:#E77880;
+  --lace-window:#4A3A37;
+  --tbc:#F2C46D;
+  --tbc-bg:#3A2C12;
+  --focus:#FCB4B9;
+
+  --display:"Newsreader","Iowan Old Style","Palatino Linotype",Georgia,serif;
+  --ui:"Archivo","Helvetica Neue",Arial,sans-serif;
+
+  --s-xs:clamp(.8rem,.78rem + .1vw,.86rem);
+  --s-sm:clamp(.94rem,.9rem + .15vw,1rem);
+  --s-md:clamp(1.06rem,1rem + .3vw,1.22rem);
+  --s-lg:clamp(1.35rem,1.15rem + .8vw,1.95rem);
+  --s-xl:clamp(1.9rem,1.4rem + 2vw,3.3rem);
+  --s-2xl:clamp(2.6rem,1.6rem + 4.4vw,6rem);
+  --s-hero:clamp(3.1rem,1.4rem + 7.4vw,9.6rem);
+
+  --gutter:clamp(16px,4.5vw,64px);
+  --wrap:1360px;
+  --r-sm:6px;
+  --r-lg:22px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--ui);font-size:var(--s-sm);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--focus);outline-offset:3px;border-radius:4px}
+h1,h2,h3{font-family:var(--display);font-weight:300;line-height:1.04;margin:0;text-wrap:balance;letter-spacing:-.015em}
+p{margin:0}
+.wrap{max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gutter)}
+.label{font-size:var(--s-xs);font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.lace{position:absolute;inset:0;pointer-events:none}
+.lace svg{width:100%;height:100%;display:block}
+
+/* Anything Ashmore still has to confirm */
+.tbc{background:var(--tbc-bg);color:var(--tbc);border-radius:4px;padding:.08em .45em;font-family:var(--ui);font-size:.8em;font-weight:500;font-style:normal;letter-spacing:0;text-transform:none;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.tbc::before{content:"To confirm · "}
+.placeholder{border:1.5px dashed var(--tbc);border-radius:var(--r-sm);padding:1.1rem 1.25rem;color:var(--tbc);background:var(--tbc-bg);max-width:62ch}
+.placeholder b{display:block;font-weight:600;margin-bottom:.25rem}
+
+/* Buttons + links */
+.btn{display:inline-flex;align-items:center;gap:.55rem;font:600 var(--s-sm)/1 var(--ui);text-decoration:none;border-radius:var(--r-sm);padding:.85rem 1.15rem;border:0;cursor:pointer;white-space:nowrap;transition:background-color .15s ease-out,color .15s ease-out}
+.btn-light{background:var(--ink);color:var(--bg)}
+.btn-light:hover{background:var(--coral)}
+.btn-dark{background:var(--on-coral);color:var(--ink)}
+.btn-dark:hover{background:#3A2A29}
+.tlink{font-weight:600;color:var(--coral-text);text-decoration:underline;text-underline-offset:.25em;text-decoration-thickness:1px}
+.tlink:hover{text-decoration-thickness:2px}
+
+/* Proposal strip */
+.proposal{background:var(--bg-2);font-size:var(--s-xs);color:var(--mute)}
+.proposal .wrap{display:flex;flex-wrap:wrap;gap:.25rem 1rem;justify-content:space-between;padding-block:.5rem}
+.proposal b{color:var(--ink);font-weight:600}
+
+/* Nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid transparent;transition:border-color .2s ease-out}
+.nav.scrolled{border-bottom-color:var(--hair)}
+.nav .wrap{display:flex;align-items:center;gap:1.75rem;padding-block:1rem}
+.mark{display:flex;align-items:baseline;gap:.5rem;text-decoration:none;margin-right:auto}
+.mark b{font-family:var(--display);font-weight:400;font-size:1.6rem;letter-spacing:-.01em}
+.mark span{font-size:.68rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--mute)}
+.links{display:flex;gap:1.6rem;list-style:none;margin:0;padding:0}
+.links a{text-decoration:none;font-weight:500;color:var(--mute);transition:color .15s ease-out}
+.links a:hover,.links a[aria-current="page"]{color:var(--ink)}
+.menu{display:none}
+@media (max-width:920px){
+  .links{display:none}
+  .menu{display:block;position:relative}
+  .menu summary{list-style:none;cursor:pointer;font-weight:600;padding:.6rem .2rem}
+  .menu summary::-webkit-details-marker{display:none}
+  .menu ul{position:absolute;right:0;top:calc(100% + .6rem);background:var(--bg-2);border:1px solid var(--hair);border-radius:var(--r-sm);list-style:none;margin:0;padding:.5rem;min-width:13rem;display:grid}
+  .menu a{display:block;padding:.6rem .75rem;text-decoration:none;font-weight:500}
+  .nav .btn{padding:.7rem .9rem}
+}
+@media (max-width:480px){
+  .nav .wrap{gap:1rem}
+  .mark span{display:none}
+}
+
+/* ================= HERO ================= */
+.hero .wrap{padding-block:clamp(1.25rem,2.5vw,2.25rem) clamp(2.5rem,6vw,5rem)}
+.hero-meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.5rem 1.5rem;font-size:var(--s-sm);color:var(--mute);margin-bottom:clamp(1rem,2vw,1.75rem)}
+.open{display:inline-flex;align-items:center;gap:.55rem;color:var(--ink);font-weight:500}
+.open i{width:.55rem;height:.55rem;border-radius:50%;background:var(--mute)}
+.open.is-open i{background:#8FD19E}
+.hero h1{font-size:clamp(3.1rem,1.4rem + 6vw,7.4rem);line-height:.95;letter-spacing:-.03em;max-width:none}
+.hero h1 em{font-style:italic;color:var(--coral)}
+.hero h1 .ln{display:block}
+.choose{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(1.5rem,4vw,4.5rem);margin-top:clamp(1.75rem,3vw,2.75rem);align-items:stretch}
+.choose-l{display:flex;flex-direction:column;gap:1rem;min-width:0}
+.answers{display:grid;margin:0;padding:0;list-style:none;border-top:1px solid var(--hair)}
+.answer{all:unset;box-sizing:border-box;cursor:pointer;display:grid;grid-template-columns:1fr auto;align-items:center;gap:1rem;width:100%;padding:.85rem 0 .9rem;position:relative;font-family:var(--display);font-size:var(--s-lg);font-weight:300;line-height:1.15;color:var(--mute);transition:color .15s ease-out,padding-left .2s ease-out}
+.answer::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--hair)}
+.answer .bar{position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--coral);transform:scaleX(0);transform-origin:left;z-index:1}
+.answer .arrow{font-family:var(--ui);font-size:1.15rem;color:var(--coral);opacity:0;transform:translateX(-8px);transition:opacity .15s ease-out,transform .15s ease-out}
+.answer:hover{color:var(--ink)}
+.answer[aria-checked="true"]{color:var(--ink);padding-left:.4rem}
+.answer[aria-checked="true"] .arrow{opacity:1;transform:none}
+.answer[aria-checked="true"] .bar{transform:scaleX(1)}
+.answers.auto .answer[aria-checked="true"] .bar{animation:fill var(--cycle,5200ms) linear forwards}
+@keyframes fill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.hint{font-size:var(--s-xs);color:var(--mute)}
+
+.reply{position:relative;overflow:hidden;background:var(--coral);color:var(--on-coral);border-radius:var(--r-lg);padding:clamp(1.5rem,3.5vw,3rem);display:flex;flex-direction:column;justify-content:space-between;gap:1.75rem;min-width:0}
+.reply > *:not(.lace){position:relative}
+.reply .tag{font-size:var(--s-xs);font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--on-coral-mute)}
+.reply h2{font-size:clamp(2.4rem,1.6rem + 3.2vw,4.6rem);font-style:italic;line-height:1;margin-top:.75rem;max-width:13ch}
+.reply .body{font-size:var(--s-md);line-height:1.5;max-width:40ch;margin-top:1.1rem}
+.reply .facts{display:flex;flex-wrap:wrap;gap:.5rem;margin:1.25rem 0 0;padding:0;list-style:none;font-size:var(--s-xs);font-weight:500}
+.reply .facts li{background:rgba(27,20,19,.1);border-radius:999px;padding:.35rem .75rem}
+.reply .tbc{background:#FBF1E4;color:#6E450A}
+.reply .acts{display:flex;flex-wrap:wrap;gap:.75rem 1.25rem;align-items:center}
+.reply .acts .tlink{color:var(--on-coral)}
+.reply .phone{font-variant-numeric:tabular-nums;font-size:var(--s-sm);font-weight:500}
+.reply .swap{transition:opacity .22s ease-out,transform .22s ease-out}
+.reply.out .swap{opacity:0;transform:translateY(6px);transition-duration:.12s;transition-timing-function:ease-in}
+@media (max-width:900px){.choose{grid-template-columns:1fr}}
+@media (prefers-reduced-motion: reduce){
+  .reply .swap,.answer,.answer .arrow{transition:none}
+  .answers.auto .answer[aria-checked="true"] .bar{animation:none;transform:scaleX(1)}
+}
+@media (prefers-reduced-motion: no-preference){
+  .hero h1 .ln,.choose{animation:rise .6s cubic-bezier(.16,.84,.32,1) both}
+  .hero h1 .ln:nth-child(2){animation-delay:.08s}
+  .choose{animation-delay:.18s}
+  @keyframes rise{from{opacity:.001;transform:translateY(14px)}to{opacity:1;transform:none}}
+}
+
+/* ================= FACT STRIP ================= */
+.facts-strip{border-block:1px solid var(--hair)}
+.facts-strip .wrap{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+.fact{display:flex;align-items:baseline;gap:.9rem;padding-block:1.5rem;padding-inline:0 1.5rem}
+.fact + .fact{border-left:1px solid var(--hair);padding-left:1.5rem}
+.fact b{font-family:var(--display);font-weight:300;font-size:var(--s-xl);line-height:1;font-variant-numeric:tabular-nums;color:var(--ink)}
+.fact span{color:var(--mute);line-height:1.35}
+@media (max-width:760px){
+  .facts-strip .wrap{grid-template-columns:1fr}
+  .fact + .fact{border-left:0;border-top:1px solid var(--hair);padding-left:0}
+}
+
+/* ================= SECTIONS ================= */
+.section{padding-block:clamp(4rem,9vw,8rem)}
+.kicker{margin-bottom:1.25rem}
+.sec-title{font-size:var(--s-2xl);max-width:14ch}
+
+/* Treatments: four full-width rows */
+.t-head{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:1.5rem 4rem;align-items:end;margin-bottom:clamp(2.5rem,5vw,4rem)}
+.t-head p{color:var(--mute);font-size:var(--s-md);max-width:38ch}
+.t-rows{border-top:1px solid var(--hair)}
+.t-row{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:1rem 4rem;padding-block:clamp(1.25rem,2.5vw,2rem);border-bottom:1px solid var(--hair);align-items:baseline}
+.t-row h3{font-size:var(--s-xl);font-style:italic;transition:color .2s ease-out}
+.t-row:hover h3{color:var(--coral)}
+.t-row ul{display:flex;flex-wrap:wrap;gap:.6rem 2rem;list-style:none;margin:0;padding:0}
+.t-row a{display:inline-flex;gap:.5rem;align-items:baseline;text-decoration:none;font-size:var(--s-md);font-weight:500;color:var(--ink);transition:color .15s ease-out}
+.t-row a span{color:var(--mute);transition:transform .15s ease-out,color .15s ease-out}
+.t-row a:hover{color:var(--coral-text)}
+.t-row a:hover span{transform:translateX(3px);color:var(--coral-text)}
+.t-row.calm-row h3{color:var(--coral)}
+@media (max-width:760px){.t-head,.t-row{grid-template-columns:1fr}}
+
+/* Nervous: full-bleed coral */
+.calm{position:relative;overflow:hidden;background:var(--coral);color:var(--on-coral)}
+.calm .wrap{position:relative;display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:2.5rem clamp(2rem,6vw,6rem);align-items:end;padding-block:clamp(4rem,9vw,8rem)}
+.calm .label{color:var(--on-coral-mute)}
+.calm h2{font-size:var(--s-hero);line-height:.95;letter-spacing:-.03em}
+.calm h2 em{font-style:italic}
+.calm .side{display:grid;gap:1.25rem}
+.calm .side p{font-size:var(--s-md);max-width:36ch}
+.mini{display:grid;gap:.5rem;margin:0;padding:0;list-style:none}
+.mini button{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:.8rem;width:100%;padding:.85rem 1rem;border-radius:var(--r-sm);background:rgba(27,20,19,.08);font-weight:500;transition:background-color .15s ease-out}
+.mini button:hover{background:rgba(27,20,19,.16)}
+.mini button:focus-visible{outline:2px solid var(--on-coral);outline-offset:2px}
+.mini i{flex:none;width:1.15rem;height:1.15rem;border:1.5px solid var(--on-coral);border-radius:4px}
+.mini .go{margin-left:auto;font-style:normal}
+.calm .side p.num{font-family:var(--display);font-size:var(--s-xl);line-height:1;font-variant-numeric:tabular-nums;max-width:none}
+@media (max-width:860px){.calm .wrap{grid-template-columns:1fr}}
+
+/* House: text + arched lace window */
+.house .wrap{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:3rem clamp(2rem,6vw,6rem);align-items:center}
+.house h2{font-size:var(--s-2xl);max-width:13ch}
+.house .copy{display:grid;gap:1.5rem}
+.house .copy p{color:var(--mute);font-size:var(--s-md);max-width:46ch}
+.house .copy p.addr{color:var(--ink);font-weight:500}
+.window{position:relative;overflow:hidden;aspect-ratio:3/4;max-width:100%;border-radius:999px 999px var(--r-sm) var(--r-sm);background:var(--bg-2)}
+.window-cap{margin-top:.75rem;font-size:var(--s-xs);color:var(--mute)}
+@media (max-width:760px){.house .wrap{grid-template-columns:1fr}.window{max-width:22rem;aspect-ratio:4/5}}
+
+/* Team: credits */
+.team{background:var(--bg-2)}
+.team-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:1.5rem 3rem;margin-bottom:clamp(2.5rem,5vw,4rem)}
+.team-head p{color:var(--mute);font-size:var(--s-md);max-width:36ch}
+.credits{display:grid;gap:clamp(2rem,4vw,3rem)}
+.credits h3{font-family:var(--ui);font-size:var(--s-xs);font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin-bottom:.75rem}
+.names{display:flex;flex-wrap:wrap;gap:.1em .5em;margin:0;padding:0;list-style:none;font-family:var(--display);font-weight:300;font-size:var(--s-xl);line-height:1.15;letter-spacing:-.015em}
+.names li{display:inline-flex;align-items:baseline;gap:.5em}
+.names li:not(:last-child)::after{content:"·";color:var(--coral)}
+.names small{font-family:var(--ui);font-size:var(--s-xs);color:var(--mute);letter-spacing:0;align-self:center}
+
+/* Visit: the number is the headline */
+.visit .num{display:block;font-family:var(--display);font-weight:300;font-size:var(--s-hero);line-height:.95;letter-spacing:-.03em;font-variant-numeric:tabular-nums;text-decoration:none;margin-block:.5rem clamp(2.5rem,5vw,4rem)}
+.visit .num:hover{color:var(--coral)}
+.visit-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2.5rem clamp(2rem,5vw,5rem);padding-top:2rem;border-top:1px solid var(--hair)}
+.visit-grid h3{font-family:var(--ui);font-size:var(--s-xs);font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin-bottom:.9rem}
+.visit-grid p{color:var(--mute)}
+.visit-grid p.big{font-family:var(--display);font-size:var(--s-lg);color:var(--ink);line-height:1.25;margin-bottom:.5rem}
+.hours{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.hours th,.hours td{text-align:left;padding:.45rem 0;border-bottom:1px solid var(--hair);font-weight:400}
+.hours td{text-align:right;color:var(--mute)}
+.hours tr.late th,.hours tr.late td{color:var(--coral-text);font-weight:600}
+.hours tr.today th::after{content:" · today";color:var(--mute);font-weight:400}
+.pay{display:grid;gap:1rem}
+.pay div b{display:block;font-family:var(--display);font-weight:400;font-size:var(--s-lg);color:var(--ink)}
+@media (max-width:900px){.visit-grid{grid-template-columns:1fr}}
+
+/* Footer */
+.foot{border-top:1px solid var(--hair)}
+.foot .wrap{display:flex;flex-wrap:wrap;gap:1rem 2rem;justify-content:space-between;align-items:baseline;padding-block:2rem;font-size:var(--s-xs);color:var(--mute)}
+.foot .by b{color:var(--ink);font-weight:600}
+
+/* ================= ANXIOUS PATIENTS ================= */
+.ap-hero .wrap{padding-block:clamp(1.75rem,4vw,3.5rem) clamp(2.5rem,5vw,4rem)}
+.crumb{font-size:var(--s-sm);color:var(--mute);margin-bottom:clamp(1.25rem,3vw,2.5rem)}
+.crumb a{color:var(--mute)}
+.ap-hero h1{font-size:var(--s-hero);line-height:.95;letter-spacing:-.03em;max-width:12ch}
+.ap-hero h1 em{color:var(--coral)}
+.lede-row{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:2rem;margin-top:clamp(1.5rem,3vw,2.5rem)}
+.lede-row .lede{grid-column:2;font-size:var(--s-md);color:var(--mute);max-width:44ch}
+@media (max-width:860px){.lede-row{grid-template-columns:1fr}.lede-row .lede{grid-column:1}}
+
+.planner{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(1.5rem,4vw,4.5rem);align-items:start}
+.planner h2{font-size:var(--s-xl);margin-bottom:.75rem}
+.planner .why{color:var(--mute);max-width:46ch;margin-bottom:1.75rem}
+.asks{display:grid;margin:0;padding:0;border:0;border-top:1px solid var(--hair)}
+.ask-row{display:grid;grid-template-columns:auto 1fr;gap:1rem;align-items:start;padding:1.1rem 0;border-bottom:1px solid var(--hair);cursor:pointer}
+.ask-row input{appearance:none;-webkit-appearance:none;margin:.2rem 0 0;width:1.35rem;height:1.35rem;border:1.5px solid var(--mute);border-radius:var(--r-sm);display:grid;place-content:center;cursor:pointer;transition:background-color .15s ease-out,border-color .15s ease-out}
+.ask-row input::after{content:"";width:.7rem;height:.38rem;border-left:2px solid var(--on-coral);border-bottom:2px solid var(--on-coral);transform:rotate(-45deg) translate(1px,-1px);opacity:0}
+.ask-row input:checked{background:var(--coral);border-color:var(--coral)}
+.ask-row input:checked::after{opacity:1}
+.ask-row b{display:block;font-family:var(--display);font-weight:300;font-size:var(--s-lg);line-height:1.2;transition:color .15s ease-out}
+.ask-row:has(input:checked) b{color:var(--coral)}
+.ask-row span{display:block;color:var(--mute);margin-top:.2rem}
+.more{display:grid;gap:.5rem;margin-top:1.75rem}
+.more label{font-weight:600}
+.more textarea{font:inherit;color:var(--ink);background:var(--bg-2);border:1px solid var(--hair);border-radius:var(--r-sm);padding:.8rem .9rem;min-height:6rem;resize:vertical}
+.more textarea::placeholder{color:#8C7D79}
+.more textarea:focus{outline:2px solid var(--focus);outline-offset:1px}
+.note{position:sticky;top:calc(env(safe-area-inset-top,0px) + 5.5rem);overflow:hidden;background:var(--coral);color:var(--on-coral);border-radius:var(--r-lg);padding:clamp(1.25rem,3vw,2rem);display:grid;gap:1rem}
+.note > *:not(.lace){position:relative}
+.note .tag{font-size:var(--s-xs);font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--on-coral-mute)}
+.note-text{background:#FBF1EC;color:#1B1413;border-radius:var(--r-sm);padding:1.1rem 1.2rem;font-family:var(--display);font-size:var(--s-md);line-height:1.5;min-height:8rem;white-space:pre-wrap}
+.note-text.empty{color:#6F5A57;font-style:italic}
+.note .how{font-size:var(--s-sm)}
+.note .how b{font-variant-numeric:tabular-nums}
+.note .row{display:flex;flex-wrap:wrap;gap:.75rem;align-items:center}
+.note .status{font-size:var(--s-sm);font-weight:600}
+.note .tbc{background:#FBF1E4;color:#6E450A}
+@media (max-width:860px){.planner{grid-template-columns:1fr}.note{position:static}}
+
+.steps-wrap{background:var(--bg-2)}
+.steps-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:1rem 3rem;margin-bottom:clamp(2.5rem,5vw,4rem)}
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:2rem;counter-reset:step;list-style:none;margin:0;padding:0}
+.steps li{display:grid;gap:.7rem;align-content:start;padding-top:1.1rem;border-top:1px solid var(--mute)}
+.steps li::before{counter-increment:step;content:counter(step);font-family:var(--display);font-size:var(--s-2xl);font-weight:300;color:var(--coral);line-height:.9}
+.steps b{font-family:var(--display);font-weight:400;font-size:var(--s-lg);line-height:1.2}
+.steps p{color:var(--mute)}
+@media (max-width:900px){.steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.steps{grid-template-columns:1fr}}
+
+.sleep{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:2rem clamp(2rem,6vw,6rem);align-items:end}
+.sleep h2{font-size:var(--s-2xl);max-width:13ch;margin-bottom:1.25rem}
+.sleep p{color:var(--mute);font-size:var(--s-md);max-width:44ch}
+@media (max-width:760px){.sleep{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<!-- Lacework pattern drawn after Ashmore House's cast-iron verandah lace; one per surface colour -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <pattern id="lace-coral" width="56" height="56" patternUnits="userSpaceOnUse">
+      <g fill="none" style="stroke:var(--lace-on-coral)" stroke-width="1.4"><circle cx="28" cy="28" r="20"/><circle cx="0" cy="0" r="20"/><circle cx="56" cy="0" r="20"/><circle cx="0" cy="56" r="20"/><circle cx="56" cy="56" r="20"/><circle cx="28" cy="28" r="5"/><path d="M28 8 32 14 28 20 24 14Z M28 36 32 42 28 48 24 42Z M8 28 14 24 20 28 14 32Z M36 28 42 24 48 28 42 32Z"/></g>
+    </pattern>
+    <pattern id="lace-window" width="56" height="56" patternUnits="userSpaceOnUse">
+      <g fill="none" style="stroke:var(--lace-window)" stroke-width="1.6"><circle cx="28" cy="28" r="20"/><circle cx="0" cy="0" r="20"/><circle cx="56" cy="0" r="20"/><circle cx="0" cy="56" r="20"/><circle cx="56" cy="56" r="20"/><circle cx="28" cy="28" r="5"/><path d="M28 8 32 14 28 20 24 14Z M28 36 32 42 28 48 24 42Z M8 28 14 24 20 28 14 32Z M36 28 42 24 48 28 42 32Z"/></g>
+    </pattern>
+  </defs>
+</svg>
+
+<div class="proposal" role="note">
+  <div class="wrap">
+    <span><b>Design proposal</b> for Ashmore Dentistry. Not a live site.</span>
+    <span>Highlighted <span class="tbc">items</span> need Ashmore's input.</span>
+  </div>
+</div>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="mark" href="#home" aria-label="Ashmore Dentistry home"><b>Ashmore</b><span>Dentistry</span></a>
+    <ul class="links">
+      <li><a href="#treatments">Treatments</a></li>
+      <li><a href="#anxious-patients">Nervous patients</a></li>
+      <li><a href="#team">Our team</a></li>
+      <li><a href="#visit">Visit &amp; pay</a></li>
+    </ul>
+    <details class="menu">
+      <summary>Menu</summary>
+      <ul>
+        <li><a href="#treatments">Treatments</a></li>
+        <li><a href="#anxious-patients">Nervous patients</a></li>
+        <li><a href="#team">Our team</a></li>
+        <li><a href="#visit">Visit &amp; pay</a></li>
+      </ul>
+    </details>
+    <a class="btn btn-light" href="tel:+61353311959">Call to book</a>
+  </div>
+</header>
+
+<!-- ======================= HOME ======================= -->
+<main id="view-home" data-view="home">
+
+  <section class="hero" aria-labelledby="q">
+    <div class="wrap">
+      <div class="hero-meta">
+        <span>Ashmore House · Drummond Street South, Ballarat</span>
+        <span class="open" id="openNow"><i aria-hidden="true"></i><span>Mon–Fri from 8:45am</span></span>
+      </div>
+      <h1 id="q"><span class="ln">What's bringing</span> <span class="ln">you in <em>today?</em></span></h1>
+
+      <div class="choose">
+        <div class="choose-l">
+          <ul class="answers auto" id="answers" role="radiogroup" aria-labelledby="q"></ul>
+          <p class="hint">Pick the closest one. We'll tell you what happens next.</p>
+        </div>
+        <div class="reply" id="reply" aria-live="polite">
+          <div class="lace" aria-hidden="true"><svg><rect width="100%" height="100%" fill="url(#lace-coral)" opacity=".55"/></svg></div>
+          <div class="swap" id="replyTop"></div>
+          <div class="swap acts" id="replyActs"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="facts-strip" aria-label="Ashmore at a glance">
+    <div class="wrap">
+      <p class="fact"><b>35</b><span>years caring for<br>Ballarat's teeth</span></p>
+      <p class="fact"><b>9</b><span>dentists and oral<br>health therapists</span></p>
+      <p class="fact"><b>8pm</b><span>late appointments<br>every Thursday</span></p>
+    </div>
+  </section>
+
+  <section class="section" id="treatments" aria-labelledby="treat-h">
+    <div class="wrap">
+      <div class="t-head">
+        <div>
+          <p class="label kicker">Treatments</p>
+          <h2 class="sec-title" id="treat-h">Sorted by what you need.</h2>
+        </div>
+        <p>Thirteen treatments, grouped by the reason you'd come in. Not sure which? Call and describe it, and we'll work it out together.</p>
+      </div>
+      <div class="t-rows">
+        <div class="t-row"><h3>Keep teeth healthy</h3><ul>
+          <li><a href="#treatments">Hygiene + prevention <span>→</span></a></li>
+          <li><a href="#treatments">Fillings <span>→</span></a></li>
+          <li><a href="#treatments">Kids dental <span>→</span></a></li></ul></div>
+        <div class="t-row"><h3>Fix a problem</h3><ul>
+          <li><a href="#treatments">Emergency treatment <span>→</span></a></li>
+          <li><a href="#treatments">Root canals <span>→</span></a></li>
+          <li><a href="#treatments">Wisdom teeth <span>→</span></a></li>
+          <li><a href="#treatments">Implants <span>→</span></a></li></ul></div>
+        <div class="t-row"><h3>Change your smile</h3><ul>
+          <li><a href="#treatments">Invisalign <span>→</span></a></li>
+          <li><a href="#treatments">Braces <span>→</span></a></li>
+          <li><a href="#treatments">Crowns + veneers <span>→</span></a></li>
+          <li><a href="#treatments">Bleaching <span>→</span></a></li></ul></div>
+        <div class="t-row calm-row"><h3>Feel calmer</h3><ul>
+          <li><a href="#anxious-patients">Anxious patients <span>→</span></a></li>
+          <li><a href="#anxious-patients">Sleep dentistry <span>→</span></a></li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="calm" aria-labelledby="calm-h">
+    <div class="lace" aria-hidden="true"><svg><rect width="100%" height="100%" fill="url(#lace-coral)" opacity=".45"/></svg></div>
+    <div class="wrap">
+      <div>
+        <p class="label kicker">Nervous patients</p>
+        <h2 id="calm-h">Nervous? <em>Say so</em> when you book.</h2>
+      </div>
+      <div class="side">
+        <p>It's the most useful thing you can tell us. Start a note for the team now. Tick one to begin.</p>
+        <ul class="mini" id="mini">
+          <li><button type="button" data-pick="a-explain"><i aria-hidden="true"></i>Explain each step first<em class="go" aria-hidden="true">→</em></button></li>
+          <li><button type="button" data-pick="a-talk"><i aria-hidden="true"></i>Just talk on the first visit<em class="go" aria-hidden="true">→</em></button></li>
+          <li><button type="button" data-pick="a-years"><i aria-hidden="true"></i>It's been a while<em class="go" aria-hidden="true">→</em></button></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section house" aria-labelledby="house-h">
+    <div class="wrap">
+      <div class="copy">
+        <p class="label">Ashmore House</p>
+        <h2 id="house-h">Built in the gold rush. Still looking after Ballarat.</h2>
+        <p>Ashmore House went up at the height of Ballarat's gold rush in the late 1800s: brickwork, decorative cornices and cast-iron lace on the verandah. The practice inside has been part of town for 35 years, and became Ashmore Dentistry in 2019.</p>
+        <p class="addr">11 Drummond Street South, Ballarat VIC 3350</p>
+      </div>
+      <figure style="margin:0">
+        <div class="window" aria-hidden="true"><div class="lace"><svg><rect width="100%" height="100%" fill="url(#lace-window)"/></svg></div></div>
+        <figcaption class="window-cap">Pattern drawn after the house's cast-iron lace. <span class="tbc">photo of the verandah</span></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section team" id="team" aria-labelledby="team-h">
+    <div class="wrap">
+      <div class="team-head">
+        <div>
+          <p class="label kicker">Our team</p>
+          <h2 class="sec-title" id="team-h">Nine clinicians, one house.</h2>
+        </div>
+        <p>You'll know who you're seeing before you arrive. <span class="tbc">new team portraits</span></p>
+      </div>
+      <div class="credits">
+        <div>
+          <h3>Dentists</h3>
+          <ul class="names">
+            <li>Dr George Abdemalek</li>
+            <li>Dr Anna Taylor</li>
+            <li>Dr Aba Saeed</li>
+            <li>Dr Plutarch Deliyannis</li>
+            <li>Dr Sam Saeed</li>
+            <li>Dr David Attia <small>Dental surgeon</small></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Oral health therapists</h3>
+          <ul class="names">
+            <li>Lauren Rodda</li>
+            <li>Sophie Norden</li>
+            <li>Samantha Georgeallis</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section visit" id="visit" aria-labelledby="visit-h">
+    <div class="wrap">
+      <p class="label" id="visit-h">Book a visit</p>
+      <a class="num" href="tel:+61353311959">(03) 5331 1959</a>
+      <div class="visit-grid">
+        <div>
+          <h3>Hours</h3>
+          <table class="hours" id="hours">
+            <caption class="sr">Opening hours</caption>
+            <tbody>
+              <tr data-d="1"><th scope="row">Monday</th><td>8:45am – 6:00pm</td></tr>
+              <tr data-d="2"><th scope="row">Tuesday</th><td>8:45am – 6:00pm</td></tr>
+              <tr data-d="3"><th scope="row">Wednesday</th><td>8:45am – 6:00pm</td></tr>
+              <tr data-d="4" class="late"><th scope="row">Thursday</th><td>8:45am – 8:00pm</td></tr>
+              <tr data-d="5"><th scope="row">Friday</th><td>8:45am – 6:00pm</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <h3>Find us</h3>
+          <p class="big">11 Drummond Street South<br>Ballarat VIC 3350</p>
+          <p>hello@ashmoredentistry.com.au</p>
+          <p style="margin-top:.75rem"><span class="tbc">parking and accessibility</span></p>
+        </div>
+        <div id="paying">
+          <h3>Pay over time</h3>
+          <div class="pay">
+            <div><b>Zip Pay</b><p>Pay for treatment in instalments. <span class="tbc">terms</span></p></div>
+            <div><b>DentiCare</b><p>Payment plans tailored to your treatment. <span class="tbc">terms</span></p></div>
+            <div><p><span class="tbc">health funds accepted</span></p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ======================= ANXIOUS PATIENTS ======================= -->
+<main id="view-anxious-patients" data-view="anxious-patients" hidden>
+  <section class="ap-hero" aria-labelledby="ap-h">
+    <div class="wrap">
+      <p class="crumb"><a href="#home">Home</a> / Nervous patients</p>
+      <h1 id="ap-h">Nervous about the dentist? <em>Start here.</em></h1>
+      <div class="lede-row">
+        <p class="lede">Lots of people feel this way, and plenty haven't been in for years. This page tells you what to expect. It also lets you write down what would help, so the team knows before you sit down.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:clamp(1rem,2vw,2rem)" aria-labelledby="plan-h">
+    <div class="wrap planner">
+      <div>
+        <h2 id="plan-h">What would make it easier?</h2>
+        <p class="why">Tick anything that sounds right. Your note builds as you go.</p>
+        <fieldset class="asks">
+          <legend class="sr">Things that would help</legend>
+          <label class="ask-row"><input type="checkbox" id="a-explain" data-note="Please explain each step before you do it."><span><b>Explain each step first</b><span>Know what's coming before it happens.</span></span></label>
+          <label class="ask-row"><input type="checkbox" id="a-signal" data-note="I'd like to agree on a signal for when I need a break."><span><b>Agree on a stop signal</b><span>Raise a hand, and everything pauses.</span></span></label>
+          <label class="ask-row"><input type="checkbox" id="a-talk" data-note="For my first visit, I'd like to talk first, with no treatment."><span><b>Just talk on the first visit</b><span>Meet the dentist and ask questions. Nothing else.</span></span></label>
+          <label class="ask-row"><input type="checkbox" id="a-long" data-note="Could I have a longer appointment, so it doesn't feel rushed?"><span><b>A longer appointment</b><span>More time, so nothing feels rushed.</span></span></label>
+          <label class="ask-row"><input type="checkbox" id="a-years" data-note="It's been a long time since I last saw a dentist."><span><b>It's been a while</b><span>No judgement. It helps the team plan.</span></span></label>
+          <label class="ask-row"><input type="checkbox" id="a-sleep" data-note="I'd like to ask about sleep dentistry."><span><b>Ask about sleep dentistry</b><span>Find out whether it's an option for you.</span></span></label>
+        </fieldset>
+        <div class="more">
+          <label for="a-other">Anything else we should know?</label>
+          <textarea id="a-other" placeholder="For example: I gag easily, or I'd like to bring someone with me."></textarea>
+        </div>
+      </div>
+
+      <aside class="note" aria-labelledby="note-h">
+        <div class="lace" aria-hidden="true"><svg><rect width="100%" height="100%" fill="url(#lace-coral)" opacity=".5"/></svg></div>
+        <p class="tag" id="note-h">Your note for the team</p>
+        <div class="note-text empty" id="noteText" aria-live="polite">Tick something and your note appears here.</div>
+        <p class="how">Read it out when you call <b>(03) 5331 1959</b>, or paste it into an email to <b>hello@ashmoredentistry.com.au</b>.</p>
+        <div class="row">
+          <button class="btn btn-dark" type="button" id="copyNote">Copy note</button>
+          <span class="status" id="copyStatus" role="status"></span>
+        </div>
+        <p class="how"><span class="tbc">which of these requests Ashmore can offer</span></p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section steps-wrap" aria-labelledby="first-h">
+    <div class="wrap">
+      <div class="steps-head">
+        <h2 class="sec-title" id="first-h">What your first visit looks like.</h2>
+        <p><span class="tbc">Ashmore to check this matches how they work</span></p>
+      </div>
+      <ol class="steps">
+        <li><b>You get in touch</b><p>Call or email, and say you're nervous. That's all you need to do.</p></li>
+        <li><b>You talk first</b><p>Before anything happens, you sit down with your dentist and say what worries you.</p></li>
+        <li><b>You decide together</b><p>Your dentist explains the options. You choose what happens and when.</p></li>
+        <li><b>You stay in control</b><p>Use your signal whenever you need a break. Everything stops.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="sleep-h">
+    <div class="wrap sleep">
+      <div>
+        <p class="label kicker">Sleep dentistry</p>
+        <h2 id="sleep-h">If you'd rather not be awake for it.</h2>
+        <p>Ashmore offers sleep dentistry. The details belong here, in plain language, once Ashmore has confirmed them.</p>
+      </div>
+      <div class="placeholder">
+        <b>Ashmore to supply</b>
+        What sleep dentistry involves at Ashmore, who it suits, how to prepare, recovery on the day, and the cost. Clinical wording needs Ashmore's sign-off.
+      </div>
+    </div>
+  </section>
+
+  <section class="calm" aria-labelledby="call-h">
+    <div class="lace" aria-hidden="true"><svg><rect width="100%" height="100%" fill="url(#lace-coral)" opacity=".45"/></svg></div>
+    <div class="wrap">
+      <div>
+        <p class="label kicker">Ready when you are</p>
+        <h2 id="call-h">Start with a <em>phone call.</em></h2>
+      </div>
+      <div class="side">
+        <p class="num">(03) 5331 1959</p>
+        <p>Monday to Friday from 8:45am. Thursdays until 8pm.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <span>Ashmore Dentistry · 11 Drummond Street South, Ballarat VIC 3350 · (03) 5331 1959</span>
+    <span class="by">Design by <b>Clintontheuiuxguy</b></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- Live opening status, in Ballarat time ---------- */
+  var HOURS = {1:[525,1080],2:[525,1080],3:[525,1080],4:[525,1200],5:[525,1080]}; // minutes from midnight
+  var DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  function fmt(m){ var h = Math.floor(m/60), mm = m%60, ap = h >= 12 ? 'pm' : 'am'; h = h%12 || 12; return h + (mm ? ':' + String(mm).padStart(2,'0') : '') + ap; }
+  try {
+    var parts = new Intl.DateTimeFormat('en-AU',{timeZone:'Australia/Melbourne',weekday:'short',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date());
+    var get = function(t){ var p = parts.find(function(x){ return x.type === t; }); return p ? p.value : ''; };
+    var d = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].indexOf(get('weekday'));
+    var now = parseInt(get('hour'),10)*60 + parseInt(get('minute'),10);
+    var el = document.getElementById('openNow'), txt = el.querySelector('span'), msg;
+    var row = document.querySelector('#hours tr[data-d="' + d + '"]'); if (row) row.classList.add('today');
+    var h = HOURS[d];
+    if (h && now >= h[0] && now < h[1]) { msg = 'Open now · until ' + fmt(h[1]); el.classList.add('is-open'); }
+    else if (h && now < h[0]) { msg = 'Opens today at ' + fmt(h[0]); }
+    else { var n = d; do { n = (n + 1) % 7; } while (!HOURS[n]); msg = 'Closed now · opens ' + (n === (d+1)%7 ? 'tomorrow' : DAYS[n]) + ' ' + fmt(HOURS[n][0]); }
+    if (d >= 0 && !isNaN(now)) txt.textContent = msg;
+  } catch(e) {}
+
+  /* ---------- Hero conversation ---------- */
+  var A = [
+    { label:"I'm nervous about the dentist", tag:"Nervous patients", title:"You're far from the only one.",
+      body:"Tell us when you call. The team will know before you arrive, and you can plan the visit around what helps.",
+      facts:["Ask to just talk on the first visit","Sleep dentistry available"],
+      cta:{label:"Plan a calmer visit", href:"#anxious-patients"}, link:null },
+    { label:"Something hurts", tag:"Emergency treatment", title:"Call us first thing.",
+      body:"Emergency treatment is part of what we do. Ring as soon as we open and tell us what's going on.",
+      facts:["From 8:45am, Mon–Fri","Until 8pm Thursdays","<span class=\"tbc\">after-hours advice</span>"],
+      cta:{label:"Call (03) 5331 1959", href:"tel:+61353311959"}, link:null },
+    { label:"It's time for a check-up", tag:"Hygiene + prevention", title:"Easy. Pick a time that suits.",
+      body:"A check-up and clean with one of our dentists or oral health therapists.",
+      facts:["Late appointments Thursdays","Zip Pay + DentiCare"],
+      cta:{label:"Call to book", href:"tel:+61353311959"}, link:{label:"Opening hours", href:"#visit"} },
+    { label:"I want to change my smile", tag:"Invisalign · Braces · Veneers · Bleaching", title:"Start with a conversation.",
+      body:"Talk through what you'd like to change and what's possible, before you commit to anything.",
+      facts:["Invisalign + braces","Crowns, veneers, bleaching","<span class=\"tbc\">consultation fee</span>"],
+      cta:{label:"Call to book", href:"tel:+61353311959"}, link:{label:"All treatments", href:"#treatments"} },
+    { label:"It's for my kids", tag:"Kids dental", title:"A family practice for life.",
+      body:"Bring the kids in early, so the dentist becomes a familiar, ordinary part of growing up.",
+      facts:["Thursday evenings work around school","<span class=\"tbc\">Child Dental Benefits Schedule</span>"],
+      cta:{label:"Call to book", href:"tel:+61353311959"}, link:{label:"Meet the team", href:"#team"} }
+  ];
+  var list = document.getElementById('answers'), top = document.getElementById('replyTop'),
+      acts = document.getElementById('replyActs'), reply = document.getElementById('reply');
+  var CYCLE = 5200, idx = 0, timer = null, userChose = false, paused = false, onHome = true;
+  list.style.setProperty('--cycle', CYCLE + 'ms');
+  A.forEach(function(a, i){
+    var li = document.createElement('li'), b = document.createElement('button');
+    b.type = 'button'; b.className = 'answer'; b.setAttribute('role','radio');
+    b.setAttribute('aria-checked', i === 0 ? 'true' : 'false'); b.tabIndex = i === 0 ? 0 : -1;
+    b.innerHTML = '<span>' + a.label + '</span><span class="arrow" aria-hidden="true">→</span><span class="bar" aria-hidden="true"></span>';
+    b.addEventListener('click', function(){ choose(i, true); });
+    li.appendChild(b); list.appendChild(li);
+  });
+  var btns = list.querySelectorAll('.answer');
+  function render(i){
+    var a = A[i];
+    top.innerHTML = '<p class="tag">' + a.tag + '</p><h2>' + a.title + '</h2><p class="body">' + a.body + '</p>' +
+      '<ul class="facts">' + a.facts.map(function(f){ return '<li>' + f + '</li>'; }).join('') + '</ul>';
+    var tel = a.cta.href.indexOf('tel:') === 0;
+    acts.innerHTML = '<a class="btn btn-dark" href="' + a.cta.href + '">' + a.cta.label + '</a>' +
+      (a.link ? '<a class="tlink" href="' + a.link.href + '">' + a.link.label + '</a>' : '') +
+      (tel ? '' : '<span class="phone">or call (03) 5331 1959</span>');
+  }
+  function restartBar(){ var bar = btns[idx].querySelector('.bar'); bar.style.animation = 'none'; void bar.offsetWidth; bar.style.animation = ''; }
+  function choose(i, byUser){
+    if (byUser){ userChose = true; stop(); list.classList.remove('auto'); }
+    if (i === idx && !byUser) return;
+    idx = i;
+    btns.forEach(function(b, j){ b.setAttribute('aria-checked', j === i ? 'true' : 'false'); b.tabIndex = j === i ? 0 : -1; });
+    if (reduce){ render(i); return; }
+    reply.classList.add('out');
+    setTimeout(function(){ render(i); reply.classList.remove('out'); }, 130);
+    if (!byUser) restartBar();
+  }
+  function start(){ if (reduce || userChose || paused || timer || !onHome) return; timer = setInterval(function(){ choose((idx + 1) % A.length, false); }, CYCLE); }
+  function stop(){ clearInterval(timer); timer = null; }
+  list.addEventListener('keydown', function(e){
+    var k = e.key, n = null;
+    if (k === 'ArrowDown' || k === 'ArrowRight') n = (idx + 1) % A.length;
+    if (k === 'ArrowUp' || k === 'ArrowLeft') n = (idx - 1 + A.length) % A.length;
+    if (n !== null){ e.preventDefault(); choose(n, true); btns[n].focus(); }
+  });
+  var choosePane = document.querySelector('.choose');
+  choosePane.addEventListener('mouseenter', function(){ paused = true; stop(); list.classList.remove('auto'); });
+  choosePane.addEventListener('mouseleave', function(){ paused = false; if (!userChose){ list.classList.add('auto'); restartBar(); start(); } });
+  choosePane.addEventListener('focusin', function(){ paused = true; stop(); list.classList.remove('auto'); });
+  document.addEventListener('visibilitychange', function(){ document.hidden ? stop() : start(); });
+  if ('IntersectionObserver' in window){
+    new IntersectionObserver(function(es){ es.forEach(function(e){ e.isIntersecting ? start() : stop(); }); }, { threshold:.25 }).observe(choosePane);
+  }
+  if (reduce) list.classList.remove('auto');
+  render(0); start();
+
+  /* ---------- Nav border on scroll ---------- */
+  var nav = document.getElementById('nav');
+  window.addEventListener('scroll', function(){ nav.classList.toggle('scrolled', window.scrollY > 8); }, { passive:true });
+
+  /* ---------- Two views, one file ---------- */
+  var views = document.querySelectorAll('[data-view]');
+  function route(){
+    var h = (location.hash || '#home').slice(1);
+    var target = h === 'anxious-patients' ? 'anxious-patients' : 'home';
+    views.forEach(function(v){ v.hidden = v.getAttribute('data-view') !== target; });
+    document.querySelectorAll('.links a').forEach(function(a){ if (a.getAttribute('href') === '#' + h) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
+    var menu = document.querySelector('.menu'); if (menu) menu.open = false;
+    onHome = target === 'home';
+    var el = onHome && h !== 'home' ? document.getElementById(h) : null;
+    if (el) el.scrollIntoView(); else window.scrollTo(0, 0);
+    onHome ? start() : stop();
+  }
+  window.addEventListener('hashchange', route);
+  route();
+
+  /* ---------- Anxious patients note ---------- */
+  var boxes = document.querySelectorAll('.asks input'), other = document.getElementById('a-other'),
+      out = document.getElementById('noteText'), status = document.getElementById('copyStatus');
+  function note(){
+    var lines = [];
+    boxes.forEach(function(b){ if (b.checked) lines.push(b.getAttribute('data-note')); });
+    var extra = other.value.trim(); if (extra) lines.push(extra);
+    if (!lines.length){ out.textContent = 'Tick something and your note appears here.'; out.classList.add('empty'); return ''; }
+    var text = "Hi, I'm a nervous patient.\n" + lines.join('\n');
+    out.textContent = text; out.classList.remove('empty'); return text;
+  }
+  boxes.forEach(function(b){ b.addEventListener('change', function(){ status.textContent = ''; note(); }); });
+  other.addEventListener('input', note);
+  note();
+  // Home shortcut: a tick in the coral band opens the page with that item already ticked
+  document.querySelectorAll('#mini [data-pick]').forEach(function(b){
+    b.addEventListener('click', function(){
+      var box = document.getElementById(b.getAttribute('data-pick'));
+      if (box){ box.checked = true; note(); }
+      location.hash = 'anxious-patients';
+    });
+  });
+  document.getElementById('copyNote').addEventListener('click', function(){
+    var text = note();
+    if (!text){ status.textContent = 'Tick at least one item first.'; return; }
+    function fallback(){ var r = document.createRange(); r.selectNodeContents(out); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); status.textContent = 'Selected. Press Ctrl+C or Cmd+C to copy.'; }
+    if (navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(function(){ status.textContent = 'Copied'; }, fallback); }
+    else fallback();
+  });
+})();
+</script>
+</body>
+</html>
