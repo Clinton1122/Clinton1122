@@ -12,12 +12,20 @@ The current draft is an account page: a welcome banner, stat boxes, and then the
 
 1. **The next trip is the hero.** It uses a full-bleed photo of the place, with a pickup "ticket" on top: the time in large type, a countdown, the meeting point with real Google Maps directions, the host with call and message buttons, and a voucher code to show at pickup.
 2. **The money is up front.** Instead of policy text, every upcoming trip says what you'd get back if you cancelled now: "$384.00 back" or "ask for up to $384.00". The trip details show a timeline from booking to pickup, with the 48-hour line and a marker for now.
-3. **One timeline instead of three tabs.**
-   - Trips run in date order with large day numbers and a dashed **Today** line.
-   - Past trips sit above it, with a one-tap star review.
-   - Cancelled trips stay where they were, greyed out, with a four-step refund tracker.
-   - A quiet filter (All / Upcoming / Past / Cancelled) is there for travellers with many bookings.
+3. **Trips in the order people look for them.** **Upcoming** comes first, soonest at the top, below a dashed **Today** line. **Past trips** come next, newest first, with a one-tap star review. **Cancelled and refunds** comes last, with a four-step refund tracker. There's no filter to learn.
 4. **"Your Sri Lanka" map.** A real outline of the island (Natural Earth data) with the trips plotted and joined in date order. Done, next (pulsing), upcoming, cancelled and saved places each look different. Hovering a pin highlights the matching trip, and clicking it opens the details. No other marketplace dashboard has this, and it fits a Sri Lanka-only brand.
+
+## Navigation: familiar, nothing to learn
+
+| Before | After | Why |
+| --- | --- | --- |
+| Site menu plus a second row of account tabs | One header: site links on the left; **Saved**, **Trips**, **Messages** on the right | The same place Airbnb, Booking.com and GetYourGuide put them |
+| Avatar did nothing | Avatar opens the account menu: Profile (40%), Settings and payments, Help centre, Log out | Everyone expects the avatar to open the account menu |
+| Tabs scrolled sideways on phones, hiding Profile and Settings | **Bottom tab bar** on phones: Explore, Saved, Trips, Messages, Account | Reachable with a thumb and always visible, like every travel app |
+| "Plan a trip" tab mostly said "coming soon" | Renamed **Saved**, the wishlist idea people already know. The planner button lives inside | No dead-end tab |
+| Profile and Settings were tabs next to Trips | **Account** area with a side list: Profile, Settings and payments, Help centre | Rarely used, so kept out of the way |
+| Browser Back left the page | Every screen and trip has its own address (`#trips`, `#trip/sigiriya`, `#settings`). Back closes a trip, refresh keeps your place, links can be shared | Back is the most-used button on the web. It must do what people expect |
+| Close button only | Trip view on phones shows **‹ Trips** at the top left. On desktop: ×, Esc or click outside. Your scroll position is kept | Standard mobile back pattern, with no jump to the top |
 
 ## What the meeting asked for
 

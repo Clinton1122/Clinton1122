@@ -70,12 +70,36 @@ img{display:block;max-width:100%}
 .completion{display:flex;align-items:center;gap:12px;padding:10px 14px 10px 10px;border-radius:var(--r-md);border:1px solid var(--cn-border);background:var(--cn-page);text-decoration:none;color:var(--cn-ink);font-size:13px;font-weight:600;line-height:1.3}
 .completion:hover{border-color:var(--cn-input)}
 .completion small{display:block;color:var(--cn-muted);font-weight:500}
-.tabs{display:flex;gap:28px;overflow-x:auto;scrollbar-width:none}
-.tabs::-webkit-scrollbar{display:none}
-.tab{position:relative;border:0;background:none;padding:12px 0 14px;font-weight:700;font-size:15px;color:var(--cn-muted);display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
-.tab:hover{color:var(--cn-ink)}
-.tab[aria-selected=true]{color:var(--cn-ink)}
-.tab[aria-selected=true]::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:3px;border-radius:3px 3px 0 0;background:var(--cn-primary)}
+.acct .top{padding-bottom:28px}
+/* Header shortcuts: the Airbnb / Booking.com pattern travellers already know */
+.quick{display:flex;align-items:center;gap:4px;padding-left:20px;border-left:1px solid var(--cn-border)}
+.qlink{position:relative;line-height:1;display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 12px;border-radius:10px;color:var(--cn-ink);font-weight:700;font-size:14px;text-decoration:none}
+.qlink:hover{background:var(--cn-page)}
+.qlink[aria-current=page]{background:var(--cn-primary-tint);color:var(--cn-primary-text)}
+.qlink .badge{margin-left:-2px}
+.acct-btn{display:inline-flex;align-items:center;gap:6px;height:44px;padding:0 6px 0 12px;border:1px solid var(--cn-border);border-radius:22px;background:var(--cn-paper)}
+.acct-btn:hover{box-shadow:0 2px 8px rgba(28,26,23,.1)}
+.acct-btn .me{width:32px;height:32px;font-size:12px}
+.acct-menu{position:absolute;top:64px;right:32px;width:280px;z-index:40;background:var(--cn-paper);border:1px solid var(--cn-border);border-radius:var(--r-md);box-shadow:0 16px 40px rgba(28,26,23,.16);padding:8px;display:none}
+.acct-menu.open{display:block}
+.acct-menu .who{padding:10px 12px 12px;border-bottom:1px solid var(--cn-border);margin-bottom:6px;font-size:13px;color:var(--cn-muted);line-height:1.4}
+.acct-menu .who b{display:block;font-size:15px;color:var(--cn-ink)}
+.acct-menu a{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:var(--r-sm);color:var(--cn-ink);font-weight:600;font-size:14px;text-decoration:none}
+.acct-menu a:hover{background:var(--cn-page)}
+.acct-menu a .i{color:var(--cn-muted)}
+.acct-menu a small{margin-left:auto;color:var(--cn-primary-text);font-weight:700;font-size:12px}
+.acct-menu hr{border:0;border-top:1px solid var(--cn-border);margin:6px 0}
+.site .wrap{position:relative}
+/* Account area: settings-style side list */
+.acct-layout{display:grid;grid-template-columns:220px minmax(0,1fr);gap:40px;align-items:start}
+.acct-nav{position:sticky;top:24px;display:flex;flex-direction:column;gap:2px}
+.acct-nav h2{font-size:22px;margin:0 0 12px 12px}
+.acct-nav a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--r-sm);color:var(--cn-body);font-weight:600;text-decoration:none}
+.acct-nav a:hover{background:var(--cn-paper);color:var(--cn-ink)}
+.acct-nav a[aria-current=page]{background:var(--cn-paper);color:var(--cn-ink);box-shadow:inset 3px 0 0 var(--cn-primary)}
+/* Mobile bottom bar */
+.tabbar{display:none}
+.sh-back{display:none}
 
 /* ---------------- Next trip hero ---------------- */
 .next{position:relative;margin-top:28px;border-radius:var(--r-hero);overflow:hidden;min-height:520px;background:var(--cn-deep);isolation:isolate}
@@ -131,9 +155,10 @@ img{display:block;max-width:100%}
 .body{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:48px;margin-top:56px;padding-bottom:96px}
 .sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:8px}
 .sec-head h2{font-size:28px;font-weight:800}
-.filter{display:flex;gap:2px;padding:3px;border-radius:10px;background:#EEE9E2}
-.filter button{border:0;background:none;padding:6px 12px;border-radius:8px;font-weight:700;font-size:13px;color:var(--cn-body)}
-.filter button[aria-pressed=true]{background:var(--cn-paper);color:var(--cn-ink);box-shadow:0 1px 2px rgba(28,26,23,.1)}
+.group .sec-head{justify-content:flex-start;align-items:center;gap:10px}
+.sec-head .count{min-width:26px;height:26px;padding:0 8px;border-radius:13px;background:#EEE9E2;font-size:13px;font-weight:700;color:var(--cn-body);display:inline-grid;place-items:center}
+.group + .group{margin-top:56px}
+.group-empty{padding:20px 0;color:var(--cn-muted)}
 
 /* Timeline */
 .month{margin:32px 0 12px;font:700 15px var(--display);color:var(--cn-muted);letter-spacing:0}
@@ -378,8 +403,34 @@ footer.foot{border-top:1px solid var(--cn-border);padding:20px 0 40px;font-size:
   .pack{grid-template-columns:1fr}
   .hticket{grid-template-columns:1fr}
   .slots{grid-template-columns:1fr 1fr}
-  .sh-foot{flex-wrap:wrap}
+  .sh-foot{padding:12px 14px calc(12px + env(safe-area-inset-bottom))}
+  .sh-foot .btn{padding:0 10px;font-size:13px}
   .sec-head{flex-direction:column;align-items:flex-start}
+}
+@media (max-width:1100px){
+  .quick .qlink span.lbl{display:none}
+}
+@media (max-width:860px){
+  .site nav,.quick,.acct-btn{display:none}
+  .site .cur{margin-left:auto}
+  body{padding-bottom:calc(68px + env(safe-area-inset-bottom))}
+  .tabbar{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:0;right:0;bottom:0;z-index:45;background:rgba(255,255,255,.97);border-top:1px solid var(--cn-border);padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
+  .tabbar a{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0;border-radius:10px;color:var(--cn-muted);font-size:11px;font-weight:700;text-decoration:none}
+  .tabbar a .i{width:22px;height:22px}
+  .tabbar a[aria-current=page]{color:var(--cn-primary-text)}
+  .tabbar .badge{position:absolute;top:2px;left:calc(50% + 6px)}
+  .tabbar .me{width:24px;height:24px;font-size:9px}
+  .tabbar a[aria-current=page] .me{box-shadow:0 0 0 2px var(--cn-primary)}
+  .acct-layout{grid-template-columns:1fr;gap:16px}
+  .acct-nav{position:static;flex-direction:row;flex-wrap:wrap;gap:6px}
+  .acct-nav h2{display:none}
+  .acct-nav a{white-space:nowrap;border:1px solid var(--cn-border);background:var(--cn-paper)}
+  .acct-nav a[aria-current=page]{box-shadow:none;border-color:var(--cn-ink)}
+  .sheet{width:100%}
+  .sh-close{display:none}
+  .sh-back{display:inline-flex;align-items:center;gap:4px;position:absolute;top:14px;left:14px;height:40px;padding:0 14px 0 8px;border-radius:20px;border:0;background:var(--cn-paper);color:var(--cn-ink);font-weight:700;font-size:14px}
+  .sh-back .i{transform:rotate(180deg)}
+  .toast{bottom:calc(84px + env(safe-area-inset-bottom))}
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition-duration:.01ms!important}
@@ -403,6 +454,13 @@ footer.foot{border-top:1px solid var(--cn-border);padding:20px 0 40px;font-size:
   <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7.5 3v5.5c0 4.6-3.2 8-7.5 9.5-4.3-1.5-7.5-4.9-7.5-9.5V6z"/><path d="M9 12l2 2 4-4"/></symbol>
   <symbol id="i-dl" viewBox="0 0 24 24"><path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M4.5 19.5h15"/></symbol>
   <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.3a4.3 4.3 0 0 1 7.5 2.5C19.5 15.4 12 20 12 20z"/></symbol>
+  <symbol id="i-bag" viewBox="0 0 24 24"><rect x="3.5" y="7" width="17" height="13" rx="2"/><path d="M9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7M3.5 12.5h17"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4 4"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 13.5l1.6 1.2-2 3.4-1.9-.7a7 7 0 0 1-2.1 1.2L14.7 21h-4l-.3-2.4a7 7 0 0 1-2.1-1.2l-1.9.7-2-3.4 1.6-1.2a7 7 0 0 1 0-2.4L4.4 9.9l2-3.4 1.9.7a7 7 0 0 1 2.1-1.2L10.7 3.6h4l.3 2.4a7 7 0 0 1 2.1 1.2l1.9-.7 2 3.4-1.6 1.2a7 7 0 0 1 0 2.4z"/></symbol>
+  <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 0 1 4.8 1c0 1.7-2.4 2.2-2.4 3.7M12 17.2v.1"/></symbol>
+  <symbol id="i-out" viewBox="0 0 24 24"><path d="M14 4h4.5A1.5 1.5 0 0 1 20 5.5v13a1.5 1.5 0 0 1-1.5 1.5H14M10 16l-4-4 4-4M6 12h10"/></symbol>
   <symbol id="i-life" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><path d="M5.6 5.6l3.9 3.9M14.5 14.5l3.9 3.9M18.4 5.6l-3.9 3.9M9.5 14.5l-3.9 3.9"/></symbol>
 </svg>
 
@@ -410,50 +468,48 @@ footer.foot{border-top:1px solid var(--cn-border);padding:20px 0 40px;font-size:
   <div class="wrap">
     <a class="logo" href="#" aria-label="Ceylon Nooks home">ceylon</a>
     <nav aria-label="Main"><a href="#">Services</a><a href="#">Places to go</a><a href="#">Things to do</a><a href="#">About us</a></nav>
+    <div class="quick">
+      <a class="qlink" href="#saved" data-nav="saved"><svg class="i"><use href="#i-heart"/></svg><span class="lbl">Saved</span></a>
+      <a class="qlink" href="#trips" data-nav="trips"><svg class="i"><use href="#i-bag"/></svg><span class="lbl">Trips</span></a>
+      <a class="qlink" href="#messages" data-nav="messages" aria-label="Messages, 1 unread"><svg class="i"><use href="#i-chat"/></svg><span class="lbl">Messages</span><span class="badge">1</span></a>
+    </div>
     <button class="cur" aria-label="Currency: US dollars">USD</button>
-    <button class="me" aria-label="Account menu for John Carter">JC</button>
+    <button class="acct-btn" id="acct-btn" aria-haspopup="menu" aria-expanded="false" aria-controls="acct-menu" aria-label="Account menu"><svg class="i"><use href="#i-user"/></svg><span class="me" aria-hidden="true">JC</span></button>
+    <div class="acct-menu" id="acct-menu" role="menu">
+      <div class="who"><b>John Carter</b>john.carter@example.com</div>
+      <a role="menuitem" href="#profile"><svg class="i"><use href="#i-user"/></svg>Profile<small>40%</small></a>
+      <a role="menuitem" href="#settings"><svg class="i"><use href="#i-gear"/></svg>Settings and payments</a>
+      <a role="menuitem" href="#help"><svg class="i"><use href="#i-help"/></svg>Help centre</a>
+      <hr>
+      <a role="menuitem" href="#" data-toast="Logged out (prototype)"><svg class="i"><use href="#i-out"/></svg>Log out</a>
+    </div>
   </div>
 </header>
 
-<section class="acct">
+<section class="acct" id="acct-head">
   <div class="wrap">
     <div class="top">
       <div>
         <h1 id="greet">Good morning, John</h1>
         <p class="lede" id="lede"></p>
       </div>
-      <a class="completion" href="#" data-tab="profile">
+      <a class="completion" href="#profile">
         <svg width="36" height="36" viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="15" fill="none" stroke="#E7E2DB" stroke-width="4"/><circle cx="18" cy="18" r="15" fill="none" stroke="#F15623" stroke-width="4" stroke-linecap="round" stroke-dasharray="94.25" stroke-dashoffset="56.55" transform="rotate(-90 18 18)"/></svg>
         <span>Profile 40% complete<small>Add a phone number so hosts can reach you</small></span>
       </a>
-    </div>
-    <div class="tabs" role="tablist" aria-label="Your account">
-      <button class="tab" role="tab" aria-selected="true" data-tab="trips">Trips</button>
-      <button class="tab" role="tab" aria-selected="false" data-tab="plan">Plan a trip</button>
-      <button class="tab" role="tab" aria-selected="false" data-tab="messages">Messages <span class="badge">1</span></button>
-      <button class="tab" role="tab" aria-selected="false" data-tab="profile">Profile</button>
-      <button class="tab" role="tab" aria-selected="false" data-tab="settings">Settings</button>
     </div>
   </div>
 </section>
 
 <main class="wrap">
   <!-- ============ TRIPS ============ -->
-  <div id="pane-trips" role="tabpanel">
+  <div id="pane-trips">
     <section class="next" id="next" aria-labelledby="next-title"></section>
     <div class="strip" id="strip"></div>
 
     <div class="body">
       <section aria-labelledby="trips-title">
-        <div class="sec-head">
-          <h2 id="trips-title">Your trips</h2>
-          <div class="filter" role="group" aria-label="Show">
-            <button aria-pressed="true" data-filter="all">All</button>
-            <button aria-pressed="false" data-filter="upcoming">Upcoming</button>
-            <button aria-pressed="false" data-filter="past">Past</button>
-            <button aria-pressed="false" data-filter="cancelled">Cancelled</button>
-          </div>
-        </div>
+        <h2 class="sr" id="trips-title">Your trips</h2>
         <div class="tl" id="timeline"></div>
       </section>
 
@@ -474,9 +530,9 @@ footer.foot{border-top:1px solid var(--cn-border);padding:20px 0 40px;font-size:
           <div class="bar"><i></i></div>
           <ul>
             <li class="done"><span class="ck"><svg class="i" style="width:13px;height:13px;stroke-width:3"><use href="#i-check"/></svg></span><span>Email confirmed</span></li>
-            <li><span class="ck"></span><span>Phone number for pickup calls</span><a href="#" data-tab="profile">Add</a></li>
-            <li><span class="ck"></span><span>Emergency contact</span><a href="#" data-tab="profile">Add</a></li>
-            <li><span class="ck"></span><span>Dietary needs for the breakfast pack</span><a href="#" data-tab="profile">Add</a></li>
+            <li><span class="ck"></span><span>Phone number for pickup calls</span><a href="#profile">Add</a></li>
+            <li><span class="ck"></span><span>Emergency contact</span><a href="#profile">Add</a></li>
+            <li><span class="ck"></span><span>Dietary needs for the breakfast pack</span><a href="#profile">Add</a></li>
           </ul>
         </section>
         <p class="help">Something wrong on the day? Call the 24/7 traveller line on <a href="tel:+94112000000">+94 11 200 0000</a> or read <a href="#" data-policy>how refunds work</a>.</p>
@@ -485,10 +541,10 @@ footer.foot{border-top:1px solid var(--cn-border);padding:20px 0 40px;font-size:
   </div>
 
   <!-- ============ PLAN ============ -->
-  <div id="pane-plan" role="tabpanel" class="pane" hidden>
+  <div id="pane-saved" class="pane" hidden>
     <div class="pane-head">
-      <div><h2>Plan a trip</h2><p>Places you saved while browsing. Soon you’ll be able to set how many nights you stay in each, then share the plan with your travel partners.</p></div>
-      <button class="btn" data-toast="The trip planner is coming in the next release">Start a plan</button>
+      <div><h2>Saved</h2><p>Places you tapped the heart on while browsing. Soon you’ll be able to turn them into a day-by-day plan and share it with your travel partners.</p></div>
+      <button class="btn" data-toast="The trip planner is coming in the next release">Plan a trip with these</button>
     </div>
     <div class="ideas">
       <a class="idea" href="#"><img src="img/galle-fort.jpg" alt="A quiet alley inside Galle Fort with yellow colonial buildings"><div><h3>Galle Fort walking tour</h3><p>Galle, half a day. 1 hour from Mirissa, so it pairs well with your whale trip.</p></div></a>
@@ -498,7 +554,7 @@ footer.foot{border-top:1px solid var(--cn-border);padding:20px 0 40px;font-size:
   </div>
 
   <!-- ============ MESSAGES ============ -->
-  <div id="pane-messages" role="tabpanel" class="pane" hidden>
+  <div id="pane-messages" class="pane" hidden>
     <div class="pane-head"><div><h2>Messages</h2></div></div>
     <div class="chat-slot">
       <h3>Your existing chat goes here, unchanged</h3>
@@ -507,7 +563,13 @@ footer.foot{border-top:1px solid var(--cn-border);padding:20px 0 40px;font-size:
   </div>
 
   <!-- ============ PROFILE ============ -->
-  <div id="pane-profile" role="tabpanel" class="pane" hidden>
+  <div id="pane-profile" class="pane" hidden>
+   <div class="acct-layout">
+    <nav class="acct-nav" aria-label="Account">
+      <h2>Account</h2>
+      <a href="#profile" aria-current="page"><svg class="i"><use href="#i-user"/></svg>Profile</a><a href="#settings"><svg class="i"><use href="#i-gear"/></svg>Settings and payments</a><a href="#help"><svg class="i"><use href="#i-help"/></svg>Help centre</a>
+    </nav>
+    <div>
     <div class="pane-head"><div><h2>Profile</h2><p>Hosts only see your first name, phone number and group size.</p></div></div>
     <div class="two">
       <form class="cardish" onsubmit="event.preventDefault();toast('Profile saved')">
@@ -523,11 +585,19 @@ footer.foot{border-top:1px solid var(--cn-border);padding:20px 0 40px;font-size:
       </form>
       <aside class="cardish"><h3 style="font-size:17px;margin-bottom:8px">Why the phone number matters</h3><p style="font-size:14px">Pickups in Sri Lanka often start before sunrise. If your driver can’t find you in the lobby, a call is the only way to avoid a missed trip.</p></aside>
     </div>
+    </div>
+   </div>
   </div>
 
   <!-- ============ SETTINGS ============ -->
-  <div id="pane-settings" role="tabpanel" class="pane" hidden>
-    <div class="pane-head"><div><h2>Settings</h2></div></div>
+  <div id="pane-settings" class="pane" hidden>
+   <div class="acct-layout">
+    <nav class="acct-nav" aria-label="Account">
+      <h2>Account</h2>
+      <a href="#profile"><svg class="i"><use href="#i-user"/></svg>Profile</a><a href="#settings" aria-current="page"><svg class="i"><use href="#i-gear"/></svg>Settings and payments</a><a href="#help"><svg class="i"><use href="#i-help"/></svg>Help centre</a>
+    </nav>
+    <div>
+    <div class="pane-head"><div><h2>Settings and payments</h2></div></div>
     <div class="two">
       <div class="cardish">
         <div class="setrow"><div><b>Trip reminders</b><small>When free cancellation is about to end, the evening before, and on the morning of pickup</small></div><button class="switch" role="switch" aria-checked="true" aria-label="Trip reminders"></button></div>
@@ -541,10 +611,41 @@ footer.foot{border-top:1px solid var(--cn-border);padding:20px 0 40px;font-size:
         <button class="btn" style="width:100%;margin-top:16px">Add a card</button>
       </aside>
     </div>
+    </div>
+   </div>
+  </div>
+
+  <!-- ============ HELP ============ -->
+  <div id="pane-help" class="pane" hidden>
+   <div class="acct-layout">
+    <nav class="acct-nav" aria-label="Account">
+      <h2>Account</h2>
+      <a href="#profile"><svg class="i"><use href="#i-user"/></svg>Profile</a><a href="#settings"><svg class="i"><use href="#i-gear"/></svg>Settings and payments</a><a href="#help" aria-current="page"><svg class="i"><use href="#i-help"/></svg>Help centre</a>
+    </nav>
+    <div>
+      <div class="pane-head"><div><h2>Help centre</h2><p>Most answers are on your trip page. For anything else, we’re here around the clock.</p></div></div>
+      <div class="two">
+        <div class="cardish">
+          <div class="setrow"><div><b>How cancellations and refunds work</b><small>The 48-hour rule, in plain words</small></div><a class="btn" href="#" data-policy>Read</a></div>
+          <div class="setrow"><div><b>My driver or guide hasn’t arrived</b><small>Call the host first. Their number is on your trip, 24 hours before pickup</small></div><a class="btn" href="#trips">Go to trips</a></div>
+          <div class="setrow"><div><b>Change a booking</b><small>Open the trip and choose Change date</small></div><a class="btn" href="#trips">Go to trips</a></div>
+        </div>
+        <aside class="cardish"><h3 style="font-size:17px;margin-bottom:8px">24/7 traveller line</h3><p style="font-size:14px;margin-bottom:14px">English, Sinhala and Tamil.</p><a class="btn primary" href="tel:+94112000000" style="width:100%">Call +94 11 200 0000</a><a class="btn" href="#messages" style="width:100%;margin-top:8px">Message support</a></aside>
+      </div>
+    </div>
+   </div>
   </div>
 </main>
 
 <footer class="foot"><div class="wrap">Trip photos are Creative Commons images from Flickr, credited in the README.</div></footer>
+
+<nav class="tabbar" aria-label="App">
+  <a href="#" data-toast="Opens the Things to do search"><svg class="i"><use href="#i-search"/></svg>Explore</a>
+  <a href="#saved" data-nav="saved"><svg class="i"><use href="#i-heart"/></svg>Saved</a>
+  <a href="#trips" data-nav="trips"><svg class="i"><use href="#i-bag"/></svg>Trips</a>
+  <a href="#messages" data-nav="messages" aria-label="Messages, 1 unread"><svg class="i"><use href="#i-chat"/></svg>Messages<span class="badge">1</span></a>
+  <a href="#profile" data-nav="account"><span class="me" aria-hidden="true">JC</span>Account</a>
+</nav>
 
 <div class="scrim" id="scrim"></div>
 <aside class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sh-title">
@@ -693,22 +794,30 @@ addEventListener('resize',placePerf);
 function mapsUrl(t){return `https://www.google.com/maps/search/?api=1&query=${t.meetLat||t.lat},${t.meetLon||t.lon}`}
 
 /* ---------- timeline ---------- */
-let filter='all';
+/* Upcoming first (soonest on top), then past (newest on top), then cancellations.
+   No filter control to learn: the order answers "what's next?" without scrolling. */
 function renderTimeline(){
-  const list=trips.filter(t=>filter==='all'||t.status===filter).sort((a,b)=>d(a.start)-d(b.start));
-  const el=$('#timeline');
-  if(!list.length){el.innerHTML=`<p style="padding:32px 0;color:var(--cn-muted)">${filter==='cancelled'?'You haven’t cancelled anything.':'Nothing here yet.'}</p>`;return}
-  let html='',month='',todayShown=false;
-  list.forEach(t=>{
-    const s=d(t.start), m=fDate(s,{month:'long',year:'numeric'});
-    if(filter==='all'&&!todayShown&&s>NOW){
-      if(m!==month){html+=`<h3 class="month">${m}</h3>`;month=m}
-      html+=`<div class="today" aria-label="Today"><span class="tag">Today</span><span class="line"></span></div>`;todayShown=true;
-    }
-    if(m!==month){html+=`<h3 class="month">${m}</h3>`;month=m}
-    html+=row(t);
+  const by=(st,dir)=>trips.filter(t=>t.status===st).sort((a,b)=>dir*(d(a.start)-d(b.start)));
+  const groups=[
+    {key:'upcoming',title:'Upcoming',list:by('upcoming',1),empty:'No upcoming trips. <a href="#">Find something to do in Sri Lanka</a>.'},
+    {key:'past',title:'Past trips',list:by('past',-1)},
+    {key:'cancelled',title:'Cancelled and refunds',list:by('cancelled',-1)},
+  ];
+  let html='';
+  groups.forEach(g=>{
+    if(!g.list.length&&!g.empty)return;
+    html+=`<section class="group" id="g-${g.key}" aria-labelledby="h-${g.key}"><div class="sec-head"><h2 id="h-${g.key}">${g.title}</h2><span class="count">${g.list.length}</span></div>`;
+    if(!g.list.length)html+=`<p class="group-empty">${g.empty}</p>`;
+    let month='';
+    if(g.key==='upcoming'&&g.list.length)html+=`<div class="today" aria-label="Today"><span class="tag">Today</span><span class="line"></span></div>`;
+    g.list.forEach(t=>{
+      const m=fDate(d(t.start),{month:'long',year:'numeric'});
+      if(m!==month&&g.key==='upcoming'){html+=`<h3 class="month">${m}</h3>`;month=m}
+      html+=row(t);
+    });
+    html+='</section>';
   });
-  el.innerHTML=html;
+  $('#timeline').innerHTML=html;
 }
 function row(t){
   const s=d(t.start), tot=total(t);
@@ -779,7 +888,7 @@ let cur=null, lastFocus=null;
 function openSheet(id){
   const t=trips.find(x=>x.id===id); if(!t)return; cur=t; lastFocus=document.activeElement;
   const s=d(t.start), tot=total(t);
-  let html=`<div class="sh-hero"><img src="${t.img}" alt="${t.alt}"><button class="sh-close" data-close aria-label="Close trip details">${svg('x')}</button>
+  let html=`<div class="sh-hero"><img src="${t.img}" alt="${t.alt}"><button class="sh-close" data-close aria-label="Close trip details">${svg('x')}</button><button class="sh-back" data-close aria-label="Back to trips">${svg('chev')}Trips</button>
     <div><h2 id="sh-title">${t.title}</h2><p>${fLong(s)}, ${fTime(s)}. About ${t.hours} hours, ${t.party}.</p></div></div><div class="sh-body">`;
   if(t.status==='upcoming'){
     const r=refundNow(t), c=cutoff(t), booked=d(t.booked), span=s-booked;
@@ -825,15 +934,15 @@ function openSheet(id){
     html+=`<section class="panel"><div class="head"><h3>Refund</h3><span class="num" style="font:700 22px var(--display);color:var(--ok)">${money(t.refund)}</span></div>
       <ol class="plan">${st.map(([a,b],i)=>`<li><time></time><span class="nd" style="${i<=t.stage?'background:var(--ok);border-color:var(--ok)':''}"></span><span><b style="color:var(--cn-ink)">${a}</b><br><span style="color:var(--cn-muted);font-size:13px">${b}</span></span></li>`).join('')}</ol>
       <p class="note info" style="margin-top:12px">Banks can take up to 10 working days to show a refund. If it hasn’t arrived by 5 October, message support and quote ${t.ref}.</p></section>`;
-    $('#sh-foot').innerHTML=`<button class="btn" data-tab="messages">${svg('chat')}Message support</button><button class="btn primary" data-toast="Opening Kandy experiences">Find something else in Kandy</button>`;
+    $('#sh-foot').innerHTML=`<a class="btn" href="#messages">${svg('chat')}Message support</a><button class="btn primary" data-toast="Opening Kandy experiences">Find something else in Kandy</button>`;
   }
   $('#sh-scroll').innerHTML=html+'</div>'; $('#sh-scroll').scrollTop=0;
   updatePack();
   $('#scrim').classList.add('open'); $('#sheet').classList.add('open');
   $$('.trip').forEach(b=>b.classList.toggle('selected',b.dataset.trip===id));
-  setTimeout(()=>$('#sheet [data-close]').focus(),60);
+  setTimeout(()=>[...$$('#sheet [data-close]')].find(b=>b.offsetParent)?.focus(),60);
 }
-function closeSheet(){$('#sheet').classList.remove('open');$('#scrim').classList.remove('open');$$('.trip.selected').forEach(b=>b.classList.remove('selected'));lastFocus?.focus?.()}
+function closeSheet(){if(!$('#sheet').classList.contains('open'))return;$('#sheet').classList.remove('open');$('#scrim').classList.remove('open');$$('.trip.selected').forEach(b=>b.classList.remove('selected'));lastFocus?.focus?.()}
 const packState={};
 function updatePack(){const boxes=$$('#sheet [data-pack]');if(!boxes.length)return;$('#pack-count').textContent=`${boxes.filter(b=>b.checked).length} of ${boxes.length} packed`}
 
@@ -915,35 +1024,53 @@ function openCal(btn,id){
 }
 
 /* ---------- events ---------- */
-function setTab(name){
-  $$('.tab').forEach(t=>t.setAttribute('aria-selected',t.dataset.tab===name));
-  $$('[role=tabpanel]').forEach(p=>p.hidden=p.id!=='pane-'+name);
-  closeSheet();closeDlg();
+/* ---------- routing: every screen has an address, so Back, refresh and shared links work ---------- */
+const PAGES=['trips','saved','messages','profile','settings','help'];
+const TITLES={trips:'Your trips',saved:'Saved',messages:'Messages',profile:'Profile',settings:'Settings and payments',help:'Help centre'};
+let sheetPushed=false, curPage=null;
+function showPage(name){
+  $$('main > div[id^=pane-]').forEach(p=>p.hidden=p.id!=='pane-'+name);
+  $('#acct-head').hidden=name!=='trips';
+  const navKey=['profile','settings','help'].includes(name)?'account':name;
+  $$('[data-nav]').forEach(a=>a.dataset.nav===navKey?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'));
+  document.title=TITLES[name]+' | Ceylon Nooks';
   if(name==='trips')requestAnimationFrame(placePerf);
 }
+function route(){
+  const h=location.hash.slice(1)||'trips';
+  $('#acct-menu').classList.remove('open');$('#acct-btn').setAttribute('aria-expanded','false');
+  if(h.startsWith('trip/')&&trips.some(t=>t.id===h.slice(5))){if(curPage!=='trips'){showPage('trips');curPage='trips'}openSheet(h.slice(5));return}
+  closeSheet();
+  const page=PAGES.includes(h)?h:'trips';
+  if(page!==curPage){closeDlg();showPage(page);scrollTo({top:0});curPage=page}
+}
+function go(h){location.hash=h}
+function openTrip(id){sheetPushed=true;go('trip/'+id)}
+function leaveTrip(){if(sheetPushed){sheetPushed=false;history.back()}else{history.replaceState(null,'','#trips');route()}}
+addEventListener('hashchange',route);
 document.addEventListener('click',e=>{
   const b=e.target.closest('button,a,[data-pin]');
   if(!e.target.closest('#calmenu'))$('#calmenu').classList.remove('open');
   if(!b)return; const x=b.dataset;
-  if(x.tab){e.preventDefault();setTab(x.tab);scrollTo({top:0})}
-  if(x.filter){filter=x.filter;$$('[data-filter]').forEach(f=>f.setAttribute('aria-pressed',f===b));renderTimeline()}
-  if(x.open)openSheet(x.open);
-  if(x.pin)openSheet(x.pin);
+  if(b.id==='acct-btn'){const m=$('#acct-menu'),o=!m.classList.contains('open');m.classList.toggle('open',o);b.setAttribute('aria-expanded',o);if(o)m.querySelector('a').focus();return}
+  if(!b.closest('#acct-menu'))$('#acct-menu').classList.remove('open');
+  if(x.open)openTrip(x.open);
+  if(x.pin)openTrip(x.pin);
   if(x.manage){cur=trips.find(t=>t.id===x.manage);cancelStep(1)}
-  if(x.close!==undefined)closeSheet();
+  if(x.close!==undefined)leaveTrip();
   if(x.dclose!==undefined)closeDlg();
   if(x.cancel!==undefined){reason='';cancelStep(1)}
   if(x.cstep)cancelStep(+x.cstep);
   if(x.reschedule!==undefined){e.preventDefault();reschedule()}
   if(x.confirm!==undefined){
-    if(isFree(cur)){Object.assign(cur,{status:'cancelled',cancelled:NOW.toISOString(),refund:total(cur),stage:0});closeSheet();renderAll()}
+    if(isFree(cur)){Object.assign(cur,{status:'cancelled',cancelled:NOW.toISOString(),refund:total(cur),stage:0});renderAll();if($('#sheet').classList.contains('open'))leaveTrip()}
     cancelStep(4);
   }
   if(x.policy!==undefined){e.preventDefault();policy()}
   if(x.cal){e.stopPropagation();openCal(b,x.cal)}
   if(x.ics){calLinks(trips.find(t=>t.id===x.ics)).ics();$('#calmenu').classList.remove('open');toast('Calendar file downloaded')}
   if(x.copy){navigator.clipboard?.writeText(x.copy).catch(()=>{});toast(`Booking number ${x.copy} copied`)}
-  if(x.msg){setTab('messages');toast(`Opening your chat with ${trips.find(t=>t.id===x.msg).host}`)}
+  if(x.msg){const h=trips.find(t=>t.id===x.msg).host;go('messages');toast(`Opening your chat with ${h}`)}
   if(x.toast)toast(x.toast);
   if(x.star){e.stopPropagation();const id=b.closest('[data-rate]').dataset.rate;$$(`[data-rate="${id}"] button`).forEach((s,i)=>s.classList.toggle('on',i<+x.star));
     setTimeout(()=>{trips.find(t=>t.id===id).reviewed=true;renderTimeline();toast(`${x.star}-star review posted. Thank you`)},450)}
@@ -951,22 +1078,22 @@ document.addEventListener('click',e=>{
 });
 document.addEventListener('change',e=>{if(e.target.dataset.pack){packState[e.target.dataset.pack]=e.target.checked;updatePack()}});
 document.addEventListener('keydown',e=>{
-  if(e.key==='Escape'){if($('#calmenu').classList.contains('open'))$('#calmenu').classList.remove('open');else if($('#dlg').classList.contains('open'))closeDlg();else closeSheet()}
-  if((e.key==='Enter'||e.key===' ')&&e.target.dataset?.pin){e.preventDefault();openSheet(e.target.dataset.pin)}
+  if(e.key==='Escape'){if($('#acct-menu').classList.contains('open')){$('#acct-menu').classList.remove('open');$('#acct-btn').focus()}else if($('#calmenu').classList.contains('open'))$('#calmenu').classList.remove('open');else if($('#dlg').classList.contains('open'))closeDlg();else if($('#sheet').classList.contains('open'))leaveTrip()}
+  if((e.key==='Enter'||e.key===' ')&&e.target.dataset?.pin){e.preventDefault();openTrip(e.target.dataset.pin)}
 });
-$('#scrim').onclick=closeSheet; $('#dlg-scrim').onclick=closeDlg;
+$('#scrim').onclick=leaveTrip; $('#dlg-scrim').onclick=closeDlg;
 /* link map pins and timeline rows */
 document.addEventListener('mouseover',e=>{
   const id=e.target.closest('[data-pin]')?.dataset.pin||e.target.closest('[data-trip]')?.dataset.trip;
   $$('[data-pin]').forEach(p=>p.classList.toggle('hl',p.dataset.pin===id));
   $$('.trip').forEach(r=>r.classList.toggle('selected',!!id&&r.dataset.trip===id&&!!e.target.closest('[data-pin]')));
 });
-$$('.tab').forEach((t,i,a)=>t.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){const n=a[(i+(e.key==='ArrowRight'?1:a.length-1))%a.length];n.focus();n.click()}}));
 
 function renderAll(){renderHeader();renderNext();renderTimeline();renderMap()}
 const hr=+NOW.toLocaleTimeString('en-GB',{...TZ,hour:'2-digit',hour12:false});
 $('#greet').textContent=`${hr<12?'Good morning':hr<18?'Good afternoon':'Good evening'}, John`;
 renderAll();
+route();
 document.fonts?.ready.then(placePerf);
 </script>
 </body>
