@@ -3,886 +3,971 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ceylon Traveller Dashboard</title>
+<title>Your trips | Ceylon Nooks</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* ---------- Tokens (from the Ceylon style guide) ---------- */
+/* Tokens: Ceylon style guide v1 (Sep 2026). No raw hex in components. */
 :root{
   --cn-primary:#F15623; --cn-primary-text:#C43D12; --cn-primary-hover:#9E300D;
   --cn-primary-tint:#FDF1EA; --cn-primary-line:#F0DCCF; --cn-deep:#2B1A10;
   --cn-ink:#1C1A17; --cn-body:#4A443D; --cn-muted:#6B645C; --cn-border:#E7E2DB;
-  --cn-input:#D9D2C8; --cn-page:#F7F5F2; --cn-surface:#FFFFFF;
+  --cn-input:#D9D2C8; --cn-page:#F7F5F2; --cn-paper:#FFFFFF;
   --ok:#1F6B44; --ok-bg:#EAF6EE; --warn:#6B4600; --warn-bg:#FFF4DB;
   --bad:#9B1C12; --bad-bg:#FEECEB; --info:#244A7A; --info-bg:#E4ECF7;
-  --r-sm:8px; --r-md:12px; --r-card:18px; --r-hero:22px; --r-pill:999px;
-  --head:"Bricolage Grotesque",system-ui,sans-serif;
-  --text:"Manrope",system-ui,sans-serif;
+  --land:#EFE7DD; --land-edge:#D8C8B6;
+  --r-sm:8px; --r-md:12px; --r-card:18px; --r-hero:22px;
+  --display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
+  --text:"Manrope",ui-sans-serif,system-ui,sans-serif;
+  --ease-out:cubic-bezier(.2,.8,.2,1);
 }
 *{box-sizing:border-box}
-html,body{margin:0}
-body{background:var(--cn-page);color:var(--cn-body);font:400 15px/1.5 var(--text);-webkit-font-smoothing:antialiased}
-h1,h2,h3,h4{font-family:var(--head);color:var(--cn-ink);margin:0;letter-spacing:-.01em}
-a{color:var(--cn-primary-text)}
-button{font:inherit;cursor:pointer}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--cn-page);color:var(--cn-body);font:400 15px/1.55 var(--text);-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{margin:0;font-family:var(--display);color:var(--cn-ink);font-weight:700;letter-spacing:-.015em;line-height:1.12}
+p{margin:0}
+a{color:var(--cn-primary-text);text-underline-offset:3px}
+button{font:inherit;color:inherit;cursor:pointer}
+img{display:block;max-width:100%}
 .num{font-variant-numeric:tabular-nums}
-.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
-:focus-visible{outline:3px solid color-mix(in srgb,var(--cn-primary) 45%,transparent);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+:focus-visible{outline:3px solid rgba(241,86,35,.45);outline-offset:2px;border-radius:6px}
+.wrap{max-width:1200px;margin:0 auto;padding:0 32px}
 
-/* ---------- Buttons, pills ---------- */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 18px;border-radius:var(--r-md);border:1px solid var(--cn-input);background:var(--cn-surface);color:var(--cn-ink);font-weight:700;font-size:14px;white-space:nowrap;text-decoration:none}
+/* Icons: one set, 1.75 stroke */
+.i{width:18px;height:18px;flex:none;stroke:currentColor;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border-radius:var(--r-md);border:1px solid var(--cn-input);background:var(--cn-paper);color:var(--cn-ink);font-weight:700;font-size:14px;text-decoration:none;white-space:nowrap;transition:background-color .15s,border-color .15s,color .15s}
 .btn:hover{border-color:var(--cn-ink)}
 .btn.primary{background:var(--cn-primary);border-color:var(--cn-primary);color:#fff}
 .btn.primary:hover{background:var(--cn-primary-hover);border-color:var(--cn-primary-hover)}
-.btn.ghost{border-color:transparent;background:transparent;color:var(--cn-primary-text);padding:0 8px}
-.btn.ghost:hover{background:var(--cn-primary-tint)}
-.btn.danger{color:var(--bad);border-color:#F2C7C3}
-.btn.danger:hover{background:var(--bad-bg)}
-.btn.sm{height:36px;padding:0 12px;font-size:13px;border-radius:var(--r-sm)}
+.btn.quiet{border-color:transparent;background:transparent;color:var(--cn-primary-text);padding:0 10px}
+.btn.quiet:hover{background:var(--cn-primary-tint)}
+.btn.danger{color:var(--bad);border-color:#EFC3BF}
+.btn.danger:hover{background:var(--bad-bg);border-color:var(--bad)}
+.btn.icon{width:44px;padding:0}
 .btn[disabled]{opacity:.45;pointer-events:none}
-.btn svg{width:16px;height:16px;flex:none}
-.pill{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:var(--r-pill);font-size:12px;font-weight:700}
-.pill.ok{background:var(--ok-bg);color:var(--ok)} .pill.warn{background:var(--warn-bg);color:var(--warn)}
-.pill.bad{background:var(--bad-bg);color:var(--bad)} .pill.info{background:var(--info-bg);color:var(--info)}
-.pill.brand{background:var(--cn-primary-tint);color:var(--cn-primary-text)}
-.dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+.badge{min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--cn-primary);color:#fff;font:700 11px/18px var(--text);text-align:center}
 
-/* ---------- Top bar ---------- */
-.topbar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--cn-border)}
-.topbar .in{max-width:1240px;margin:0 auto;height:72px;padding:0 24px;display:flex;align-items:center;gap:24px}
-.logo{font-family:var(--head);font-weight:800;font-size:28px;color:var(--cn-primary);text-decoration:none;letter-spacing:-.03em}
-.cur{padding-left:20px;border-left:1px solid var(--cn-border);font-weight:700;font-size:13px;color:var(--cn-ink)}
-.nav{display:flex;gap:28px;margin:0 auto}
-.nav a{color:var(--cn-ink);text-decoration:none;font-weight:600;font-size:14px}
-.nav a:hover{color:var(--cn-primary-text)}
-.avatar{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:var(--cn-primary-tint);border:2px solid var(--cn-primary);color:var(--cn-primary-text);font-weight:800;font-family:var(--head)}
+/* ---------------- Site bar ---------------- */
+.site{background:var(--cn-paper);border-bottom:1px solid var(--cn-border)}
+.site .wrap{display:flex;align-items:center;height:72px;gap:28px}
+.logo{font:800 29px/1 var(--display);color:var(--cn-primary);text-decoration:none;letter-spacing:-.04em}
+.site nav{display:flex;gap:28px;margin-left:auto}
+.site nav a{color:var(--cn-ink);font-weight:600;font-size:14px;text-decoration:none}
+.site nav a:hover{color:var(--cn-primary-text)}
+.site .cur{font-weight:700;font-size:13px;color:var(--cn-ink);padding:6px 10px;border-radius:var(--r-sm);border:1px solid var(--cn-border);background:none}
+.me{width:40px;height:40px;border-radius:50%;background:var(--cn-deep);color:#F8E3D4;display:grid;place-items:center;font:700 14px var(--display);border:0}
 
-/* ---------- Layout ---------- */
-.wrap{max-width:1240px;margin:0 auto;padding:28px 24px 80px}
-.grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:24px;align-items:start}
-.card{background:var(--cn-surface);border:1px solid var(--cn-border);border-radius:var(--r-card)}
-.section-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:36px 0 16px}
-.section-title h2{font-size:24px}
-.eyebrow{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--cn-primary-text)}
-.meta{font-size:13px;color:var(--cn-muted)}
+/* ---------------- Account header ---------------- */
+.acct{background:var(--cn-paper);border-bottom:1px solid var(--cn-border)}
+.acct .top{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;padding:32px 0 20px}
+.acct h1{font-size:34px;font-weight:800}
+.acct .lede{margin-top:6px;color:var(--cn-body);font-size:16px}
+.acct .lede b{color:var(--cn-ink)}
+.completion{display:flex;align-items:center;gap:12px;padding:10px 14px 10px 10px;border-radius:var(--r-md);border:1px solid var(--cn-border);background:var(--cn-page);text-decoration:none;color:var(--cn-ink);font-size:13px;font-weight:600;line-height:1.3}
+.completion:hover{border-color:var(--cn-input)}
+.completion small{display:block;color:var(--cn-muted);font-weight:500}
+.tabs{display:flex;gap:28px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{position:relative;border:0;background:none;padding:12px 0 14px;font-weight:700;font-size:15px;color:var(--cn-muted);display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+.tab:hover{color:var(--cn-ink)}
+.tab[aria-selected=true]{color:var(--cn-ink)}
+.tab[aria-selected=true]::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:3px;border-radius:3px 3px 0 0;background:var(--cn-primary)}
 
-/* ---------- Hero ---------- */
-.hero{position:relative;overflow:hidden;border-radius:var(--r-hero);background:var(--cn-deep);color:#F6E9DF;padding:28px 32px 28px}
-.hero .scene{position:absolute;inset:0;pointer-events:none}
-.hero .row{position:relative;display:flex;align-items:center;gap:24px;flex-wrap:wrap}
-.hero .me{display:flex;align-items:center;gap:18px;flex:1;min-width:280px}
-.hero .big-av{width:72px;height:72px;border-radius:50%;background:var(--cn-primary-tint);display:grid;place-items:center;color:var(--cn-primary-text);font:800 26px var(--head);box-shadow:0 0 0 4px rgba(255,255,255,.12)}
-.hero h1{color:#fff;font-size:34px;line-height:1.1}
-.hero p{margin:4px 0 0;color:#E5CDBD;font-size:14px}
-.stats{display:flex;gap:10px;flex-wrap:wrap}
-.stat{min-width:116px;padding:12px 16px;border-radius:var(--r-md);background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14)}
-.stat b{display:block;font:700 24px var(--head);color:#fff}
-.stat span{font-size:12px;color:#E5CDBD}
-.stat.link{cursor:pointer;text-align:left;color:inherit}
-.stat.link:hover{background:rgba(255,255,255,.12)}
-.ring{width:36px;height:36px;flex:none}
-.countdown{position:relative;margin-top:22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:14px 16px;border-radius:var(--r-md);background:rgba(241,86,35,.16);border:1px solid rgba(241,86,35,.4)}
-.countdown strong{color:#fff}
-.countdown .btn{margin-left:auto;height:36px}
+/* ---------------- Next trip hero ---------------- */
+.next{position:relative;margin-top:28px;border-radius:var(--r-hero);overflow:hidden;min-height:520px;background:var(--cn-deep);isolation:isolate}
+.next > img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 30%;z-index:-2}
+.next::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(28,18,10,.78) 0%,rgba(28,18,10,.45) 42%,rgba(28,18,10,0) 70%),linear-gradient(0deg,rgba(28,18,10,.55),rgba(28,18,10,0) 45%)}
+.next .story{position:absolute;left:40px;bottom:40px;max-width:520px;color:#F7E9DE}
+.when-chip{display:inline-flex;align-items:center;gap:8px;height:30px;padding:0 12px;border-radius:15px;background:var(--cn-paper);color:var(--cn-ink);font-weight:700;font-size:13px}
+.when-chip .pulse{width:8px;height:8px;border-radius:50%;background:var(--cn-primary);box-shadow:0 0 0 0 rgba(241,86,35,.6);animation:pulse 2.4s var(--ease-out) infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 8px rgba(241,86,35,0)}100%{box-shadow:0 0 0 0 rgba(241,86,35,0)}}
+.next h2{margin-top:16px;color:#fff;font-size:46px;font-weight:800;letter-spacing:-.025em;line-height:1.02;text-wrap:balance}
+.next .by{margin-top:14px;font-size:15px;color:#F1DDCF}
+.next .by b{color:#fff}
+.photo-credit{position:absolute;right:420px;bottom:10px;font-size:10px;color:rgba(255,255,255,.6)}
 
-/* ---------- Tabs ---------- */
-.tabs{display:flex;gap:4px;padding:5px;margin:20px 0 0;background:var(--cn-surface);border:1px solid var(--cn-border);border-radius:var(--r-pill);width:max-content;max-width:100%;overflow-x:auto}
-.tab{border:0;background:transparent;height:40px;padding:0 18px;border-radius:var(--r-pill);font-weight:700;font-size:14px;color:var(--cn-ink);display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
-.tab:hover{background:var(--cn-page)}
-.tab[aria-selected=true]{background:var(--cn-primary);color:#fff}
-.badge{min-width:20px;height:20px;padding:0 6px;border-radius:var(--r-pill);background:var(--bad);color:#fff;font-size:11px;font-weight:800;display:inline-grid;place-items:center}
-.tab[aria-selected=true] .badge{background:#fff;color:var(--cn-primary-text)}
-.subtabs{display:flex;gap:4px;padding:4px;background:#EFEBE5;border-radius:var(--r-pill)}
-.subtab{border:0;background:transparent;height:36px;padding:0 14px;border-radius:var(--r-pill);font-weight:700;font-size:13px;color:var(--cn-body)}
-.subtab[aria-selected=true]{background:#fff;color:var(--cn-ink);box-shadow:0 1px 2px rgba(0,0,0,.08)}
-.subtab .c{color:var(--cn-muted);font-weight:600;margin-left:4px}
+/* Ticket */
+.ticket{--perf:300px;position:absolute;top:24px;right:24px;bottom:24px;width:360px;background:var(--cn-paper);border-radius:var(--r-card);display:flex;flex-direction:column;
+  -webkit-mask:radial-gradient(circle 12px at 0 var(--perf),#0000 97%,#000) left/51% 100% no-repeat,radial-gradient(circle 12px at 100% var(--perf),#0000 97%,#000) right/51% 100% no-repeat;
+          mask:radial-gradient(circle 12px at 0 var(--perf),#0000 97%,#000) left/51% 100% no-repeat,radial-gradient(circle 12px at 100% var(--perf),#0000 97%,#000) right/51% 100% no-repeat}
+.ticket .main{padding:24px 24px 18px}
+.ticket .k{font-size:13px;color:var(--cn-muted);font-weight:600}
+.pickup-time{font:800 64px/0.95 var(--display);color:var(--cn-ink);letter-spacing:-.04em;margin-top:6px;display:flex;align-items:baseline;gap:6px}
+.pickup-time small{font-size:22px;letter-spacing:0;font-weight:700}
+.ticket .date{margin-top:8px;font-weight:600;color:var(--cn-ink)}
+.ticket .countdown{color:var(--cn-primary-text);font-weight:700;font-size:14px;margin-top:2px}
+.tk-row{display:flex;gap:12px;align-items:flex-start;margin-top:16px;font-size:14px}
+.tk-row .i{margin-top:2px;color:var(--cn-muted)}
+.tk-row b{display:block;color:var(--cn-ink);font-weight:700}
+.tk-row a{font-weight:700;font-size:13px}
+.host-mini{display:flex;align-items:center;gap:10px;margin-top:16px}
+.av{width:40px;height:40px;border-radius:50%;flex:none;display:grid;place-items:center;font:700 14px var(--display);background:#E8D9CA;color:var(--cn-deep)}
+.host-mini .t{flex:1;min-width:0;font-size:13px;line-height:1.35}
+.host-mini .t b{display:block;font-size:14px;color:var(--cn-ink)}
+.icon-btn{position:relative;width:40px;height:40px;border-radius:50%;border:1px solid var(--cn-border);background:var(--cn-paper);display:grid;place-items:center;color:var(--cn-ink);text-decoration:none;flex:none}
+.icon-btn:hover{border-color:var(--cn-ink)}
+.icon-btn .badge{position:absolute;top:-4px;right:-4px}
+.perf{height:0;border-top:2px dashed var(--cn-border);margin:0 18px}
+.ticket .stub{padding:16px 24px 20px;display:flex;flex-direction:column;gap:14px;margin-top:auto}
+.stub-row{display:flex;align-items:center;gap:14px}
+.qr{width:64px;height:64px;flex:none}
+.ref{font-size:13px;color:var(--cn-muted);line-height:1.4}
+.ref button{border:0;background:none;padding:0;font:700 15px var(--text);color:var(--cn-ink);letter-spacing:.02em;display:inline-flex;align-items:center;gap:6px}
+.ref button .i{width:15px;height:15px;color:var(--cn-muted)}
 
-/* ---------- Next-up card ---------- */
-.next{display:grid;grid-template-columns:300px minmax(0,1fr);overflow:hidden}
-.next .art{position:relative;min-height:100%}
-.next .art svg{position:absolute;inset:0;width:100%;height:100%}
-.next .art::after{content:"";position:absolute;inset:auto 0 0 0;height:40%;background:linear-gradient(transparent,rgba(43,26,16,.35))}
-.next .art .pill{position:absolute;top:16px;left:16px;background:#fff;color:var(--cn-ink)}
-.next .body{padding:24px 28px 26px}
-.next h3{font-size:26px;line-height:1.15}
-.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:18px 0}
-.fact{padding:12px 14px;border-radius:var(--r-md);background:var(--cn-page)}
-.fact small{display:block;font-size:12px;color:var(--cn-muted);font-weight:600}
-.fact b{display:block;color:var(--cn-ink);font-size:15px;margin-top:2px}
-.fact span{font-size:13px}
-.host{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--cn-border);border-radius:var(--r-md)}
-.host .hav{width:40px;height:40px;border-radius:50%;background:#E9DCCF;display:grid;place-items:center;font-weight:800;color:var(--cn-deep);flex:none}
-.host .t{flex:1;min-width:0}
-.host .t b{color:var(--cn-ink)}
-.host .acts{display:flex;gap:6px}
-.bring{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0 0}
-.bring span{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:var(--r-pill);background:var(--cn-page);font-size:13px;color:var(--cn-ink);font-weight:600}
-.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+/* Status strip under hero */
+.strip{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:12px;padding:14px 16px 14px 18px;background:var(--cn-paper);border:1px solid var(--cn-border);border-radius:var(--r-card)}
+.strip .msg{display:flex;gap:12px;align-items:center;flex:1;min-width:260px;font-size:14px}
+.strip .msg b{color:var(--cn-ink)}
+.dotstate{width:10px;height:10px;border-radius:50%;flex:none}
+.dotstate.ok{background:var(--ok)} .dotstate.warn{background:#D9961A} .dotstate.bad{background:var(--bad)}
+.strip .acts{display:flex;gap:8px;flex-wrap:wrap}
 
-/* ---------- Cancellation timeline ---------- */
-.policy{margin-top:16px;padding:14px 16px;border-radius:var(--r-md);border:1px solid var(--cn-border)}
-.policy.ok{background:var(--ok-bg);border-color:#CDE8D6}
-.policy.warn{background:var(--warn-bg);border-color:#F3DFAE}
-.policy .head{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--cn-ink)}
-.policy .head svg{width:18px;height:18px;flex:none}
-.policy.ok .head svg{color:var(--ok)} .policy.warn .head svg{color:var(--warn)}
-.tl{position:relative;margin:16px 4px 4px;height:6px;border-radius:6px;background:rgba(0,0,0,.08)}
-.tl .seg{position:absolute;top:0;bottom:0;border-radius:6px}
-.tl .now{position:absolute;top:-6px;width:18px;height:18px;margin-left:-9px;border-radius:50%;background:#fff;border:3px solid var(--cn-ink)}
-.tl-labels{display:flex;justify-content:space-between;font-size:12px;color:var(--cn-muted);margin-top:10px;gap:8px}
-.tl-labels b{display:block;color:var(--cn-ink);font-size:12px}
-.tl-labels div:nth-child(2){text-align:center} .tl-labels div:last-child{text-align:right}
+/* ---------------- Body grid ---------------- */
+.body{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:48px;margin-top:56px;padding-bottom:96px}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:8px}
+.sec-head h2{font-size:28px;font-weight:800}
+.filter{display:flex;gap:2px;padding:3px;border-radius:10px;background:#EEE9E2}
+.filter button{border:0;background:none;padding:6px 12px;border-radius:8px;font-weight:700;font-size:13px;color:var(--cn-body)}
+.filter button[aria-pressed=true]{background:var(--cn-paper);color:var(--cn-ink);box-shadow:0 1px 2px rgba(28,26,23,.1)}
 
-/* ---------- Trip list ---------- */
-.trip{display:grid;grid-template-columns:150px minmax(0,1fr) auto;gap:20px;padding:14px;align-items:center;margin-bottom:12px;transition:border-color .15s}
+/* Timeline */
+.month{margin:32px 0 12px;font:700 15px var(--display);color:var(--cn-muted);letter-spacing:0}
+.tl{position:relative}
+.trow{display:grid;grid-template-columns:64px minmax(0,1fr);gap:16px;position:relative}
+.trow + .trow{margin-top:12px}
+.trow .day{text-align:center;padding-top:14px;position:relative}
+.trow .day b{display:block;font:800 34px/1 var(--display);color:var(--cn-ink);letter-spacing:-.03em}
+.trow .day span{font-size:13px;font-weight:700;color:var(--cn-muted)}
+.trow.is-past .day b,.trow.is-cancelled .day b{color:#B5ADA3}
+.trip{position:relative;display:grid;grid-template-columns:172px minmax(0,1fr) auto;gap:20px;align-items:center;width:100%;text-align:left;padding:12px 20px 12px 12px;background:var(--cn-paper);border:1px solid var(--cn-border);border-radius:var(--r-card);transition:border-color .15s}
 .trip:hover{border-color:var(--cn-input)}
-.trip .thumb{height:112px;border-radius:var(--r-md);overflow:hidden}
-.trip .thumb svg{width:100%;height:100%;display:block}
-.trip h4{font-size:18px;margin:6px 0 2px}
-.trip .line{font-size:13px;color:var(--cn-body);margin-top:6px}
-.trip .side{text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
-.price{font:700 22px var(--head);color:var(--cn-primary-text)}
-.trip .row-btns{display:flex;gap:8px}
-.refund-track{display:flex;gap:0;margin-top:10px}
-.refund-track .st{flex:1;font-size:12px;color:var(--cn-muted);position:relative;padding-top:16px}
-.refund-track .st::before{content:"";position:absolute;top:4px;left:0;right:0;height:3px;background:var(--cn-border)}
-.refund-track .st::after{content:"";position:absolute;top:0;left:0;width:11px;height:11px;border-radius:50%;background:#fff;border:2px solid var(--cn-input)}
-.refund-track .st.done::before{background:var(--ok)} .refund-track .st.done::after{background:var(--ok);border-color:var(--ok)}
-.refund-track .st.cur::before{background:linear-gradient(90deg,var(--ok) 50%,var(--cn-border) 50%)} .refund-track .st.cur::after{border-color:var(--ok);background:#fff;box-shadow:0 0 0 3px var(--ok-bg)}
-.refund-track .st b{display:block;color:var(--cn-ink);font-weight:700}
-.stars{display:inline-flex;gap:2px}
-.stars button{border:0;background:none;padding:2px;color:var(--cn-input)}
-.stars button.on{color:#E8A317}
-.stars svg{width:22px;height:22px}
+.trip-hit{position:absolute;inset:0;border:0;background:none;border-radius:inherit;padding:0}
+.trip .review,.trip .stars{position:relative;z-index:1}
+.trip.selected{border-color:var(--cn-primary);box-shadow:0 0 0 3px var(--cn-primary-tint)}
+.trip .ph{width:172px;height:124px;border-radius:var(--r-md);object-fit:cover}
+.trip.is-past .ph{filter:saturate(.7)}
+.trip.is-cancelled .ph{filter:grayscale(1) opacity(.65)}
+.trip h3{font-size:19px;line-height:1.2;text-wrap:balance}
+.trip.is-cancelled h3{color:var(--cn-muted)}
+.trip .sub{font-size:13px;color:var(--cn-muted);margin-top:4px}
+.trip .facts{display:flex;flex-wrap:wrap;gap:4px 16px;margin-top:10px;font-size:13px;color:var(--cn-body)}
+.trip .facts span{display:inline-flex;align-items:center;gap:6px}
+.trip .facts .i{width:15px;height:15px;color:var(--cn-muted)}
+.state{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-size:13px;font-weight:700}
+.state.ok{color:var(--ok)} .state.warn{color:var(--warn)} .state.bad{color:var(--bad)} .state.info{color:var(--info)}
+.trip .money{text-align:right;align-self:stretch;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-end;padding:6px 0}
+.amt{font:700 20px var(--display);color:var(--cn-ink)}
+.amt-k{font-size:12px;color:var(--cn-muted);font-weight:600}
+.chev{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--cn-page);color:var(--cn-ink)}
+.today{display:grid;grid-template-columns:64px 1fr;gap:16px;align-items:center;margin:20px 0}
+.today .tag{justify-self:center;font-size:12px;font-weight:800;color:var(--cn-primary-text);background:var(--cn-primary-tint);padding:4px 8px;border-radius:6px}
+.today .line{height:2px;background:repeating-linear-gradient(90deg,var(--cn-primary) 0 8px,transparent 8px 14px)}
+.review{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px;font-size:13px;font-weight:600;color:var(--cn-ink)}
+.stars{display:inline-flex}
+.stars button{border:0;background:none;padding:3px;color:#D9D2C8;line-height:0}
+.stars button:hover,.stars button.on{color:#E39B17}
+.stars svg{width:20px;height:20px;fill:currentColor}
+.refund-bar{margin-top:10px;max-width:360px}
+.refund-bar .track{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+.refund-bar .track i{height:4px;border-radius:2px;background:var(--cn-border)}
+.refund-bar .track i.on{background:var(--ok)}
+.refund-bar p{font-size:12px;color:var(--cn-muted);margin-top:6px}
+.refund-bar p b{color:var(--ok)}
 
-/* ---------- Side column ---------- */
-.side-card{padding:20px}
-.side-card+.side-card{margin-top:16px}
-.side-card h3{font-size:17px;margin-bottom:12px}
-.mini-cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;text-align:center;font-size:12px}
-.mini-cal .dow{color:var(--cn-muted);font-weight:700;padding-bottom:4px}
-.mini-cal .d{height:32px;width:100%;padding:0;display:grid;place-items:center;border-radius:var(--r-sm);color:var(--cn-ink);font-weight:600}
-.mini-cal .d.mute{color:#BDB5AA}
-.mini-cal .d.today{box-shadow:inset 0 0 0 1.5px var(--cn-ink)}
-.mini-cal .d.trip{background:var(--cn-primary);color:#fff;cursor:pointer}
-.mini-cal .d.past{background:var(--cn-primary-tint);color:var(--cn-primary-text)}
-.cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.cal-head b{font-family:var(--head);color:var(--cn-ink)}
-.cal-head button{border:1px solid var(--cn-border);background:#fff;width:32px;height:32px;border-radius:var(--r-sm)}
-.check{display:flex;gap:10px;padding:10px 0;border-top:1px solid var(--cn-border);font-size:14px;align-items:flex-start}
-.check:first-of-type{border-top:0}
-.check .box{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--cn-input);flex:none;display:grid;place-items:center;margin-top:1px}
-.check.done .box{background:var(--ok);border-color:var(--ok);color:#fff}
-.check.done span{color:var(--cn-muted);text-decoration:line-through}
-.check a{margin-left:auto;font-size:13px;font-weight:700;white-space:nowrap}
-.help-row{display:flex;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--cn-border);font-size:14px;color:var(--cn-ink);text-decoration:none;font-weight:600}
-.help-row:first-of-type{border-top:0}
-.help-row .ic{width:34px;height:34px;border-radius:10px;background:var(--cn-primary-tint);display:grid;place-items:center;color:var(--cn-primary-text);flex:none}
-.help-row .ic svg{width:18px;height:18px}
+/* Side: map */
+.side{position:sticky;top:24px;align-self:start;display:flex;flex-direction:column;gap:16px}
+.mapcard{background:var(--cn-paper);border:1px solid var(--cn-border);border-radius:var(--r-card);padding:24px 24px 18px}
+.mapcard h2{font-size:22px;font-weight:800}
+.mapcard .lede{font-size:14px;color:var(--cn-muted);margin-top:4px}
+.map{position:relative;margin:12px auto 0;max-width:300px}
+.map svg{width:100%;height:auto;overflow:visible}
+.land{fill:var(--land);stroke:var(--land-edge);stroke-width:1}
+.town{font:600 8.5px var(--text);fill:#9A8F82}
+.route{fill:none;stroke:var(--cn-primary);stroke-width:2;stroke-linecap:round;stroke-dasharray:2 5}
+.route.done{stroke:var(--cn-deep);stroke-dasharray:none;opacity:.55}
+.pin{cursor:pointer}
+.pin circle.hit{fill:transparent}
+.pin text{font:800 9px var(--display);text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.pin-label{font:700 10px var(--text);fill:var(--cn-ink);paint-order:stroke;stroke:var(--cn-paper);stroke-width:3px;stroke-linejoin:round;pointer-events:none}
+.pin:hover .dotp,.pin.hl .dotp{stroke:var(--cn-ink);stroke-width:2}
+.ring{fill:none;stroke:var(--cn-primary);stroke-width:1.5;transform-box:fill-box;transform-origin:center;animation:ring 2.4s var(--ease-out) infinite}
+@keyframes ring{0%{transform:scale(1);opacity:.9}100%{transform:scale(2.6);opacity:0}}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:var(--cn-body);margin-top:10px;padding-top:14px;border-top:1px solid var(--cn-border)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.lg{width:10px;height:10px;border-radius:50%;display:inline-block}
 
-/* ---------- Drawer & modal ---------- */
-.scrim{position:fixed;inset:0;background:rgba(28,26,23,.45);z-index:50;opacity:0;pointer-events:none;transition:opacity .2s}
+.prep{background:var(--cn-paper);border:1px solid var(--cn-border);border-radius:var(--r-card);padding:20px 24px}
+.prep h3{font-size:17px}
+.prep .bar{height:6px;border-radius:3px;background:var(--cn-border);margin:12px 0 4px;overflow:hidden}
+.prep .bar i{display:block;height:100%;width:40%;background:var(--cn-primary);border-radius:3px}
+.prep ul{list-style:none;margin:8px 0 0;padding:0}
+.prep li{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--cn-border);font-size:14px;color:var(--cn-ink)}
+.prep li:first-child{border-top:0}
+.prep li .ck{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--cn-input);display:grid;place-items:center;flex:none}
+.prep li.done .ck{background:var(--ok);border-color:var(--ok);color:#fff}
+.prep li.done span{color:var(--cn-muted)}
+.prep li a{margin-left:auto;font-weight:700;font-size:13px}
+.help{font-size:14px;color:var(--cn-body);padding:0 4px}
+.help a{font-weight:700}
+
+/* ---------------- Sheet (trip details) ---------------- */
+.scrim{position:fixed;inset:0;background:rgba(28,26,23,.5);opacity:0;pointer-events:none;transition:opacity .2s;z-index:50}
 .scrim.open{opacity:1;pointer-events:auto}
-.drawer{position:fixed;top:0;right:0;bottom:0;width:min(560px,100%);background:#fff;z-index:60;transform:translateX(100%);transition:transform .28s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;box-shadow:-24px 0 60px rgba(28,26,23,.18)}
-.drawer.open{transform:none}
-.drawer header{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--cn-border)}
-.drawer header h2{font-size:18px;flex:1}
-.icon-btn{width:40px;height:40px;border-radius:var(--r-sm);border:1px solid var(--cn-border);background:#fff;display:grid;place-items:center;color:var(--cn-ink)}
-.icon-btn svg{width:18px;height:18px}
-.drawer .content{overflow:auto;flex:1}
-.drawer .banner{height:170px;position:relative}
-.drawer .banner svg{width:100%;height:100%;display:block}
-.drawer .pad{padding:20px 24px}
-.drawer footer{padding:14px 20px;border-top:1px solid var(--cn-border);display:flex;gap:10px;background:#fff}
-.drawer footer .btn{flex:1}
-.block{padding:18px 0;border-top:1px solid var(--cn-border)}
-.block:first-child{border-top:0;padding-top:4px}
-.block h3{font-size:16px;margin-bottom:10px}
+.sheet{position:fixed;top:0;right:0;bottom:0;width:min(640px,100%);background:var(--cn-page);z-index:60;transform:translateX(102%);transition:transform .32s var(--ease-out);display:flex;flex-direction:column;box-shadow:-30px 0 80px rgba(28,26,23,.25)}
+.sheet.open{transform:none}
+.sheet .scroll{overflow:auto;flex:1;overscroll-behavior:contain}
+.sh-hero{position:relative;height:300px;isolation:isolate;display:flex;align-items:flex-end;padding:28px}
+.sh-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.sh-hero::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,rgba(28,18,10,.8),rgba(28,18,10,0) 65%)}
+.sh-hero h2{color:#fff;font-size:32px;font-weight:800;text-wrap:balance}
+.sh-hero p{color:#F1DDCF;margin-top:8px;font-size:14px}
+.sh-close{position:absolute;top:16px;right:16px;width:44px;height:44px;border-radius:50%;border:0;background:var(--cn-paper);display:grid;place-items:center;color:var(--cn-ink)}
+.sh-body{padding:20px 20px 32px;display:flex;flex-direction:column;gap:12px}
+.panel{background:var(--cn-paper);border:1px solid var(--cn-border);border-radius:var(--r-card);padding:20px 22px}
+.panel h3{font-size:18px;margin-bottom:12px}
+.panel .head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:12px}
+.panel .head h3{margin:0}
+.panel .head span{font-size:13px;color:var(--cn-muted)}
+.hticket{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center}
+.hticket .pickup-time{font-size:48px}
+.plan{list-style:none;margin:0;padding:0;position:relative}
+.plan::before{content:"";position:absolute;left:61px;top:10px;bottom:10px;width:2px;background:var(--cn-border)}
+.plan li{display:grid;grid-template-columns:48px 28px 1fr;align-items:start;padding:7px 0;font-size:14px;color:var(--cn-ink)}
+.plan time{font-weight:700;color:var(--cn-muted);font-size:13px;padding-top:1px}
+.plan .nd{width:12px;height:12px;border-radius:50%;background:var(--cn-paper);border:2px solid var(--cn-input);margin:4px 0 0 7px;position:relative;z-index:1}
+.plan li:first-child .nd{border-color:var(--cn-primary);background:var(--cn-primary)}
+.host-full{display:flex;gap:14px;align-items:center}
+.host-full .av{width:52px;height:52px;font-size:17px}
+.host-full .t{flex:1}
+.host-full b{display:block;color:var(--cn-ink);font-size:16px}
+.host-full small{font-size:13px;color:var(--cn-muted)}
+.verified{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:700;color:var(--ok);background:var(--ok-bg);padding:2px 8px;border-radius:6px;margin-top:4px}
+.pack{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pack label{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--cn-border);border-radius:var(--r-md);font-size:14px;color:var(--cn-ink);cursor:pointer}
+.pack input{width:18px;height:18px;accent-color:var(--ok)}
+.pack input:checked + span{color:var(--cn-muted);text-decoration:line-through}
 .bill{width:100%;border-collapse:collapse;font-size:14px}
-.bill td{padding:6px 0}
-.bill td:last-child{text-align:right;color:var(--cn-ink);font-weight:600}
-.bill tr.total td{border-top:1px solid var(--cn-border);padding-top:12px;font-weight:800;color:var(--cn-ink);font-size:16px}
-.bill .addon td:first-child::before{content:"+ ";color:var(--cn-primary-text);font-weight:800}
-.voucher{display:flex;gap:16px;align-items:center;padding:16px;border:1.5px dashed var(--cn-primary-line);border-radius:var(--r-md);background:var(--cn-primary-tint)}
-.voucher .qr{width:92px;height:92px;flex:none;background:#fff;border-radius:var(--r-sm);padding:6px}
-.itin{list-style:none;margin:0;padding:0}
-.itin li{display:grid;grid-template-columns:64px 1fr;gap:12px;padding:6px 0;font-size:14px}
-.itin li b{color:var(--cn-ink)}
-.itin time{font-weight:700;color:var(--cn-primary-text);font-variant-numeric:tabular-nums}
+.bill td{padding:6px 0;vertical-align:top}
+.bill td + td{text-align:right;color:var(--cn-ink);font-weight:600;white-space:nowrap;padding-left:16px}
+.bill .add td:first-child{color:var(--cn-ink)}
+.bill .tot td{border-top:1px solid var(--cn-border);padding-top:12px;font-weight:700;color:var(--cn-ink);font-size:16px}
+.bill small{display:block;color:var(--cn-muted);font-size:12px}
+.refund-now{margin-top:16px;padding:16px;border-radius:var(--r-md);background:var(--cn-page)}
+.refund-now .row{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.refund-now .big{font:800 30px var(--display);letter-spacing:-.02em}
+.refund-now .big.ok{color:var(--ok)} .refund-now .big.warn{color:var(--warn)}
+.refund-now p{font-size:13px;margin-top:4px}
+.ptl{position:relative;margin:20px 6px 6px;height:8px;border-radius:4px;display:flex;overflow:visible}
+.ptl i{display:block;height:100%}
+.ptl .now{position:absolute;top:50%;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;background:var(--cn-paper);border:3px solid var(--cn-ink)}
+.ptl-l{display:flex;justify-content:space-between;font-size:12px;color:var(--cn-muted);margin-top:10px;gap:8px}
+.ptl-l b{display:block;color:var(--cn-ink)}
+.ptl-l div:nth-child(2){text-align:center} .ptl-l div:last-child{text-align:right}
+.sh-foot{display:flex;gap:8px;padding:14px 20px;background:var(--cn-paper);border-top:1px solid var(--cn-border)}
+.sh-foot .btn{flex:1}
+.sh-foot .btn.icon{flex:0 0 44px}
 
-.modal{position:fixed;left:50%;top:50%;z-index:70;width:min(560px,calc(100% - 32px));max-height:calc(100% - 40px);overflow:auto;background:#fff;border-radius:var(--r-hero);box-shadow:0 24px 60px rgba(0,0,0,.25);transform:translate(-50%,-46%);opacity:0;pointer-events:none;transition:.22s}
-.modal.open{transform:translate(-50%,-50%);opacity:1;pointer-events:auto}
-.modal .mh{padding:22px 24px 0;display:flex;gap:12px;align-items:flex-start}
-.modal .mh h2{font-size:22px;flex:1}
-.modal .mb{padding:16px 24px}
-.modal .mf{padding:16px 24px 22px;display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
-.steps{display:flex;gap:6px;margin:0 24px}
-.steps i{flex:1;height:4px;border-radius:4px;background:var(--cn-border)}
-.steps i.on{background:var(--cn-primary)}
-.choice{display:flex;gap:12px;align-items:center;padding:14px 16px;border:1px solid var(--cn-border);border-radius:var(--r-md);margin-bottom:8px;cursor:pointer;font-weight:600;color:var(--cn-ink)}
+/* ---------------- Dialog ---------------- */
+.dlg{position:fixed;left:50%;top:50%;z-index:80;width:min(520px,calc(100% - 32px));max-height:calc(100% - 32px);overflow:auto;background:var(--cn-paper);border-radius:var(--r-hero);box-shadow:0 24px 64px rgba(0,0,0,.28);transform:translate(-50%,-47%) scale(.98);opacity:0;pointer-events:none;transition:transform .22s var(--ease-out),opacity .18s}
+.dlg.open{transform:translate(-50%,-50%);opacity:1;pointer-events:auto}
+.dlg-scrim{position:fixed;inset:0;z-index:75;background:rgba(28,26,23,.45);opacity:0;pointer-events:none;transition:opacity .2s}
+.dlg-scrim.open{opacity:1;pointer-events:auto}
+.dh{display:flex;gap:12px;align-items:flex-start;padding:24px 24px 0}
+.dh h2{flex:1;font-size:24px;font-weight:800}
+.dh .x{width:40px;height:40px;border-radius:50%;border:1px solid var(--cn-border);background:var(--cn-paper);display:grid;place-items:center;flex:none}
+.db{padding:16px 24px 8px}
+.df{padding:16px 24px 24px;display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+.prog{display:flex;gap:6px;padding:0 24px;margin-top:12px}
+.prog i{flex:1;height:4px;border-radius:2px;background:var(--cn-border)}
+.prog i.on{background:var(--cn-primary)}
+.choice{display:flex;align-items:center;gap:12px;padding:13px 14px;border:1px solid var(--cn-border);border-radius:var(--r-md);margin-bottom:8px;cursor:pointer;font-weight:600;color:var(--cn-ink);font-size:14px}
 .choice:hover{border-color:var(--cn-input)}
-.choice input{accent-color:var(--cn-primary);width:18px;height:18px}
-.choice:has(input:checked){border:2px solid var(--cn-primary);padding:13px 15px;background:var(--cn-primary-tint)}
-textarea,select,input[type=text],input[type=tel]{width:100%;font:inherit;padding:12px 14px;border:1px solid var(--cn-input);border-radius:var(--r-md);background:#fff;color:var(--cn-ink)}
-textarea:focus,select:focus,input:focus{outline:none;border:2px solid var(--cn-primary);padding:11px 13px}
-label.lbl{display:block;font-size:13px;font-weight:700;color:var(--cn-ink);margin:14px 0 6px}
-.slots{display:flex;flex-wrap:wrap;gap:8px}
-.slot{border:1px solid var(--cn-input);background:#fff;border-radius:var(--r-md);padding:10px 14px;font-weight:700;font-size:13px;color:var(--cn-ink);text-align:left}
-.slot small{display:block;font-weight:600;color:var(--cn-muted)}
-.slot[aria-pressed=true]{border:2px solid var(--cn-primary);padding:9px 13px;background:var(--cn-primary-tint)}
-.slot[disabled]{opacity:.45;text-decoration:line-through}
-.notice{padding:12px 14px;border-radius:var(--r-md);font-size:14px}
-.notice.ok{background:var(--ok-bg);color:var(--ok)} .notice.warn{background:var(--warn-bg);color:var(--warn)} .notice.info{background:var(--info-bg);color:var(--info)}
-.success{text-align:center;padding:12px 0 4px}
-.success .tick{width:64px;height:64px;border-radius:50%;background:var(--ok-bg);color:var(--ok);display:grid;place-items:center;margin:0 auto 14px}
-.success .tick svg{width:30px;height:30px}
+.choice input{accent-color:var(--cn-primary);width:18px;height:18px;margin:0}
+.choice:has(input:checked){border-color:var(--cn-primary);box-shadow:inset 0 0 0 1px var(--cn-primary);background:var(--cn-primary-tint)}
+.lbl{display:block;font-size:13px;font-weight:700;color:var(--cn-ink);margin:14px 0 6px}
+textarea,select,input[type=text],input[type=tel],input[type=email]{width:100%;font:inherit;font-size:15px;padding:11px 14px;border:1px solid var(--cn-input);border-radius:var(--r-md);background:var(--cn-paper);color:var(--cn-ink)}
+textarea:focus,select:focus,input:focus{outline:none;border-color:var(--cn-primary);box-shadow:0 0 0 3px var(--cn-primary-tint)}
+.note{padding:12px 14px;border-radius:var(--r-md);font-size:14px;line-height:1.5}
+.note.ok{background:var(--ok-bg);color:var(--ok)} .note.warn{background:var(--warn-bg);color:var(--warn)} .note.info{background:var(--info-bg);color:var(--info)}
+.note b{font-weight:700}
+.money-hero{text-align:center;padding:8px 0 16px}
+.money-hero .big{font:800 52px/1 var(--display);letter-spacing:-.03em;color:var(--ok)}
+.money-hero .big.warn{color:var(--warn)}
+.money-hero p{font-size:14px;color:var(--cn-body);margin-top:8px}
+.slots{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.slot{border:1px solid var(--cn-input);background:var(--cn-paper);border-radius:var(--r-md);padding:10px 12px;font-weight:700;font-size:14px;color:var(--cn-ink);text-align:left}
+.slot small{display:block;font-weight:600;font-size:12px;color:var(--cn-muted);margin-top:2px}
+.slot small.up{color:var(--warn)}
+.slot[aria-pressed=true]{border-color:var(--cn-primary);box-shadow:inset 0 0 0 1px var(--cn-primary);background:var(--cn-primary-tint)}
+.slot[disabled]{opacity:.5;cursor:not-allowed}
+.done-ic{width:64px;height:64px;border-radius:50%;margin:8px auto 16px;background:var(--ok-bg);color:var(--ok);display:grid;place-items:center}
+.done-ic .i{width:30px;height:30px;stroke-width:2.5}
 
-.menu{position:absolute;z-index:40;min-width:220px;background:#fff;border:1px solid var(--cn-border);border-radius:var(--r-md);box-shadow:0 12px 30px rgba(28,26,23,.14);padding:6px;display:none}
+.menu{position:absolute;z-index:90;min-width:230px;background:var(--cn-paper);border:1px solid var(--cn-border);border-radius:var(--r-md);box-shadow:0 14px 34px rgba(28,26,23,.16);padding:6px;display:none}
 .menu.open{display:block}
-.menu button{display:flex;width:100%;gap:10px;align-items:center;border:0;background:none;padding:10px 12px;border-radius:var(--r-sm);font-weight:600;color:var(--cn-ink);font-size:14px;text-align:left}
-.menu button:hover{background:var(--cn-page)}
-
-.toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);background:var(--cn-ink);color:#fff;padding:12px 18px;border-radius:var(--r-md);font-weight:600;font-size:14px;opacity:0;transition:.2s;z-index:90;pointer-events:none}
+.menu a,.menu button{display:flex;width:100%;align-items:center;gap:10px;padding:10px 12px;border:0;background:none;border-radius:var(--r-sm);font-weight:600;font-size:14px;color:var(--cn-ink);text-decoration:none;text-align:left}
+.menu a:hover,.menu button:hover{background:var(--cn-page)}
+.toast{position:fixed;left:50%;bottom:24px;z-index:95;transform:translate(-50%,16px);opacity:0;background:var(--cn-ink);color:#fff;padding:12px 18px;border-radius:var(--r-md);font-weight:600;font-size:14px;transition:transform .2s var(--ease-out),opacity .2s;pointer-events:none;max-width:calc(100% - 32px)}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 
-/* ---------- Other tabs ---------- */
-.empty{padding:40px 24px;text-align:center}
-.empty h3{font-size:20px;margin-bottom:6px}
-.plan-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-.idea{overflow:hidden}
-.idea .thumb{height:120px}
-.idea .thumb svg{width:100%;height:100%;display:block}
-.idea .p{padding:14px 16px}
-.idea h4{font-size:16px}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
-.toggle-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0;border-top:1px solid var(--cn-border)}
-.toggle-row:first-child{border-top:0}
-.toggle-row b{color:var(--cn-ink);display:block}
-.switch{position:relative;width:44px;height:26px;border-radius:26px;border:0;background:var(--cn-input);flex:none;transition:.15s}
-.switch::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:.15s;box-shadow:0 1px 2px rgba(0,0,0,.2)}
+/* ---------------- Other tabs ---------------- */
+.pane{padding:40px 0 96px}
+.pane-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:24px}
+.pane-head h2{font-size:30px;font-weight:800}
+.pane-head p{margin-top:6px;max-width:58ch}
+.ideas{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:16px}
+.idea{position:relative;border-radius:var(--r-card);overflow:hidden;min-height:300px;display:flex;align-items:flex-end;padding:20px;isolation:isolate;color:#fff;text-decoration:none}
+.idea img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.idea::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,rgba(28,18,10,.75),rgba(28,18,10,0) 60%)}
+.idea h3{color:#fff;font-size:22px}
+.idea p{font-size:13px;color:#F1DDCF;margin-top:4px}
+.chat-slot{border:2px dashed var(--cn-input);border-radius:var(--r-card);padding:64px 24px;text-align:center;background:var(--cn-paper)}
+.chat-slot h3{font-size:20px;margin:0 0 6px}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:4px 20px}
+.cardish{background:var(--cn-paper);border:1px solid var(--cn-border);border-radius:var(--r-card);padding:24px}
+.two{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:24px;align-items:start}
+.setrow{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:16px 0;border-top:1px solid var(--cn-border)}
+.setrow:first-child{border-top:0;padding-top:0}
+.setrow b{display:block;color:var(--cn-ink)}
+.setrow small{font-size:13px;color:var(--cn-muted)}
+.switch{position:relative;width:46px;height:28px;border-radius:14px;border:0;background:var(--cn-input);flex:none;transition:background-color .15s}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.2);transition:transform .15s var(--ease-out)}
 .switch[aria-checked=true]{background:var(--cn-primary)}
-.switch[aria-checked=true]::after{left:21px}
-.chat-slot{border:2px dashed var(--cn-input);border-radius:var(--r-card);padding:48px 24px;text-align:center;background:repeating-linear-gradient(45deg,#fff,#fff 12px,#FBFAF8 12px,#FBFAF8 24px)}
+.switch[aria-checked=true]::after{transform:translateX(18px)}
+footer.foot{border-top:1px solid var(--cn-border);padding:20px 0 40px;font-size:12px;color:var(--cn-muted)}
 
-/* ---------- Responsive ---------- */
-@media (max-width:1080px){
-  .grid{grid-template-columns:1fr}
-  .nav{display:none}
+/* ---------------- Responsive ---------------- */
+@media (max-width:1100px){
+  .site nav{display:none}
+  .body{grid-template-columns:1fr}
+  .side{position:static;display:grid;grid-template-columns:1fr 1fr;align-items:start}
 }
-@media (max-width:820px){
-  .next{grid-template-columns:1fr}
-  .next .art{height:180px}
-  .facts{grid-template-columns:1fr 1fr}
-  .trip{grid-template-columns:96px minmax(0,1fr)}
-  .trip .thumb{height:96px}
-  .trip .side{grid-column:1/-1;flex-direction:row;justify-content:space-between;align-items:center;text-align:left}
-  .plan-grid{grid-template-columns:1fr 1fr}
-  .stats{width:100%}
-  .stat{flex:1;min-width:0}
+@media (max-width:860px){
+  .wrap{padding:0 20px}
+  .acct .top{flex-direction:column;align-items:flex-start}
+  .next{min-height:0;display:flex;flex-direction:column;background:none;overflow:visible;border-radius:0}
+  .next > img{position:relative;height:340px;border-radius:var(--r-hero);z-index:0}
+  .next::before{inset:0 0 auto 0;height:340px;border-radius:var(--r-hero);z-index:1;background:linear-gradient(0deg,rgba(28,18,10,.8),rgba(28,18,10,0) 70%)}
+  .next .story{left:20px;right:20px;bottom:auto;top:340px;transform:translateY(-100%);padding-bottom:24px;z-index:2}
+  .next h2{font-size:32px}
+  .ticket{position:relative;inset:auto;width:auto;margin:-8px 0 0;border:1px solid var(--cn-border);z-index:2}
+  .photo-credit{right:12px;top:318px;bottom:auto;z-index:2}
+  .side{grid-template-columns:1fr}
+  .trip{grid-template-columns:110px minmax(0,1fr)}
+  .trip .ph{width:110px;height:110px}
+  .trip .money{grid-column:1/-1;flex-direction:row;align-items:center;padding:4px 0 0;border-top:1px solid var(--cn-border);padding-top:10px}
+  .trip .money > div{text-align:left}
+  .ideas{grid-template-columns:1fr}
+  .two,.form{grid-template-columns:1fr}
 }
-@media (max-width:560px){
-  .topbar .in{padding:0 16px}
-  .cur{display:none}
-  .wrap{padding:16px 16px 80px}
-  .hero{padding:22px 18px}
-  .hero h1{font-size:26px}
-  .hero .big-av{width:56px;height:56px;font-size:20px}
-  .next .body{padding:18px}
-  .next h3{font-size:22px}
-  .facts{grid-template-columns:1fr}
-  .host{flex-wrap:wrap}
-  .actions .btn{flex:1 1 100%}
-  .countdown .btn{margin-left:0}
-  .section-title{flex-direction:column;align-items:flex-start}
-  .subtabs{max-width:100%;overflow-x:auto}
-  .trip h4{font-size:16px}
-  .plan-grid,.form-grid{grid-template-columns:1fr}
-  .drawer footer{flex-wrap:wrap}
+@media (max-width:520px){
+  .acct h1{font-size:28px}
+  .trow{grid-template-columns:44px minmax(0,1fr);gap:10px}
+  .today{grid-template-columns:44px 1fr;gap:10px}
+  .trow .day b{font-size:26px}
+  .trip{grid-template-columns:84px minmax(0,1fr);gap:12px;padding:10px 14px 12px 10px}
+  .trip .ph{width:84px;height:84px}
+  .trip h3{font-size:16px}
+  .strip .acts{width:100%}
+  .strip .acts .btn{flex:1}
+  .pack{grid-template-columns:1fr}
+  .hticket{grid-template-columns:1fr}
+  .slots{grid-template-columns:1fr 1fr}
+  .sh-foot{flex-wrap:wrap}
+  .sec-head{flex-direction:column;align-items:flex-start}
 }
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition-duration:.01ms!important}
+}
 </style>
 </head>
 <body>
 
-<header class="topbar">
-  <div class="in">
-    <a class="logo" href="#">ceylon</a>
-    <span class="cur">USD</span>
-    <nav class="nav" aria-label="Main">
-      <a href="#">Services</a><a href="#">Places to go</a><a href="#">Things to do</a><a href="#">About us</a>
-    </nav>
-    <div class="avatar" aria-label="John Carter's account">JC</div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-7-6.3-7-11.2A7 7 0 0 1 19 9.8C19 14.7 12 21 12 21z"/><circle cx="12" cy="9.8" r="2.6"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.6a3.5 3.5 0 0 1 0 6.8M21.5 20a6.5 6.5 0 0 0-4-6"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4h13A1.5 1.5 0 0 1 20 5.5v9a1.5 1.5 0 0 1-1.5 1.5H9l-5 4z"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></symbol>
+  <symbol id="i-swap" viewBox="0 0 24 24"><path d="M4 8h14l-3.5-3.5M20 16H6l3.5 3.5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5.5A1.5 1.5 0 0 0 14.5 4h-9A1.5 1.5 0 0 0 4 5.5v9A1.5 1.5 0 0 0 5.5 16H8"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7.5 3v5.5c0 4.6-3.2 8-7.5 9.5-4.3-1.5-7.5-4.9-7.5-9.5V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+  <symbol id="i-dl" viewBox="0 0 24 24"><path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M4.5 19.5h15"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-life" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><path d="M5.6 5.6l3.9 3.9M14.5 14.5l3.9 3.9M18.4 5.6l-3.9 3.9M9.5 14.5l-3.9 3.9"/></symbol>
+</svg>
+
+<header class="site">
+  <div class="wrap">
+    <a class="logo" href="#" aria-label="Ceylon Nooks home">ceylon</a>
+    <nav aria-label="Main"><a href="#">Services</a><a href="#">Places to go</a><a href="#">Things to do</a><a href="#">About us</a></nav>
+    <button class="cur" aria-label="Currency: US dollars">USD</button>
+    <button class="me" aria-label="Account menu for John Carter">JC</button>
   </div>
 </header>
 
-<main class="wrap">
-  <!-- Hero -->
-  <section class="hero" aria-labelledby="hello">
-    <svg class="scene" viewBox="0 0 1200 260" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
-      <defs><linearGradient id="hg" x1="0" x2="1"><stop offset="0" stop-color="#2B1A10"/><stop offset="1" stop-color="#7A3A1C"/></linearGradient></defs>
-      <rect width="1200" height="260" fill="url(#hg)"/>
-      <circle cx="1040" cy="70" r="34" fill="#F7C9A4" opacity=".35"/>
-      <path d="M0 210 C180 170 320 220 520 190 S880 150 1200 185 V260 H0Z" fill="#F15623" opacity=".14"/>
-      <path d="M0 235 C220 205 420 245 640 222 S1000 205 1200 228 V260 H0Z" fill="#F15623" opacity=".18"/>
-      <path d="M760 260 L860 120 L905 170 L960 95 L1060 260Z" fill="#000" opacity=".12"/>
-    </svg>
-    <div class="row">
-      <div class="me">
-        <div class="big-av" aria-hidden="true">JC</div>
-        <div>
-          <h1 id="hello">Āyubōwan, John</h1>
-          <p>Exploring Sri Lanka with Ceylon Nooks since 2026</p>
-        </div>
+<section class="acct">
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <h1 id="greet">Good morning, John</h1>
+        <p class="lede" id="lede"></p>
       </div>
-      <div class="stats">
-        <button class="stat link" data-goto="upcoming"><b class="num">2</b><span>Upcoming trips</span></button>
-        <button class="stat link" data-goto="past"><b class="num">1</b><span>Experiences done</span></button>
-        <button class="stat link" data-tab="profile" style="display:flex;gap:10px;align-items:center">
-          <svg class="ring" viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="15" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="4"/><circle cx="18" cy="18" r="15" fill="none" stroke="#F15623" stroke-width="4" stroke-linecap="round" stroke-dasharray="94.2" stroke-dashoffset="56.5" transform="rotate(-90 18 18)"/></svg>
-          <span><b class="num" style="font-size:20px">40%</b>Profile complete</span>
-        </button>
-      </div>
+      <a class="completion" href="#" data-tab="profile">
+        <svg width="36" height="36" viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="15" fill="none" stroke="#E7E2DB" stroke-width="4"/><circle cx="18" cy="18" r="15" fill="none" stroke="#F15623" stroke-width="4" stroke-linecap="round" stroke-dasharray="94.25" stroke-dashoffset="56.55" transform="rotate(-90 18 18)"/></svg>
+        <span>Profile 40% complete<small>Add a phone number so hosts can reach you</small></span>
+      </a>
     </div>
-    <div class="countdown" role="status">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F7A07A" stroke-width="2" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9 2h6"/></svg>
-      <span><strong id="cd-text">Sigiriya sunrise climb in 18 h 30 min</strong> · Arkam picks you up from your hotel lobby at 4:30 AM. Set an alarm for 4:00 AM.</span>
-      <button class="btn primary" data-open="sigiriya">Open trip</button>
+    <div class="tabs" role="tablist" aria-label="Your account">
+      <button class="tab" role="tab" aria-selected="true" data-tab="trips">Trips</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="plan">Plan a trip</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="messages">Messages <span class="badge">1</span></button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="profile">Profile</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="settings">Settings</button>
     </div>
-  </section>
+  </div>
+</section>
 
-  <div class="tabs" role="tablist" aria-label="Account sections">
-    <button class="tab" role="tab" aria-selected="true" data-tab="trips">My trips</button>
-    <button class="tab" role="tab" aria-selected="false" data-tab="plan">Plan a trip</button>
-    <button class="tab" role="tab" aria-selected="false" data-tab="messages">Messages <span class="badge">1</span></button>
-    <button class="tab" role="tab" aria-selected="false" data-tab="profile">Profile</button>
-    <button class="tab" role="tab" aria-selected="false" data-tab="settings">Settings</button>
+<main class="wrap">
+  <!-- ============ TRIPS ============ -->
+  <div id="pane-trips" role="tabpanel">
+    <section class="next" id="next" aria-labelledby="next-title"></section>
+    <div class="strip" id="strip"></div>
+
+    <div class="body">
+      <section aria-labelledby="trips-title">
+        <div class="sec-head">
+          <h2 id="trips-title">Your trips</h2>
+          <div class="filter" role="group" aria-label="Show">
+            <button aria-pressed="true" data-filter="all">All</button>
+            <button aria-pressed="false" data-filter="upcoming">Upcoming</button>
+            <button aria-pressed="false" data-filter="past">Past</button>
+            <button aria-pressed="false" data-filter="cancelled">Cancelled</button>
+          </div>
+        </div>
+        <div class="tl" id="timeline"></div>
+      </section>
+
+      <aside class="side">
+        <section class="mapcard" aria-labelledby="map-title">
+          <h2 id="map-title">Your Sri Lanka</h2>
+          <p class="lede" id="map-lede"></p>
+          <div class="map" id="map"></div>
+          <div class="legend" aria-hidden="true">
+            <span><i class="lg" style="background:var(--cn-deep)"></i>Done</span>
+            <span><i class="lg" style="background:var(--cn-primary)"></i>Booked</span>
+            <span><i class="lg" style="border:2px solid var(--cn-primary)"></i>Saved</span>
+            <span><i class="lg" style="background:#C9C1B7"></i>Cancelled</span>
+          </div>
+        </section>
+        <section class="prep" aria-labelledby="prep-title">
+          <h3 id="prep-title">Before tomorrow’s pickup</h3>
+          <div class="bar"><i></i></div>
+          <ul>
+            <li class="done"><span class="ck"><svg class="i" style="width:13px;height:13px;stroke-width:3"><use href="#i-check"/></svg></span><span>Email confirmed</span></li>
+            <li><span class="ck"></span><span>Phone number for pickup calls</span><a href="#" data-tab="profile">Add</a></li>
+            <li><span class="ck"></span><span>Emergency contact</span><a href="#" data-tab="profile">Add</a></li>
+            <li><span class="ck"></span><span>Dietary needs for the breakfast pack</span><a href="#" data-tab="profile">Add</a></li>
+          </ul>
+        </section>
+        <p class="help">Something wrong on the day? Call the 24/7 traveller line on <a href="tel:+94112000000">+94 11 200 0000</a> or read <a href="#" data-policy>how refunds work</a>.</p>
+      </aside>
+    </div>
   </div>
 
-  <!-- ===== MY TRIPS ===== -->
-  <section id="panel-trips" role="tabpanel">
-    <div class="grid" style="margin-top:24px">
-      <div>
-        <article class="card next" id="next-card"></article>
-
-        <div class="section-title">
-          <h2>Your trips</h2>
-          <div class="subtabs" role="tablist" aria-label="Trip filter">
-            <button class="subtab" role="tab" aria-selected="true" data-filter="upcoming">Upcoming <span class="c" data-count="upcoming"></span></button>
-            <button class="subtab" role="tab" aria-selected="false" data-filter="past">Past <span class="c" data-count="past"></span></button>
-            <button class="subtab" role="tab" aria-selected="false" data-filter="cancelled">Cancelled &amp; refunds <span class="c" data-count="cancelled"></span></button>
-          </div>
-        </div>
-        <div id="trip-list"></div>
-      </div>
-
-      <aside>
-        <div class="card side-card">
-          <div class="cal-head">
-            <button aria-label="Previous month" data-cal="-1">‹</button>
-            <b id="cal-title"></b>
-            <button aria-label="Next month" data-cal="1">›</button>
-          </div>
-          <div class="mini-cal" id="cal"></div>
-          <button class="btn sm" style="width:100%;margin-top:14px" data-sync>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
-            Sync all trips to my calendar
-          </button>
-        </div>
-
-        <div class="card side-card">
-          <h3>Before you go</h3>
-          <div class="check done"><span class="box"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg></span><span>Email verified</span></div>
-          <div class="check"><span class="box"></span><span>Add a mobile number for pickup calls</span><a href="#" data-tab="profile">Add</a></div>
-          <div class="check"><span class="box"></span><span>Emergency contact</span><a href="#" data-tab="profile">Add</a></div>
-          <div class="check"><span class="box"></span><span>Dietary needs for food add-ons</span><a href="#" data-tab="profile">Add</a></div>
-        </div>
-
-        <div class="card side-card">
-          <h3>Need a hand?</h3>
-          <a class="help-row" href="#" data-policy><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/></svg></span>How cancellations and refunds work</a>
-          <a class="help-row" href="#" data-tab="messages"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16v11H8l-4 4z"/></svg></span>Message Ceylon support</a>
-          <a class="help-row" href="tel:+94112000000"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg></span>24/7 traveller line +94 11 200 0000</a>
-        </div>
-      </aside>
+  <!-- ============ PLAN ============ -->
+  <div id="pane-plan" role="tabpanel" class="pane" hidden>
+    <div class="pane-head">
+      <div><h2>Plan a trip</h2><p>Places you saved while browsing. Soon you’ll be able to set how many nights you stay in each, then share the plan with your travel partners.</p></div>
+      <button class="btn" data-toast="The trip planner is coming in the next release">Start a plan</button>
     </div>
-  </section>
+    <div class="ideas">
+      <a class="idea" href="#"><img src="img/galle-fort.jpg" alt="A quiet alley inside Galle Fort with yellow colonial buildings"><div><h3>Galle Fort walking tour</h3><p>Galle, half a day. 1 hour from Mirissa, so it pairs well with your whale trip.</p></div></a>
+      <a class="idea" href="#"><img src="img/adams-peak.jpg" alt="Adam's Peak rising above the hill country"><div><h3>Adam’s Peak night climb</h3><p>Dalhousie. Season runs December to May.</p></div></a>
+      <a class="idea" href="#"><img src="img/pidurangala.jpg" alt="Forest path at the foot of Pidurangala Rock"><div><h3>Pidurangala temple trail</h3><p>Sigiriya. Already part of tomorrow’s climb.</p></div></a>
+    </div>
+  </div>
 
-  <!-- ===== PLAN ===== -->
-  <section id="panel-plan" role="tabpanel" hidden>
-    <div class="section-title"><div><span class="eyebrow">Coming soon</span><h2>Plan a trip</h2></div>
-      <button class="btn primary" data-toast="Trip planner opens in the next release">Start a new plan</button></div>
-    <p style="margin-top:-6px;max-width:640px">Pick the stops, set how many nights you stay in each place and share the plan with your travel partners so they can vote. Here is what you have saved so far.</p>
-    <div class="plan-grid" id="ideas" style="margin-top:18px"></div>
-  </section>
-
-  <!-- ===== MESSAGES ===== -->
-  <section id="panel-messages" role="tabpanel" hidden>
-    <div class="section-title"><h2>Messages</h2></div>
+  <!-- ============ MESSAGES ============ -->
+  <div id="pane-messages" role="tabpanel" class="pane" hidden>
+    <div class="pane-head"><div><h2>Messages</h2></div></div>
     <div class="chat-slot">
-      <span class="pill info">Existing component</span>
-      <h3 style="margin:12px 0 6px;font-size:20px">The built chat module slots in here unchanged</h3>
-      <p class="meta" style="max-width:520px;margin:0 auto">Only the tab and the unread badge are new. Trip cards deep-link to the right thread through “Message host”.</p>
+      <h3>Your existing chat goes here, unchanged</h3>
+      <p style="max-width:52ch;margin:0 auto;color:var(--cn-muted)">The redesign only adds the unread badge and deep links. “Message Arkam” on a trip opens straight into that thread.</p>
     </div>
-  </section>
+  </div>
 
-  <!-- ===== PROFILE ===== -->
-  <section id="panel-profile" role="tabpanel" hidden>
-    <div class="section-title"><h2>Profile</h2><span class="pill brand">40% complete</span></div>
-    <div class="grid">
-      <div class="card" style="padding:24px">
-        <h3 style="font-size:18px">Traveller details</h3>
-        <p class="meta" style="margin:4px 0 0">Hosts see your first name, phone and party size. Nothing else.</p>
-        <div class="form-grid">
-          <div><label class="lbl" for="fn">First name</label><input id="fn" type="text" value="John"></div>
-          <div><label class="lbl" for="ln">Last name</label><input id="ln" type="text" value="Carter"></div>
-          <div><label class="lbl" for="em">Email</label><input id="em" type="text" value="john.carter@example.com" disabled style="background:var(--cn-page)"></div>
-          <div><label class="lbl" for="ph">Mobile (WhatsApp works best)</label><input id="ph" type="tel" placeholder="+44 7700 900123"></div>
-          <div><label class="lbl" for="co">Country of residence</label><select id="co"><option>United Kingdom</option><option>Australia</option><option>Germany</option><option>India</option></select></div>
-          <div><label class="lbl" for="la">Languages</label><input id="la" type="text" value="English"></div>
-          <div><label class="lbl" for="ec">Emergency contact</label><input id="ec" type="text" placeholder="Name and phone"></div>
+  <!-- ============ PROFILE ============ -->
+  <div id="pane-profile" role="tabpanel" class="pane" hidden>
+    <div class="pane-head"><div><h2>Profile</h2><p>Hosts only see your first name, phone number and group size.</p></div></div>
+    <div class="two">
+      <form class="cardish" onsubmit="event.preventDefault();toast('Profile saved')">
+        <div class="form">
+          <div><label class="lbl" for="fn">First name</label><input id="fn" type="text" value="John" autocomplete="given-name"></div>
+          <div><label class="lbl" for="ln">Last name</label><input id="ln" type="text" value="Carter" autocomplete="family-name"></div>
+          <div><label class="lbl" for="em">Email</label><input id="em" type="email" value="john.carter@example.com" readonly style="background:var(--cn-page);color:var(--cn-muted)"></div>
+          <div><label class="lbl" for="ph">Phone, WhatsApp works best</label><input id="ph" type="tel" placeholder="+44 7700 900123" autocomplete="tel"></div>
+          <div><label class="lbl" for="ec">Emergency contact</label><input id="ec" type="text" placeholder="Name and phone number"></div>
           <div><label class="lbl" for="di">Dietary needs</label><select id="di"><option>None</option><option>Vegetarian</option><option>Vegan</option><option>Halal</option><option>Nut allergy</option></select></div>
         </div>
-        <div style="margin-top:20px;display:flex;justify-content:flex-end"><button class="btn primary" data-toast="Profile saved">Save changes</button></div>
-      </div>
-      <aside class="card side-card">
-        <h3>Why complete it?</h3>
-        <p style="margin:0;font-size:14px">Hosts call you on the morning of a pickup. Without a number, a missed meeting point usually means a lost booking.</p>
-      </aside>
+        <div style="display:flex;justify-content:flex-end;margin-top:24px"><button class="btn primary" type="submit">Save profile</button></div>
+      </form>
+      <aside class="cardish"><h3 style="font-size:17px;margin-bottom:8px">Why the phone number matters</h3><p style="font-size:14px">Pickups in Sri Lanka often start before sunrise. If your driver can’t find you in the lobby, a call is the only way to avoid a missed trip.</p></aside>
     </div>
-  </section>
+  </div>
 
-  <!-- ===== SETTINGS ===== -->
-  <section id="panel-settings" role="tabpanel" hidden>
-    <div class="section-title"><h2>Settings</h2></div>
-    <div class="grid">
-      <div class="card" style="padding:8px 24px">
-        <div class="toggle-row"><div><b>Trip reminders</b><span class="meta">48 hours before (when free cancellation closes), the day before and the morning of</span></div><button class="switch" role="switch" aria-checked="true" aria-label="Trip reminders"></button></div>
-        <div class="toggle-row"><div><b>WhatsApp updates</b><span class="meta">Pickup changes and host messages</span></div><button class="switch" role="switch" aria-checked="false" aria-label="WhatsApp updates"></button></div>
-        <div class="toggle-row"><div><b>Auto-add bookings to my calendar</b><span class="meta">Google Calendar connected</span></div><button class="switch" role="switch" aria-checked="true" aria-label="Auto-add to calendar"></button></div>
-        <div class="toggle-row"><div><b>Offers and travel ideas</b><span class="meta">At most one email a month</span></div><button class="switch" role="switch" aria-checked="false" aria-label="Offers"></button></div>
-        <div class="toggle-row"><div><b>Display currency</b><span class="meta">You always pay in the currency shown at checkout</span></div><select style="width:120px"><option>USD</option><option>AUD</option><option>GBP</option><option>EUR</option><option>LKR</option></select></div>
+  <!-- ============ SETTINGS ============ -->
+  <div id="pane-settings" role="tabpanel" class="pane" hidden>
+    <div class="pane-head"><div><h2>Settings</h2></div></div>
+    <div class="two">
+      <div class="cardish">
+        <div class="setrow"><div><b>Trip reminders</b><small>When free cancellation is about to end, the evening before, and on the morning of pickup</small></div><button class="switch" role="switch" aria-checked="true" aria-label="Trip reminders"></button></div>
+        <div class="setrow"><div><b>WhatsApp updates</b><small>Pickup changes and new messages from hosts</small></div><button class="switch" role="switch" aria-checked="false" aria-label="WhatsApp updates"></button></div>
+        <div class="setrow"><div><b>Add new bookings to my calendar</b><small>Google Calendar, connected</small></div><button class="switch" role="switch" aria-checked="true" aria-label="Add bookings to calendar"></button></div>
+        <div class="setrow"><div><b>Display currency</b><small>You’re charged in the currency shown at checkout</small></div><select style="width:110px" aria-label="Display currency"><option>USD</option><option>AUD</option><option>GBP</option><option>EUR</option><option>LKR</option></select></div>
       </div>
-      <aside class="card side-card">
-        <h3>Payment methods</h3>
-        <div class="host" style="margin-bottom:10px"><div class="hav" style="border-radius:8px;background:#1C1A17;color:#fff;font-size:11px">VISA</div><div class="t"><b>•••• 4242</b><div class="meta">Expires 08/28 · Default for refunds</div></div></div>
-        <button class="btn sm" style="width:100%">Add a card</button>
-        <hr style="border:0;border-top:1px solid var(--cn-border);margin:18px 0">
-        <button class="btn ghost danger" style="padding:0">Delete my account</button>
+      <aside class="cardish">
+        <h3 style="font-size:17px;margin-bottom:12px">Payment and refunds</h3>
+        <div class="host-mini" style="margin:0"><span class="av" style="border-radius:8px;background:var(--cn-ink);color:#fff;font-size:11px">VISA</span><span class="t"><b>Visa ending 4242</b>Refunds go back to this card</span></div>
+        <button class="btn" style="width:100%;margin-top:16px">Add a card</button>
       </aside>
     </div>
-  </section>
+  </div>
 </main>
 
-<!-- Drawer -->
+<footer class="foot"><div class="wrap">Trip photos are Creative Commons images from Flickr, credited in the README.</div></footer>
+
 <div class="scrim" id="scrim"></div>
-<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="dr-title">
-  <header>
-    <h2 id="dr-title">Trip details</h2>
-    <button class="icon-btn" data-print aria-label="Print voucher"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V3h12v6M6 18H4v-7h16v7h-2M8 14h8v7H8z"/></svg></button>
-    <button class="icon-btn" data-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-  </header>
-  <div class="content" id="dr-content"></div>
-  <footer id="dr-foot"></footer>
+<aside class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sh-title">
+  <div class="scroll" id="sh-scroll"></div>
+  <div class="sh-foot" id="sh-foot"></div>
 </aside>
-
-<!-- Modal -->
-<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="m-title"></div>
-
-<!-- Calendar menu -->
-<div class="menu" id="cal-menu" role="menu">
-  <button role="menuitem" data-calapp="Google Calendar">Google Calendar</button>
-  <button role="menuitem" data-calapp="Apple Calendar">Apple Calendar (.ics)</button>
-  <button role="menuitem" data-calapp="Outlook">Outlook</button>
-</div>
-
+<div class="dlg-scrim" id="dlg-scrim"></div>
+<div class="dlg" id="dlg" role="dialog" aria-modal="true" aria-labelledby="dlg-title"></div>
+<div class="menu" id="calmenu" role="menu"></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
-/* ---------- Mock "now": Thu 24 Sep 2026, 10:00 Sri Lanka time ---------- */
+/* ---------------------------------------------------------------
+   Prototype clock: Thu 24 Sep 2026, 10:00 in Colombo.
+   Sigiriya is tomorrow (inside 48 h), Mirissa is still free to cancel.
+---------------------------------------------------------------- */
 const NOW = new Date('2026-09-24T10:00:00+05:30');
-const H = 3600e3;
-const FREE_CANCEL_H = 48;
+const HOUR = 36e5, FREE_HOURS = 48;
+const ISLAND = "M223.6,278.7L223.6,280.4L224.7,284.0L225.0,286.0L224.3,290.1L219.7,305.9L219.3,307.4L219.3,309.6L219.0,311.5L217.5,314.2L217.2,315.6L216.8,317.2L214.7,320.3L214.0,321.6L214.7,324.0L213.6,327.0L204.3,341.7L201.1,344.9L195.4,349.0L193.3,349.7L190.8,351.0L172.6,365.5L169.0,367.4L156.9,371.8L156.9,370.3L156.2,369.6L155.1,369.9L154.8,370.6L154.8,372.3L154.1,373.0L153.4,373.1L152.3,373.6L150.1,375.0L148.0,376.0L137.7,378.2L132.7,379.9L127.0,380.9L124.5,381.9L123.0,383.9L120.5,383.4L118.8,384.1L117.7,384.4L114.1,387.3L110.2,390.2L108.4,392.2L104.5,392.0L102.7,392.2L101.3,392.7L99.9,393.6L97.7,395.3L97.0,395.4L96.3,395.6L94.5,394.9L92.7,394.1L91.7,393.7L90.9,393.6L85.2,394.2L83.8,393.9L82.7,393.1L82.4,392.0L82.0,391.4L81.7,390.9L79.9,391.9L78.5,392.0L75.6,391.5L74.5,391.4L74.2,390.9L73.8,390.4L73.1,390.2L72.4,390.7L71.3,390.9L70.6,389.7L69.9,389.5L69.2,389.2L65.3,387.7L63.5,387.3L62.1,387.1L59.9,385.3L58.5,384.6L57.8,385.5L56.0,383.9L47.8,375.3L47.1,374.8L46.7,374.0L46.7,373.1L46.4,372.3L45.3,371.1L40.7,361.3L40.7,360.5L40.7,359.6L40.7,358.8L39.6,356.6L38.9,351.9L37.1,348.6L36.0,343.9L35.3,342.2L35.0,341.7L34.3,341.4L34.3,340.2L35.3,340.2L34.6,334.8L32.5,329.1L23.9,307.3L22.8,299.7L22.5,299.0L22.5,291.7L23.6,289.2L23.9,288.0L23.9,286.8L19.3,270.0L20.0,267.4L19.6,268.9L20.3,270.0L20.7,270.6L21.1,271.5L22.1,274.9L22.5,275.7L23.2,275.7L23.2,274.7L23.9,274.4L23.9,271.3L23.6,270.0L23.2,268.8L21.4,268.3L20.7,267.8L20.3,266.9L20.7,266.2L21.1,265.4L21.1,264.7L16.4,229.1L15.7,227.7L16.1,227.2L17.1,227.7L17.1,226.1L17.8,224.0L17.8,223.0L18.2,222.0L17.5,220.5L16.8,219.1L16.4,218.3L16.4,217.3L16.4,213.7L14.3,202.4L13.9,201.2L12.9,198.7L11.8,193.5L10.0,189.4L7.5,178.1L7.5,174.9L8.2,175.2L8.6,173.7L8.2,167.8L7.5,166.1L9.3,165.1L10.7,163.1L11.8,160.7L12.5,158.9L12.9,157.7L15.7,152.9L14.3,156.5L12.5,159.9L12.9,160.7L13.6,161.6L14.6,162.1L15.7,162.1L14.6,164.8L13.9,166.8L13.2,167.1L12.5,167.5L12.5,168.5L12.5,170.8L12.5,171.5L10.7,176.9L10.7,177.9L10.7,180.0L12.5,182.0L13.2,182.5L11.1,186.7L14.3,188.9L18.9,189.4L21.1,187.7L20.7,185.9L20.0,184.5L19.6,184.0L19.3,183.5L18.6,182.5L17.5,181.8L17.1,180.6L20.3,174.4L20.3,173.2L20.0,172.4L19.6,171.7L19.3,170.8L18.9,169.7L19.3,167.6L19.3,166.8L18.9,165.8L18.2,165.1L18.6,163.9L18.9,163.1L20.3,161.4L20.3,160.2L20.7,158.2L21.8,154.0L22.5,144.2L23.2,143.1L23.9,142.5L24.3,141.8L24.6,140.4L24.6,136.2L25.0,134.2L26.4,132.8L28.2,131.8L29.3,130.5L29.6,130.0L30.7,126.8L31.0,125.8L31.8,123.7L32.8,113.9L30.3,107.9L30.7,106.7L30.7,99.6L30.3,97.2L30.3,96.0L29.6,95.2L29.3,94.2L30.3,93.7L31.4,93.3L32.5,93.2L38.2,87.9L41.0,86.4L42.5,85.4L43.2,82.9L44.2,80.5L44.9,77.0L48.2,68.7L48.5,67.0L49.2,64.6L49.2,58.9L49.2,57.9L48.2,57.2L45.3,55.7L44.2,54.7L43.5,52.8L42.8,50.1L42.8,48.9L44.2,47.6L46.4,46.6L48.9,45.7L50.7,45.4L51.7,45.0L53.9,42.0L55.3,41.2L56.0,40.8L57.1,40.7L56.4,39.0L55.6,38.1L54.9,37.4L53.5,35.9L51.7,34.6L44.2,30.2L42.8,28.3L46.0,28.5L49.2,29.7L54.9,33.2L60.6,34.6L62.4,35.6L64.6,37.6L65.3,38.6L63.8,39.3L64.2,40.0L64.6,40.7L63.8,41.3L66.0,42.7L71.0,41.5L79.9,38.0L82.4,38.3L87.7,39.6L93.8,42.5L98.4,43.4L91.7,38.8L89.5,37.6L87.4,37.3L86.7,36.9L84.9,35.6L84.2,35.2L82.7,35.1L81.7,35.2L81.0,35.4L80.6,36.1L78.8,35.2L74.9,35.2L74.2,34.9L67.1,28.8L64.2,27.0L63.1,26.5L57.8,24.3L56.0,23.1L54.9,23.1L54.9,25.6L55.6,26.3L56.7,27.1L57.4,28.2L56.7,29.3L56.0,29.5L55.3,29.2L54.6,28.7L52.8,27.7L49.2,24.4L47.1,23.6L48.2,24.8L49.9,26.5L51.0,27.7L48.5,27.1L46.4,26.1L41.4,23.6L37.8,20.6L35.3,19.7L34.3,19.0L33.5,18.7L33.5,19.4L32.5,18.7L32.1,17.7L31.8,16.5L31.4,15.3L30.7,14.1L30.3,13.6L29.3,12.3L28.5,11.1L30.7,10.1L34.6,6.5L36.4,5.7L44.2,6.4L48.2,5.9L49.6,6.0L50.3,7.4L50.3,9.6L50.7,10.3L51.4,10.6L52.1,10.6L54.6,11.3L55.6,12.5L56.7,12.5L57.4,12.1L58.1,11.9L59.2,12.3L62.4,15.5L71.3,25.1L74.2,27.0L81.3,30.4L81.7,29.7L78.1,27.8L69.2,20.7L62.1,12.5L58.5,10.6L52.8,9.2L51.4,8.1L51.0,6.5L53.2,5.7L53.9,5.5L56.0,5.2L60.3,5.0L62.1,5.4L63.5,6.4L64.2,9.6L65.3,10.9L78.1,26.3L80.3,27.7L84.2,29.8L111.3,52.0L112.3,53.3L113.4,54.8L115.6,56.7L116.6,58.6L115.6,59.2L114.8,58.9L113.8,57.5L113.1,57.2L111.3,56.9L110.6,57.0L110.9,57.9L116.3,62.9L118.4,64.1L117.3,62.8L117.0,61.6L117.3,60.9L118.8,60.6L120.2,64.1L121.3,66.0L125.2,73.4L124.1,73.2L122.3,72.4L120.9,72.4L120.2,73.7L120.9,74.3L122.7,74.4L124.1,75.4L124.5,77.6L125.2,77.6L125.5,76.8L126.6,76.3L127.0,78.3L128.4,81.9L130.2,84.7L132.3,85.9L132.7,86.9L132.0,87.6L131.2,87.9L129.8,85.9L128.7,85.2L125.9,84.6L124.5,83.9L125.2,84.9L125.5,85.4L129.1,88.8L129.1,90.6L130.2,91.5L129.1,92.5L128.4,93.7L129.8,94.9L131.6,94.7L133.0,93.5L133.7,91.6L134.5,90.0L138.0,94.3L141.2,99.8L142.7,101.1L144.4,101.6L145.9,102.8L148.0,108.0L148.7,108.5L149.1,109.2L151.6,110.2L152.6,112.9L154.1,118.2L154.4,117.1L155.1,117.0L156.2,117.5L155.8,118.3L158.7,121.4L159.8,122.9L159.8,124.7L159.1,125.4L158.0,125.9L156.9,126.9L157.6,126.8L158.3,126.6L159.1,126.3L161.2,131.0L161.6,133.4L159.1,133.9L159.4,132.2L158.7,131.0L157.6,130.7L156.9,132.5L157.3,133.9L158.0,134.7L158.3,135.7L157.6,137.2L156.9,136.9L155.8,136.1L154.1,134.9L152.3,134.5L150.9,135.2L149.4,136.9L149.8,137.9L151.6,137.6L153.7,135.9L155.1,137.4L156.2,139.3L157.6,140.8L160.1,141.5L164.4,141.3L166.2,140.3L165.1,137.9L167.6,136.7L168.7,136.4L169.8,136.6L170.8,137.2L172.3,138.4L173.0,139.8L173.7,143.8L175.1,148.9L175.1,150.2L175.1,151.6L174.0,150.7L172.6,148.0L171.5,147.5L171.5,148.2L171.9,151.4L172.6,152.9L173.3,153.3L175.1,153.6L176.2,154.1L176.9,157.8L177.6,160.5L178.0,162.6L178.3,163.6L180.5,170.7L181.2,175.2L179.4,177.8L178.3,173.5L176.5,168.8L175.8,168.8L175.8,172.0L175.8,173.0L175.8,173.7L175.8,174.4L177.2,175.1L178.0,177.4L179.7,178.6L181.5,178.6L182.2,176.4L183.3,177.6L184.4,181.5L185.1,182.8L186.2,184.0L186.9,185.2L188.3,188.1L188.7,187.6L189.4,187.1L190.1,187.6L189.7,188.1L190.1,188.7L190.1,189.4L190.8,188.9L191.9,188.4L192.6,188.6L192.6,189.2L192.6,190.1L192.2,190.9L192.2,191.6L192.9,193.5L194.0,194.5L195.1,195.0L195.8,196.3L195.1,196.3L194.4,196.8L194.0,198.0L193.6,199.0L194.7,202.4L195.4,203.3L196.9,204.8L199.0,204.4L199.7,204.4L200.4,206.5L201.1,207.8L205.8,212.7L207.2,214.9L207.2,216.8L205.1,217.4L204.0,216.8L201.8,213.7L200.4,212.5L198.6,212.0L197.6,212.0L196.5,213.2L195.8,215.4L196.9,215.9L197.9,216.1L199.0,215.8L199.7,214.7L200.8,215.1L201.8,215.6L202.2,216.1L202.6,217.4L203.6,218.8L205.1,220.0L206.1,221.2L207.2,223.0L206.5,223.5L206.8,224.9L207.2,225.7L207.9,225.0L207.6,223.7L208.6,224.0L210.8,225.7L211.5,226.6L213.3,231.1L212.5,234.0L213.3,235.2L212.9,236.4L212.2,236.9L211.8,237.5L212.2,238.4L212.5,239.1L212.9,239.6L213.3,240.1L214.0,240.7L212.9,241.6L212.9,242.3L214.0,242.4L214.7,241.4L215.4,241.4L216.1,245.5L216.1,247.0L216.8,247.0L216.8,245.5L217.2,244.1L217.5,242.9L217.9,242.1L217.9,241.4L217.9,240.6L218.6,240.6L219.3,241.4L219.7,242.3L220.0,244.3L221.5,246.8L224.0,255.3L223.6,278.7ZM209.7,222.0L209.7,220.8L209.3,220.1L209.0,219.1L208.6,218.1L208.6,217.1L209.0,216.1L209.0,215.3L208.6,214.1L209.7,215.3L211.1,218.1L211.8,219.5L212.2,220.0L212.9,222.5L215.4,226.4L216.5,228.1L218.3,236.9L218.3,238.9L216.8,240.1L215.4,239.1L215.0,238.6L214.7,237.9L214.7,237.2L215.0,230.8L214.7,228.6L213.6,227.7L213.3,226.9L209.7,222.0ZM9.3,80.5L8.2,80.0L7.9,79.0L7.9,78.1L9.3,77.6L13.9,77.6L15.7,78.1L17.8,78.6L22.1,80.3L26.1,82.7L29.3,85.9L27.8,85.6L25.0,84.2L23.2,83.9L25.7,86.8L27.8,89.1L28.5,90.6L26.4,90.3L24.6,89.1L23.6,87.9L22.8,87.3L21.8,86.8L17.8,83.0L15.7,82.2L13.9,81.3L12.1,80.8L11.4,80.7L9.3,80.5ZM11.1,38.0L10.4,38.8L9.3,39.5L6.8,39.6L4.7,38.8L3.6,37.6L3.6,33.6L3.9,32.5L4.7,32.5L5.0,33.4L5.7,34.6L7.2,35.1L9.3,35.2L10.0,35.6L11.1,38.0ZM27.5,26.3L25.7,25.1L24.3,22.9L21.8,18.0L22.8,16.3L23.2,14.1L23.9,12.5L26.1,11.9L27.1,12.3L27.1,13.1L26.8,14.3L26.8,15.7L26.8,17.0L26.8,18.0L27.1,19.2L27.8,19.7L28.5,20.2L30.3,20.1L30.7,21.9L31.0,22.6L32.1,23.3L33.9,23.9L35.0,24.6L35.3,25.6L34.6,26.3L33.5,26.3L32.1,25.8L31.0,25.3L30.3,25.1L28.5,26.1L27.5,26.3Z";
 
-const ICON = {
-  phone:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>',
-  chat:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16v11H8l-4 4z"/></svg>',
-  cal:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',
-  pin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>',
-  shield:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg>',
-  clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
-  swap:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8h13l-3-3M20 16H7l3 3"/></svg>',
-  x:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>',
-  tick:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>',
-  star:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg>',
-};
-
-/* Illustrated scenes instead of stock photos until real listing photos are wired in */
-function scene(kind){
-  const P = {
-    rock:['#F19A6B','#C9562A','#7A2E14','#F7D8B5'],
-    sea:['#9FD3E6','#3F8FB0','#1E4F6B','#FFF1C9'],
-    hills:['#B9D7A1','#5E9150','#2F5A2C','#FCE6B0'],
-    spice:['#F6C27A','#D9822B','#7A3C12','#FFF3DD'],
-    tea:['#CFE3B4','#7FAE5E','#3D6B35','#FFF6D8'],
-    fort:['#F4D3B0','#C98D58','#6E4426','#FFF4E2'],
-  }[kind];
-  const sun = `<circle cx="230" cy="58" r="22" fill="${P[3]}"/>`;
-  const shapes = {
-    rock:`<path d="M0 170 L60 120 L110 135 L150 60 L175 58 L200 90 L300 150 V220 H0Z" fill="${P[1]}"/><path d="M0 190 C80 165 180 200 300 175 V220 H0Z" fill="${P[2]}"/>`,
-    sea:`<path d="M0 140 C60 130 120 150 180 138 S260 128 300 140 V220 H0Z" fill="${P[1]}"/><path d="M120 150 q30 -22 60 0 q-12 8 -30 8 q-18 0 -30 -8z" fill="${P[2]}"/><path d="M0 175 C80 160 180 190 300 170 V220 H0Z" fill="${P[2]}"/>`,
-    hills:`<path d="M0 150 C50 100 110 110 150 140 S240 100 300 130 V220 H0Z" fill="${P[1]}"/><path d="M40 165 h220 v10 h-220z M70 175 v25 M110 175 v25 M150 175 v25 M190 175 v25 M230 175 v25" stroke="${P[2]}" stroke-width="8" fill="none"/><path d="M0 200 C90 185 200 210 300 195 V220 H0Z" fill="${P[2]}"/>`,
-    spice:`<ellipse cx="150" cy="170" rx="110" ry="26" fill="${P[1]}"/><ellipse cx="150" cy="160" rx="80" ry="18" fill="${P[2]}"/><circle cx="110" cy="150" r="10" fill="${P[3]}"/><circle cx="185" cy="148" r="8" fill="${P[3]}"/>`,
-    tea:`<path d="M0 120 C60 100 120 140 180 120 S260 100 300 115 V220 H0Z" fill="${P[1]}"/><path d="M0 150 C70 130 150 170 300 145 V220 H0Z" fill="${P[2]}" opacity=".8"/><path d="M0 185 C90 170 200 200 300 180 V220 H0Z" fill="${P[2]}"/>`,
-    fort:`<path d="M0 160 H300 V220 H0Z" fill="${P[2]}"/><rect x="200" y="70" width="26" height="90" fill="${P[1]}"/><path d="M196 70 h34 l-17 -18z" fill="${P[2]}"/><path d="M0 175 C80 165 180 185 300 170 V220 H0Z" fill="#3F8FB0"/>`,
-  }[kind];
-  return `<svg viewBox="0 0 300 220" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="300" height="220" fill="${P[0]}"/>${sun}${shapes}</svg>`;
-}
-
-/* ---------- Data ---------- */
 const trips = [
-  { id:'sigiriya', status:'upcoming', scene:'rock',
-    title:'Sigiriya Rock sunrise climb and Pidurangala', host:'Arkam Sahdi', hostInit:'AS', hostPhone:'+94 77 123 4567',
-    ref:'CNE71230415', start:'2026-09-25T04:30:00+05:30', durH:6, party:'2 adults',
-    meet:'Your hotel lobby, Dambulla', place:'Dambulla',
-    lines:[['Experience · 2 adults × $180.00',360],], addons:[['Breakfast pack · 2 × $12.00',24]], fee:22.40,
-    bring:['Water','Sturdy shoes','Torch','Light layer for the summit'],
-    itin:[['4:30','Pickup from your hotel lobby'],['5:15','Pidurangala trailhead, climb in the dark'],['6:05','Sunrise over Sigiriya'],['7:30','Breakfast pack at the base'],['8:15','Sigiriya Rock climb with Arkam'],['10:30','Drop-off at your hotel']],
+  { id:'ella', status:'past', img:'img/ella-nine-arch.jpg', alt:'Blue train crossing the Nine Arch Bridge in Ella',
+    credit:'travelourplanet.com, CC BY 2.0',
+    title:'Nine Arch Bridge and Little Adam’s Peak hike', place:'Ella', lat:6.867, lon:81.046,
+    host:'Nuwan Perera', hostShort:'Nuwan', init:'NP', ref:'CNE70988120',
+    start:'2026-09-12T07:00:00+05:30', hours:4, party:'2 adults', meet:'Ella town clock tower',
+    lines:[['Guided hike, 2 adults at $64.00',128]], addons:[], fee:14.00 },
+  { id:'sigiriya', status:'upcoming', img:'img/sigiriya.jpg', alt:'Sigiriya Rock rising above the palace gardens',
+    credit:'Santhosh Janardhanan, CC BY-SA 2.0',
+    title:'Sigiriya Rock sunrise climb and Pidurangala', place:'Sigiriya', lat:7.957, lon:80.760,
+    host:'Arkam Sahdi', hostShort:'Arkam', init:'AS', phone:'+94 77 123 4567', ref:'CNE71230415',
+    start:'2026-09-25T04:30:00+05:30', booked:'2026-09-11T09:12:00+05:30', hours:6, party:'2 adults',
+    meet:'Your hotel lobby, Dambulla', meetLat:7.8597, meetLon:80.6517,
+    lines:[['Experience, 2 adults at $180.00',360]], addons:[['Breakfast pack, 2 at $12.00',24]], fee:22.40,
+    pack:['Water, 1 litre each','Sturdy shoes','Head torch for the dark start','Light layer for the summit','Shoulders and knees covered for the temple'],
+    plan:[['4:30','Pickup from your hotel lobby'],['5:10','Start the Pidurangala climb in the dark'],['6:05','Sunrise, with Sigiriya Rock in front of you'],['7:15','Breakfast pack at the foot of the rock'],['8:00','Sigiriya climb: frescoes, Lion’s Paw, summit'],['10:30','Back at your hotel']],
     unread:1 },
-  { id:'mirissa', status:'upcoming', scene:'sea',
-    title:'Blue whale watching in Mirissa', host:'Mirissa Ocean Co.', hostInit:'MO', hostPhone:'+94 76 555 0192',
-    ref:'CNE71544082', start:'2026-10-08T06:00:00+05:30', durH:5, party:'2 adults',
-    meet:'Mirissa harbour, jetty 3', place:'Mirissa',
-    lines:[['Boat seat · 2 adults × $95.00',190]], addons:[['Breakfast on board · 2 × $13.00',26]], fee:12.60,
-    bring:['Sunscreen','Hat','Motion-sickness tablets','Cash for tips'],
-    itin:[['6:00','Check in at jetty 3, life-jacket fitting'],['6:30','Depart for the continental shelf'],['8:00','Whale spotting, breakfast served on board'],['11:00','Back at the harbour']],
+  { id:'kandy', status:'cancelled', img:'img/kandy-temple.jpg', alt:'Temple of the Sacred Tooth Relic in Kandy',
+    credit:'Nithi clicks, CC BY 2.0',
+    title:'Temple of the Tooth and Kandy lake walk', place:'Kandy', lat:7.2936, lon:80.6413,
+    host:'Malini Jayasuriya', hostShort:'Malini', init:'MJ', ref:'CNE71102267',
+    start:'2026-09-30T08:00:00+05:30', hours:3, party:'2 adults', meet:'Queen’s Hotel entrance, Kandy',
+    lines:[['Walking tour, 2 adults at $44.00',88]], addons:[], fee:8.80,
+    cancelled:'2026-09-20T15:40:00+05:30', refund:96.80, stage:2 },
+  { id:'mirissa', status:'upcoming', img:'img/mirissa-whale.jpg', alt:'A blue whale’s tail lifting out of the sea off Mirissa',
+    credit:'Kenny Ross, CC BY 2.0',
+    title:'Blue whale watching in Mirissa', place:'Mirissa', lat:5.948, lon:80.456,
+    host:'Mirissa Ocean Co.', hostShort:'the crew', init:'MO', phone:'+94 76 555 0192', ref:'CNE71544082',
+    start:'2026-10-08T06:00:00+05:30', booked:'2026-09-14T18:30:00+05:30', hours:5, party:'2 adults',
+    meet:'Mirissa harbour, jetty 3', meetLat:5.9445, meetLon:80.4590,
+    lines:[['Boat seats, 2 adults at $95.00',190]], addons:[['Breakfast on board, 2 at $13.00',26]], fee:12.60,
+    pack:['Sunscreen and a hat','Motion-sickness tablets, taken the night before','Binoculars if you have them','Cash for crew tips'],
+    plan:[['6:00','Check in at jetty 3, life-jacket fitting'],['6:30','Head out to the continental shelf'],['7:30','Breakfast on board while the crew spots'],['8:00','Whale watching, usually blue and sperm whales'],['11:00','Back at the harbour']],
     unread:0 },
-  { id:'ella', status:'past', scene:'hills',
-    title:'Nine Arches Bridge and Little Adam’s Peak hike', host:'Nuwan Perera', hostInit:'NP',
-    ref:'CNE70988120', start:'2026-09-12T07:00:00+05:30', durH:4, party:'2 adults', meet:'Ella town centre', place:'Ella',
-    lines:[['Guided hike · 2 adults × $64.00',128]], addons:[], fee:14.00, reviewed:false },
-  { id:'kandy', status:'cancelled', scene:'spice',
-    title:'Kandyan home cooking class', host:'Malini’s Kitchen', hostInit:'MK',
-    ref:'CNE71102267', start:'2026-09-30T11:00:00+05:30', durH:3, party:'2 adults', meet:'Malini’s home, Peradeniya Rd', place:'Kandy',
-    lines:[['Class · 2 adults × $44.00',88]], addons:[], fee:8.80,
-    cancelledOn:'Sun, 20 Sept', refund:96.80, refundStage:2 },
 ];
+const saved = [{name:'Galle',lat:6.026,lon:80.217},{name:'Adam’s Peak',lat:6.809,lon:80.4994}];
+const towns = [{name:'Colombo',lat:6.927,lon:79.861},{name:'Jaffna',lat:9.661,lon:80.026},{name:'Trincomalee',lat:8.587,lon:81.215},{name:'Galle',lat:6.026,lon:80.217,skip:true}];
 
-const ideas = [
-  {scene:'tea',title:'Ella to Nuwara Eliya scenic train',meta:'Saved · 3 nights suggested'},
-  {scene:'fort',title:'Galle Fort walking tour',meta:'Saved · Half day'},
-  {scene:'hills',title:'Knuckles Range overnight trek',meta:'Shared with Emma · 1 vote'},
-];
-
-/* ---------- Helpers ---------- */
-const $ = (s,el=document)=>el.querySelector(s), $$=(s,el=document)=>[...el.querySelectorAll(s)];
-const money = n => '$'+n.toFixed(2);
-const total = t => t.lines.reduce((a,l)=>a+l[1],0)+t.addons.reduce((a,l)=>a+l[1],0)+t.fee;
-const tz = {timeZone:'Asia/Colombo'};
-const fmtDay = d => d.toLocaleDateString('en-GB',{...tz,weekday:'short',day:'numeric',month:'short',year:'numeric'});
-const fmtShort = d => d.toLocaleDateString('en-GB',{...tz,weekday:'short',day:'numeric',month:'short'});
-const fmtTime = d => d.toLocaleTimeString('en-US',{...tz,hour:'numeric',minute:'2-digit'});
-const start = t => new Date(t.start);
-const cutoff = t => new Date(start(t)-FREE_CANCEL_H*H);
-const hoursLeft = t => (start(t)-NOW)/H;
-const freeCancel = t => hoursLeft(t) > FREE_CANCEL_H;
-function relDay(t){
-  const days = Math.round((new Date(start(t).toLocaleDateString('en-CA',tz)) - new Date(NOW.toLocaleDateString('en-CA',tz)))/864e5);
-  return days===0?'Today':days===1?'Tomorrow':days>1&&days<7?`In ${days} days`:null;
+/* ---------- helpers ---------- */
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const TZ={timeZone:'Asia/Colombo'};
+const d=t=>new Date(t);
+const money=n=>'$'+n.toFixed(2);
+const total=t=>t.lines.reduce((a,l)=>a+l[1],0)+t.addons.reduce((a,l)=>a+l[1],0)+t.fee;
+const fDate=(x,o)=>x.toLocaleDateString('en-GB',{...TZ,...o});
+const fLong=x=>fDate(x,{weekday:'long',day:'numeric',month:'long'});
+const fShort=x=>fDate(x,{weekday:'short',day:'numeric',month:'short'});
+const fTime=x=>x.toLocaleTimeString('en-US',{...TZ,hour:'numeric',minute:'2-digit'});
+const dayKey=x=>x.toLocaleDateString('en-CA',TZ);
+const daysBetween=(a,b)=>Math.round((new Date(dayKey(b))-new Date(dayKey(a)))/864e5);
+const cutoff=t=>new Date(d(t.start)-FREE_HOURS*HOUR);
+const isFree=t=>d(t.start)-NOW>FREE_HOURS*HOUR;
+const svg=(id,cls='i')=>`<svg class="${cls}" aria-hidden="true"><use href="#i-${id}"/></svg>`;
+function rel(t){const n=daysBetween(NOW,d(t.start));return n===0?'Today':n===1?'Tomorrow':n>1&&n<7?`In ${n} days`:null}
+function untilText(ms){const h=Math.floor(ms/HOUR),m=Math.round(ms%HOUR/6e4);return h>=48?`in ${Math.round(h/24)} days`:`in ${h} h ${m} min`}
+function toast(m){const e=$('#toast');e.textContent=m;e.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('show'),2600)}
+function refundNow(t){
+  const tot=total(t);
+  if(isFree(t)) return {kind:'ok',amount:tot,title:`${money(tot)} back if you cancel now`,line:`Full refund until ${fShort(cutoff(t))}, ${fTime(cutoff(t))}`};
+  return {kind:'warn',amount:tot-t.fee,title:`Ask for up to ${money(tot-t.fee)} back`,line:`Free cancellation ended ${fShort(cutoff(t))}, ${fTime(cutoff(t))}. ${t.hostShort[0].toUpperCase()+t.hostShort.slice(1)} replies within 24 h`};
 }
-function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove('show'),2400)}
+function qr(seed){ /* decorative, deterministic QR-style mark */
+  let s=[...seed].reduce((a,c)=>a*31+c.charCodeAt(0)>>>0,7),cells='';
+  const finder=(x,y)=>`<rect x="${x}" y="${y}" width="7" height="7" fill="none" stroke="#1C1A17" stroke-width="1" transform="translate(.5 .5)" /><rect x="${x+2}" y="${y+2}" width="3" height="3"/>`;
+  for(let y=0;y<21;y++)for(let x=0;x<21;x++){
+    if((x<8&&y<8)||(x>12&&y<8)||(x<8&&y>12))continue;
+    s=(s*1103515245+12345)>>>0; if(s%100<46)cells+=`<rect x="${x}" y="${y}" width="1" height="1"/>`;
+  }
+  return `<svg class="qr" viewBox="-1 -1 23 23" fill="#1C1A17" role="img" aria-label="Voucher code for booking ${seed}">${finder(0,0)}${finder(14,0)}${finder(0,14)}${cells}</svg>`;
+}
 
-/* ---------- Cancellation policy block ---------- */
-function policyBlock(t){
-  const s = start(t), c = cutoff(t);
-  const booked = new Date(s - 14*24*H);
-  const span = s - booked;
-  const pctCut = (c-booked)/span*100, pctNow = Math.min(100,Math.max(0,(NOW-booked)/span*100));
-  const free = freeCancel(t);
-  const head = free
-    ? `${ICON.shield}<span><b>Free cancellation until ${fmtShort(c)}, ${fmtTime(c)}</b> · ${Math.floor((c-NOW)/H/24)} days ${Math.floor((c-NOW)/H%24)} h left</span>`
-    : `${ICON.clock}<span><b>Free cancellation ended ${fmtShort(c)}, ${fmtTime(c)}.</b> You can still cancel and ask for a refund; ${t.host.split(' ')[0]} decides within 24 h.</span>`;
-  return `<div class="policy ${free?'ok':'warn'}">
-    <div class="head">${head}</div>
-    <div class="tl" aria-hidden="true">
-      <div class="seg" style="left:0;width:${pctCut}%;background:var(--ok)"></div>
-      <div class="seg" style="left:${pctCut}%;right:0;background:#E8A317"></div>
-      <div class="now" style="left:${pctNow}%"></div>
+/* ---------- map projection (matches the island path) ---------- */
+const K=100, C=Math.cos(7.9*Math.PI/180), L0=79.62, LA0=9.88;
+const proj=(lat,lon)=>[(lon-L0)*K*C,(LA0-lat)*K];
+
+/* ---------- header ---------- */
+function renderHeader(){
+  const nx=trips.filter(t=>t.status==='upcoming').sort((a,b)=>d(a.start)-d(b.start))[0];
+  $('#lede').innerHTML = nx ? `Your ${nx.place} trip is <b>${(rel(nx)||'on '+fShort(d(nx.start))).toLowerCase()}</b>. Pickup is at ${fTime(d(nx.start))}.` : 'No trips booked yet.';
+}
+
+/* ---------- next trip hero ---------- */
+function renderNext(){
+  const t=trips.filter(t=>t.status==='upcoming').sort((a,b)=>d(a.start)-d(b.start))[0];
+  const el=$('#next'), strip=$('#strip');
+  if(!t){el.innerHTML='';strip.innerHTML='<div class="msg">No upcoming trips. <a href="#">Find something to do</a></div>';return}
+  const s=d(t.start), r=refundNow(t);
+  el.innerHTML=`
+    <img src="${t.img}" alt="${t.alt}" fetchpriority="high">
+    <div class="story">
+      <span class="when-chip"><span class="pulse"></span>${rel(t)||fShort(s)}, ${fTime(s)}</span>
+      <h2 id="next-title">${t.title}</h2>
+      <p class="by">Hosted by <b>${t.host}</b>, ${t.party}</p>
     </div>
-    <div class="tl-labels"><div><b>Booked</b>${fmtShort(booked)}</div><div><b>48 h before</b>Full refund ends</div><div><b>Trip starts</b>${fmtShort(s)}</div></div>
+    <span class="photo-credit">Photo: ${t.credit}</span>
+    <div class="ticket" id="ticket">
+      <div class="main">
+        <div class="k">Pickup</div>
+        <div class="pickup-time num">${fTime(s).replace(/ (AM|PM)/,'<small>$1</small>')}</div>
+        <div class="date">${fLong(s)}</div>
+        <div class="countdown num">${untilText(s-NOW)}</div>
+        <div class="tk-row">${svg('pin')}<div><b>${t.meet}</b><a href="${mapsUrl(t)}" target="_blank" rel="noopener">Get directions</a></div></div>
+        <div class="host-mini">
+          <span class="av">${t.init}</span>
+          <span class="t"><b>${t.host}</b><span class="num">${t.phone}</span></span>
+          <a class="icon-btn" href="tel:${t.phone.replace(/\s/g,'')}" aria-label="Call ${t.host}">${svg('phone')}</a>
+          <button class="icon-btn" data-msg="${t.id}" aria-label="Message ${t.host}${t.unread?', 1 unread':''}">${svg('chat')}${t.unread?'<span class="badge">1</span>':''}</button>
+        </div>
+      </div>
+      <div class="perf" id="perf"></div>
+      <div class="stub">
+        <div class="stub-row">${qr(t.ref)}<div class="ref">Show this at pickup<br><button data-copy="${t.ref}" aria-label="Copy booking number ${t.ref}">${t.ref}${svg('copy')}</button></div></div>
+        <button class="btn primary" data-open="${t.id}">View trip details</button>
+      </div>
+    </div>`;
+  strip.innerHTML=`
+    <div class="msg"><span class="dotstate ${r.kind}"></span><span><b>${r.title}.</b> ${r.line}.</span></div>
+    <div class="acts">
+      <button class="btn" data-cal="${t.id}">${svg('cal')}Add to calendar</button>
+      <button class="btn" data-manage="${t.id}">Change or cancel</button>
+    </div>`;
+  requestAnimationFrame(placePerf);
+}
+function placePerf(){const tk=$('#ticket'),p=$('#perf');if(tk&&p)tk.style.setProperty('--perf',(p.offsetTop)+'px')}
+addEventListener('resize',placePerf);
+function mapsUrl(t){return `https://www.google.com/maps/search/?api=1&query=${t.meetLat||t.lat},${t.meetLon||t.lon}`}
+
+/* ---------- timeline ---------- */
+let filter='all';
+function renderTimeline(){
+  const list=trips.filter(t=>filter==='all'||t.status===filter).sort((a,b)=>d(a.start)-d(b.start));
+  const el=$('#timeline');
+  if(!list.length){el.innerHTML=`<p style="padding:32px 0;color:var(--cn-muted)">${filter==='cancelled'?'You haven’t cancelled anything.':'Nothing here yet.'}</p>`;return}
+  let html='',month='',todayShown=false;
+  list.forEach(t=>{
+    const s=d(t.start), m=fDate(s,{month:'long',year:'numeric'});
+    if(filter==='all'&&!todayShown&&s>NOW){
+      if(m!==month){html+=`<h3 class="month">${m}</h3>`;month=m}
+      html+=`<div class="today" aria-label="Today"><span class="tag">Today</span><span class="line"></span></div>`;todayShown=true;
+    }
+    if(m!==month){html+=`<h3 class="month">${m}</h3>`;month=m}
+    html+=row(t);
+  });
+  el.innerHTML=html;
+}
+function row(t){
+  const s=d(t.start), tot=total(t);
+  let state='',side=`<div><div class="amt num">${money(tot)}</div><div class="amt-k">Paid</div></div>`;
+  if(t.status==='upcoming'){
+    const r=refundNow(t);
+    state=`<span class="state ${r.kind}">${svg('shield','i')} ${isFree(t)?`Free cancellation until ${fShort(cutoff(t))}`:'Free cancellation ended, refund on request'}</span>`;
+  }else if(t.status==='past'){
+    state=t.reviewed?`<span class="state ok">${svg('check')} Thanks, your review is live</span>`:
+      `<div class="review">How was it with ${t.hostShort}? <span class="stars" data-rate="${t.id}">${[1,2,3,4,5].map(n=>`<button type="button" data-star="${n}" aria-label="${n} out of 5"><svg viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9l-5.2 2.8 1-5.9-4.3-4.1 5.9-.8z"/></svg></button>`).join('')}</span></div>`;
+  }else{
+    const st=['Cancelled','Approved','Sent to card','In your account'];
+    state=`<div class="refund-bar"><div class="track">${st.map((x,i)=>`<i class="${i<=t.stage?'on':''}"></i>`).join('')}</div><p><b>${money(t.refund)} refund ${['requested','approved','sent to your card','in your account'][t.stage]}</b>, Visa ending 4242. Usually 5 to 10 working days.</p></div>`;
+    side=`<div><div class="amt num" style="color:var(--ok)">${money(t.refund)}</div><div class="amt-k">Refunded</div></div>`;
+  }
+  return `<div class="trow is-${t.status}">
+    <div class="day" aria-hidden="true"><b class="num">${fDate(s,{day:'2-digit'})}</b><span>${fDate(s,{weekday:'short'})}</span></div>
+    <article class="trip is-${t.status}" data-trip="${t.id}">
+      <img class="ph" src="${t.img}" alt="" loading="lazy">
+      <div>
+        <h3>${t.status==='cancelled'?'<span class="sr">Cancelled: </span>':''}${t.title}</h3>
+        <p class="sub">${t.host}, ${t.party}</p>
+        <div class="facts"><span>${svg('clock')}${fShort(s)}, ${fTime(s)}</span><span>${svg('pin')}${t.place}</span></div>
+        ${state}
+      </div>
+      <div class="money">${side}<span class="chev">${svg('chev')}</span></div>
+      <button class="trip-hit" data-open="${t.id}" aria-label="Open ${t.status==='cancelled'?'refund details':t.status==='past'?'receipt':'trip details'} for ${t.title}"></button>
+    </article>
   </div>`;
 }
 
-/* ---------- Next-up hero card ---------- */
-function renderNext(){
-  const t = trips.filter(x=>x.status==='upcoming').sort((a,b)=>start(a)-start(b))[0];
-  const el = $('#next-card');
-  if(!t){el.innerHTML=`<div class="empty" style="grid-column:1/-1"><h3>No trips booked yet</h3><p class="meta">Find something to do in Sri Lanka.</p><a class="btn primary" href="#">Browse experiences</a></div>`;return}
-  const s = start(t), rd = relDay(t);
-  el.innerHTML = `
-    <div class="art">${scene(t.scene)}<span class="pill">Next up${rd?' · '+rd.toLowerCase():''}</span></div>
-    <div class="body">
-      <span class="eyebrow">${t.place}</span>
-      <h3 style="margin-top:4px">${t.title}</h3>
-      <div class="meta" style="margin-top:6px">Hosted by <a href="#">${t.host}</a> · Booking <span class="num">${t.ref}</span></div>
-      <div class="facts">
-        <div class="fact"><small>When</small><b>${fmtDay(s)}</b><span>Pickup ${fmtTime(s)}</span></div>
-        <div class="fact"><small>Meeting point</small><b>${t.meet}</b><a href="#" data-directions>Get directions</a></div>
-        <div class="fact"><small>Travellers</small><b>${t.party}</b><span>Show voucher at pickup</span></div>
-      </div>
-      <div class="host">
-        <div class="hav">${t.hostInit}</div>
-        <div class="t"><b>${t.host.split(' ')[0]}’s number: <span class="num">${t.hostPhone}</span></b><div class="meta">Shared 24 hours before pickup. It is on your voucher too, so it works offline.</div></div>
-        <div class="acts"><a class="btn sm" href="tel:${t.hostPhone.replace(/\s/g,'')}">${ICON.phone}Call</a></div>
-      </div>
-      ${policyBlock(t)}
-      <div class="bring"><span style="background:none;padding-left:0">Bring:</span>${t.bring.map(b=>`<span>${b}</span>`).join('')}</div>
-      <div class="actions">
-        <button class="btn primary" data-open="${t.id}">View voucher and details</button>
-        <button class="btn" data-msg="${t.id}">${ICON.chat}Message ${t.host.split(' ')[0]}${t.unread?` <span class="badge">${t.unread}</span>`:''}</button>
-        <button class="btn" data-calbtn="${t.id}">${ICON.cal}Add to calendar</button>
-      </div>
-    </div>`;
+/* ---------- map ---------- */
+function renderMap(){
+  const ordered=trips.filter(t=>t.status!=='cancelled').sort((a,b)=>d(a.start)-d(b.start));
+  const pts=ordered.map(t=>proj(t.lat,t.lon));
+  const doneIdx=ordered.findIndex(t=>t.status!=='past');
+  const pathOf=a=>a.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+','+p[1].toFixed(1)).join('');
+  const donePts=doneIdx<0?pts:pts.slice(0,doneIdx), nextPts=doneIdx<0?[]:pts.slice(Math.max(doneIdx-1,0));
+  const nextId=ordered[doneIdx]?.id;
+  let pins='';
+  saved.forEach(p=>{const [x,y]=proj(p.lat,p.lon);pins+=`<g><circle cx="${x}" cy="${y}" r="5" fill="#fff" stroke="#F15623" stroke-width="2"/><text class="pin-label" x="${x-9}" y="${y+3}" text-anchor="end" style="font-weight:600;fill:var(--cn-muted)">${p.name}</text></g>`});
+  trips.forEach(t=>{
+    const [x,y]=proj(t.lat,t.lon), c=t.status==='past'?'#2B1A10':t.status==='cancelled'?'#C9C1B7':'#F15623';
+    const n=ordered.indexOf(t)+1;
+    const lx=t.id==='kandy'?x-13:x+13, anchor=t.id==='kandy'?'end':'start';
+    pins+=`<g class="pin" data-pin="${t.id}" tabindex="0" role="button" aria-label="${t.title}, ${t.status}">
+      ${t.id===nextId?`<circle class="ring" cx="${x}" cy="${y}" r="9"/>`:''}
+      <circle class="hit" cx="${x}" cy="${y}" r="16"/>
+      <circle class="dotp" cx="${x}" cy="${y}" r="9" fill="${c}"/>
+      <text x="${x}" y="${y+.5}" fill="#fff">${t.status==='cancelled'?'×':n}</text>
+      <text class="pin-label" x="${lx}" y="${y+3.5}" text-anchor="${anchor}">${t.place}</text>
+    </g>`;
+  });
+  const tw=towns.filter(x=>!x.skip).map(x=>{const [a,b]=proj(x.lat,x.lon);return `<circle cx="${a}" cy="${b}" r="1.6" fill="#B0A597"/><text class="town" x="${a+4}" y="${b+3}">${x.name}</text>`}).join('');
+  $('#map').innerHTML=`<svg viewBox="-6 -4 250 410" role="img" aria-labelledby="map-title map-lede">
+    <path class="land" d="${ISLAND}"/>
+    ${tw}
+    <path class="route done" d="${pathOf(donePts)}"/>
+    <path class="route" id="route-next" d="${pathOf(nextPts)}"/>
+    ${pins}
+  </svg>`;
+  const booked=trips.filter(t=>t.status==='upcoming').length, done=trips.filter(t=>t.status==='past').length;
+  $('#map-lede').textContent=`${done} place visited, ${booked} still to go. Your route follows the dates you booked.`;
 }
 
-/* ---------- Trip list ---------- */
-let filter = 'upcoming';
-function renderList(){
-  ['upcoming','past','cancelled'].forEach(k=>$(`[data-count="${k}"]`).textContent = trips.filter(t=>t.status===k).length);
-  const list = trips.filter(t=>t.status===filter).sort((a,b)=>filter==='upcoming'?start(a)-start(b):start(b)-start(a));
-  const el = $('#trip-list');
-  if(!list.length){
-    el.innerHTML = `<div class="card empty"><h3>${filter==='cancelled'?'No cancellations':'Nothing here yet'}</h3><p class="meta">${filter==='upcoming'?'Your next adventure is a search away.':'Trips you finish or cancel will show up here.'}</p></div>`;return;
-  }
-  el.innerHTML = list.map(t=>{
-    const s=start(t), rd=relDay(t);
-    let pill='', line='', side='';
-    if(t.status==='upcoming'){
-      pill = rd?`<span class="pill brand"><span class="dot"></span>${rd}</span>`:`<span class="pill ok"><span class="dot"></span>Confirmed</span>`;
-      line = freeCancel(t)
-        ? `<span style="color:var(--ok);font-weight:700">Free cancellation until ${fmtShort(cutoff(t))}, ${fmtTime(cutoff(t))}</span>`
-        : `<span style="color:var(--warn);font-weight:700">Free cancellation ended</span> · refund on request`;
-      side = `<div class="price num">${money(total(t))}</div><div class="meta" style="margin-top:-8px">Paid in full</div><button class="btn sm" data-open="${t.id}">Voucher and details</button>`;
-    } else if(t.status==='past'){
-      pill = `<span class="pill info">Completed</span>`;
-      line = t.reviewed ? `Thanks for reviewing ${t.host.split(' ')[0]}.` :
-        `<span style="display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap">How was it? <span class="stars" data-rate="${t.id}">${[1,2,3,4,5].map(n=>`<button aria-label="${n} star${n>1?'s':''}" data-n="${n}">${ICON.star}</button>`).join('')}</span></span>`;
-      side = `<div class="price num" style="color:var(--cn-ink)">${money(total(t))}</div><div class="row-btns"><button class="btn sm" data-open="${t.id}">Receipt</button><button class="btn sm" data-toast="Opening ${t.title.split(' ').slice(0,3).join(' ')}…">Book again</button></div>`;
-    } else {
-      pill = `<span class="pill bad">Cancelled ${t.cancelledOn}</span>`;
-      const stages=['Requested','Host approved','Sent to your card','In your account'];
-      line = `<div class="refund-track">${stages.map((st,i)=>`<div class="st ${i<t.refundStage?'done':i===t.refundStage?'cur':''}"><b>${st}</b>${i===2?'Visa •• 4242':i===3?'5 to 10 days':''}</div>`).join('')}</div>`;
-      side = `<div class="price num" style="color:var(--ok)">${money(t.refund)}</div><div class="meta" style="margin-top:-8px">Full refund</div><button class="btn sm" data-open="${t.id}">Refund details</button>`;
-    }
-    return `<article class="card trip">
-      <div class="thumb">${scene(t.scene)}</div>
-      <div>
-        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">${pill}<span class="meta num">${fmtDay(s)} · ${fmtTime(s)}</span></div>
-        <h4>${t.title}</h4>
-        <div class="meta">${t.host} · ${t.party} · Booking <span class="num">${t.ref}</span></div>
-        <div class="line">${t.status==='upcoming'?`${ICON.pin.replace('<svg','<svg width="14" height="14" style="vertical-align:-2px"')} ${t.meet} · `:''}${line}</div>
-      </div>
-      <div class="side">${side}</div>
-    </article>`;
-  }).join('');
-}
-
-/* ---------- Mini calendar ---------- */
-let calMonth = new Date(2026,8,1);
-function renderCal(){
-  const y=calMonth.getFullYear(), m=calMonth.getMonth();
-  $('#cal-title').textContent = calMonth.toLocaleDateString('en-GB',{month:'long',year:'numeric'});
-  const first=(new Date(y,m,1).getDay()+6)%7, days=new Date(y,m+1,0).getDate(), prev=new Date(y,m,0).getDate();
-  const tripDays={};
-  trips.filter(t=>t.status!=='cancelled').forEach(t=>{const d=new Date(t.start.slice(0,10)+'T12:00');if(d.getFullYear()===y&&d.getMonth()===m)tripDays[d.getDate()]=t});
-  const today = NOW.toLocaleDateString('en-CA',tz);
-  let h='MTWTFSS'.split('').map(d=>`<div class="dow">${d}</div>`).join('');
-  for(let i=0;i<first;i++)h+=`<div class="d mute">${prev-first+i+1}</div>`;
-  for(let d=1;d<=days;d++){
-    const t=tripDays[d], iso=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const cls=['d',t?(t.status==='past'?'past':'trip'):'',iso===today?'today':''].join(' ');
-    h+=t?`<button class="${cls}" style="border:0;font:inherit" data-open="${t.id}" title="${t.title}">${d}</button>`:`<div class="${cls}">${d}</div>`;
-  }
-  $('#cal').innerHTML=h;
-}
-
-/* ---------- Drawer ---------- */
-let current=null;
-function openDrawer(id){
-  const t=trips.find(x=>x.id===id); if(!t)return; current=t;
-  const s=start(t);
-  const qr = Array.from({length:81},(_,i)=>((i*7+t.ref.charCodeAt(i%t.ref.length))%3===0||[0,1,2,9,11,18,19,20,6,7,8,15,17,24,25,26,54,55,56,63,65,72,73,74].includes(i))?`<rect x="${i%9*8}" y="${Math.floor(i/9)*8}" width="8" height="8"/>`:'').join('');
-  $('#dr-title').textContent = t.status==='cancelled'?'Refund details':t.status==='past'?'Receipt':'Trip details';
-  $('#dr-content').innerHTML = `
-    <div class="banner">${scene(t.scene)}</div>
-    <div class="pad">
-      <div class="block">
-        <span class="eyebrow">${t.place}</span>
-        <h2 style="font-size:24px;margin-top:4px">${t.title}</h2>
-        <div class="meta" style="margin-top:6px">${fmtDay(s)} · ${fmtTime(s)} · about ${t.durH} hours · ${t.party}</div>
-      </div>
-      ${t.status==='upcoming'?`
-      <div class="block">
-        <div class="voucher">
-          <svg class="qr" viewBox="0 0 72 72" fill="#1C1A17" aria-label="Voucher QR code">${qr}</svg>
-          <div><b style="color:var(--cn-ink);font-size:16px">Your voucher</b><div class="meta">Booking <span class="num">${t.ref}</span><br>Show this at pickup. It is saved for offline use.</div>
-          <button class="btn sm" style="margin-top:10px" data-toast="Voucher saved to your phone">Save to phone</button></div>
-        </div>
-      </div>
-      <div class="block"><h3>Meeting point</h3>
-        <div class="host"><div class="hav" style="background:var(--cn-primary-tint);color:var(--cn-primary-text)">${ICON.pin.replace('<svg','<svg width="18" height="18"')}</div><div class="t"><b>${t.meet}</b><div class="meta">Be there 10 minutes early</div></div><button class="btn sm" data-directions>Directions</button></div>
-      </div>
-      <div class="block"><h3>Plan for the day</h3><ul class="itin">${t.itin.map(([a,b])=>`<li><time>${a}</time><span>${b}</span></li>`).join('')}</ul></div>
-      <div class="block"><h3>Your host</h3>
-        <div class="host"><div class="hav">${t.hostInit}</div><div class="t"><b>${t.host}</b><div class="meta num">${hoursLeft(t)<=24?t.hostPhone:'Number shared 24 h before pickup'}</div></div><div class="acts"><button class="btn sm" data-msg="${t.id}">${ICON.chat}Message</button></div></div>
-      </div>
-      <div class="block"><h3>Cancellation policy</h3>${policyBlock(t)}</div>`:''}
-      ${t.status==='cancelled'?`
-      <div class="block"><h3>Refund progress</h3>
-        <div class="notice ok">${money(t.refund)} approved by ${t.host}. It is on its way to Visa •• 4242.</div>
-        <ul class="itin" style="margin-top:10px">
-          <li><time>20 Sep</time><span><b>You cancelled</b> · 10 days before the class, inside free cancellation</span></li>
-          <li><time>20 Sep</time><span><b>Refund approved automatically</b></span></li>
-          <li><time>21 Sep</time><span><b>Sent to your card.</b> Banks usually take 5 to 10 working days.</span></li>
-        </ul>
-      </div>`:''}
-      <div class="block"><h3>${t.status==='cancelled'?'Original payment':'Price breakdown'}</h3>
+/* ---------- trip sheet ---------- */
+let cur=null, lastFocus=null;
+function openSheet(id){
+  const t=trips.find(x=>x.id===id); if(!t)return; cur=t; lastFocus=document.activeElement;
+  const s=d(t.start), tot=total(t);
+  let html=`<div class="sh-hero"><img src="${t.img}" alt="${t.alt}"><button class="sh-close" data-close aria-label="Close trip details">${svg('x')}</button>
+    <div><h2 id="sh-title">${t.title}</h2><p>${fLong(s)}, ${fTime(s)}. About ${t.hours} hours, ${t.party}.</p></div></div><div class="sh-body">`;
+  if(t.status==='upcoming'){
+    const r=refundNow(t), c=cutoff(t), booked=d(t.booked), span=s-booked;
+    const pCut=Math.max(0,(c-booked)/span*100), pNow=Math.min(100,Math.max(0,(NOW-booked)/span*100));
+    html+=`
+      <section class="panel"><div class="hticket">
+        <div><div class="ticket-k" style="font-size:13px;color:var(--cn-muted);font-weight:600">Pickup</div>
+          <div class="pickup-time num">${fTime(s).replace(/ (AM|PM)/,'<small>$1</small>')}</div>
+          <div style="font-weight:600;color:var(--cn-ink);margin-top:6px">${t.meet}</div>
+          <a href="${mapsUrl(t)}" target="_blank" rel="noopener" style="font-weight:700;font-size:13px">Get directions</a></div>
+        <div class="stub-row" style="flex-direction:column;align-items:flex-start;gap:8px">${qr(t.ref).replace('class="qr"','class="qr" style="width:96px;height:96px"')}<div class="ref"><button data-copy="${t.ref}" aria-label="Copy booking number">${t.ref}${svg('copy')}</button></div></div>
+      </div></section>
+      <section class="panel"><div class="head"><h3>Your ${fDate(s,{weekday:'long'})} plan</h3><span>Times are approximate</span></div>
+        <ol class="plan">${t.plan.map(([a,b])=>`<li><time class="num">${a}</time><span class="nd"></span><span>${b}</span></li>`).join('')}</ol></section>
+      <section class="panel"><h3>Your host</h3><div class="host-full"><span class="av">${t.init}</span>
+        <div class="t"><b>${t.host}</b><small>${daysBetween(NOW,s)<=1?`<span class="num">${t.phone}</span>`:'Phone number appears 24 hours before pickup'}</small><br><span class="verified">${svg('check')} SLTDA licensed</span></div>
+        <button class="btn" data-msg="${t.id}">${svg('chat')}Message</button></div></section>
+      <section class="panel"><div class="head"><h3>What to bring</h3><span id="pack-count"></span></div>
+        <ul class="pack">${t.pack.map((p,i)=>`<li><label><input type="checkbox" data-pack="${t.id}-${i}" ${packState[t.id+'-'+i]?'checked':''}><span>${p}</span></label></li>`).join('')}</ul></section>
+      <section class="panel"><h3>What you paid</h3>
         <table class="bill num">
           ${t.lines.map(([a,b])=>`<tr><td>${a}</td><td>${money(b)}</td></tr>`).join('')}
-          ${t.addons.map(([a,b])=>`<tr class="addon"><td>${a}</td><td>${money(b)}</td></tr>`).join('')}
-          <tr><td>Service fee <span class="meta">(supports 24/7 traveller help)</span></td><td>${money(t.fee)}</td></tr>
-          <tr class="total"><td>Total paid · Visa •• 4242</td><td>${money(total(t))}</td></tr>
+          ${t.addons.map(([a,b])=>`<tr class="add"><td>Add-on: ${a}</td><td>${money(b)}</td></tr>`).join('')}
+          <tr><td>Service fee<small>Covers payment protection and the 24/7 traveller line</small></td><td>${money(t.fee)}</td></tr>
+          <tr class="tot"><td>Total, paid with Visa ending 4242</td><td>${money(tot)}</td></tr>
         </table>
-        ${t.status==='upcoming'?`<button class="btn ghost" style="margin-top:8px;padding:0" data-toast="Add-ons open in the booking page">+ Add extras to this trip</button>`:''}
-      </div>
-    </div>`;
-  $('#dr-foot').innerHTML = t.status==='upcoming'
-    ? `<button class="btn" data-reschedule>${ICON.swap}Change date</button><button class="btn danger" data-cancel>${ICON.x}Cancel booking</button><button class="btn" data-calbtn="${t.id}" aria-label="Add to calendar">${ICON.cal}</button>`
-    : t.status==='past' ? `<button class="btn" data-print>Download receipt</button><button class="btn primary" data-toast="Opening listing…">Book again</button>`
-    : `<button class="btn" data-tab="messages">Ask support</button>`;
-  $('#dr-foot .btn[aria-label]')?.style.setProperty('flex','0 0 52px');
-  $('#scrim').classList.add('open'); $('#drawer').classList.add('open');
-  setTimeout(()=>$('#drawer [data-close]').focus(),50);
-}
-function closeAll(){
-  $('#drawer').classList.remove('open'); $('#modal').classList.remove('open'); $('#scrim').classList.remove('open'); $('#cal-menu').classList.remove('open');
-}
-
-/* ---------- Cancel flow ---------- */
-function openModal(html){
-  const m=$('#modal'); m.innerHTML=html; m.classList.add('open'); $('#scrim').classList.add('open');
-  setTimeout(()=>m.querySelector('input,button.primary,button')?.focus(),50);
-}
-function cancelFlow(step=1, data={}){
-  const t=current, free=freeCancel(t), tot=total(t), refundable=free?tot:tot-t.fee;
-  const steps = n=>`<div class="steps">${[1,2,3].map(i=>`<i class="${i<=n?'on':''}"></i>`).join('')}</div>`;
-  const head = (title)=>`<div class="mh"><h2 id="m-title">${title}</h2><button class="icon-btn" data-mclose aria-label="Close">${ICON.x}</button></div>`;
-  if(step===1){
-    openModal(`${head('Cancel this booking?')}<div class="mb">
-      <p style="margin:0 0 4px;color:var(--cn-ink);font-weight:700">${t.title}</p><p class="meta" style="margin:0 0 16px">${fmtDay(start(t))} · ${t.party}</p>
-      ${free?`<div class="notice ok"><b>You will get a full refund of ${money(tot)}.</b> You are cancelling more than 48 hours before the start.</div>`
-             :`<div class="notice warn"><b>Free cancellation ended ${fmtShort(cutoff(t))}, ${fmtTime(cutoff(t))}.</b> You can still ask for a refund. ${t.host.split(' ')[0]} replies within 24 hours, and most hosts approve when weather or health is the reason.</div>`}
-      <div class="notice info" style="margin-top:10px">Can’t make the date? <a href="#" data-reschedule>Change the date instead</a>, free when the host has space.</div>
-    </div>${steps(1)}<div class="mf"><button class="btn" data-mclose>Keep my booking</button><button class="btn primary" data-step="2">Continue</button></div>`);
-  } else if(step===2){
-    const reasons=['My plans changed','Weather or safety worries','Health reasons','Booked the wrong date','Found something else','Other'];
-    openModal(`${head('What’s the reason?')}<div class="mb">
-      <p class="meta" style="margin:0 0 12px">This helps ${t.host.split(' ')[0]} review your request${free?' and helps us improve':''}.</p>
-      ${reasons.map((r,i)=>`<label class="choice"><input type="radio" name="reason" value="${r}" ${data.reason===r?'checked':''}>${r}</label>`).join('')}
-      <label class="lbl" for="note">Note for the host (optional)</label><textarea id="note" rows="2" placeholder="e.g. My flight to Colombo moved to Saturday"></textarea>
-    </div>${steps(2)}<div class="mf"><button class="btn" data-step="1">Back</button><button class="btn primary" data-step="3" id="r-next" ${data.reason?'':'disabled'}>Review</button></div>`);
-    $$('#modal input[name=reason]').forEach(i=>i.onchange=()=>{data.reason=i.value;$('#r-next').disabled=false});
-    cancelFlow.data=data;
-  } else if(step===3){
-    openModal(`${head(free?'Confirm cancellation':'Send refund request')}<div class="mb">
-      <table class="bill num">
-        <tr><td>Paid</td><td>${money(tot)}</td></tr>
-        ${free?'':`<tr><td>Service fee (non-refundable after 48 h)</td><td>−${money(t.fee)}</td></tr>`}
-        <tr class="total"><td>${free?'Refund to Visa •• 4242':'Refund you’re requesting'}</td><td style="color:var(--ok)">${money(refundable)}</td></tr>
-      </table>
-      <p class="meta" style="margin:12px 0 0">Reason: ${cancelFlow.data?.reason||'—'}. ${free?'Refunds reach your card in 5 to 10 working days.':'If the host declines, your booking stays active and you can still go.'}</p>
-    </div>${steps(3)}<div class="mf"><button class="btn" data-step="2">Back</button><button class="btn primary" data-confirm-cancel style="background:var(--bad);border-color:var(--bad)">${free?'Cancel and refund':'Send request'}</button></div>`);
+        <div class="refund-now">
+          <div class="row"><span style="font-weight:700;color:var(--cn-ink)">If you cancel now</span><span class="big num ${r.kind}">${money(r.amount)}</span></div>
+          <p>${isFree(t)?'Full refund, including the service fee.':'This is the most you can ask for. The service fee isn’t refunded once free cancellation ends.'}</p>
+          <div class="ptl" aria-hidden="true"><i style="width:${pCut}%;background:var(--ok);border-radius:4px 0 0 4px"></i><i style="flex:1;background:#E5B04A;border-radius:0 4px 4px 0"></i><span class="now" style="left:${pNow}%"></span></div>
+          <div class="ptl-l"><div><b>Booked</b>${fShort(booked)}</div><div><b>Full refund ends</b>${fShort(c)}, ${fTime(c)}</div><div><b>Pickup</b>${fShort(s)}</div></div>
+        </div>
+      </section>`;
+    $('#sh-foot').innerHTML=`<button class="btn" data-reschedule>${svg('swap')}Change date</button><button class="btn danger" data-cancel>Cancel booking</button><button class="btn icon" data-cal="${t.id}" aria-label="Add to calendar">${svg('cal')}</button>`;
+  } else if(t.status==='past'){
+    html+=`<section class="panel"><h3>Receipt</h3><table class="bill num">
+      ${t.lines.map(([a,b])=>`<tr><td>${a}</td><td>${money(b)}</td></tr>`).join('')}
+      <tr><td>Service fee</td><td>${money(t.fee)}</td></tr><tr class="tot"><td>Total, Visa ending 4242</td><td>${money(tot)}</td></tr></table></section>
+      <section class="panel"><h3>${t.reviewed?'Thanks for your review':'Leave a review for '+t.host}</h3><p style="font-size:14px">Reviews from real travellers are what new guides in Ella depend on.</p></section>`;
+    $('#sh-foot').innerHTML=`<button class="btn" data-toast="Receipt downloaded">${svg('dl')}Download receipt</button><button class="btn primary" data-toast="Opening ${t.place} experiences">Book with ${t.hostShort} again</button>`;
   } else {
-    openModal(`<div class="mb success"><div class="tick">${ICON.tick}</div>
-      <h2 id="m-title" style="font-size:22px">${free?'Booking cancelled':'Request sent'}</h2>
-      <p class="meta" style="max-width:380px;margin:8px auto 0">${free?`${money(tot)} is on its way to Visa •• 4242. We emailed your receipt.`:`${t.host.split(' ')[0]} will reply by ${fmtShort(new Date(+NOW+24*H))}, ${fmtTime(new Date(+NOW+24*H))}. Your booking stays active until then.`}</p>
-    </div><div class="mf" style="justify-content:center"><button class="btn primary" data-mclose>Done</button></div>`);
+    const st=[['Cancelled',fShort(d(t.cancelled))],['Approved','Automatic, inside free cancellation'],['Sent to card','Mon 21 Sep'],['In your account','Expected by Fri 2 Oct']];
+    html+=`<section class="panel"><div class="head"><h3>Refund</h3><span class="num" style="font:700 22px var(--display);color:var(--ok)">${money(t.refund)}</span></div>
+      <ol class="plan">${st.map(([a,b],i)=>`<li><time></time><span class="nd" style="${i<=t.stage?'background:var(--ok);border-color:var(--ok)':''}"></span><span><b style="color:var(--cn-ink)">${a}</b><br><span style="color:var(--cn-muted);font-size:13px">${b}</span></span></li>`).join('')}</ol>
+      <p class="note info" style="margin-top:12px">Banks can take up to 10 working days to show a refund. If it hasn’t arrived by 5 October, message support and quote ${t.ref}.</p></section>`;
+    $('#sh-foot').innerHTML=`<button class="btn" data-tab="messages">${svg('chat')}Message support</button><button class="btn primary" data-toast="Opening Kandy experiences">Find something else in Kandy</button>`;
   }
+  $('#sh-scroll').innerHTML=html+'</div>'; $('#sh-scroll').scrollTop=0;
+  updatePack();
+  $('#scrim').classList.add('open'); $('#sheet').classList.add('open');
+  $$('.trip').forEach(b=>b.classList.toggle('selected',b.dataset.trip===id));
+  setTimeout(()=>$('#sheet [data-close]').focus(),60);
+}
+function closeSheet(){$('#sheet').classList.remove('open');$('#scrim').classList.remove('open');$$('.trip.selected').forEach(b=>b.classList.remove('selected'));lastFocus?.focus?.()}
+const packState={};
+function updatePack(){const boxes=$$('#sheet [data-pack]');if(!boxes.length)return;$('#pack-count').textContent=`${boxes.filter(b=>b.checked).length} of ${boxes.length} packed`}
+
+/* ---------- dialogs ---------- */
+function dlg(html){const e=$('#dlg');e.innerHTML=html;e.classList.add('open');$('#dlg-scrim').classList.add('open');setTimeout(()=>(e.querySelector('[autofocus]')||e.querySelector('input,button.primary,button'))?.focus(),60)}
+function closeDlg(){$('#dlg').classList.remove('open');$('#dlg-scrim').classList.remove('open')}
+const head=(t)=>`<div class="dh"><h2 id="dlg-title">${t}</h2><button class="x" data-dclose aria-label="Close">${svg('x')}</button></div>`;
+const prog=n=>`<div class="prog" aria-label="Step ${n} of 3">${[1,2,3].map(i=>`<i class="${i<=n?'on':''}"></i>`).join('')}</div>`;
+let reason='';
+function cancelStep(n){
+  const t=cur, r=refundNow(t), free=isFree(t);
+  if(n===1) dlg(`${head(free?'Cancel this booking?':'Ask for a refund?')}${prog(1)}<div class="db">
+      <div class="money-hero"><div class="big num ${r.kind}">${money(r.amount)}</div>
+      <p>${free?`back to Visa ending 4242 if you cancel now. Full refund ends ${fShort(cutoff(t))}, ${fTime(cutoff(t))}.`:`is the most you can ask for. ${t.hostShort[0].toUpperCase()+t.hostShort.slice(1)} decides within 24 hours. Until then, your booking stays active.`}</p></div>
+      <p class="note info">Can’t make the date? <a href="#" data-reschedule>Change the date instead</a>. It’s free when the host has space.</p>
+    </div><div class="df"><button class="btn" data-dclose>Keep booking</button><button class="btn primary" data-cstep="2">Continue</button></div>`);
+  if(n===2){
+    const rs=['My plans changed','Worried about weather or safety','Health reasons','I booked the wrong date','Something else'];
+    dlg(`${head('What’s changed?')}${prog(2)}<div class="db"><p style="font-size:14px;margin-bottom:12px">${free?'Optional, but it helps hosts plan.':`${t.hostShort[0].toUpperCase()+t.hostShort.slice(1)} sees this when deciding on your refund.`}</p>
+      ${rs.map(x=>`<label class="choice"><input type="radio" name="why" value="${x}" ${reason===x?'checked':''}>${x}</label>`).join('')}
+      <label class="lbl" for="why-note">Note for ${t.hostShort} (optional)</label><textarea id="why-note" rows="2" placeholder="For example: our flight to Colombo moved to Saturday"></textarea>
+    </div><div class="df"><button class="btn" data-cstep="1">Back</button><button class="btn primary" id="why-next" data-cstep="3" ${free||reason?'':'disabled'}>Review</button></div>`);
+    $$('#dlg [name=why]').forEach(i=>i.onchange=()=>{reason=i.value;$('#why-next').disabled=false});
+  }
+  if(n===3) dlg(`${head(free?'Confirm cancellation':'Send refund request')}${prog(3)}<div class="db">
+      <table class="bill num"><tr><td>${t.title}</td><td></td></tr><tr><td>Paid</td><td>${money(total(t))}</td></tr>
+      ${free?'':`<tr><td>Service fee, not refundable now</td><td>−${money(t.fee)}</td></tr>`}
+      <tr class="tot"><td>${free?'Refund to Visa ending 4242':'You’re asking for'}</td><td style="color:var(--ok)">${money(r.amount)}</td></tr></table>
+      ${reason?`<p style="font-size:13px;color:var(--cn-muted);margin-top:12px">Reason: ${reason}</p>`:''}
+    </div><div class="df"><button class="btn" data-cstep="2">Back</button><button class="btn primary" data-confirm style="background:var(--bad);border-color:var(--bad)">${free?`Cancel and refund ${money(r.amount)}`:'Send request'}</button></div>`);
+  if(n===4) dlg(`<div class="db" style="text-align:center;padding-top:28px"><div class="done-ic">${svg('check')}</div>
+      <h2 id="dlg-title" style="font-size:24px">${free?'Booking cancelled':'Request sent'}</h2>
+      <p style="margin:10px auto 0;max-width:40ch">${free?`${money(r.amount)} is on its way to Visa ending 4242. We’ve emailed you the confirmation.`:`${t.hostShort[0].toUpperCase()+t.hostShort.slice(1)} will reply by ${fShort(new Date(+NOW+24*HOUR))}, ${fTime(new Date(+NOW+24*HOUR))}. You can still go on the trip until then.`}</p></div>
+      <div class="df" style="justify-content:center"><button class="btn primary" data-dclose>Done</button></div>`);
+}
+function reschedule(){
+  const t=cur, s=d(t.start);
+  const opts=[1,2,3,4,5,6].map(n=>({d:new Date(+s+n*24*HOUR),full:n===3,extra:n===5?2*20:0}));
+  dlg(`${head('Pick a new date')}<div class="db">
+    <p style="font-size:14px;margin-bottom:14px">Same pickup time and price unless shown. ${t.hostShort[0].toUpperCase()+t.hostShort.slice(1)} usually confirms within a few hours, and your current date stays booked until then.</p>
+    <div class="slots">${opts.map((o,i)=>`<button class="slot" data-slot="${i}" aria-pressed="false" ${o.full?'disabled':''}>${fShort(o.d)}<small class="${o.extra?'up':''}">${o.full?'Fully booked':o.extra?`+${money(o.extra)}, poya day`:fTime(o.d)}</small></button>`).join('')}</div>
+    <label class="lbl" for="rs-note">Message to ${t.hostShort} (optional)</label><textarea id="rs-note" rows="2"></textarea>
+  </div><div class="df"><button class="btn" data-dclose>Keep current date</button><button class="btn primary" id="rs-go" disabled>Ask for this date</button></div>`);
+  let pick;
+  $$('#dlg [data-slot]').forEach(b=>b.onclick=()=>{$$('#dlg [data-slot]').forEach(x=>x.setAttribute('aria-pressed',x===b));pick=opts[+b.dataset.slot];const btn=$('#rs-go');btn.disabled=false;btn.textContent=`Ask for ${fShort(pick.d)}`});
+  $('#rs-go').onclick=()=>dlg(`<div class="db" style="text-align:center;padding-top:28px"><div class="done-ic">${svg('check')}</div><h2 id="dlg-title" style="font-size:24px">Date change requested</h2>
+    <p style="margin:10px auto 0;max-width:40ch">We’ve asked ${t.hostShort} to move you to ${fLong(pick.d)}. You’ll get a message when they confirm. Until then you’re still booked for ${fShort(s)}.</p></div>
+    <div class="df" style="justify-content:center"><button class="btn primary" data-dclose>Done</button></div>`);
+}
+function policy(){
+  dlg(`${head('How cancellations and refunds work')}<div class="db">
+    <p class="note ok"><b>More than 48 hours before pickup:</b> cancel in a few taps and get everything back, including the service fee.</p>
+    <p class="note warn" style="margin-top:8px"><b>Less than 48 hours before:</b> ask the host for a refund. They reply within 24 hours. The service fee isn’t refunded.</p>
+    <p class="note info" style="margin-top:8px"><b>If the host cancels, or it’s unsafe to go:</b> you always get a full refund or a free date change.</p>
+    <p style="font-size:13px;color:var(--cn-muted);margin-top:12px">Refunds go back to the card you paid with and take 5 to 10 working days to show.</p>
+  </div><div class="df"><button class="btn primary" data-dclose>Got it</button></div>`);
 }
 
-/* ---------- Reschedule flow ---------- */
-function rescheduleFlow(){
-  const t=current, s=start(t);
-  const opts=[1,2,3,5,6].map((d,i)=>{const n=new Date(+s+d*24*H);return {d:n, full:i===2, diff:i===3?20:0}});
-  openModal(`<div class="mh"><h2 id="m-title">Change the date</h2><button class="icon-btn" data-mclose aria-label="Close">${ICON.x}</button></div><div class="mb">
-    <p class="meta" style="margin:0 0 14px">Currently ${fmtDay(s)} at ${fmtTime(s)}. Same price unless shown. ${t.host.split(' ')[0]} confirms new dates within a few hours.</p>
-    <div class="slots">${opts.map((o,i)=>`<button class="slot" data-slot="${i}" aria-pressed="false" ${o.full?'disabled':''}>${fmtShort(o.d)}<small>${o.full?'Fully booked':o.diff?`+${money(o.diff*2)} (peak day)`:fmtTime(o.d)+' pickup'}</small></button>`).join('')}</div>
-    <label class="lbl" for="rs-note">Message to ${t.host.split(' ')[0]} (optional)</label><textarea id="rs-note" rows="2"></textarea>
-  </div><div class="mf"><button class="btn" data-mclose>Not now</button><button class="btn primary" id="rs-go" disabled>Request new date</button></div>`);
-  let pick=null;
-  $$('#modal [data-slot]').forEach(b=>b.onclick=()=>{$$('#modal [data-slot]').forEach(x=>x.setAttribute('aria-pressed','false'));b.setAttribute('aria-pressed','true');pick=opts[b.dataset.slot];$('#rs-go').disabled=false});
-  $('#rs-go').onclick=()=>openModal(`<div class="mb success"><div class="tick">${ICON.tick}</div><h2 id="m-title" style="font-size:22px">Date change requested</h2>
-    <p class="meta" style="max-width:380px;margin:8px auto 0">We asked ${t.host.split(' ')[0]} to move you to ${fmtDay(pick.d)}. Your current booking stays in place until they confirm.</p></div>
-    <div class="mf" style="justify-content:center"><button class="btn primary" data-mclose>Done</button></div>`);
+/* ---------- calendar: real links + .ics ---------- */
+function calLinks(t){
+  const s=d(t.start), e=new Date(+s+t.hours*HOUR), z=x=>x.toISOString().replace(/[-:]|\.\d{3}/g,'');
+  const text=encodeURIComponent(t.title), loc=encodeURIComponent(t.meet), det=encodeURIComponent(`Booking ${t.ref}. Host: ${t.host}${t.phone?' '+t.phone:''}. Ceylon Nooks.`);
+  return {
+    google:`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${text}&dates=${z(s)}/${z(e)}&location=${loc}&details=${det}`,
+    outlook:`https://outlook.live.com/calendar/0/deeplink/compose?subject=${text}&startdt=${s.toISOString()}&enddt=${e.toISOString()}&location=${loc}&body=${det}`,
+    ics:()=>{
+      const body=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Ceylon Nooks//Trips//EN','BEGIN:VEVENT',`UID:${t.ref}@ceylonnooks`,`DTSTAMP:${z(NOW)}`,`DTSTART:${z(s)}`,`DTEND:${z(e)}`,`SUMMARY:${t.title}`,`LOCATION:${t.meet}`,`DESCRIPTION:Booking ${t.ref}. Host ${t.host}.`,'BEGIN:VALARM','TRIGGER:-PT30M','ACTION:DISPLAY','DESCRIPTION:Pickup in 30 minutes','END:VALARM','END:VEVENT','END:VCALENDAR'].join('\r\n');
+      const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([body],{type:'text/calendar'}));a.download=`${t.ref}.ics`;a.click();
+    }
+  };
+}
+function openCal(btn,id){
+  const t=trips.find(x=>x.id===id), L=calLinks(t), m=$('#calmenu');
+  m.innerHTML=`<a role="menuitem" href="${L.google}" target="_blank" rel="noopener">Google Calendar</a><button role="menuitem" data-ics="${id}">Apple Calendar (.ics file)</button><a role="menuitem" href="${L.outlook}" target="_blank" rel="noopener">Outlook</a>`;
+  const r=btn.getBoundingClientRect(); m.classList.add('open');
+  const top=r.bottom+scrollY+6+m.offsetHeight>scrollY+innerHeight?r.top+scrollY-m.offsetHeight-6:r.bottom+scrollY+6;
+  m.style.left=Math.max(8,Math.min(r.left+scrollX,innerWidth-m.offsetWidth-8))+'px'; m.style.top=top+'px';
+  m.querySelector('a,button').focus();
 }
 
-/* ---------- Policy explainer ---------- */
-function policyModal(){
-  openModal(`<div class="mh"><h2 id="m-title">Cancellations and refunds</h2><button class="icon-btn" data-mclose aria-label="Close">${ICON.x}</button></div><div class="mb">
-    <div class="choice" style="cursor:default"><span class="pill ok">More than 48 h before</span><span>Cancel in two taps, full refund including the service fee.</span></div>
-    <div class="choice" style="cursor:default"><span class="pill warn">Less than 48 h before</span><span>Ask for a refund. The host replies within 24 h. Service fee is kept.</span></div>
-    <div class="choice" style="cursor:default"><span class="pill info">Host cancels or bad weather</span><span>Always a full refund, or a free date change.</span></div>
-    <p class="meta">Refunds go back to the card you paid with in 5 to 10 working days.</p>
-  </div><div class="mf"><button class="btn primary" data-mclose>Got it</button></div>`);
-}
-
-/* ---------- Events ---------- */
+/* ---------- events ---------- */
 function setTab(name){
   $$('.tab').forEach(t=>t.setAttribute('aria-selected',t.dataset.tab===name));
-  $$('[role=tabpanel]').forEach(p=>p.hidden=p.id!=='panel-'+name);
-  closeAll();
+  $$('[role=tabpanel]').forEach(p=>p.hidden=p.id!=='pane-'+name);
+  closeSheet();closeDlg();
+  if(name==='trips')requestAnimationFrame(placePerf);
 }
 document.addEventListener('click',e=>{
-  const b=e.target.closest('button,a'); if(!b)return;
-  const d=b.dataset;
-  if(d.tab){e.preventDefault();setTab(d.tab);window.scrollTo({top:0,behavior:'smooth'})}
-  if(d.filter){filter=d.filter;$$('.subtab').forEach(s=>s.setAttribute('aria-selected',s===b));renderList()}
-  if(d.goto){setTab('trips');filter=d.goto;$$('.subtab').forEach(s=>s.setAttribute('aria-selected',s.dataset.filter===d.goto));renderList();$('#trip-list').scrollIntoView({behavior:'smooth',block:'center'})}
-  if(d.open){openDrawer(d.open)}
-  if(d.close!==undefined||d.mclose!==undefined){
-    if(d.mclose!==undefined && $('#drawer').classList.contains('open')){$('#modal').classList.remove('open')} else closeAll();
+  const b=e.target.closest('button,a,[data-pin]');
+  if(!e.target.closest('#calmenu'))$('#calmenu').classList.remove('open');
+  if(!b)return; const x=b.dataset;
+  if(x.tab){e.preventDefault();setTab(x.tab);scrollTo({top:0})}
+  if(x.filter){filter=x.filter;$$('[data-filter]').forEach(f=>f.setAttribute('aria-pressed',f===b));renderTimeline()}
+  if(x.open)openSheet(x.open);
+  if(x.pin)openSheet(x.pin);
+  if(x.manage){cur=trips.find(t=>t.id===x.manage);cancelStep(1)}
+  if(x.close!==undefined)closeSheet();
+  if(x.dclose!==undefined)closeDlg();
+  if(x.cancel!==undefined){reason='';cancelStep(1)}
+  if(x.cstep)cancelStep(+x.cstep);
+  if(x.reschedule!==undefined){e.preventDefault();reschedule()}
+  if(x.confirm!==undefined){
+    if(isFree(cur)){Object.assign(cur,{status:'cancelled',cancelled:NOW.toISOString(),refund:total(cur),stage:0});closeSheet();renderAll()}
+    cancelStep(4);
   }
-  if(d.cancel!==undefined){cancelFlow(1)}
-  if(d.reschedule!==undefined){e.preventDefault();rescheduleFlow()}
-  if(d.step){cancelFlow(+d.step,cancelFlow.data||{})}
-  if(d.confirmCancel!==undefined){
-    const t=current;
-    if(freeCancel(t)){t.status='cancelled';t.cancelledOn=fmtShort(NOW);t.refund=total(t);t.refundStage=1;}
-    $('#drawer').classList.remove('open');
-    cancelFlow(4); renderNext(); renderList(); renderCal();
-  }
-  if(d.msg){setTab('messages');toast('Opening your thread with '+trips.find(t=>t.id===d.msg).host)}
-  if(d.calbtn){current=trips.find(t=>t.id===d.calbtn);const m=$('#cal-menu'),r=b.getBoundingClientRect();m.style.left=Math.min(r.left+scrollX,innerWidth-240)+'px';m.style.top=(r.bottom+scrollY+6)+'px';m.style.position='absolute';m.classList.toggle('open');e.stopPropagation();return}
-  if(d.calapp){$('#cal-menu').classList.remove('open');toast(`${current.title.split(' ').slice(0,2).join(' ')} added to ${d.calapp}`)}
-  if(d.sync!==undefined){toast('2 upcoming trips synced to Google Calendar')}
-  if(d.directions!==undefined){e.preventDefault();toast('Opening Google Maps…')}
-  if(d.print!==undefined){toast('Preparing PDF…')}
-  if(d.policy!==undefined){e.preventDefault();policyModal()}
-  if(d.toast){toast(d.toast)}
-  if(d.cal){calMonth=new Date(calMonth.getFullYear(),calMonth.getMonth()+ +d.cal,1);renderCal()}
-  if(d.n){const id=b.closest('[data-rate]').dataset.rate;$$(`[data-rate="${id}"] button`).forEach((s,i)=>s.classList.toggle('on',i<+d.n));setTimeout(()=>{trips.find(t=>t.id===id).reviewed=true;renderList();toast('Thanks! Your review helps other travellers')},500)}
-  if(b.classList.contains('switch')){b.setAttribute('aria-checked',b.getAttribute('aria-checked')!=='true')}
-  if(!b.closest('#cal-menu'))$('#cal-menu').classList.remove('open');
+  if(x.policy!==undefined){e.preventDefault();policy()}
+  if(x.cal){e.stopPropagation();openCal(b,x.cal)}
+  if(x.ics){calLinks(trips.find(t=>t.id===x.ics)).ics();$('#calmenu').classList.remove('open');toast('Calendar file downloaded')}
+  if(x.copy){navigator.clipboard?.writeText(x.copy).catch(()=>{});toast(`Booking number ${x.copy} copied`)}
+  if(x.msg){setTab('messages');toast(`Opening your chat with ${trips.find(t=>t.id===x.msg).host}`)}
+  if(x.toast)toast(x.toast);
+  if(x.star){e.stopPropagation();const id=b.closest('[data-rate]').dataset.rate;$$(`[data-rate="${id}"] button`).forEach((s,i)=>s.classList.toggle('on',i<+x.star));
+    setTimeout(()=>{trips.find(t=>t.id===id).reviewed=true;renderTimeline();toast(`${x.star}-star review posted. Thank you`)},450)}
+  if(b.classList.contains('switch'))b.setAttribute('aria-checked',b.getAttribute('aria-checked')!=='true');
 });
-$('#scrim').onclick=closeAll;
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){if($('#modal').classList.contains('open')&&$('#drawer').classList.contains('open'))$('#modal').classList.remove('open');else closeAll()}});
-$$('.tab').forEach((t,i,all)=>t.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){const n=all[(i+(e.key==='ArrowRight'?1:all.length-1))%all.length];n.focus();n.click()}}));
+document.addEventListener('change',e=>{if(e.target.dataset.pack){packState[e.target.dataset.pack]=e.target.checked;updatePack()}});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){if($('#calmenu').classList.contains('open'))$('#calmenu').classList.remove('open');else if($('#dlg').classList.contains('open'))closeDlg();else closeSheet()}
+  if((e.key==='Enter'||e.key===' ')&&e.target.dataset?.pin){e.preventDefault();openSheet(e.target.dataset.pin)}
+});
+$('#scrim').onclick=closeSheet; $('#dlg-scrim').onclick=closeDlg;
+/* link map pins and timeline rows */
+document.addEventListener('mouseover',e=>{
+  const id=e.target.closest('[data-pin]')?.dataset.pin||e.target.closest('[data-trip]')?.dataset.trip;
+  $$('[data-pin]').forEach(p=>p.classList.toggle('hl',p.dataset.pin===id));
+  $$('.trip').forEach(r=>r.classList.toggle('selected',!!id&&r.dataset.trip===id&&!!e.target.closest('[data-pin]')));
+});
+$$('.tab').forEach((t,i,a)=>t.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){const n=a[(i+(e.key==='ArrowRight'?1:a.length-1))%a.length];n.focus();n.click()}}));
 
-/* ---------- Countdown ---------- */
-(function(){const t=trips[0];const h=hoursLeft(t);$('#cd-text').textContent=`Sigiriya sunrise climb in ${Math.floor(h)} h ${Math.round(h%1*60)} min`})();
-
-$('#ideas').innerHTML = ideas.map(i=>`<article class="card idea"><div class="thumb">${scene(i.scene)}</div><div class="p"><h4>${i.title}</h4><div class="meta">${i.meta}</div></div></article>`).join('');
-renderNext(); renderList(); renderCal();
+function renderAll(){renderHeader();renderNext();renderTimeline();renderMap()}
+const hr=+NOW.toLocaleTimeString('en-GB',{...TZ,hour:'2-digit',hour12:false});
+$('#greet').textContent=`${hr<12?'Good morning':hr<18?'Good afternoon':'Good evening'}, John`;
+renderAll();
+document.fonts?.ready.then(placePerf);
 </script>
 </body>
 </html>
