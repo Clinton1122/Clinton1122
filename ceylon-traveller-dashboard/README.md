@@ -1,6 +1,6 @@
 # Ceylon Nooks: traveller dashboard redesign (trial project, v2)
 
-Open `index.html` in a browser. It's one file plus the `img/` folder, with no build step.
+**To view it, open `Ceylon-Traveller-Dashboard.html`.** It's a single self-contained file with the photos embedded, so it works on its own, by email or offline. `index.html` plus the `img/` folder is the editable source.
 
 The prototype pretends it's **Thursday 24 Sep 2026, 10:00 in Colombo**:
 - The Sigiriya climb is tomorrow, inside the 48-hour window, so cancelling becomes a refund *request*.
