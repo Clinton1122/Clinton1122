@@ -280,6 +280,11 @@ img{display:block;max-width:100%}
 .bill td{padding:6px 0;vertical-align:top}
 .bill td + td{text-align:right;color:var(--cn-ink);font-weight:600;white-space:nowrap;padding-left:16px}
 .bill .add td:first-child{color:var(--cn-ink)}
+.bill-total{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-bottom:12px;margin-bottom:6px;border-bottom:1px solid var(--cn-border)}
+.bill-total span{font-weight:700;color:var(--cn-ink)}
+.bill-total b{font:800 30px var(--display);letter-spacing:-.02em;color:var(--cn-ink)}
+.bill{font-size:13px}
+.bill .disc td{color:var(--ok)}
 .bill .tot td{border-top:1px solid var(--cn-border);padding-top:12px;font-weight:700;color:var(--cn-ink);font-size:16px}
 .bill small{display:block;color:var(--cn-muted);font-size:12px}
 .refund-now{margin-top:16px;padding:16px;border-radius:var(--r-md);background:var(--cn-page)}
@@ -673,14 +678,14 @@ const trips = [
     title:'Nine Arch Bridge and Little Adam’s Peak hike', place:'Ella', lat:6.867, lon:81.046,
     host:'Nuwan Perera', hostShort:'Nuwan', init:'NP', ref:'CNE70988120',
     start:'2026-09-12T07:00:00+05:30', hours:4, party:'2 adults', meet:'Ella town clock tower',
-    lines:[['Guided hike, 2 adults at $64.00',128]], addons:[], fee:14.00 },
+    lines:[['Experience price','2 adults at $64.00',128]], addons:[], fee:14.00 },
   { id:'sigiriya', status:'upcoming', img:'img/sigiriya.jpg', alt:'Sigiriya Rock rising above the palace gardens',
     credit:'Santhosh Janardhanan, CC BY-SA 2.0',
     title:'Sigiriya Rock sunrise climb and Pidurangala', place:'Sigiriya', lat:7.957, lon:80.760,
     host:'Arkam Sahdi', hostShort:'Arkam', init:'AS', phone:'+94 77 123 4567', ref:'CNE71230415',
     start:'2026-09-25T04:30:00+05:30', booked:'2026-09-11T09:12:00+05:30', hours:6, party:'2 adults',
     meet:'Your hotel lobby, Dambulla', meetLat:7.8597, meetLon:80.6517,
-    lines:[['Experience, 2 adults at $180.00',360]], addons:[['Breakfast pack, 2 at $12.00',24]], fee:22.40,
+    lines:[['Experience price','2 adults at $180.00',360]], addons:[['Breakfast pack','2 at $12.00',24]], fee:22.40, vat:true,
     pack:['Water, 1 litre each','Sturdy shoes','Head torch for the dark start','Light layer for the summit','Shoulders and knees covered for the temple'],
     plan:[['4:30','Pickup from your hotel lobby'],['5:10','Start the Pidurangala climb in the dark'],['6:05','Sunrise, with Sigiriya Rock in front of you'],['7:15','Breakfast pack at the foot of the rock'],['8:00','Sigiriya climb: frescoes, Lion’s Paw, summit'],['10:30','Back at your hotel']],
     unread:1 },
@@ -689,7 +694,7 @@ const trips = [
     title:'Temple of the Tooth and Kandy lake walk', place:'Kandy', lat:7.2936, lon:80.6413,
     host:'Malini Jayasuriya', hostShort:'Malini', init:'MJ', ref:'CNE71102267',
     start:'2026-09-30T08:00:00+05:30', hours:3, party:'2 adults', meet:'Queen’s Hotel entrance, Kandy',
-    lines:[['Walking tour, 2 adults at $44.00',88]], addons:[], fee:8.80,
+    lines:[['Experience price','2 adults at $44.00',88]], addons:[], fee:8.80,
     cancelled:'2026-09-20T15:40:00+05:30', refund:96.80, stage:2 },
   { id:'mirissa', status:'upcoming', img:'img/mirissa-whale.jpg', alt:'A blue whale’s tail lifting out of the sea off Mirissa',
     credit:'Kenny Ross, CC BY 2.0',
@@ -697,7 +702,7 @@ const trips = [
     host:'Mirissa Ocean Co.', hostShort:'the crew', init:'MO', phone:'+94 76 555 0192', ref:'CNE71544082',
     start:'2026-10-08T06:00:00+05:30', booked:'2026-09-14T18:30:00+05:30', hours:5, party:'2 adults',
     meet:'Mirissa harbour, jetty 3', meetLat:5.9445, meetLon:80.4590,
-    lines:[['Boat seats, 2 adults at $95.00',190]], addons:[['Breakfast on board, 2 at $13.00',26]], fee:12.60,
+    lines:[['Experience price','2 adults at $95.00',190]], addons:[['Breakfast on board','2 at $13.00',26]], fee:12.60, vat:true, coupon:{code:'SUMMER26',amount:20},
     pack:['Sunscreen and a hat','Motion-sickness tablets, taken the night before','Binoculars if you have them','Cash for crew tips'],
     plan:[['6:00','Check in at jetty 3, life-jacket fitting'],['6:30','Head out to the continental shelf'],['7:30','Breakfast on board while the crew spots'],['8:00','Whale watching, usually blue and sperm whales'],['11:00','Back at the harbour']],
     unread:0 },
@@ -710,7 +715,26 @@ const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelect
 const TZ={timeZone:'Asia/Colombo'};
 const d=t=>new Date(t);
 const money=n=>'$'+n.toFixed(2);
-const total=t=>t.lines.reduce((a,l)=>a+l[1],0)+t.addons.reduce((a,l)=>a+l[1],0)+t.fee;
+/* Price model (Akila, 6 Oct): experience price and each add-on on their own lines;
+   VAT 18% on both, shown as one line and only when the provider is VAT registered;
+   service fee is ours; coupon/referral discounts come last and never touch the provider lines. */
+const VAT_RATE=0.18;
+const r2=n=>Math.round(n*100)/100;
+const sub=t=>t.lines.reduce((a,l)=>a+l[2],0)+t.addons.reduce((a,l)=>a+l[2],0);
+const vat=t=>t.vat?r2(sub(t)*VAT_RATE):0;
+const disc=t=>t.coupon?t.coupon.amount:0;
+const total=t=>r2(sub(t)+vat(t)+t.fee-disc(t));
+function bill(t,label){
+  const L=(a,b,v,cls='')=>`<tr class="${cls}"><td>${a}${b?`<small>${b}</small>`:''}</td><td>${v}</td></tr>`;
+  return `<div class="bill-total"><span>${label}</span><b class="num">${money(total(t))}</b></div>
+   <table class="bill num">
+    ${t.lines.map(([a,b,v])=>L(a,b+'. The provider’s price',money(v))).join('')}
+    ${t.addons.map(([a,b,v])=>L('Add-on: '+a,b,money(v),'add')).join('')}
+    ${t.vat?L(`VAT (${VAT_RATE*100}%), collected for the provider`,`${t.host} is VAT registered in Sri Lanka. Ceylon Nooks passes this on in full`,money(vat(t))):''}
+    ${L('Service fee','Ceylon Nooks fee. Covers payment protection and the 24/7 traveller line',money(t.fee))}
+    ${t.coupon?L(`Discount (${t.coupon.code})`,'Paid by Ceylon Nooks. Your host still receives the full price',`−${money(t.coupon.amount)}`,'disc'):''}
+   </table>`;
+}
 const fDate=(x,o)=>x.toLocaleDateString('en-GB',{...TZ,...o});
 const fLong=x=>fDate(x,{weekday:'long',day:'numeric',month:'long'});
 const fShort=x=>fDate(x,{weekday:'short',day:'numeric',month:'short'});
@@ -910,24 +934,17 @@ function openSheet(id){
       <section class="panel"><div class="head"><h3>What to bring</h3><span id="pack-count"></span></div>
         <ul class="pack">${t.pack.map((p,i)=>`<li><label><input type="checkbox" data-pack="${t.id}-${i}" ${packState[t.id+'-'+i]?'checked':''}><span>${p}</span></label></li>`).join('')}</ul></section>
       <section class="panel"><h3>What you paid</h3>
-        <table class="bill num">
-          ${t.lines.map(([a,b])=>`<tr><td>${a}</td><td>${money(b)}</td></tr>`).join('')}
-          ${t.addons.map(([a,b])=>`<tr class="add"><td>Add-on: ${a}</td><td>${money(b)}</td></tr>`).join('')}
-          <tr><td>Service fee<small>Covers payment protection and the 24/7 traveller line</small></td><td>${money(t.fee)}</td></tr>
-          <tr class="tot"><td>Total, paid with Visa ending 4242</td><td>${money(tot)}</td></tr>
-        </table>
+        ${bill(t,'Total paid, Visa ending 4242')}
         <div class="refund-now">
           <div class="row"><span style="font-weight:700;color:var(--cn-ink)">If you cancel now</span><span class="big num ${r.kind}">${money(r.amount)}</span></div>
-          <p>${isFree(t)?'Full refund, including the service fee.':'This is the most you can ask for. The service fee isn’t refunded once free cancellation ends.'}</p>
+          <p>${isFree(t)?'Everything you paid, including VAT and the service fee.':`This is the most you can ask for: what you paid minus the ${money(t.fee)} service fee, which isn’t refunded once free cancellation ends.`}</p>
           <div class="ptl" aria-hidden="true"><i style="width:${pCut}%;background:var(--ok);border-radius:4px 0 0 4px"></i><i style="flex:1;background:#E5B04A;border-radius:0 4px 4px 0"></i><span class="now" style="left:${pNow}%"></span></div>
           <div class="ptl-l"><div><b>Booked</b>${fShort(booked)}</div><div><b>Full refund ends</b>${fShort(c)}, ${fTime(c)}</div><div><b>Pickup</b>${fShort(s)}</div></div>
         </div>
       </section>`;
     $('#sh-foot').innerHTML=`<button class="btn" data-reschedule>${svg('swap')}Change date</button><button class="btn danger" data-cancel>Cancel booking</button><button class="btn icon" data-cal="${t.id}" aria-label="Add to calendar">${svg('cal')}</button>`;
   } else if(t.status==='past'){
-    html+=`<section class="panel"><h3>Receipt</h3><table class="bill num">
-      ${t.lines.map(([a,b])=>`<tr><td>${a}</td><td>${money(b)}</td></tr>`).join('')}
-      <tr><td>Service fee</td><td>${money(t.fee)}</td></tr><tr class="tot"><td>Total, Visa ending 4242</td><td>${money(tot)}</td></tr></table></section>
+    html+=`<section class="panel"><div class="head"><h3>${t.vat?'Tax invoice':'Receipt'}</h3>${t.vat?'<span>VAT collected for '+t.host+'</span>':''}</div>${bill(t,'Total paid, Visa ending 4242')}</section>
       <section class="panel"><h3>${t.reviewed?'Thanks for your review':'Leave a review for '+t.host}</h3><p style="font-size:14px">Reviews from real travellers are what new guides in Ella depend on.</p></section>`;
     $('#sh-foot').innerHTML=`<button class="btn" data-toast="Receipt downloaded">${svg('dl')}Download receipt</button><button class="btn primary" data-toast="Opening ${t.place} experiences">Book with ${t.hostShort} again</button>`;
   } else {
