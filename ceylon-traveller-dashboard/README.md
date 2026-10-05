@@ -2,6 +2,8 @@
 
 **To view it, open `Ceylon-Traveller-Dashboard.html`.** It's a single self-contained file with the photos embedded, so it works on its own, by email or offline. `index.html` plus the `img/` folder is the editable source.
 
+**Figma file:** [Akila](https://www.figma.com/design/OdrpDe2uSi0tu6Gsb1Rp1L/Akila). It has five pages: Cover; Read me (design decisions); Desktop 1440 (7 numbered sections, 25 frames); Mobile 390 (4 sections, 11 frames); Foundations and components. Frames are named by device, section and step, for example `D 03.2 Step 2 — reason`.
+
 The prototype pretends it's **Thursday 24 Sep 2026, 10:00 in Colombo**:
 - The Sigiriya climb is tomorrow, inside the 48-hour window, so cancelling becomes a refund *request*.
 - The Mirissa whale trip is still free to cancel. Cancel it to see the full-refund flow and the timeline update.
