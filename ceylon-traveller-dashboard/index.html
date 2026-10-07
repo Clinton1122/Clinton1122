@@ -3,29 +3,30 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Your trips | Ceylon Nooks</title>
+<title>My bookings | Ceylon Nooks</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* Tokens: Ceylon style guide v1 (Sep 2026). No raw hex in components. */
 :root{
   --cn-primary:#F15623; --cn-primary-text:#C43D12; --cn-primary-hover:#9E300D;
   --cn-primary-tint:#FDF1EA; --cn-primary-line:#F0DCCF; --cn-deep:#2B1A10;
-  --cn-ink:#1C1A17; --cn-body:#4A443D; --cn-muted:#6B645C; --cn-border:#E7E2DB;
-  --cn-input:#D9D2C8; --cn-page:#F7F5F2; --cn-paper:#FFFFFF;
+  --cn-ink:#18181B; --cn-body:#3F3F46; --cn-muted:#71717A; --cn-border:#E8E8EB;
+  --cn-input:#D4D4D8; --cn-page:#F7F7F8; --cn-paper:#FFFFFF;
   --ok:#1F6B44; --ok-bg:#EAF6EE; --warn:#6B4600; --warn-bg:#FFF4DB;
   --bad:#9B1C12; --bad-bg:#FEECEB; --info:#244A7A; --info-bg:#E4ECF7;
-  --land:#EFE7DD; --land-edge:#D8C8B6;
-  --r-sm:8px; --r-md:12px; --r-card:18px; --r-hero:22px;
-  --display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
-  --text:"Manrope",ui-sans-serif,system-ui,sans-serif;
+  --land:#EFEDEA; --land-edge:#D6D3CE;
+  --r-sm:8px; --r-md:10px; --r-card:12px; --r-hero:16px; --shadow:0 1px 2px rgba(16,24,40,.05),0 1px 3px rgba(16,24,40,.06);
+  --display:"Inter",ui-sans-serif,system-ui,sans-serif;
+  --text:"Inter",ui-sans-serif,system-ui,sans-serif;
   --ease-out:cubic-bezier(.2,.8,.2,1);
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--cn-page);color:var(--cn-body);font:400 15px/1.55 var(--text);-webkit-font-smoothing:antialiased}
-h1,h2,h3,h4{margin:0;font-family:var(--display);color:var(--cn-ink);font-weight:700;letter-spacing:-.015em;line-height:1.12}
+[hidden]{display:none!important}
+h1,h2,h3,h4{margin:0;font-family:var(--display);color:var(--cn-ink);font-weight:600;letter-spacing:-.01em;line-height:1.2}
 p{margin:0}
 a{color:var(--cn-primary-text);text-underline-offset:3px}
 button{font:inherit;color:inherit;cursor:pointer}
@@ -39,7 +40,7 @@ img{display:block;max-width:100%}
 .i{width:18px;height:18px;flex:none;stroke:currentColor;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
 
 /* Buttons */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border-radius:var(--r-md);border:1px solid var(--cn-input);background:var(--cn-paper);color:var(--cn-ink);font-weight:700;font-size:14px;text-decoration:none;white-space:nowrap;transition:background-color .15s,border-color .15s,color .15s}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:0 20px;border-radius:999px;border:1px solid var(--cn-input);background:var(--cn-paper);color:var(--cn-ink);font-weight:600;font-size:14px;text-decoration:none;white-space:nowrap;transition:background-color .15s,border-color .15s,color .15s}
 .btn:hover{border-color:var(--cn-ink)}
 .btn.primary{background:var(--cn-primary);border-color:var(--cn-primary);color:#fff}
 .btn.primary:hover{background:var(--cn-primary-hover);border-color:var(--cn-primary-hover)}
@@ -47,40 +48,61 @@ img{display:block;max-width:100%}
 .btn.quiet:hover{background:var(--cn-primary-tint)}
 .btn.danger{color:var(--bad);border-color:#EFC3BF}
 .btn.danger:hover{background:var(--bad-bg);border-color:var(--bad)}
-.btn.icon{width:44px;padding:0}
+.btn.icon{width:42px;padding:0}
+.linkish{border:0;background:none;padding:0;font:500 13px var(--text);color:var(--cn-muted);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.linkish:hover{color:var(--cn-ink)}
 .btn[disabled]{opacity:.45;pointer-events:none}
 .badge{min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--cn-primary);color:#fff;font:700 11px/18px var(--text);text-align:center}
 
-/* ---------------- Site bar ---------------- */
-.site{background:var(--cn-paper);border-bottom:1px solid var(--cn-border)}
-.site .wrap{display:flex;align-items:center;height:72px;gap:28px}
-.logo{font:800 29px/1 var(--display);color:var(--cn-primary);text-decoration:none;letter-spacing:-.04em}
-.site nav{display:flex;gap:28px;margin-left:auto}
-.site nav a{color:var(--cn-ink);font-weight:600;font-size:14px;text-decoration:none}
-.site nav a:hover{color:var(--cn-primary-text)}
-.site .cur{font-weight:700;font-size:13px;color:var(--cn-ink);padding:6px 10px;border-radius:var(--r-sm);border:1px solid var(--cn-border);background:none}
-.me{width:40px;height:40px;border-radius:50%;background:var(--cn-deep);color:#F8E3D4;display:grid;place-items:center;font:700 14px var(--display);border:0}
-
+/* ---------------- Site header (matches the live Ceylon Nooks site) ---------------- */
+.site{background:var(--cn-paper);border-bottom:1px solid var(--cn-border);position:relative;z-index:30}
+.util{border-bottom:1px solid var(--cn-border);font-size:12px;color:var(--cn-body)}
+.util .wrap{display:flex;justify-content:space-between;align-items:center;height:34px;gap:16px}
+.util .ok{display:inline-flex;align-items:center;gap:6px}
+.util .ok i{width:7px;height:7px;border-radius:50%;background:#22A06B}
+.hbar{display:flex;align-items:center;height:68px;gap:18px;position:relative}
+.logo{font:700 28px/1 var(--display);color:var(--cn-primary);text-decoration:none;letter-spacing:-.04em}
+.lang{display:inline-flex;align-items:center;gap:4px;border:0;background:none;font-size:12px;font-weight:500;color:var(--cn-body);padding:0}
+.mainnav{display:flex;gap:22px;margin-left:auto}
+.mainnav a{display:inline-flex;align-items:center;gap:4px;color:var(--cn-ink);font-weight:500;font-size:14px;text-decoration:none}
+.mainnav a:hover{color:var(--cn-primary-text)}
+.mainnav .i{width:14px;height:14px;color:var(--cn-muted)}
+.search{display:flex;align-items:center;gap:8px;height:38px;width:200px;padding:0 14px;border:1px solid var(--cn-border);border-radius:999px;color:var(--cn-muted)}
+.search input[type=text]{border:0;outline:0;padding:0;font:400 13px var(--text);width:100%;background:none;color:var(--cn-ink)}
+.search .i{width:16px;height:16px}
+.me{width:36px;height:36px;border-radius:50%;background:#E4E4E7;color:var(--cn-ink);display:grid;place-items:center;font:600 13px var(--display);border:0}
+.avatar-btn{border:0;background:none;padding:0;border-radius:50%}
+.avatar-btn:hover .me{box-shadow:0 0 0 3px var(--cn-primary-tint)}
+.hamb.icon-btn{display:none}
+.drawer{position:fixed;inset:0 auto 0 0;width:min(320px,86vw);background:#fff;z-index:70;transform:translateX(-102%);transition:transform .28s var(--ease-out);padding:20px;overflow:auto;visibility:hidden;transition:transform .28s var(--ease-out),visibility 0s .28s}
+.drawer.open{transform:none;visibility:visible;box-shadow:20px 0 60px rgba(0,0,0,.2);transition:transform .28s var(--ease-out)}
+.drawer h4{font-size:12px;font-weight:600;color:var(--cn-muted);margin:18px 0 6px}
+.drawer a{display:flex;align-items:center;gap:12px;padding:11px 4px;color:var(--cn-ink);font-weight:500;text-decoration:none;border-bottom:1px solid var(--cn-border)}
+.drawer a .badge{margin-left:auto}
 /* ---------------- Account header ---------------- */
 .acct{background:var(--cn-paper);border-bottom:1px solid var(--cn-border)}
-.acct .top{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;padding:32px 0 20px}
-.acct h1{font-size:34px;font-weight:800}
+.crumb{font-size:12px;color:var(--cn-muted);padding-top:18px}
+.crumb a{color:var(--cn-muted);text-decoration:none}
+.dash-tabs{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;margin:0 -4px}
+.dash-tabs::-webkit-scrollbar{display:none}
+.dash-tabs a{position:relative;display:inline-flex;align-items:center;gap:8px;padding:12px 12px 14px;color:var(--cn-muted);font-weight:500;font-size:14px;text-decoration:none;white-space:nowrap}
+.dash-tabs a:hover{color:var(--cn-ink)}
+.dash-tabs a .i{width:17px;height:17px}
+.dash-tabs a[aria-current=page]{color:var(--cn-ink);font-weight:600}
+.dash-tabs a[aria-current=page]::after{content:"";position:absolute;left:12px;right:12px;bottom:-1px;height:2px;border-radius:2px;background:var(--cn-primary)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 24px}
+.chip{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 14px;border-radius:999px;border:1px solid var(--cn-border);background:var(--cn-paper);font:500 13px var(--text);color:var(--cn-ink)}
+.chip[aria-pressed=true]{background:var(--cn-ink);border-color:var(--cn-ink);color:#fff}
+.chip small{font-size:11px;color:var(--cn-muted)}
+.chip[disabled]{color:var(--cn-muted);cursor:not-allowed}
+.acct .top{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;padding:14px 0 18px}
+.acct h1{font-size:30px;font-weight:600}
 .acct .lede{margin-top:6px;color:var(--cn-body);font-size:16px}
 .acct .lede b{color:var(--cn-ink)}
 .completion{display:flex;align-items:center;gap:12px;padding:10px 14px 10px 10px;border-radius:var(--r-md);border:1px solid var(--cn-border);background:var(--cn-page);text-decoration:none;color:var(--cn-ink);font-size:13px;font-weight:600;line-height:1.3}
 .completion:hover{border-color:var(--cn-input)}
 .completion small{display:block;color:var(--cn-muted);font-weight:500}
-.acct .top{padding-bottom:28px}
-/* Header shortcuts: the Airbnb / Booking.com pattern travellers already know */
-.quick{display:flex;align-items:center;gap:4px;padding-left:20px;border-left:1px solid var(--cn-border)}
-.qlink{position:relative;line-height:1;display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 12px;border-radius:10px;color:var(--cn-ink);font-weight:700;font-size:14px;text-decoration:none}
-.qlink:hover{background:var(--cn-page)}
-.qlink[aria-current=page]{background:var(--cn-primary-tint);color:var(--cn-primary-text)}
-.qlink .badge{margin-left:-2px}
-.acct-btn{display:inline-flex;align-items:center;gap:6px;height:44px;padding:0 6px 0 12px;border:1px solid var(--cn-border);border-radius:22px;background:var(--cn-paper)}
-.acct-btn:hover{box-shadow:0 2px 8px rgba(28,26,23,.1)}
-.acct-btn .me{width:32px;height:32px;font-size:12px}
-.acct-menu{position:absolute;top:64px;right:32px;width:280px;z-index:40;background:var(--cn-paper);border:1px solid var(--cn-border);border-radius:var(--r-md);box-shadow:0 16px 40px rgba(28,26,23,.16);padding:8px;display:none}
+.acct-menu{position:absolute;top:60px;right:32px;width:280px;z-index:40;background:var(--cn-paper);border:1px solid var(--cn-border);border-radius:var(--r-md);box-shadow:0 16px 40px rgba(28,26,23,.16);padding:8px;display:none}
 .acct-menu.open{display:block}
 .acct-menu .who{padding:10px 12px 12px;border-bottom:1px solid var(--cn-border);margin-bottom:6px;font-size:13px;color:var(--cn-muted);line-height:1.4}
 .acct-menu .who b{display:block;font-size:15px;color:var(--cn-ink)}
@@ -89,7 +111,6 @@ img{display:block;max-width:100%}
 .acct-menu a .i{color:var(--cn-muted)}
 .acct-menu a small{margin-left:auto;color:var(--cn-primary-text);font-weight:700;font-size:12px}
 .acct-menu hr{border:0;border-top:1px solid var(--cn-border);margin:6px 0}
-.site .wrap{position:relative}
 /* Account area: settings-style side list */
 .acct-layout{display:grid;grid-template-columns:220px minmax(0,1fr);gap:40px;align-items:start}
 .acct-nav{position:sticky;top:24px;display:flex;flex-direction:column;gap:2px}
@@ -97,8 +118,6 @@ img{display:block;max-width:100%}
 .acct-nav a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--r-sm);color:var(--cn-body);font-weight:600;text-decoration:none}
 .acct-nav a:hover{background:var(--cn-paper);color:var(--cn-ink)}
 .acct-nav a[aria-current=page]{background:var(--cn-paper);color:var(--cn-ink);box-shadow:inset 3px 0 0 var(--cn-primary)}
-/* Mobile bottom bar */
-.tabbar{display:none}
 .sh-back{display:none}
 
 /* ---------------- Next trip hero ---------------- */
@@ -109,7 +128,7 @@ img{display:block;max-width:100%}
 .when-chip{display:inline-flex;align-items:center;gap:8px;height:30px;padding:0 12px;border-radius:15px;background:var(--cn-paper);color:var(--cn-ink);font-weight:700;font-size:13px}
 .when-chip .pulse{width:8px;height:8px;border-radius:50%;background:var(--cn-primary);box-shadow:0 0 0 0 rgba(241,86,35,.6);animation:pulse 2.4s var(--ease-out) infinite}
 @keyframes pulse{70%{box-shadow:0 0 0 8px rgba(241,86,35,0)}100%{box-shadow:0 0 0 0 rgba(241,86,35,0)}}
-.next h2{margin-top:16px;color:#fff;font-size:46px;font-weight:800;letter-spacing:-.025em;line-height:1.02;text-wrap:balance}
+.next h2{margin-top:16px;color:#fff;font-size:46px;font-weight:700;letter-spacing:-.025em;line-height:1.02;text-wrap:balance}
 .next .by{margin-top:14px;font-size:15px;color:#F1DDCF}
 .next .by b{color:#fff}
 .photo-credit{position:absolute;right:420px;bottom:10px;font-size:10px;color:rgba(255,255,255,.6)}
@@ -120,7 +139,7 @@ img{display:block;max-width:100%}
           mask:radial-gradient(circle 12px at 0 var(--perf),#0000 97%,#000) left/51% 100% no-repeat,radial-gradient(circle 12px at 100% var(--perf),#0000 97%,#000) right/51% 100% no-repeat}
 .ticket .main{padding:24px 24px 18px}
 .ticket .k{font-size:13px;color:var(--cn-muted);font-weight:600}
-.pickup-time{font:800 64px/0.95 var(--display);color:var(--cn-ink);letter-spacing:-.04em;margin-top:6px;display:flex;align-items:baseline;gap:6px}
+.pickup-time{font:700 64px/0.95 var(--display);color:var(--cn-ink);letter-spacing:-.04em;margin-top:6px;display:flex;align-items:baseline;gap:6px}
 .pickup-time small{font-size:22px;letter-spacing:0;font-weight:700}
 .ticket .date{margin-top:8px;font-weight:600;color:var(--cn-ink)}
 .ticket .countdown{color:var(--cn-primary-text);font-weight:700;font-size:14px;margin-top:2px}
@@ -144,7 +163,7 @@ img{display:block;max-width:100%}
 .ref button .i{width:15px;height:15px;color:var(--cn-muted)}
 
 /* Status strip under hero */
-.strip{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:12px;padding:14px 16px 14px 18px;background:var(--cn-paper);border:1px solid var(--cn-border);border-radius:var(--r-card)}
+.strip{box-shadow:var(--shadow);display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:12px;padding:14px 16px 14px 18px;background:var(--cn-paper);border:1px solid var(--cn-border);border-radius:var(--r-card)}
 .strip .msg{display:flex;gap:12px;align-items:center;flex:1;min-width:260px;font-size:14px}
 .strip .msg b{color:var(--cn-ink)}
 .dotstate{width:10px;height:10px;border-radius:50%;flex:none}
@@ -154,7 +173,7 @@ img{display:block;max-width:100%}
 /* ---------------- Body grid ---------------- */
 .body{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:48px;margin-top:56px;padding-bottom:96px}
 .sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:8px}
-.sec-head h2{font-size:28px;font-weight:800}
+.sec-head h2{font-size:28px;font-weight:700}
 .group .sec-head{justify-content:flex-start;align-items:center;gap:10px}
 .sec-head .count{min-width:26px;height:26px;padding:0 8px;border-radius:13px;background:#EEE9E2;font-size:13px;font-weight:700;color:var(--cn-body);display:inline-grid;place-items:center}
 .group + .group{margin-top:56px}
@@ -166,10 +185,10 @@ img{display:block;max-width:100%}
 .trow{display:grid;grid-template-columns:64px minmax(0,1fr);gap:16px;position:relative}
 .trow + .trow{margin-top:12px}
 .trow .day{text-align:center;padding-top:14px;position:relative}
-.trow .day b{display:block;font:800 34px/1 var(--display);color:var(--cn-ink);letter-spacing:-.03em}
+.trow .day b{display:block;font:700 34px/1 var(--display);color:var(--cn-ink);letter-spacing:-.03em}
 .trow .day span{font-size:13px;font-weight:700;color:var(--cn-muted)}
 .trow.is-past .day b,.trow.is-cancelled .day b{color:#B5ADA3}
-.trip{position:relative;display:grid;grid-template-columns:172px minmax(0,1fr) auto;gap:20px;align-items:center;width:100%;text-align:left;padding:12px 20px 12px 12px;background:var(--cn-paper);border:1px solid var(--cn-border);border-radius:var(--r-card);transition:border-color .15s}
+.trip{box-shadow:var(--shadow);position:relative;display:grid;grid-template-columns:172px minmax(0,1fr) auto;gap:20px;align-items:center;width:100%;text-align:left;padding:12px 20px 12px 12px;background:var(--cn-paper);border:1px solid var(--cn-border);border-radius:var(--r-card);transition:border-color .15s}
 .trip:hover{border-color:var(--cn-input)}
 .trip-hit{position:absolute;inset:0;border:0;background:none;border-radius:inherit;padding:0}
 .trip .review,.trip .stars{position:relative;z-index:1}
@@ -190,7 +209,7 @@ img{display:block;max-width:100%}
 .amt-k{font-size:12px;color:var(--cn-muted);font-weight:600}
 .chev{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--cn-page);color:var(--cn-ink)}
 .today{display:grid;grid-template-columns:64px 1fr;gap:16px;align-items:center;margin:20px 0}
-.today .tag{justify-self:center;font-size:12px;font-weight:800;color:var(--cn-primary-text);background:var(--cn-primary-tint);padding:4px 8px;border-radius:6px}
+.today .tag{justify-self:center;font-size:12px;font-weight:700;color:var(--cn-primary-text);background:var(--cn-primary-tint);padding:4px 8px;border-radius:6px}
 .today .line{height:2px;background:repeating-linear-gradient(90deg,var(--cn-primary) 0 8px,transparent 8px 14px)}
 .review{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px;font-size:13px;font-weight:600;color:var(--cn-ink)}
 .stars{display:inline-flex}
@@ -206,18 +225,18 @@ img{display:block;max-width:100%}
 
 /* Side: map */
 .side{position:sticky;top:24px;align-self:start;display:flex;flex-direction:column;gap:16px}
-.mapcard{background:var(--cn-paper);border:1px solid var(--cn-border);border-radius:var(--r-card);padding:24px 24px 18px}
-.mapcard h2{font-size:22px;font-weight:800}
+.mapcard{box-shadow:var(--shadow);background:var(--cn-paper);border:1px solid var(--cn-border);border-radius:var(--r-card);padding:24px 24px 18px}
+.mapcard h2{font-size:22px;font-weight:700}
 .mapcard .lede{font-size:14px;color:var(--cn-muted);margin-top:4px}
 .map{position:relative;margin:12px auto 0;max-width:300px}
 .map svg{width:100%;height:auto;overflow:visible}
 .land{fill:var(--land);stroke:var(--land-edge);stroke-width:1}
 .town{font:600 8.5px var(--text);fill:#9A8F82}
 .route{fill:none;stroke:var(--cn-primary);stroke-width:2;stroke-linecap:round;stroke-dasharray:2 5}
-.route.done{stroke:var(--cn-deep);stroke-dasharray:none;opacity:.55}
+.route.done{stroke:var(--cn-ink);stroke-dasharray:none;opacity:.55}
 .pin{cursor:pointer}
 .pin circle.hit{fill:transparent}
-.pin text{font:800 9px var(--display);text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.pin text{font:700 9px var(--display);text-anchor:middle;dominant-baseline:central;pointer-events:none}
 .pin-label{font:700 10px var(--text);fill:var(--cn-ink);paint-order:stroke;stroke:var(--cn-paper);stroke-width:3px;stroke-linejoin:round;pointer-events:none}
 .pin:hover .dotp,.pin.hl .dotp{stroke:var(--cn-ink);stroke-width:2}
 .ring{fill:none;stroke:var(--cn-primary);stroke-width:1.5;transform-box:fill-box;transform-origin:center;animation:ring 2.4s var(--ease-out) infinite}
@@ -226,7 +245,7 @@ img{display:block;max-width:100%}
 .legend span{display:inline-flex;align-items:center;gap:6px}
 .lg{width:10px;height:10px;border-radius:50%;display:inline-block}
 
-.prep{background:var(--cn-paper);border:1px solid var(--cn-border);border-radius:var(--r-card);padding:20px 24px}
+.prep{box-shadow:var(--shadow);background:var(--cn-paper);border:1px solid var(--cn-border);border-radius:var(--r-card);padding:20px 24px}
 .prep h3{font-size:17px}
 .prep .bar{height:6px;border-radius:3px;background:var(--cn-border);margin:12px 0 4px;overflow:hidden}
 .prep .bar i{display:block;height:100%;width:40%;background:var(--cn-primary);border-radius:3px}
@@ -243,17 +262,17 @@ img{display:block;max-width:100%}
 /* ---------------- Sheet (trip details) ---------------- */
 .scrim{position:fixed;inset:0;background:rgba(28,26,23,.5);opacity:0;pointer-events:none;transition:opacity .2s;z-index:50}
 .scrim.open{opacity:1;pointer-events:auto}
-.sheet{position:fixed;top:0;right:0;bottom:0;width:min(640px,100%);background:var(--cn-page);z-index:60;transform:translateX(102%);transition:transform .32s var(--ease-out);display:flex;flex-direction:column;box-shadow:-30px 0 80px rgba(28,26,23,.25)}
-.sheet.open{transform:none}
+.sheet{position:fixed;top:0;right:0;bottom:0;width:min(640px,100%);background:var(--cn-page);z-index:60;transform:translateX(102%);transition:transform .32s var(--ease-out);display:flex;flex-direction:column}
+.sheet.open{transform:none;box-shadow:-30px 0 80px rgba(28,26,23,.25)}
 .sheet .scroll{overflow:auto;flex:1;overscroll-behavior:contain}
 .sh-hero{position:relative;height:300px;isolation:isolate;display:flex;align-items:flex-end;padding:28px}
 .sh-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
 .sh-hero::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,rgba(28,18,10,.8),rgba(28,18,10,0) 65%)}
-.sh-hero h2{color:#fff;font-size:32px;font-weight:800;text-wrap:balance}
+.sh-hero h2{color:#fff;font-size:32px;font-weight:700;text-wrap:balance}
 .sh-hero p{color:#F1DDCF;margin-top:8px;font-size:14px}
 .sh-close{position:absolute;top:16px;right:16px;width:44px;height:44px;border-radius:50%;border:0;background:var(--cn-paper);display:grid;place-items:center;color:var(--cn-ink)}
 .sh-body{padding:20px 20px 32px;display:flex;flex-direction:column;gap:12px}
-.panel{background:var(--cn-paper);border:1px solid var(--cn-border);border-radius:var(--r-card);padding:20px 22px}
+.panel{box-shadow:var(--shadow);background:var(--cn-paper);border:1px solid var(--cn-border);border-radius:var(--r-card);padding:20px 22px}
 .panel h3{font-size:18px;margin-bottom:12px}
 .panel .head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:12px}
 .panel .head h3{margin:0}
@@ -282,14 +301,14 @@ img{display:block;max-width:100%}
 .bill .add td:first-child{color:var(--cn-ink)}
 .bill-total{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-bottom:12px;margin-bottom:6px;border-bottom:1px solid var(--cn-border)}
 .bill-total span{font-weight:700;color:var(--cn-ink)}
-.bill-total b{font:800 30px var(--display);letter-spacing:-.02em;color:var(--cn-ink)}
+.bill-total b{font:700 30px var(--display);letter-spacing:-.02em;color:var(--cn-ink)}
 .bill{font-size:13px}
 .bill .disc td{color:var(--ok)}
 .bill .tot td{border-top:1px solid var(--cn-border);padding-top:12px;font-weight:700;color:var(--cn-ink);font-size:16px}
 .bill small{display:block;color:var(--cn-muted);font-size:12px}
 .refund-now{margin-top:16px;padding:16px;border-radius:var(--r-md);background:var(--cn-page)}
 .refund-now .row{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
-.refund-now .big{font:800 30px var(--display);letter-spacing:-.02em}
+.refund-now .big{font:700 30px var(--display);letter-spacing:-.02em}
 .refund-now .big.ok{color:var(--ok)} .refund-now .big.warn{color:var(--warn)}
 .refund-now p{font-size:13px;margin-top:4px}
 .ptl{position:relative;margin:20px 6px 6px;height:8px;border-radius:4px;display:flex;overflow:visible}
@@ -308,7 +327,7 @@ img{display:block;max-width:100%}
 .dlg-scrim{position:fixed;inset:0;z-index:75;background:rgba(28,26,23,.45);opacity:0;pointer-events:none;transition:opacity .2s}
 .dlg-scrim.open{opacity:1;pointer-events:auto}
 .dh{display:flex;gap:12px;align-items:flex-start;padding:24px 24px 0}
-.dh h2{flex:1;font-size:24px;font-weight:800}
+.dh h2{flex:1;font-size:24px;font-weight:700}
 .dh .x{width:40px;height:40px;border-radius:50%;border:1px solid var(--cn-border);background:var(--cn-paper);display:grid;place-items:center;flex:none}
 .db{padding:16px 24px 8px}
 .df{padding:16px 24px 24px;display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
@@ -326,7 +345,7 @@ textarea:focus,select:focus,input:focus{outline:none;border-color:var(--cn-prima
 .note.ok{background:var(--ok-bg);color:var(--ok)} .note.warn{background:var(--warn-bg);color:var(--warn)} .note.info{background:var(--info-bg);color:var(--info)}
 .note b{font-weight:700}
 .money-hero{text-align:center;padding:8px 0 16px}
-.money-hero .big{font:800 52px/1 var(--display);letter-spacing:-.03em;color:var(--ok)}
+.money-hero .big{font:700 52px/1 var(--display);letter-spacing:-.03em;color:var(--ok)}
 .money-hero .big.warn{color:var(--warn)}
 .money-hero p{font-size:14px;color:var(--cn-body);margin-top:8px}
 .slots{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
@@ -348,7 +367,7 @@ textarea:focus,select:focus,input:focus{outline:none;border-color:var(--cn-prima
 /* ---------------- Other tabs ---------------- */
 .pane{padding:40px 0 96px}
 .pane-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:24px}
-.pane-head h2{font-size:30px;font-weight:800}
+.pane-head h2{font-size:30px;font-weight:700}
 .pane-head p{margin-top:6px;max-width:58ch}
 .ideas{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:16px}
 .idea{position:relative;border-radius:var(--r-card);overflow:hidden;min-height:300px;display:flex;align-items:flex-end;padding:20px;isolation:isolate;color:#fff;text-decoration:none}
@@ -359,7 +378,7 @@ textarea:focus,select:focus,input:focus{outline:none;border-color:var(--cn-prima
 .chat-slot{border:2px dashed var(--cn-input);border-radius:var(--r-card);padding:64px 24px;text-align:center;background:var(--cn-paper)}
 .chat-slot h3{font-size:20px;margin:0 0 6px}
 .form{display:grid;grid-template-columns:1fr 1fr;gap:4px 20px}
-.cardish{background:var(--cn-paper);border:1px solid var(--cn-border);border-radius:var(--r-card);padding:24px}
+.cardish{box-shadow:var(--shadow);background:var(--cn-paper);border:1px solid var(--cn-border);border-radius:var(--r-card);padding:24px}
 .two{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:24px;align-items:start}
 .setrow{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:16px 0;border-top:1px solid var(--cn-border)}
 .setrow:first-child{border-top:0;padding-top:0}
@@ -369,6 +388,53 @@ textarea:focus,select:focus,input:focus{outline:none;border-color:var(--cn-prima
 .switch::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.2);transition:transform .15s var(--ease-out)}
 .switch[aria-checked=true]{background:var(--cn-primary)}
 .switch[aria-checked=true]::after{transform:translateX(18px)}
+.photo-row{display:flex;align-items:center;gap:14px;padding-bottom:18px;margin-bottom:6px;border-bottom:1px solid var(--cn-border)}
+.photo-row div{flex:1}.photo-row b{display:block;color:var(--cn-ink);font-weight:600}.photo-row small{font-size:13px;color:var(--cn-muted)}
+.two>*{min-width:0}
+@media (max-width:520px){.photo-row{flex-wrap:wrap}.photo-row .btn{width:100%}.form{grid-template-columns:1fr}}
+.me.big{width:56px;height:56px;font-size:18px}
+.person{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--cn-border)}
+.person .t{flex:1;min-width:0;font-size:13px;color:var(--cn-muted)}.person .t b{display:block;font-size:14px;color:var(--cn-ink);font-weight:600}
+.tag-s{font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;background:var(--ok-bg);color:var(--ok)}
+.tag-s.wait{background:var(--warn-bg);color:var(--warn)}
+.add-row{display:grid;grid-template-columns:1fr 1fr 150px auto;gap:8px;align-items:end;margin-top:14px}
+.plan-grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:24px;align-items:start}
+.stops{list-style:none;margin:0;padding:0}
+.stop{display:grid;grid-template-columns:28px 1fr auto;gap:14px;align-items:start;padding:16px 0;border-top:1px solid var(--cn-border)}
+.stop:first-child{border-top:0}
+.stop .n{width:28px;height:28px;border-radius:50%;background:var(--cn-ink);color:#fff;display:grid;place-items:center;font-size:13px;font-weight:600}
+.stop h4{font-size:16px;font-weight:600}
+.stop .idea-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.stop .idea-list span{font-size:12px;padding:4px 10px;border-radius:999px;background:var(--cn-page);border:1px solid var(--cn-border);color:var(--cn-body)}
+.stepper{display:inline-flex;align-items:center;border:1px solid var(--cn-border);border-radius:999px;overflow:hidden}
+.stepper button{width:32px;height:32px;border:0;background:none;font-size:16px;color:var(--cn-ink)}
+.stepper span{min-width:64px;text-align:center;font-size:13px;font-weight:600;color:var(--cn-ink)}
+.faces{display:flex}.faces .me{width:32px;height:32px;font-size:12px;border:2px solid #fff;margin-left:-8px}.faces .me:first-child{margin-left:0}
+.offer{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--cn-border);font-size:13px}
+.offer:first-of-type{border-top:0}
+.offer .t{flex:1}.offer b{display:block;color:var(--cn-ink);font-size:14px;font-weight:600}
+.empty-card{background:var(--cn-paper);border:1px solid var(--cn-border);border-radius:var(--r-hero);box-shadow:var(--shadow);padding:40px;display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center;margin-top:24px}
+.empty-card h2{font-size:28px;font-weight:600}
+.empty-card p{margin-top:10px;max-width:46ch}
+.empty-card .acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.pop{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.pop a{position:relative;border-radius:var(--r-card);overflow:hidden;aspect-ratio:3/4;display:flex;align-items:flex-end;padding:12px;color:#fff;text-decoration:none;font-weight:600;font-size:14px;isolation:isolate}
+.pop img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.pop a::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,rgba(0,0,0,.6),rgba(0,0,0,0) 55%)}
+.empty-mini{text-align:center;padding:40px 24px;border:1px dashed var(--cn-input);border-radius:var(--r-card);background:var(--cn-paper);color:var(--cn-muted)}
+.empty-mini h3{font-size:17px;margin-bottom:6px}
+.price-k{font-size:12px;color:var(--cn-muted)}
+details.breakdown{margin-top:10px}
+details.breakdown summary{cursor:pointer;font-size:13px;font-weight:600;color:var(--cn-primary-text);list-style:none;display:inline-flex;align-items:center;gap:4px}
+details.breakdown summary::-webkit-details-marker{display:none}
+details.breakdown summary .i{width:14px;height:14px;transition:transform .15s}
+details.breakdown[open] summary .i{transform:rotate(180deg)}
+details.breakdown .bill{margin-top:10px}
+.upload{display:flex;align-items:center;gap:10px;padding:12px 14px;border:1px dashed var(--cn-input);border-radius:var(--r-md);font-size:13px;color:var(--cn-body);cursor:pointer}
+.upload input{display:none}
+.upload b{color:var(--cn-ink)}
+.cancel-row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:14px;padding-top:12px;border-top:1px solid var(--cn-border);font-size:13px;color:var(--cn-muted)}
+@media (max-width:860px){.empty-card{grid-template-columns:1fr;padding:24px}.add-row{grid-template-columns:1fr}}
 footer.foot{border-top:1px solid var(--cn-border);padding:20px 0 40px;font-size:12px;color:var(--cn-muted)}
 
 /* ---------------- Responsive ---------------- */
@@ -414,29 +480,20 @@ footer.foot{border-top:1px solid var(--cn-border);padding:20px 0 40px;font-size:
   .group .sec-head{flex-direction:row;align-items:center}
 }
 @media (max-width:1100px){
-  .quick .qlink span.lbl{display:none}
+  .mainnav{display:none}
+  .search{margin-left:auto}
 }
 @media (max-width:860px){
-  .site nav,.quick,.acct-btn{display:none}
-  .site .cur{margin-left:auto}
-  body{padding-bottom:calc(68px + env(safe-area-inset-bottom))}
-  .tabbar{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:0;right:0;bottom:0;z-index:45;background:rgba(255,255,255,.97);border-top:1px solid var(--cn-border);padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
-  .tabbar a{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0;border-radius:10px;color:var(--cn-muted);font-size:11px;font-weight:700;text-decoration:none}
-  .tabbar a .i{width:22px;height:22px}
-  .tabbar a[aria-current=page]{color:var(--cn-primary-text)}
-  .tabbar .badge{position:absolute;top:2px;left:calc(50% + 6px)}
-  .tabbar .me{width:24px;height:24px;font-size:9px}
-  .tabbar a[aria-current=page] .me{box-shadow:0 0 0 2px var(--cn-primary)}
-  .acct-layout{grid-template-columns:1fr;gap:16px}
-  .acct-nav{position:static;flex-direction:row;flex-wrap:wrap;gap:6px}
-  .acct-nav h2{display:none}
-  .acct-nav a{white-space:nowrap;border:1px solid var(--cn-border);background:var(--cn-paper)}
-  .acct-nav a[aria-current=page]{box-shadow:none;border-color:var(--cn-ink)}
+  .util .mid{display:none}
+  .hamb.icon-btn{display:grid}
+  .lang,.search,.hide-sm{display:none}
+  .avatar-btn{margin-left:auto}
+  .acct-menu{right:20px}
   .sheet{width:100%}
   .sh-close{display:none}
-  .sh-back{display:inline-flex;align-items:center;gap:4px;position:absolute;top:14px;left:14px;height:40px;padding:0 14px 0 8px;border-radius:20px;border:0;background:var(--cn-paper);color:var(--cn-ink);font-weight:700;font-size:14px}
+  .sh-back{display:inline-flex;align-items:center;gap:4px;position:absolute;top:14px;left:14px;height:40px;padding:0 14px 0 8px;border-radius:20px;border:0;background:var(--cn-paper);color:var(--cn-ink);font-weight:600;font-size:14px}
   .sh-back .i{transform:rotate(180deg)}
-  .toast{bottom:calc(84px + env(safe-area-inset-bottom))}
+  .plan-grid{grid-template-columns:1fr}
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition-duration:.01ms!important}
@@ -467,55 +524,71 @@ footer.foot{border-top:1px solid var(--cn-border);padding:20px 0 40px;font-size:
   <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 13.5l1.6 1.2-2 3.4-1.9-.7a7 7 0 0 1-2.1 1.2L14.7 21h-4l-.3-2.4a7 7 0 0 1-2.1-1.2l-1.9.7-2-3.4 1.6-1.2a7 7 0 0 1 0-2.4L4.4 9.9l2-3.4 1.9.7a7 7 0 0 1 2.1-1.2L10.7 3.6h4l.3 2.4a7 7 0 0 1 2.1 1.2l1.9-.7 2 3.4-1.6 1.2a7 7 0 0 1 0 2.4z"/></symbol>
   <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 0 1 4.8 1c0 1.7-2.4 2.2-2.4 3.7M12 17.2v.1"/></symbol>
   <symbol id="i-out" viewBox="0 0 24 24"><path d="M14 4h4.5A1.5 1.5 0 0 1 20 5.5v13a1.5 1.5 0 0 1-1.5 1.5H14M10 16l-4-4 4-4M6 12h10"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+  <symbol id="i-route" viewBox="0 0 24 24"><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18H16a3 3 0 0 0 0-6H8a3 3 0 0 1 0-6h7.5"/></symbol>
+  <symbol id="i-clip" viewBox="0 0 24 24"><path d="M20 11.5l-8 8a5 5 0 0 1-7-7l8.5-8.5a3.3 3.3 0 0 1 4.7 4.7L9.7 17.2a1.7 1.7 0 0 1-2.4-2.4L15 7.2"/></symbol>
+  <symbol id="i-userplus" viewBox="0 0 24 24"><circle cx="10" cy="8.5" r="3.8"/><path d="M2.5 20a7.5 7.5 0 0 1 15 0M19 8v6M16 11h6"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="M21 3L10 14M21 3l-7 18-4-7-7-4z"/></symbol>
   <symbol id="i-life" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><path d="M5.6 5.6l3.9 3.9M14.5 14.5l3.9 3.9M18.4 5.6l-3.9 3.9M9.5 14.5l-3.9 3.9"/></symbol>
 </svg>
 
 <header class="site">
-  <div class="wrap">
+  <div class="util"><div class="wrap"><span>+94 11 200 0000</span><span class="mid">We have a help centre to make sure travellers get live support 24/7</span><span class="ok"><i></i>All systems operational</span></div></div>
+  <div class="wrap hbar">
+    <button class="hamb icon-btn" id="hamb" aria-label="Open menu" aria-expanded="false" aria-controls="drawer"><svg class="i"><use href="#i-menu"/></svg></button>
     <a class="logo" href="#" aria-label="Ceylon Nooks home">ceylon</a>
-    <nav aria-label="Main"><a href="#">Services</a><a href="#">Places to go</a><a href="#">Things to do</a><a href="#">About us</a></nav>
-    <div class="quick">
-      <a class="qlink" href="#saved" data-nav="saved"><svg class="i"><use href="#i-heart"/></svg><span class="lbl">Saved</span></a>
-      <a class="qlink" href="#trips" data-nav="trips"><svg class="i"><use href="#i-bag"/></svg><span class="lbl">Trips</span></a>
-      <a class="qlink" href="#messages" data-nav="messages" aria-label="Messages, 1 unread"><svg class="i"><use href="#i-chat"/></svg><span class="lbl">Messages</span><span class="badge">1</span></a>
-    </div>
-    <button class="cur" aria-label="Currency: US dollars">USD</button>
-    <button class="acct-btn" id="acct-btn" aria-haspopup="menu" aria-expanded="false" aria-controls="acct-menu" aria-label="Account menu"><svg class="i"><use href="#i-user"/></svg><span class="me" aria-hidden="true">JC</span></button>
+    <button class="lang" aria-label="Language and currency">ENG | USD<svg class="i" style="width:14px;height:14px"><use href="#i-down"/></svg></button>
+    <nav class="mainnav" aria-label="Main">
+      <a href="#">Service<svg class="i"><use href="#i-down"/></svg></a><a href="#">Place to go<svg class="i"><use href="#i-down"/></svg></a><a href="#">Thing to do<svg class="i"><use href="#i-down"/></svg></a><a href="#">Itinerary<svg class="i"><use href="#i-down"/></svg></a>
+    </nav>
+    <label class="search"><svg class="i"><use href="#i-search"/></svg><input type="text" placeholder="Search here..." aria-label="Search"></label>
+    <a class="icon-btn hide-sm" href="#saved" aria-label="Saved"><svg class="i"><use href="#i-heart"/></svg></a>
+    <button class="avatar-btn" id="acct-btn" aria-haspopup="menu" aria-expanded="false" aria-controls="acct-menu" aria-label="My account"><span class="me" aria-hidden="true">JC</span></button>
     <div class="acct-menu" id="acct-menu" role="menu">
       <div class="who"><b>John Carter</b>john.carter@example.com</div>
+      <a role="menuitem" href="#bookings"><svg class="i"><use href="#i-bag"/></svg>My bookings</a>
+      <a role="menuitem" href="#plan"><svg class="i"><use href="#i-route"/></svg>Plan a trip</a>
+      <a role="menuitem" href="#messages"><svg class="i"><use href="#i-chat"/></svg>Messages<small>1 new</small></a>
       <a role="menuitem" href="#profile"><svg class="i"><use href="#i-user"/></svg>Profile<small>40%</small></a>
-      <a role="menuitem" href="#settings"><svg class="i"><use href="#i-gear"/></svg>Settings and payments</a>
-      <a role="menuitem" href="#help"><svg class="i"><use href="#i-help"/></svg>Help centre</a>
       <hr>
       <a role="menuitem" href="#" data-toast="Logged out (prototype)"><svg class="i"><use href="#i-out"/></svg>Log out</a>
     </div>
   </div>
 </header>
+<nav class="drawer" id="drawer" aria-label="Menu">
+  <div style="display:flex;justify-content:space-between;align-items:center"><span class="logo">ceylon</span><button class="icon-btn" data-drawer-close aria-label="Close menu"><svg class="i"><use href="#i-x"/></svg></button></div>
+  <h4>Explore</h4><a href="#">Service</a><a href="#">Place to go</a><a href="#">Thing to do</a><a href="#">Itinerary</a>
+  <h4>My account</h4><a href="#bookings" data-nav="bookings"><svg class="i"><use href="#i-bag"/></svg>My bookings</a><a href="#plan" data-nav="plan"><svg class="i"><use href="#i-route"/></svg>Plan a trip</a><a href="#saved" data-nav="saved"><svg class="i"><use href="#i-heart"/></svg>Saved</a><a href="#messages" data-nav="messages"><svg class="i"><use href="#i-chat"/></svg>Messages<span class="badge">1</span></a><a href="#profile" data-nav="profile"><svg class="i"><use href="#i-user"/></svg>Profile</a><a href="#settings" data-nav="settings"><svg class="i"><use href="#i-gear"/></svg>Settings and payments</a><a href="#help" data-nav="help"><svg class="i"><use href="#i-help"/></svg>Help centre</a>
+</nav>
 
 <section class="acct" id="acct-head">
   <div class="wrap">
+    <div class="crumb"><a href="#">Home</a> / My account</div>
     <div class="top">
       <div>
         <h1 id="greet">Good morning, John</h1>
         <p class="lede" id="lede"></p>
       </div>
       <a class="completion" href="#profile">
-        <svg width="36" height="36" viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="15" fill="none" stroke="#E7E2DB" stroke-width="4"/><circle cx="18" cy="18" r="15" fill="none" stroke="#F15623" stroke-width="4" stroke-linecap="round" stroke-dasharray="94.25" stroke-dashoffset="56.55" transform="rotate(-90 18 18)"/></svg>
-        <span>Profile 40% complete<small>Add a phone number so hosts can reach you</small></span>
+        <svg width="36" height="36" viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="15" fill="none" stroke="#E8E8EB" stroke-width="4"/><circle cx="18" cy="18" r="15" fill="none" stroke="#F15623" stroke-width="4" stroke-linecap="round" stroke-dasharray="94.25" stroke-dashoffset="56.55" transform="rotate(-90 18 18)"/></svg>
+        <span>Profile 40% complete<small>Add a phone number and your travel partners</small></span>
       </a>
     </div>
+    <nav class="dash-tabs" aria-label="My account"><a href="#bookings" data-nav="bookings"><svg class="i"><use href="#i-bag"/></svg>My bookings</a><a href="#plan" data-nav="plan"><svg class="i"><use href="#i-route"/></svg>Plan a trip</a><a href="#saved" data-nav="saved"><svg class="i"><use href="#i-heart"/></svg>Saved</a><a href="#messages" data-nav="messages"><svg class="i"><use href="#i-chat"/></svg>Messages<span class="badge">1</span></a><a href="#profile" data-nav="profile"><svg class="i"><use href="#i-user"/></svg>Profile</a><a href="#settings" data-nav="settings"><svg class="i"><use href="#i-gear"/></svg>Settings and payments</a><a href="#help" data-nav="help"><svg class="i"><use href="#i-help"/></svg>Help centre</a></nav>
   </div>
 </section>
 
 <main class="wrap">
-  <!-- ============ TRIPS ============ -->
-  <div id="pane-trips">
+  <!-- ============ MY BOOKINGS ============ -->
+  <div id="pane-bookings">
     <section class="next" id="next" aria-labelledby="next-title"></section>
     <div class="strip" id="strip"></div>
 
     <div class="body">
       <section aria-labelledby="trips-title">
-        <h2 class="sr" id="trips-title">Your trips</h2>
+        <h2 class="sr" id="trips-title">My bookings</h2>
+        <div class="chips" role="group" aria-label="Show bookings for" id="cats"></div>
         <div class="tl" id="timeline"></div>
       </section>
 
@@ -525,13 +598,13 @@ footer.foot{border-top:1px solid var(--cn-border);padding:20px 0 40px;font-size:
           <p class="lede" id="map-lede"></p>
           <div class="map" id="map"></div>
           <div class="legend" aria-hidden="true">
-            <span><i class="lg" style="background:var(--cn-deep)"></i>Done</span>
+            <span><i class="lg" style="background:var(--cn-ink)"></i>Done</span>
             <span><i class="lg" style="background:var(--cn-primary)"></i>Booked</span>
-            <span><i class="lg" style="border:2px solid var(--cn-primary)"></i>Saved</span>
-            <span><i class="lg" style="background:#C9C1B7"></i>Cancelled</span>
+            <span><i class="lg" style="border:2px solid var(--cn-primary)"></i>In a plan</span>
+            <span><i class="lg" style="background:#C9C9CE"></i>Cancelled</span>
           </div>
         </section>
-        <section class="prep" aria-labelledby="prep-title">
+        <section class="prep" aria-labelledby="prep-title" id="prep">
           <h3 id="prep-title">Before tomorrow’s pickup</h3>
           <div class="bar"><i></i></div>
           <ul>
@@ -541,44 +614,33 @@ footer.foot{border-top:1px solid var(--cn-border);padding:20px 0 40px;font-size:
             <li><span class="ck"></span><span>Dietary needs for the breakfast pack</span><a href="#profile">Add</a></li>
           </ul>
         </section>
-        <p class="help">Something wrong on the day? Call the 24/7 traveller line on <a href="tel:+94112000000">+94 11 200 0000</a> or read <a href="#" data-policy>how refunds work</a>.</p>
+        <p class="help">Something wrong on the day? Call the 24/7 traveller line on <a href="tel:+94112000000">+94 11 200 0000</a> or read <a href="#" data-policy>how cancellations work</a>.</p>
       </aside>
     </div>
   </div>
 
-  <!-- ============ PLAN ============ -->
-  <div id="pane-saved" class="pane" hidden>
-    <div class="pane-head">
-      <div><h2>Saved</h2><p>Places you tapped the heart on while browsing. Soon you’ll be able to turn them into a day-by-day plan and share it with your travel partners.</p></div>
-      <button class="btn" data-toast="The trip planner is coming in the next release">Plan a trip with these</button>
-    </div>
-    <div class="ideas">
-      <a class="idea" href="#"><img src="img/galle-fort.jpg" alt="A quiet alley inside Galle Fort with yellow colonial buildings"><div><h3>Galle Fort walking tour</h3><p>Galle, half a day. 1 hour from Mirissa, so it pairs well with your whale trip.</p></div></a>
-      <a class="idea" href="#"><img src="img/adams-peak.jpg" alt="Adam's Peak rising above the hill country"><div><h3>Adam’s Peak night climb</h3><p>Dalhousie. Season runs December to May.</p></div></a>
-      <a class="idea" href="#"><img src="img/pidurangala.jpg" alt="Forest path at the foot of Pidurangala Rock"><div><h3>Pidurangala temple trail</h3><p>Sigiriya. Already part of tomorrow’s climb.</p></div></a>
-    </div>
-  </div>
+  <!-- ============ PLAN A TRIP ============ -->
+  <div id="pane-plan" class="pane" hidden></div>
+
+  <!-- ============ SAVED ============ -->
+  <div id="pane-saved" class="pane" hidden></div>
 
   <!-- ============ MESSAGES ============ -->
   <div id="pane-messages" class="pane" hidden>
-    <div class="pane-head"><div><h2>Messages</h2></div></div>
+    <div class="pane-head"><div><h2>Messages</h2><p>Chats with your hosts and with Ceylon Nooks support.</p></div></div>
     <div class="chat-slot">
       <h3>Your existing chat goes here, unchanged</h3>
-      <p style="max-width:52ch;margin:0 auto;color:var(--cn-muted)">The redesign only adds the unread badge and deep links. “Message Arkam” on a trip opens straight into that thread.</p>
+      <p style="max-width:52ch;margin:0 auto;color:var(--cn-muted)">Only the unread badge and deep links are new. “Message Arkam” on a booking opens straight into that thread.</p>
     </div>
   </div>
 
   <!-- ============ PROFILE ============ -->
   <div id="pane-profile" class="pane" hidden>
-   <div class="acct-layout">
-    <nav class="acct-nav" aria-label="Account">
-      <h2>Account</h2>
-      <a href="#profile" aria-current="page"><svg class="i"><use href="#i-user"/></svg>Profile</a><a href="#settings"><svg class="i"><use href="#i-gear"/></svg>Settings and payments</a><a href="#help"><svg class="i"><use href="#i-help"/></svg>Help centre</a>
-    </nav>
-    <div>
     <div class="pane-head"><div><h2>Profile</h2><p>Hosts only see your first name, phone number and group size.</p></div></div>
     <div class="two">
+      <div style="display:flex;flex-direction:column;gap:16px">
       <form class="cardish" onsubmit="event.preventDefault();toast('Profile saved')">
+        <div class="photo-row"><span class="me big">JC</span><div><b>Profile photo</b><small>Helps your host recognise you at pickup</small></div><button type="button" class="btn" data-toast="Photo picker opens here">Change photo</button></div>
         <div class="form">
           <div><label class="lbl" for="fn">First name</label><input id="fn" type="text" value="John" autocomplete="given-name"></div>
           <div><label class="lbl" for="ln">Last name</label><input id="ln" type="text" value="Carter" autocomplete="family-name"></div>
@@ -589,20 +651,15 @@ footer.foot{border-top:1px solid var(--cn-border);padding:20px 0 40px;font-size:
         </div>
         <div style="display:flex;justify-content:flex-end;margin-top:24px"><button class="btn primary" type="submit">Save profile</button></div>
       </form>
-      <aside class="cardish"><h3 style="font-size:17px;margin-bottom:8px">Why the phone number matters</h3><p style="font-size:14px">Pickups in Sri Lanka often start before sunrise. If your driver can’t find you in the lobby, a call is the only way to avoid a missed trip.</p></aside>
+      <section class="cardish" id="partners" aria-labelledby="tp-title"></section>
+      </div>
+      <aside class="cardish"><h3 style="font-size:16px;margin-bottom:8px">Why the phone number matters</h3><p style="font-size:14px">Pickups in Sri Lanka often start before sunrise. If your driver can’t find you in the lobby, a call is the only way to avoid a missed trip.</p>
+        <h3 style="font-size:16px;margin:20px 0 8px">Travel partners</h3><p style="font-size:14px">People you add here can be invited to your plans, see shared bookings and vote on ideas.</p></aside>
     </div>
-    </div>
-   </div>
   </div>
 
   <!-- ============ SETTINGS ============ -->
   <div id="pane-settings" class="pane" hidden>
-   <div class="acct-layout">
-    <nav class="acct-nav" aria-label="Account">
-      <h2>Account</h2>
-      <a href="#profile"><svg class="i"><use href="#i-user"/></svg>Profile</a><a href="#settings" aria-current="page"><svg class="i"><use href="#i-gear"/></svg>Settings and payments</a><a href="#help"><svg class="i"><use href="#i-help"/></svg>Help centre</a>
-    </nav>
-    <div>
     <div class="pane-head"><div><h2>Settings and payments</h2></div></div>
     <div class="two">
       <div class="cardish">
@@ -612,46 +669,28 @@ footer.foot{border-top:1px solid var(--cn-border);padding:20px 0 40px;font-size:
         <div class="setrow"><div><b>Display currency</b><small>You’re charged in the currency shown at checkout</small></div><select style="width:110px" aria-label="Display currency"><option>USD</option><option>AUD</option><option>GBP</option><option>EUR</option><option>LKR</option></select></div>
       </div>
       <aside class="cardish">
-        <h3 style="font-size:17px;margin-bottom:12px">Payment and refunds</h3>
+        <h3 style="font-size:16px;margin-bottom:12px">Payment cards</h3>
         <div class="host-mini" style="margin:0"><span class="av" style="border-radius:8px;background:var(--cn-ink);color:#fff;font-size:11px">VISA</span><span class="t"><b>Visa ending 4242</b>Refunds go back to this card</span></div>
         <button class="btn" style="width:100%;margin-top:16px">Add a card</button>
       </aside>
     </div>
-    </div>
-   </div>
   </div>
 
   <!-- ============ HELP ============ -->
   <div id="pane-help" class="pane" hidden>
-   <div class="acct-layout">
-    <nav class="acct-nav" aria-label="Account">
-      <h2>Account</h2>
-      <a href="#profile"><svg class="i"><use href="#i-user"/></svg>Profile</a><a href="#settings"><svg class="i"><use href="#i-gear"/></svg>Settings and payments</a><a href="#help" aria-current="page"><svg class="i"><use href="#i-help"/></svg>Help centre</a>
-    </nav>
-    <div>
-      <div class="pane-head"><div><h2>Help centre</h2><p>Most answers are on your trip page. For anything else, we’re here around the clock.</p></div></div>
-      <div class="two">
-        <div class="cardish">
-          <div class="setrow"><div><b>How cancellations and refunds work</b><small>The 48-hour rule, in plain words</small></div><a class="btn" href="#" data-policy>Read</a></div>
-          <div class="setrow"><div><b>My driver or guide hasn’t arrived</b><small>Call the host first. Their number is on your trip, 24 hours before pickup</small></div><a class="btn" href="#trips">Go to trips</a></div>
-          <div class="setrow"><div><b>Change a booking</b><small>Open the trip and choose Change date</small></div><a class="btn" href="#trips">Go to trips</a></div>
-        </div>
-        <aside class="cardish"><h3 style="font-size:17px;margin-bottom:8px">24/7 traveller line</h3><p style="font-size:14px;margin-bottom:14px">English, Sinhala and Tamil.</p><a class="btn primary" href="tel:+94112000000" style="width:100%">Call +94 11 200 0000</a><a class="btn" href="#messages" style="width:100%;margin-top:8px">Message support</a></aside>
+    <div class="pane-head"><div><h2>Help centre</h2><p>Most answers are on your booking. For anything else, we’re here around the clock.</p></div></div>
+    <div class="two">
+      <div class="cardish">
+        <div class="setrow"><div><b>How cancellations and refunds work</b><small>The 48-hour rule, in plain words</small></div><a class="btn" href="#" data-policy>Read</a></div>
+        <div class="setrow"><div><b>My driver or guide hasn’t arrived</b><small>Call the host first. Their number is on your booking, 24 hours before pickup</small></div><a class="btn" href="#bookings">My bookings</a></div>
+        <div class="setrow"><div><b>Change a booking</b><small>Open the booking and choose Change date</small></div><a class="btn" href="#bookings">My bookings</a></div>
       </div>
+      <aside class="cardish"><h3 style="font-size:16px;margin-bottom:8px">24/7 traveller line</h3><p style="font-size:14px;margin-bottom:14px">English, Sinhala and Tamil.</p><a class="btn primary" href="tel:+94112000000" style="width:100%">Call +94 11 200 0000</a><a class="btn" href="#messages" style="width:100%;margin-top:8px">Message support</a></aside>
     </div>
-   </div>
   </div>
 </main>
 
-<footer class="foot"><div class="wrap">Trip photos are Creative Commons images from Flickr, credited in the README.</div></footer>
-
-<nav class="tabbar" aria-label="App">
-  <a href="#" data-toast="Opens the Things to do search"><svg class="i"><use href="#i-search"/></svg>Explore</a>
-  <a href="#saved" data-nav="saved"><svg class="i"><use href="#i-heart"/></svg>Saved</a>
-  <a href="#trips" data-nav="trips"><svg class="i"><use href="#i-bag"/></svg>Trips</a>
-  <a href="#messages" data-nav="messages" aria-label="Messages, 1 unread"><svg class="i"><use href="#i-chat"/></svg>Messages<span class="badge">1</span></a>
-  <a href="#profile" data-nav="account"><span class="me" aria-hidden="true">JC</span>Account</a>
-</nav>
+<footer class="foot"><div class="wrap" style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap"><span>Trip photos are Creative Commons images from Flickr, credited in the README.</span><a href="#" id="demo-toggle" style="color:var(--cn-muted)">Preview as a new traveller (empty states)</a></div></footer>
 
 <div class="scrim" id="scrim"></div>
 <aside class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sh-title">
@@ -695,7 +734,7 @@ const trips = [
     host:'Malini Jayasuriya', hostShort:'Malini', init:'MJ', ref:'CNE71102267',
     start:'2026-09-30T08:00:00+05:30', hours:3, party:'2 adults', meet:'Queen’s Hotel entrance, Kandy',
     lines:[['Experience price','2 adults at $44.00',88]], addons:[], fee:8.80,
-    cancelled:'2026-09-20T15:40:00+05:30', refund:96.80, stage:2 },
+    cancelled:'2026-09-20T15:40:00+05:30', refund:91.96, stage:2 },
   { id:'mirissa', status:'upcoming', img:'img/mirissa-whale.jpg', alt:'A blue whale’s tail lifting out of the sea off Mirissa',
     credit:'Kenny Ross, CC BY 2.0',
     title:'Blue whale watching in Mirissa', place:'Mirissa', lat:5.948, lon:80.456,
@@ -708,6 +747,19 @@ const trips = [
     unread:0 },
 ];
 const saved = [{name:'Galle',lat:6.026,lon:80.217},{name:'Adam’s Peak',lat:6.809,lon:80.4994}];
+const savedIdeas=[
+  {img:'img/galle-fort.jpg',title:'Galle Fort walking tour',meta:'Galle. Half a day',alt:'A quiet alley inside Galle Fort'},
+  {img:'img/adams-peak.jpg',title:'Adam’s Peak night climb',meta:'Dalhousie. Season Dec to May',alt:'Adam’s Peak above the hill country'},
+  {img:'img/pidurangala.jpg',title:'Pidurangala temple trail',meta:'Sigiriya. Sunrise views',alt:'Forest path at Pidurangala Rock'}];
+const partners=[{name:'Emma Carter',email:'emma.carter@example.com',rel:'Partner',status:'joined',init:'EC'},{name:'Daniel Okafor',email:'daniel.o@example.com',rel:'Friend',status:'invited',init:'DO'}];
+const myPlan={title:'Two weeks in Sri Lanka',when:'December 2026',stops:[
+  {place:'Colombo',nights:2,ideas:['Gangaramaya Temple','Galle Face Green at sunset']},
+  {place:'Kandy',nights:2,ideas:['Temple of the Tooth','Royal Botanic Gardens']},
+  {place:'Ella',nights:3,ideas:['Ella to Kandy train','Little Adam’s Peak']},
+  {place:'Galle and Mirissa',nights:4,ideas:['Galle Fort walking tour','Whale watching']}],
+  offers:[{name:'Lanka Trails Co.',init:'LT',state:'Offer received',price:'$2,140 for 2'},{name:'Arkam Sahdi',init:'AS',state:'Invited, waiting',price:''}]};
+let EMPTY=false;
+const T=()=>EMPTY?[]:trips;
 const towns = [{name:'Colombo',lat:6.927,lon:79.861},{name:'Jaffna',lat:9.661,lon:80.026},{name:'Trincomalee',lat:8.587,lon:81.215},{name:'Galle',lat:6.026,lon:80.217,skip:true}];
 
 /* ---------- helpers ---------- */
@@ -724,16 +776,21 @@ const sub=t=>t.lines.reduce((a,l)=>a+l[2],0)+t.addons.reduce((a,l)=>a+l[2],0);
 const vat=t=>t.vat?r2(sub(t)*VAT_RATE):0;
 const disc=t=>t.coupon?t.coupon.amount:0;
 const total=t=>r2(sub(t)+vat(t)+t.fee-disc(t));
-function bill(t,label){
+/* Refunds (Akila, 7 Oct): Ceylon Nooks keeps no fee. Everything is refunded except a 5% payment
+   gateway reversal fee. Inside 48 h a request goes to an admin, with reason and evidence. */
+const GATEWAY=0.05;
+const gwFee=t=>r2(total(t)*GATEWAY);
+const refundable=t=>r2(total(t)-gwFee(t));
+function bill(t,label,open){
   const L=(a,b,v,cls='')=>`<tr class="${cls}"><td>${a}${b?`<small>${b}</small>`:''}</td><td>${v}</td></tr>`;
-  return `<div class="bill-total"><span>${label}</span><b class="num">${money(total(t))}</b></div>
-   <table class="bill num">
+  return `<div class="bill-total"><span>${label}<small class="price-k" style="display:block;font-weight:400">Includes taxes and fees</small></span><b class="num">${money(total(t))}</b></div>
+   <details class="breakdown"${open?' open':''}><summary>See price details ${svg('down')}</summary><table class="bill num">
     ${t.lines.map(([a,b,v])=>L(a,b+'. The provider’s price',money(v))).join('')}
     ${t.addons.map(([a,b,v])=>L('Add-on: '+a,b,money(v),'add')).join('')}
     ${t.vat?L(`VAT (${VAT_RATE*100}%), collected for the provider`,`${t.host} is VAT registered in Sri Lanka. Ceylon Nooks passes this on in full`,money(vat(t))):''}
-    ${L('Service fee','Ceylon Nooks fee. Covers payment protection and the 24/7 traveller line',money(t.fee))}
+    ${L('Service fee','Covers payment protection and the 24/7 traveller line',money(t.fee))}
     ${t.coupon?L(`Discount (${t.coupon.code})`,'Paid by Ceylon Nooks. Your host still receives the full price',`−${money(t.coupon.amount)}`,'disc'):''}
-   </table>`;
+   </table></details>`;
 }
 const fDate=(x,o)=>x.toLocaleDateString('en-GB',{...TZ,...o});
 const fLong=x=>fDate(x,{weekday:'long',day:'numeric',month:'long'});
@@ -748,9 +805,8 @@ function rel(t){const n=daysBetween(NOW,d(t.start));return n===0?'Today':n===1?'
 function untilText(ms){const h=Math.floor(ms/HOUR),m=Math.round(ms%HOUR/6e4);return h>=48?`in ${Math.round(h/24)} days`:`in ${h} h ${m} min`}
 function toast(m){const e=$('#toast');e.textContent=m;e.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('show'),2600)}
 function refundNow(t){
-  const tot=total(t);
-  if(isFree(t)) return {kind:'ok',amount:tot,title:`${money(tot)} back if you cancel now`,line:`Full refund until ${fShort(cutoff(t))}, ${fTime(cutoff(t))}`};
-  return {kind:'warn',amount:tot-t.fee,title:`Ask for up to ${money(tot-t.fee)} back`,line:`Free cancellation ended ${fShort(cutoff(t))}, ${fTime(cutoff(t))}. ${t.hostShort[0].toUpperCase()+t.hostShort.slice(1)} replies within 24 h`};
+  if(isFree(t)) return {kind:'ok',amount:refundable(t),title:`Free cancellation until ${fShort(cutoff(t))}, ${fTime(cutoff(t))}`,line:`Plans change? You can change the date or cancel from the booking`};
+  return {kind:'warn',amount:refundable(t),title:`Pickup ${rel(t)?rel(t).toLowerCase():'soon'} at ${fTime(d(t.start))}`,line:`Free cancellation has ended. If something comes up, you can still request a refund from the booking`};
 }
 function qr(seed){ /* decorative, deterministic QR-style mark */
   let s=[...seed].reduce((a,c)=>a*31+c.charCodeAt(0)>>>0,7),cells='';
@@ -768,15 +824,20 @@ const proj=(lat,lon)=>[(lon-L0)*K*C,(LA0-lat)*K];
 
 /* ---------- header ---------- */
 function renderHeader(){
-  const nx=trips.filter(t=>t.status==='upcoming').sort((a,b)=>d(a.start)-d(b.start))[0];
-  $('#lede').innerHTML = nx ? `Your ${nx.place} trip is <b>${(rel(nx)||'on '+fShort(d(nx.start))).toLowerCase()}</b>. Pickup is at ${fTime(d(nx.start))}.` : 'No trips booked yet.';
+  const nx=T().filter(t=>t.status==='upcoming').sort((a,b)=>d(a.start)-d(b.start))[0];
+  $('#lede').innerHTML = nx ? `Your ${nx.place} trip is <b>${(rel(nx)||'on '+fShort(d(nx.start))).toLowerCase()}</b>. Pickup is at ${fTime(d(nx.start))}.` : 'Welcome to Ceylon Nooks. This is where your bookings and plans will live.';
 }
 
 /* ---------- next trip hero ---------- */
 function renderNext(){
-  const t=trips.filter(t=>t.status==='upcoming').sort((a,b)=>d(a.start)-d(b.start))[0];
+  const t=T().filter(t=>t.status==='upcoming').sort((a,b)=>d(a.start)-d(b.start))[0];
   const el=$('#next'), strip=$('#strip');
-  if(!t){el.innerHTML='';strip.innerHTML='<div class="msg">No upcoming trips. <a href="#">Find something to do</a></div>';return}
+  el.hidden=strip.hidden=!t; $('#welcome')?.remove();
+  if(!t){el.insertAdjacentHTML('beforebegin',`<section class="empty-card" id="welcome">
+    <div><h2>No bookings yet</h2><p>When you book an experience it appears here with your pickup time, meeting point, host contact and voucher. Start by exploring, or collect ideas in a plan with your travel partners.</p>
+      <div class="acts"><a class="btn primary" href="#">Explore experiences</a><a class="btn" href="#plan">Start a plan</a></div></div>
+    <div><p class="price-k" style="margin-bottom:10px">Popular this week</p><div class="pop">
+      <a href="#"><img src="img/sigiriya.jpg" alt="">Sigiriya</a><a href="#"><img src="img/ella-nine-arch.jpg" alt="">Ella</a><a href="#"><img src="img/mirissa-whale.jpg" alt="">Mirissa</a></div></div></section>`);return}
   const s=d(t.start), r=refundNow(t);
   el.innerHTML=`
     <img src="${t.img}" alt="${t.alt}" fetchpriority="high">
@@ -810,7 +871,7 @@ function renderNext(){
     <div class="msg"><span class="dotstate ${r.kind}"></span><span><b>${r.title}.</b> ${r.line}.</span></div>
     <div class="acts">
       <button class="btn" data-cal="${t.id}">${svg('cal')}Add to calendar</button>
-      <button class="btn" data-manage="${t.id}">Change or cancel</button>
+      <button class="btn" data-resched-id="${t.id}">${svg('swap')}Change date</button>
     </div>`;
   requestAnimationFrame(placePerf);
 }
@@ -821,8 +882,16 @@ function mapsUrl(t){return `https://www.google.com/maps/search/?api=1&query=${t.
 /* ---------- timeline ---------- */
 /* Upcoming first (soonest on top), then past (newest on top), then cancellations.
    No filter control to learn: the order answers "what's next?" without scrolling. */
+let cat='all';
+function renderCats(){
+  const n=T().length;
+  $('#cats').innerHTML=[['all','All',n],['exp','Experiences',n],['stay','Stays',null],['ride','Transportation',null]]
+    .map(([k,l,c])=>`<button class="chip" data-cat="${k}" aria-pressed="${cat===k}" ${c===null?'disabled title="Coming soon"':''}>${l}${c===null?' <small>Soon</small>':` <small>${c}</small>`}</button>`).join('');
+}
 function renderTimeline(){
-  const by=(st,dir)=>trips.filter(t=>t.status===st).sort((a,b)=>dir*(d(a.start)-d(b.start)));
+  renderCats();
+  if(!T().length){$('#timeline').innerHTML=`<div class="empty-mini" style="margin-top:16px"><h3>Your bookings will show here</h3><p>Upcoming first, then past trips and any cancellations.</p></div>`;return}
+  const by=(st,dir)=>T().filter(t=>t.status===st).sort((a,b)=>dir*(d(a.start)-d(b.start)));
   const groups=[
     {key:'upcoming',title:'Upcoming',list:by('upcoming',1),empty:'No upcoming trips. <a href="#">Find something to do in Sri Lanka</a>.'},
     {key:'past',title:'Past trips',list:by('past',-1)},
@@ -846,10 +915,10 @@ function renderTimeline(){
 }
 function row(t){
   const s=d(t.start), tot=total(t);
-  let state='',side=`<div><div class="amt num">${money(tot)}</div><div class="amt-k">Paid</div></div>`;
+  let state='',side=`<div><div class="amt num">${money(tot)}</div><div class="amt-k">Total, incl. taxes and fees</div></div>`;
   if(t.status==='upcoming'){
     const r=refundNow(t);
-    state=`<span class="state ${r.kind}">${svg('shield','i')} ${isFree(t)?`Free cancellation until ${fShort(cutoff(t))}`:'Free cancellation ended, refund on request'}</span>`;
+    state=`<span class="state ${r.kind}">${svg('shield','i')} ${isFree(t)?`Free cancellation until ${fShort(cutoff(t))}`:'Confirmed'}</span>`;
   }else if(t.status==='past'){
     state=t.reviewed?`<span class="state ok">${svg('check')} Thanks, your review is live</span>`:
       `<div class="review">How was it with ${t.hostShort}? <span class="stars" data-rate="${t.id}">${[1,2,3,4,5].map(n=>`<button type="button" data-star="${n}" aria-label="${n} out of 5"><svg viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9l-5.2 2.8 1-5.9-4.3-4.1 5.9-.8z"/></svg></button>`).join('')}</span></div>`;
@@ -876,16 +945,16 @@ function row(t){
 
 /* ---------- map ---------- */
 function renderMap(){
-  const ordered=trips.filter(t=>t.status!=='cancelled').sort((a,b)=>d(a.start)-d(b.start));
+  const ordered=T().filter(t=>t.status!=='cancelled').sort((a,b)=>d(a.start)-d(b.start));
   const pts=ordered.map(t=>proj(t.lat,t.lon));
   const doneIdx=ordered.findIndex(t=>t.status!=='past');
   const pathOf=a=>a.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+','+p[1].toFixed(1)).join('');
   const donePts=doneIdx<0?pts:pts.slice(0,doneIdx), nextPts=doneIdx<0?[]:pts.slice(Math.max(doneIdx-1,0));
   const nextId=ordered[doneIdx]?.id;
   let pins='';
-  saved.forEach(p=>{const [x,y]=proj(p.lat,p.lon);pins+=`<g><circle cx="${x}" cy="${y}" r="5" fill="#fff" stroke="#F15623" stroke-width="2"/><text class="pin-label" x="${x-9}" y="${y+3}" text-anchor="end" style="font-weight:600;fill:var(--cn-muted)">${p.name}</text></g>`});
-  trips.forEach(t=>{
-    const [x,y]=proj(t.lat,t.lon), c=t.status==='past'?'#2B1A10':t.status==='cancelled'?'#C9C1B7':'#F15623';
+  (EMPTY?[]:saved).forEach(p=>{const [x,y]=proj(p.lat,p.lon);pins+=`<g><circle cx="${x}" cy="${y}" r="5" fill="#fff" stroke="#F15623" stroke-width="2"/><text class="pin-label" x="${x-9}" y="${y+3}" text-anchor="end" style="font-weight:600;fill:var(--cn-muted)">${p.name}</text></g>`});
+  T().forEach(t=>{
+    const [x,y]=proj(t.lat,t.lon), c=t.status==='past'?'#18181B':t.status==='cancelled'?'#C9C9CE':'#F15623';
     const n=ordered.indexOf(t)+1;
     const lx=t.id==='kandy'?x-13:x+13, anchor=t.id==='kandy'?'end':'start';
     pins+=`<g class="pin" data-pin="${t.id}" tabindex="0" role="button" aria-label="${t.title}, ${t.status}">
@@ -904,8 +973,9 @@ function renderMap(){
     <path class="route" id="route-next" d="${pathOf(nextPts)}"/>
     ${pins}
   </svg>`;
-  const booked=trips.filter(t=>t.status==='upcoming').length, done=trips.filter(t=>t.status==='past').length;
-  $('#map-lede').textContent=`${done} place visited, ${booked} still to go. Your route follows the dates you booked.`;
+  const booked=T().filter(t=>t.status==='upcoming').length, done=T().filter(t=>t.status==='past').length;
+  $('#map-lede').textContent=EMPTY?'Places you book appear here, joined in the order you’ll visit them.':`${done} place visited, ${booked} still to go. Your route follows the dates you booked.`;
+  $('#prep').hidden=EMPTY;
 }
 
 /* ---------- trip sheet ---------- */
@@ -913,7 +983,7 @@ let cur=null, lastFocus=null;
 function openSheet(id){
   const t=trips.find(x=>x.id===id); if(!t)return; cur=t; lastFocus=document.activeElement;
   const s=d(t.start), tot=total(t);
-  let html=`<div class="sh-hero"><img src="${t.img}" alt="${t.alt}"><button class="sh-close" data-close aria-label="Close trip details">${svg('x')}</button><button class="sh-back" data-close aria-label="Back to trips">${svg('chev')}Trips</button>
+  let html=`<div class="sh-hero"><img src="${t.img}" alt="${t.alt}"><button class="sh-close" data-close aria-label="Close trip details">${svg('x')}</button><button class="sh-back" data-close aria-label="Back to my bookings">${svg('chev')}My bookings</button>
     <div><h2 id="sh-title">${t.title}</h2><p>${fLong(s)}, ${fTime(s)}. About ${t.hours} hours, ${t.party}.</p></div></div><div class="sh-body">`;
   if(t.status==='upcoming'){
     const r=refundNow(t), c=cutoff(t), booked=d(t.booked), span=s-booked;
@@ -935,21 +1005,22 @@ function openSheet(id){
         <ul class="pack">${t.pack.map((p,i)=>`<li><label><input type="checkbox" data-pack="${t.id}-${i}" ${packState[t.id+'-'+i]?'checked':''}><span>${p}</span></label></li>`).join('')}</ul></section>
       <section class="panel"><h3>What you paid</h3>
         ${bill(t,'Total paid, Visa ending 4242')}
-        <div class="refund-now">
-          <div class="row"><span style="font-weight:700;color:var(--cn-ink)">If you cancel now</span><span class="big num ${r.kind}">${money(r.amount)}</span></div>
-          <p>${isFree(t)?'Everything you paid, including VAT and the service fee.':`This is the most you can ask for: what you paid minus the ${money(t.fee)} service fee, which isn’t refunded once free cancellation ends.`}</p>
-          <div class="ptl" aria-hidden="true"><i style="width:${pCut}%;background:var(--ok);border-radius:4px 0 0 4px"></i><i style="flex:1;background:#E5B04A;border-radius:0 4px 4px 0"></i><span class="now" style="left:${pNow}%"></span></div>
-          <div class="ptl-l"><div><b>Booked</b>${fShort(booked)}</div><div><b>Full refund ends</b>${fShort(c)}, ${fTime(c)}</div><div><b>Pickup</b>${fShort(s)}</div></div>
-        </div>
+      </section>
+      <section class="panel"><div class="head"><h3>Cancellation policy</h3><span>Ceylon Nooks standard policy</span></div>
+        <div class="ptl" aria-hidden="true" style="margin-top:8px"><i style="width:${pCut}%;background:var(--ok);border-radius:4px 0 0 4px"></i><i style="flex:1;background:#E5B04A;border-radius:0 4px 4px 0"></i><span class="now" style="left:${pNow}%"></span></div>
+        <div class="ptl-l"><div><b>Booked</b>${fShort(booked)}</div><div><b>Free cancellation ends</b>${fShort(c)}, ${fTime(c)}</div><div><b>Pickup</b>${fShort(s)}</div></div>
+        <p style="font-size:13px;margin-top:14px">${isFree(t)?`Cancel before ${fShort(c)}, ${fTime(c)} and we refund everything except a 5% payment processing fee.`:`Free cancellation has ended. If something unexpected happens, like a delayed flight or illness, you can request a refund and our team will review it.`}</p>
+        <div class="cancel-row"><span>Can’t make it? Try <button class="linkish" data-reschedule>changing the date</button> first.</span><button class="linkish" data-cancel>${isFree(t)?'Cancel booking':'Request a refund'}</button></div>
       </section>`;
-    $('#sh-foot').innerHTML=`<button class="btn" data-reschedule>${svg('swap')}Change date</button><button class="btn danger" data-cancel>Cancel booking</button><button class="btn icon" data-cal="${t.id}" aria-label="Add to calendar">${svg('cal')}</button>`;
+    $('#sh-foot').innerHTML=`<button class="btn primary" data-reschedule>${svg('swap')}Change date</button><button class="btn" data-cal="${t.id}">${svg('cal')}Add to calendar</button>`;
   } else if(t.status==='past'){
     html+=`<section class="panel"><div class="head"><h3>${t.vat?'Tax invoice':'Receipt'}</h3>${t.vat?'<span>VAT collected for '+t.host+'</span>':''}</div>${bill(t,'Total paid, Visa ending 4242')}</section>
       <section class="panel"><h3>${t.reviewed?'Thanks for your review':'Leave a review for '+t.host}</h3><p style="font-size:14px">Reviews from real travellers are what new guides in Ella depend on.</p></section>`;
     $('#sh-foot').innerHTML=`<button class="btn" data-toast="Receipt downloaded">${svg('dl')}Download receipt</button><button class="btn primary" data-toast="Opening ${t.place} experiences">Book with ${t.hostShort} again</button>`;
   } else {
-    const st=[['Cancelled',fShort(d(t.cancelled))],['Approved','Automatic, inside free cancellation'],['Sent to card','Mon 21 Sep'],['In your account','Expected by Fri 2 Oct']];
+    const st=[['Cancelled',fShort(d(t.cancelled))],['Approved','Cancelled inside free cancellation'],['Sent to card','Mon 21 Sep'],['In your account','Expected by Fri 2 Oct']];
     html+=`<section class="panel"><div class="head"><h3>Refund</h3><span class="num" style="font:700 22px var(--display);color:var(--ok)">${money(t.refund)}</span></div>
+      <table class="bill num" style="margin-bottom:12px"><tr><td>Total paid</td><td>${money(total(t))}</td></tr><tr><td>Payment processing fee (5%)<small>Charged by the payment gateway when a refund is made</small></td><td>−${money(gwFee(t))}</td></tr><tr class="tot"><td>Refund to Visa ending 4242</td><td style="color:var(--ok)">${money(t.refund)}</td></tr></table>
       <ol class="plan">${st.map(([a,b],i)=>`<li><time></time><span class="nd" style="${i<=t.stage?'background:var(--ok);border-color:var(--ok)':''}"></span><span><b style="color:var(--cn-ink)">${a}</b><br><span style="color:var(--cn-muted);font-size:13px">${b}</span></span></li>`).join('')}</ol>
       <p class="note info" style="margin-top:12px">Banks can take up to 10 working days to show a refund. If it hasn’t arrived by 5 October, message support and quote ${t.ref}.</p></section>`;
     $('#sh-foot').innerHTML=`<a class="btn" href="#messages">${svg('chat')}Message support</a><button class="btn primary" data-toast="Opening Kandy experiences">Find something else in Kandy</button>`;
@@ -969,31 +1040,42 @@ function dlg(html){const e=$('#dlg');e.innerHTML=html;e.classList.add('open');$(
 function closeDlg(){$('#dlg').classList.remove('open');$('#dlg-scrim').classList.remove('open')}
 const head=(t)=>`<div class="dh"><h2 id="dlg-title">${t}</h2><button class="x" data-dclose aria-label="Close">${svg('x')}</button></div>`;
 const prog=n=>`<div class="prog" aria-label="Step ${n} of 3">${[1,2,3].map(i=>`<i class="${i<=n?'on':''}"></i>`).join('')}</div>`;
-let reason='';
+let reason='', evidence=[];
 function cancelStep(n){
-  const t=cur, r=refundNow(t), free=isFree(t);
-  if(n===1) dlg(`${head(free?'Cancel this booking?':'Ask for a refund?')}${prog(1)}<div class="db">
-      <div class="money-hero"><div class="big num ${r.kind}">${money(r.amount)}</div>
-      <p>${free?`back to Visa ending 4242 if you cancel now. Full refund ends ${fShort(cutoff(t))}, ${fTime(cutoff(t))}.`:`is the most you can ask for. ${t.hostShort[0].toUpperCase()+t.hostShort.slice(1)} decides within 24 hours. Until then, your booking stays active.`}</p></div>
+  const t=cur, free=isFree(t);
+  if(n===1) dlg(free?`${head('Cancel this booking?')}${prog(1)}<div class="db">
+      <div class="money-hero"><div class="big num ok">${money(refundable(t))}</div>
+      <p>back to Visa ending 4242 if you cancel now: everything you paid, minus a 5% payment processing fee (${money(gwFee(t))}).</p></div>
       <p class="note info">Can’t make the date? <a href="#" data-reschedule>Change the date instead</a>. It’s free when the host has space.</p>
-    </div><div class="df"><button class="btn" data-dclose>Keep booking</button><button class="btn primary" data-cstep="2">Continue</button></div>`);
+    </div><div class="df"><button class="btn primary" data-dclose>Keep booking</button><button class="btn" data-cstep="2">Continue to cancel</button></div>`
+    :`${head('Request a refund')}${prog(1)}<div class="db">
+      <p style="font-size:15px">Free cancellation ended on ${fShort(cutoff(t))}. You can still ask for a refund if something unexpected has happened.</p>
+      <ul style="font-size:14px;margin:14px 0 0;padding-left:20px;line-height:1.7"><li>Tell us what happened and attach any evidence, such as a flight delay notice or a doctor’s note.</li><li>Our team reviews every request and replies by email, usually within 2 working days.</li><li>Your booking stays active until we reply.</li></ul>
+      <p class="note info" style="margin-top:14px">Can’t make the date? <a href="#" data-reschedule>Change the date instead</a>.</p>
+    </div><div class="df"><button class="btn primary" data-dclose>Keep booking</button><button class="btn" data-cstep="2">Continue</button></div>`);
   if(n===2){
-    const rs=['My plans changed','Worried about weather or safety','Health reasons','I booked the wrong date','Something else'];
-    dlg(`${head('What’s changed?')}${prog(2)}<div class="db"><p style="font-size:14px;margin-bottom:12px">${free?'Optional, but it helps hosts plan.':`${t.hostShort[0].toUpperCase()+t.hostShort.slice(1)} sees this when deciding on your refund.`}</p>
+    const rs=free?['My plans changed','Worried about weather or safety','Health reasons','I booked the wrong date','Something else']:['Flight delayed or cancelled','Illness or injury','Family emergency','Severe weather or safety','Something else'];
+    dlg(`${head('What’s happened?')}${prog(2)}<div class="db"><p style="font-size:14px;margin-bottom:12px">${free?'Optional. It helps hosts plan.':'Our team uses this to review your request.'}</p>
       ${rs.map(x=>`<label class="choice"><input type="radio" name="why" value="${x}" ${reason===x?'checked':''}>${x}</label>`).join('')}
-      <label class="lbl" for="why-note">Note for ${t.hostShort} (optional)</label><textarea id="why-note" rows="2" placeholder="For example: our flight to Colombo moved to Saturday"></textarea>
+      <label class="lbl" for="why-note">${free?'Anything else? (optional)':'Tell us more'}</label><textarea id="why-note" rows="2" placeholder="For example: our flight to Colombo was cancelled"></textarea>
+      ${free?'':`<label class="lbl">Evidence (recommended)</label><label class="upload">${svg('clip')}<input type="file" id="ev" multiple accept="image/*,.pdf"><span id="ev-txt"><b>Attach files</b>. Photos or PDFs, up to 10 MB each</span></label>`}
     </div><div class="df"><button class="btn" data-cstep="1">Back</button><button class="btn primary" id="why-next" data-cstep="3" ${free||reason?'':'disabled'}>Review</button></div>`);
     $$('#dlg [name=why]').forEach(i=>i.onchange=()=>{reason=i.value;$('#why-next').disabled=false});
+    const ev=$('#ev'); if(ev)ev.onchange=()=>{evidence=[...ev.files].map(f=>f.name);$('#ev-txt').innerHTML=evidence.length?`<b>${evidence.length} file${evidence.length>1?'s':''} attached</b>: ${evidence.join(', ')}`:'<b>Attach files</b>'};
   }
-  if(n===3) dlg(`${head(free?'Confirm cancellation':'Send refund request')}${prog(3)}<div class="db">
-      <table class="bill num"><tr><td>${t.title}</td><td></td></tr><tr><td>Paid</td><td>${money(total(t))}</td></tr>
-      ${free?'':`<tr><td>Service fee, not refundable now</td><td>−${money(t.fee)}</td></tr>`}
-      <tr class="tot"><td>${free?'Refund to Visa ending 4242':'You’re asking for'}</td><td style="color:var(--ok)">${money(r.amount)}</td></tr></table>
+  if(n===3) dlg(free?`${head('Confirm cancellation')}${prog(3)}<div class="db">
+      <table class="bill num"><tr><td>${t.title}</td><td></td></tr><tr><td>Total paid</td><td>${money(total(t))}</td></tr>
+      <tr><td>Payment processing fee (5%)</td><td>−${money(gwFee(t))}</td></tr>
+      <tr class="tot"><td>Refund to Visa ending 4242</td><td style="color:var(--ok)">${money(refundable(t))}</td></tr></table>
       ${reason?`<p style="font-size:13px;color:var(--cn-muted);margin-top:12px">Reason: ${reason}</p>`:''}
-    </div><div class="df"><button class="btn" data-cstep="2">Back</button><button class="btn primary" data-confirm style="background:var(--bad);border-color:var(--bad)">${free?`Cancel and refund ${money(r.amount)}`:'Send request'}</button></div>`);
+    </div><div class="df"><button class="btn" data-cstep="2">Back</button><button class="btn primary" data-confirm>Cancel booking</button></div>`
+    :`${head('Send refund request')}${prog(3)}<div class="db">
+      <table class="bill num"><tr><td>Booking</td><td>${t.ref}</td></tr><tr><td>Reason</td><td>${reason||'—'}</td></tr><tr><td>Evidence</td><td>${evidence.length?evidence.length+' file'+(evidence.length>1?'s':''):'None attached'}</td></tr></table>
+      <p class="note warn" style="margin-top:14px">This is a request, not a cancellation. Depending on what happened and the host’s policy, the refund can be full, partial or none. Refunds exclude a 5% payment processing fee.</p>
+    </div><div class="df"><button class="btn" data-cstep="2">Back</button><button class="btn primary" data-confirm>Send request</button></div>`);
   if(n===4) dlg(`<div class="db" style="text-align:center;padding-top:28px"><div class="done-ic">${svg('check')}</div>
-      <h2 id="dlg-title" style="font-size:24px">${free?'Booking cancelled':'Request sent'}</h2>
-      <p style="margin:10px auto 0;max-width:40ch">${free?`${money(r.amount)} is on its way to Visa ending 4242. We’ve emailed you the confirmation.`:`${t.hostShort[0].toUpperCase()+t.hostShort.slice(1)} will reply by ${fShort(new Date(+NOW+24*HOUR))}, ${fTime(new Date(+NOW+24*HOUR))}. You can still go on the trip until then.`}</p></div>
+      <h2 id="dlg-title" style="font-size:22px">${free?'Booking cancelled':'Request received'}</h2>
+      <p style="margin:10px auto 0;max-width:42ch">${free?`${money(refundable(t))} is on its way to Visa ending 4242. We’ve emailed you the confirmation.`:`We’ll review your request and reply by email within 2 working days. Your reference is CR-${t.ref.slice(-5)}. Your booking stays active until then.`}</p></div>
       <div class="df" style="justify-content:center"><button class="btn primary" data-dclose>Done</button></div>`);
 }
 function reschedule(){
@@ -1012,11 +1094,52 @@ function reschedule(){
 }
 function policy(){
   dlg(`${head('How cancellations and refunds work')}<div class="db">
-    <p class="note ok"><b>More than 48 hours before pickup:</b> cancel in a few taps and get everything back, including the service fee.</p>
-    <p class="note warn" style="margin-top:8px"><b>Less than 48 hours before:</b> ask the host for a refund. They reply within 24 hours. The service fee isn’t refunded.</p>
-    <p class="note info" style="margin-top:8px"><b>If the host cancels, or it’s unsafe to go:</b> you always get a full refund or a free date change.</p>
-    <p style="font-size:13px;color:var(--cn-muted);margin-top:12px">Refunds go back to the card you paid with and take 5 to 10 working days to show.</p>
+    <p class="note ok"><b>More than 48 hours before pickup:</b> cancel from your booking and we refund everything you paid, minus a 5% payment processing fee.</p>
+    <p class="note warn" style="margin-top:8px"><b>Less than 48 hours before:</b> request a refund with your reason and any evidence. Our team reviews it and replies within 2 working days.</p>
+    <p class="note info" style="margin-top:8px"><b>Booked with “Book now, pay later”?</b> Cancel before you’re charged and you pay nothing.</p>
+    <p style="font-size:13px;color:var(--cn-muted);margin-top:12px">Some hosts set their own policy, shown on the booking. Ceylon Nooks keeps no fee on refunds; the 5% covers the payment gateway’s reversal charge. Refunds take 5 to 10 working days to show.</p>
   </div><div class="df"><button class="btn primary" data-dclose>Got it</button></div>`);
+}
+
+/* ---------- plan a trip, saved, travel partners ---------- */
+function renderPlan(){
+  const el=$('#pane-plan');
+  if(EMPTY){el.innerHTML=`<div class="pane-head"><div><h2>Plan a trip</h2><p>Collect ideas, decide how long to stay in each place, plan it with your travel partners and ask hosts for custom offers.</p></div></div>
+    <div class="empty-mini"><h3>No plans yet</h3><p style="max-width:48ch;margin:0 auto 16px">Start with where you’d like to go. You can add ideas from anywhere on Ceylon Nooks with the heart button.</p><button class="btn primary" data-toast="New plan created (prototype)">${svg('plus')}Start a plan</button></div>`;return}
+  const nights=myPlan.stops.reduce((a,x)=>a+x.nights,0);
+  el.innerHTML=`<div class="pane-head"><div><h2>Plan a trip</h2><p>Your ideas, not bookings yet. When you accept a host’s offer and pay, it moves to My bookings.</p></div><button class="btn" data-toast="New plan created (prototype)">${svg('plus')}New plan</button></div>
+  <div class="plan-grid">
+    <section class="cardish">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap">
+        <div><h3 style="font-size:20px">${myPlan.title}</h3><p class="price-k" style="font-size:13px;margin-top:4px">${myPlan.when}. ${myPlan.stops.length} stops, ${nights} nights</p></div>
+        <div style="display:flex;align-items:center;gap:10px"><div class="faces"><span class="me">JC</span>${partners.map(p=>`<span class="me" title="${p.name}">${p.init}</span>`).join('')}</div><a class="btn" href="#profile" style="min-height:36px;padding:0 14px">${svg('userplus')}Invite</a></div>
+      </div>
+      <ol class="stops" style="margin-top:12px">${myPlan.stops.map((x,i)=>`<li class="stop"><span class="n">${i+1}</span><div><h4>${x.place}</h4><div class="idea-list">${x.ideas.map(y=>`<span>${y}</span>`).join('')}<span style="border-style:dashed">+ Add idea</span></div></div>
+        <div class="stepper" aria-label="Nights in ${x.place}"><button data-night="${i}:-1" aria-label="One night fewer">−</button><span>${x.nights} night${x.nights>1?'s':''}</span><button data-night="${i}:1" aria-label="One night more">+</button></div></li>`).join('')}</ol>
+      <button class="btn" style="margin-top:8px" data-toast="Add a stop (prototype)">${svg('plus')}Add a stop</button>
+    </section>
+    <aside style="display:flex;flex-direction:column;gap:16px">
+      <section class="cardish"><h3 style="font-size:16px">Get custom offers</h3><p style="font-size:14px;margin:6px 0 14px">Share this plan with hosts you like. They send you an offer for the whole trip or part of it.</p>
+        ${myPlan.offers.map(o=>`<div class="offer"><span class="av">${o.init}</span><div class="t"><b>${o.name}</b>${o.state}${o.price?`, ${o.price}`:''}</div>${o.price?'<button class="btn" style="min-height:34px;padding:0 12px" data-toast="Opening the offer (prototype)">View</button>':''}</div>`).join('')}
+        <button class="btn primary" style="width:100%;margin-top:14px" data-toast="Choose hosts to share your plan with (prototype)">${svg('send')}Request offers</button></section>
+      <section class="cardish"><h3 style="font-size:16px">Saved ideas</h3><p class="price-k" style="font-size:13px;margin:4px 0 10px">Add them to a stop with one tap</p>
+        ${savedIdeas.map(x=>`<div class="offer"><img src="${x.img}" alt="" style="width:44px;height:44px;border-radius:8px;object-fit:cover"><div class="t"><b>${x.title}</b>${x.meta}</div><button class="btn" style="min-height:34px;padding:0 12px" data-toast="Added to your plan">Add</button></div>`).join('')}</section>
+    </aside>
+  </div>`;
+}
+function renderSaved(){
+  $('#pane-saved').innerHTML=`<div class="pane-head"><div><h2>Saved</h2><p>Everything you tapped the heart on. Add ideas to a plan when you’re ready.</p></div><a class="btn" href="#plan">${svg('route')}Go to my plan</a></div>`+
+   (EMPTY?`<div class="empty-mini"><h3>Nothing saved yet</h3><p>Tap the heart on any experience to keep it here.</p></div>`:
+   `<div class="ideas">${savedIdeas.map(x=>`<a class="idea" href="#"><img src="${x.img}" alt="${x.alt}"><div><h3>${x.title}</h3><p>${x.meta}</p></div></a>`).join('')}</div>`);
+}
+function renderPartners(){
+  $('#partners').innerHTML=`<div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px"><h3 id="tp-title" style="font-size:18px">Travel partners</h3><span class="price-k">${partners.length} added</span></div>
+    <p style="font-size:14px;margin:4px 0 8px">Invite the people you travel with so you can plan trips together and share bookings.</p>
+    ${partners.map((x,i)=>`<div class="person"><span class="me">${x.init}</span><div class="t"><b>${x.name}</b>${x.rel}, ${x.email}</div><span class="tag-s ${x.status==='joined'?'':'wait'}">${x.status==='joined'?'Joined':'Invite sent'}</span><button class="linkish" data-rm-partner="${i}">Remove</button></div>`).join('')}
+    <form class="add-row" id="add-partner"><div><label class="lbl" for="tp-name">Name</label><input id="tp-name" type="text" required placeholder="Full name"></div><div><label class="lbl" for="tp-mail">Email</label><input id="tp-mail" type="email" required placeholder="name@example.com"></div>
+      <div><label class="lbl" for="tp-rel">Relationship</label><select id="tp-rel"><option>Partner</option><option>Family</option><option>Friend</option><option>Colleague</option></select></div>
+      <button class="btn primary" type="submit">${svg('userplus')}Invite</button></form>`;
+  $('#add-partner').onsubmit=e=>{e.preventDefault();const n=$('#tp-name').value.trim();partners.push({name:n,email:$('#tp-mail').value.trim(),rel:$('#tp-rel').value,status:'invited',init:n.split(/\s+/).map(w=>w[0]).join('').slice(0,2).toUpperCase()});renderPartners();renderPlan();toast(`Invite sent to ${n}`)};
 }
 
 /* ---------- calendar: real links + .ics ---------- */
@@ -1043,28 +1166,27 @@ function openCal(btn,id){
 
 /* ---------- events ---------- */
 /* ---------- routing: every screen has an address, so Back, refresh and shared links work ---------- */
-const PAGES=['trips','saved','messages','profile','settings','help'];
-const TITLES={trips:'Your trips',saved:'Saved',messages:'Messages',profile:'Profile',settings:'Settings and payments',help:'Help centre'};
+const PAGES=['bookings','plan','saved','messages','profile','settings','help'];
+const TITLES={bookings:'My bookings',plan:'Plan a trip',saved:'Saved',messages:'Messages',profile:'Profile',settings:'Settings and payments',help:'Help centre'};
 let sheetPushed=false, curPage=null;
 function showPage(name){
   $$('main > div[id^=pane-]').forEach(p=>p.hidden=p.id!=='pane-'+name);
-  $('#acct-head').hidden=name!=='trips';
-  const navKey=['profile','settings','help'].includes(name)?'account':name;
-  $$('[data-nav]').forEach(a=>a.dataset.nav===navKey?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'));
+  $$('[data-nav]').forEach(a=>a.dataset.nav===name?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'));
   document.title=TITLES[name]+' | Ceylon Nooks';
-  if(name==='trips')requestAnimationFrame(placePerf);
+  if(name==='bookings')requestAnimationFrame(placePerf);
 }
 function route(){
-  const h=location.hash.slice(1)||'trips';
+  let h=location.hash.slice(1)||'bookings'; if(h==='trips')h='bookings';
+  $('#drawer').classList.remove('open');
   $('#acct-menu').classList.remove('open');$('#acct-btn').setAttribute('aria-expanded','false');
-  if(h.startsWith('trip/')&&trips.some(t=>t.id===h.slice(5))){if(curPage!=='trips'){showPage('trips');curPage='trips'}openSheet(h.slice(5));return}
+  if(h.startsWith('trip/')&&T().some(t=>t.id===h.slice(5))){if(curPage!=='bookings'){showPage('bookings');curPage='bookings'}openSheet(h.slice(5));return}
   closeSheet();
-  const page=PAGES.includes(h)?h:'trips';
+  const page=PAGES.includes(h)?h:'bookings';
   if(page!==curPage){closeDlg();showPage(page);scrollTo({top:0});curPage=page}
 }
 function go(h){location.hash=h}
 function openTrip(id){sheetPushed=true;go('trip/'+id)}
-function leaveTrip(){if(sheetPushed){sheetPushed=false;history.back()}else{history.replaceState(null,'','#trips');route()}}
+function leaveTrip(){if(sheetPushed){sheetPushed=false;history.back()}else{history.replaceState(null,'','#bookings');route()}}
 addEventListener('hashchange',route);
 document.addEventListener('click',e=>{
   const b=e.target.closest('button,a,[data-pin]');
@@ -1074,14 +1196,20 @@ document.addEventListener('click',e=>{
   if(!b.closest('#acct-menu'))$('#acct-menu').classList.remove('open');
   if(x.open)openTrip(x.open);
   if(x.pin)openTrip(x.pin);
-  if(x.manage){cur=trips.find(t=>t.id===x.manage);cancelStep(1)}
+  if(x.reschedId){cur=trips.find(t=>t.id===x.reschedId);reschedule()}
+  if(b.id==='hamb'){$('#drawer').classList.add('open');b.setAttribute('aria-expanded','true');return}
+  if(x.drawerClose!==undefined){$('#drawer').classList.remove('open');$('#hamb').setAttribute('aria-expanded','false')}
+  if(b.id==='demo-toggle'){e.preventDefault();EMPTY=!EMPTY;b.textContent=EMPTY?'Back to the sample traveller':'Preview as a new traveller (empty states)';renderAll();scrollTo({top:0})}
+  if(x.cat&&!b.disabled){cat=x.cat;renderCats()}
+  if(x.night){const [i,dlt]=x.night.split(':').map(Number);myPlan.stops[i].nights=Math.max(1,myPlan.stops[i].nights+dlt);renderPlan()}
+  if(x.rmPartner){const p=partners.splice(+x.rmPartner,1)[0];renderPartners();renderPlan();toast(`${p.name} removed`)}
   if(x.close!==undefined)leaveTrip();
   if(x.dclose!==undefined)closeDlg();
-  if(x.cancel!==undefined){reason='';cancelStep(1)}
+  if(x.cancel!==undefined){reason='';evidence=[];cancelStep(1)}
   if(x.cstep)cancelStep(+x.cstep);
   if(x.reschedule!==undefined){e.preventDefault();reschedule()}
   if(x.confirm!==undefined){
-    if(isFree(cur)){Object.assign(cur,{status:'cancelled',cancelled:NOW.toISOString(),refund:total(cur),stage:0});renderAll();if($('#sheet').classList.contains('open'))leaveTrip()}
+    if(isFree(cur)){Object.assign(cur,{status:'cancelled',cancelled:NOW.toISOString(),refund:refundable(cur),stage:0});renderAll();if($('#sheet').classList.contains('open'))leaveTrip()}
     cancelStep(4);
   }
   if(x.policy!==undefined){e.preventDefault();policy()}
@@ -1107,7 +1235,7 @@ document.addEventListener('mouseover',e=>{
   $$('.trip').forEach(r=>r.classList.toggle('selected',!!id&&r.dataset.trip===id&&!!e.target.closest('[data-pin]')));
 });
 
-function renderAll(){renderHeader();renderNext();renderTimeline();renderMap()}
+function renderAll(){renderHeader();renderNext();renderTimeline();renderMap();renderPlan();renderSaved();renderPartners()}
 const hr=+NOW.toLocaleTimeString('en-GB',{...TZ,hour:'2-digit',hour12:false});
 $('#greet').textContent=`${hr<12?'Good morning':hr<18?'Good afternoon':'Good evening'}, John`;
 renderAll();
