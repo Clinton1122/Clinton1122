@@ -23,8 +23,8 @@ The current draft is an account page: a welcome banner, stat boxes, and then the
 | --- | --- |
 | Use the live site's font | **Inter** everywhere, in weights 400 to 700. The display font was removed. Neutral greys match the site: ink `#18181B`, body `#3F3F46`, muted `#71717A`, border `#E8E8EB`. |
 | Two navigation layers | The **site header is unchanged**: utility bar, logo, ENG/USD, Service, Place to go, Thing to do, Itinerary, search, saved and avatar. No account links are added to it. The account area has its **own second row of tabs**: My bookings, Plan a trip, Saved, Messages, Profile, Settings and payments, Help centre. |
-| "My trips" → **My bookings** | Shows everything purchased, with a category filter: All, Experiences, and Stays and Transportation (shown as "Soon" until they launch). |
-| **Plan a trip** is a planner | One plan has stops, with a nights stepper for each place, ideas attached to each stop, travel partners and invites. **Get custom offers** lets you request offers from hosts and see each one's status. An offer that is accepted and paid moves to My bookings. Saved ideas can be added to a stop. |
+| "My trips" → **My bookings** | Shows everything purchased, with a category filter: All, Experiences, and Stays and Transportation with a "Coming soon" label across them until they launch. |
+| **Plan a trip** is a planner | Reworked from Akila's product brief (8 Oct). See *Plan a trip* below. |
 | Cancel is less prominent | Cancel is a muted text link at the bottom of the Cancellation policy panel, after "Try changing the date first". Primary actions are Change date and Add to calendar. In the dialog, **Keep booking** is the primary button. |
 | One price total | Each booking shows one total, "Includes taxes and fees". The breakdown (experience, add-ons, VAT when the provider is registered, service fee, coupon) is behind **See price details**. |
 | Refund rules | **More than 48h before pickup:** self-serve cancel, refunding the total minus a **5% payment processing fee**. Ceylon Nooks keeps no platform fee. **Inside 48h:** a **refund request**, not a cancellation. It needs a reason (flight delay, illness, family emergency, weather or something else), takes notes and **evidence uploads**, and the team reviews it within 2 working days. The booking stays active meanwhile. The panel is labelled "Ceylon Nooks standard policy" so a provider's own policy can replace it. The policy dialog also covers Book now, pay later. |
@@ -32,6 +32,22 @@ The current draft is an account page: a welcome banner, stat boxes, and then the
 | Travel partners in Profile | Profile → **Travel partners**: see who has joined, see pending invites, remove people, invite by email. Partners are reused in plans. |
 | Empty states | The footer link **"Preview as a new traveller"** switches to a no-bookings account. It shows a welcome card with Explore and Start a plan buttons and popular places, plus empty states for the list, map, plan and saved pages. |
 | Mobile | Hamburger drawer with Explore and My account sections, matching the site's mobile header. The account tabs scroll sideways under the greeting. On phones, trip details open full screen with "‹ My bookings". |
+
+## Plan a trip (brief of 8 Oct)
+
+The trip is the top-level object, not the booking.
+
+- The traveller sets a start date, exact or rough. Stops and nights build Day 1, Day 2 and so on, and changing the date shifts every day.
+- A **day-by-day view** shows travel legs (from the Travel Time Estimator), ideas, booked items and offers on their days. Empty days and half-days are flagged as gaps.
+- Bookings **stay in the plan** marked Booked, attached by date overlap. A warning appears if a date change pushes one outside the plan.
+- **Best time to visit** warnings appear per stop, such as monsoon clashes.
+- Custom offers are per stop or for the whole trip, and each links to its chat thread.
+- A **setup flow** for new plans asks for start date (or "roughly this month"), length, travellers and first stop. It starts from a blank plan, saved items, a Trip Planner result or a sample route. Plans made while logged out merge into the account on sign-up.
+
+Still open in the brief:
+- Whether an accepted whole-trip offer becomes one booking.
+- What invited partners can do (edit and request offers, or view and comment).
+- Which parts ship at launch.
 
 ## Kept from v2
 

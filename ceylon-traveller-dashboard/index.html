@@ -495,6 +495,50 @@ footer.foot{border-top:1px solid var(--cn-border);padding:20px 0 40px;font-size:
   .sh-back .i{transform:rotate(180deg)}
   .plan-grid{grid-template-columns:1fr}
 }
+
+.chip{position:relative}
+.chip .soon{position:absolute;top:-9px;right:-8px;background:var(--cn-primary);color:#fff;font:600 10px/1 var(--text);padding:4px 7px;border-radius:999px;letter-spacing:.01em;white-space:nowrap;box-shadow:0 1px 2px rgba(0,0,0,.12)}
+.chip[disabled]{background:repeating-linear-gradient(135deg,#fff 0 6px,#F7F7F8 6px 12px)}
+.chips{padding-top:10px}
+.ph{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.src{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--cn-primary-text);background:var(--cn-primary-tint);padding:4px 10px;border-radius:999px}
+.src .i{width:14px;height:14px}
+.pctl{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:18px;padding-top:16px;border-top:1px solid var(--cn-border)}
+input.dt{width:auto;padding:7px 12px;border-radius:999px;font-size:13px;min-height:36px}
+.seg{display:inline-flex;border:1px solid var(--cn-border);border-radius:999px;padding:3px;background:var(--cn-page)}
+.seg button{border:0;background:none;padding:6px 14px;border-radius:999px;font:600 13px var(--text);color:var(--cn-muted);cursor:pointer}
+.seg button[aria-pressed=true]{background:#fff;color:var(--cn-ink);box-shadow:var(--shadow)}
+.pstats{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.pstat{font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px}
+.pstat.ok{background:var(--ok-bg);color:var(--ok)}.pstat.info{background:var(--cn-primary-tint);color:var(--cn-primary-text)}.pstat.warn{background:var(--warn-bg);color:var(--warn)}
+.days{list-style:none;margin:6px 0 0;padding:0}
+.stop-h{display:flex;align-items:center;gap:12px;margin:20px 0 8px}
+.stop-h h4{font-size:16px;font-weight:600}
+.stop-h .n,.stop .n{width:28px;height:28px;border-radius:50%;background:var(--cn-ink);color:#fff;display:grid;place-items:center;font-size:13px;font-weight:600;flex:none}
+.day{display:grid;grid-template-columns:92px minmax(0,1fr);gap:16px;padding:12px 0;border-top:1px solid var(--cn-border)}
+.day .when b{display:block;font-size:13px;color:var(--cn-ink);font-weight:600}.day .when span{font-size:12px;color:var(--cn-muted)}
+.it{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;border:1px solid var(--cn-border);background:#fff;font-size:13px;color:var(--cn-body);margin-bottom:6px}
+.it:last-child{margin-bottom:0}
+.it .t{flex:1;min-width:0}.it b{color:var(--cn-ink);font-weight:600;margin-right:4px}
+.it .tg{font-size:11px;font-weight:600;padding:3px 8px;border-radius:999px;flex:none;background:var(--cn-page);color:var(--cn-body)}
+.it .i{width:16px;height:16px;flex:none;color:var(--cn-muted)}
+.it.booked{background:var(--ok-bg);border-color:#CFE8D7}.it.booked .tg{background:var(--ok);color:#fff}
+.it.pidea{border-style:dashed}
+.it.travel{background:var(--cn-page);border-color:transparent}
+.it.gap{background:var(--warn-bg);border:1px dashed #E5B04A;color:var(--warn)}.it.gap .tg{background:#fff;color:var(--warn)}
+.it.warnline{list-style:none;background:var(--warn-bg);border-color:transparent;color:var(--warn);align-items:flex-start;margin:0 0 8px}.it.warnline .i{color:var(--warn);margin-top:1px}.it.warnline b{color:var(--warn)}
+.it.offerline{list-style:none;background:var(--cn-primary-tint);border-color:var(--cn-primary-line);margin:0 0 8px}
+.leg{list-style:none;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--cn-muted);padding:2px 0 2px 42px}.leg .i{width:14px;height:14px}
+.tools{display:flex;flex-direction:column}.tools a{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--cn-border);font-size:14px;font-weight:600;color:var(--cn-ink);text-decoration:none}.tools a:first-child{border-top:0}.tools .i{width:18px;height:18px;color:var(--cn-primary)}
+.setup{max-width:860px}
+.setup-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px 24px;margin-top:20px}
+.from{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.fromc{text-align:left;border:1px solid var(--cn-border);background:#fff;border-radius:12px;padding:14px;font:500 12px/1.4 var(--text);color:var(--cn-muted);cursor:pointer}
+.fromc b{display:block;font-size:14px;font-weight:600;color:var(--cn-ink);margin-bottom:4px}
+.fromc[aria-pressed=true]{border:2px solid var(--cn-primary);padding:13px;background:var(--cn-primary-tint)}
+.fromc[disabled]{opacity:.55;cursor:not-allowed}
+@media (max-width:860px){.from{grid-template-columns:1fr 1fr}.setup-grid{grid-template-columns:1fr}}
+@media (max-width:560px){.day{grid-template-columns:minmax(0,1fr);gap:8px}.day .when{display:flex;gap:8px;align-items:baseline}.it:not(.travel):not(.warnline){display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 10px}.it:not(.travel):not(.warnline) .t{grid-column:2}.it:not(.travel):not(.warnline) .linkish{grid-column:2;justify-self:start}.it.offerline .av{grid-row:span 2}.pctl .seg:last-child{margin-left:0}}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition-duration:.01ms!important}
 }
@@ -752,12 +796,19 @@ const savedIdeas=[
   {img:'img/adams-peak.jpg',title:'Adam’s Peak night climb',meta:'Dalhousie. Season Dec to May',alt:'Adam’s Peak above the hill country'},
   {img:'img/pidurangala.jpg',title:'Pidurangala temple trail',meta:'Sigiriya. Sunrise views',alt:'Forest path at Pidurangala Rock'}];
 const partners=[{name:'Emma Carter',email:'emma.carter@example.com',rel:'Partner',status:'joined',init:'EC'},{name:'Daniel Okafor',email:'daniel.o@example.com',rel:'Friend',status:'invited',init:'DO'}];
-const myPlan={title:'Two weeks in Sri Lanka',when:'December 2026',stops:[
-  {place:'Colombo',nights:2,ideas:['Gangaramaya Temple','Galle Face Green at sunset']},
-  {place:'Kandy',nights:2,ideas:['Temple of the Tooth','Royal Botanic Gardens']},
-  {place:'Ella',nights:3,ideas:['Ella to Kandy train','Little Adam’s Peak']},
-  {place:'Galle and Mirissa',nights:4,ideas:['Galle Fort walking tour','Whale watching']}],
-  offers:[{name:'Lanka Trails Co.',init:'LT',state:'Offer received',price:'$2,140 for 2'},{name:'Arkam Sahdi',init:'AS',state:'Invited, waiting',price:''}]};
+/* Plan a trip (Akila's brief, 8 Oct): the Trip is the top-level object. Stops and nights build
+   Day 1, Day 2...; bookings attach by date overlap; empty days are gaps. */
+const myPlan={title:'Two weeks in Sri Lanka',start:'2026-10-03',exact:true,travellers:'2 adults',source:'Trip Planner result',
+  stops:[
+  {place:'Colombo',nights:2,arrive:'Land at Bandaranaike Airport, about 45 min to Colombo (35 km)',ideas:[{t:'Galle Face Green at sunset',d:0},{t:'Gangaramaya Temple',d:1}]},
+  {place:'Galle and Mirissa',nights:4,arrive:'Colombo to Galle, about 2 h on the expressway (125 km)',warn:'Early October is the tail of the south-west monsoon, so seas can be rough. Whale season peaks from November to April.',ideas:[{t:'Galle Fort walking tour',d:1}]},
+  {place:'Ella',nights:3,arrive:'Mirissa to Ella, about 4 h by road (165 km)',warn:'October brings inter-monsoon showers to the hill country, usually in the afternoon. Hike in the morning.',ideas:[{t:'Little Adam’s Peak at sunrise',d:1}],offer:1},
+  {place:'Kandy',nights:2,arrive:'Ella to Kandy by train, about 6 h 30 min. Reserve seats early',ideas:[{t:'Temple of the Tooth',d:1},{t:'Royal Botanic Gardens',d:1}]}],
+  depart:'Kandy to the airport, about 3 h (110 km), then fly home',
+  offers:[{name:'Lanka Trails Co.',init:'LT',scope:'Whole trip, 12 days with a driver',state:'Offer received',price:'$2,140 for 2',whole:true},
+          {name:'Nuwan Perera',init:'NP',scope:'Ella, 3 days of guiding',state:'Requested, waiting for a reply',price:''}]};
+let planView='day';
+const setup={len:10,adults:2,kids:0,rough:false,from:'blank'};
 let EMPTY=false;
 const T=()=>EMPTY?[]:trips;
 const towns = [{name:'Colombo',lat:6.927,lon:79.861},{name:'Jaffna',lat:9.661,lon:80.026},{name:'Trincomalee',lat:8.587,lon:81.215},{name:'Galle',lat:6.026,lon:80.217,skip:true}];
@@ -886,7 +937,7 @@ let cat='all';
 function renderCats(){
   const n=T().length;
   $('#cats').innerHTML=[['all','All',n],['exp','Experiences',n],['stay','Stays',null],['ride','Transportation',null]]
-    .map(([k,l,c])=>`<button class="chip" data-cat="${k}" aria-pressed="${cat===k}" ${c===null?'disabled title="Coming soon"':''}>${l}${c===null?' <small>Soon</small>':` <small>${c}</small>`}</button>`).join('');
+    .map(([k,l,c])=>`<button class="chip" data-cat="${k}" aria-pressed="${cat===k}" ${c===null?'disabled title="Coming soon"':''}>${l}${c===null?'<span class="soon">Coming soon</span>':` <small>${c}</small>`}</button>`).join('');
 }
 function renderTimeline(){
   renderCats();
@@ -1102,30 +1153,96 @@ function policy(){
 }
 
 /* ---------- plan a trip, saved, travel partners ---------- */
+const ymd=x=>x.toLocaleDateString('en-CA',TZ);
+function planDays(){
+  const s0=new Date(myPlan.start+'T12:00:00+05:30'), DAY=864e5, days=[]; let k=0;
+  myPlan.stops.forEach((st,i)=>{for(let j=0;j<st.nights;j++){days.push({k,date:new Date(+s0+k*DAY),stop:i,off:j,travel:j===0?st.arrive:null});k++}});
+  const L=myPlan.stops.length-1;
+  days.push({k,date:new Date(+s0+k*DAY),stop:L,off:myPlan.stops[L].nights,travel:myPlan.depart,last:true});
+  days.forEach(dy=>{
+    const st=myPlan.stops[dy.stop]; dy.items=[];
+    T().filter(t=>t.status!=='cancelled'&&ymd(d(t.start))===ymd(dy.date)).forEach(t=>dy.items.push({type:'booked',t}));
+    if(!dy.last) st.ideas.filter(x=>x.d===dy.off).forEach(x=>dy.items.push({type:'idea',t:x.t}));
+    dy.gap=dy.last||dy.items.length?null:(dy.travel?'half':'full');
+  });
+  return days;
+}
 function renderPlan(){
   const el=$('#pane-plan');
-  if(EMPTY){el.innerHTML=`<div class="pane-head"><div><h2>Plan a trip</h2><p>Collect ideas, decide how long to stay in each place, plan it with your travel partners and ask hosts for custom offers.</p></div></div>
-    <div class="empty-mini"><h3>No plans yet</h3><p style="max-width:48ch;margin:0 auto 16px">Start with where you’d like to go. You can add ideas from anywhere on Ceylon Nooks with the heart button.</p><button class="btn primary" data-toast="New plan created (prototype)">${svg('plus')}Start a plan</button></div>`;return}
-  const nights=myPlan.stops.reduce((a,x)=>a+x.nights,0);
-  el.innerHTML=`<div class="pane-head"><div><h2>Plan a trip</h2><p>Your ideas, not bookings yet. When you accept a host’s offer and pay, it moves to My bookings.</p></div><button class="btn" data-toast="New plan created (prototype)">${svg('plus')}New plan</button></div>
+  if(EMPTY){renderSetup(el);return}
+  const days=planDays(), first=days[0].date, last=days.at(-1).date, nights=days.length-1;
+  const booked=days.reduce((a,x)=>a+x.items.filter(i=>i.type==='booked').length,0);
+  const full=days.filter(x=>x.gap==='full').length, half=days.filter(x=>x.gap==='half').length;
+  const offersIn=myPlan.offers.filter(o=>o.price).length;
+  const lost=T().filter(t=>t.id==='mirissa'&&t.status!=='cancelled'&&(d(t.start)<first||d(t.start)>new Date(+last+864e5)));
+  const when=myPlan.exact?`${fShort(first)} to ${fShort(last)} 2026`:`Roughly ${first.toLocaleDateString('en-GB',{...TZ,month:'long',year:'numeric'})}`;
+  const dlab=x=>myPlan.exact?fShort(x.date):'Around '+x.date.toLocaleDateString('en-GB',{...TZ,day:'numeric',month:'short'});
+  const it={
+    booked:i=>`<div class="it booked"><span class="tg">Booked</span><div class="t"><b>${i.t.title}</b>${fTime(d(i.t.start))}, ${i.t.party}</div><button class="linkish" data-open="${i.t.id}">View booking</button></div>`,
+    idea:i=>`<div class="it pidea"><span class="tg">Idea</span><div class="t"><b>${i.t}</b></div><button class="linkish" data-toast="Showing bookable options (prototype)">Find options</button></div>`};
+  const dayList=days.map(dy=>{
+    const st=myPlan.stops[dy.stop], head=dy.off===0&&!dy.last?`<li class="stop-h"><span class="n">${dy.stop+1}</span><div><h4>${st.place}</h4><span class="price-k">${st.nights} night${st.nights>1?'s':''}</span></div></li>
+      ${st.warn?`<li class="it warnline">${svg('life')}<div class="t"><b>Best time to visit:</b> ${st.warn}</div></li>`:''}
+      ${st.offer!=null?`<li class="it offerline"><span class="av" style="width:28px;height:28px;font-size:11px">${myPlan.offers[st.offer].init}</span><div class="t"><b>${myPlan.offers[st.offer].name}</b> ${myPlan.offers[st.offer].state.toLowerCase()} for this stop</div><a class="linkish" href="#messages">Open chat</a></li>`:''}`:'';
+    return head+`<li class="day"><div class="when"><b>Day ${dy.k+1}</b><span>${dlab(dy)}</span></div><div>
+      ${dy.travel?`<div class="it travel">${svg('route')}<div class="t"><b>${dy.last?'Going home':'Travel'}</b> ${dy.travel}</div></div>`:''}
+      ${dy.items.map(i=>it[i.type](i)).join('')}
+      ${dy.gap?`<div class="it gap"><span class="tg">${dy.gap==='half'?'Half day free':'Free day'}</span><div class="t">${dy.gap==='half'?'Nothing planned after you arrive':'Nothing planned yet'}</div><button class="linkish" data-toast="Things to do in ${st.place.split(' and ')[0]} (prototype)">Find things to do</button></div>`:''}
+    </div></li>`}).join('');
+  const stopList=`<ol class="stops">${myPlan.stops.map((x,i)=>`${i?`<li class="leg">${svg('route')}${x.arrive}</li>`:''}<li class="stop"><span class="n">${i+1}</span><div><h4>${x.place}</h4>
+      ${x.warn?`<p class="price-k" style="color:var(--warn);margin-top:2px">${x.warn}</p>`:''}
+      <div class="idea-list">${x.ideas.map(y=>`<span>${y.t}</span>`).join('')}<span style="border-style:dashed">+ Add idea</span></div></div>
+      <div class="stepper" aria-label="Nights in ${x.place}"><button data-night="${i}:-1" aria-label="One night fewer">−</button><span>${x.nights} night${x.nights>1?'s':''}</span><button data-night="${i}:1" aria-label="One night more">+</button></div></li>`).join('')}</ol>`;
+  el.innerHTML=`<div class="pane-head"><div><h2>Plan a trip</h2><p>Your trip from first idea to last booking. Anything you book for these dates shows up on the right day.</p></div><button class="btn" data-toast="New plan (prototype)">${svg('plus')}New plan</button></div>
   <div class="plan-grid">
     <section class="cardish">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap">
-        <div><h3 style="font-size:20px">${myPlan.title}</h3><p class="price-k" style="font-size:13px;margin-top:4px">${myPlan.when}. ${myPlan.stops.length} stops, ${nights} nights</p></div>
+      <div class="ph">
+        <div><span class="src">${svg('route')}From your ${myPlan.source}</span><h3 style="font-size:22px;margin-top:8px">${myPlan.title}</h3><p class="price-k" style="font-size:13px;margin-top:4px">${when}. ${days.length} days, ${nights} nights, ${myPlan.travellers}</p></div>
         <div style="display:flex;align-items:center;gap:10px"><div class="faces"><span class="me">JC</span>${partners.map(p=>`<span class="me" title="${p.name}">${p.init}</span>`).join('')}</div><a class="btn" href="#profile" style="min-height:36px;padding:0 14px">${svg('userplus')}Invite</a></div>
       </div>
-      <ol class="stops" style="margin-top:12px">${myPlan.stops.map((x,i)=>`<li class="stop"><span class="n">${i+1}</span><div><h4>${x.place}</h4><div class="idea-list">${x.ideas.map(y=>`<span>${y}</span>`).join('')}<span style="border-style:dashed">+ Add idea</span></div></div>
-        <div class="stepper" aria-label="Nights in ${x.place}"><button data-night="${i}:-1" aria-label="One night fewer">−</button><span>${x.nights} night${x.nights>1?'s':''}</span><button data-night="${i}:1" aria-label="One night more">+</button></div></li>`).join('')}</ol>
-      <button class="btn" style="margin-top:8px" data-toast="Add a stop (prototype)">${svg('plus')}Add a stop</button>
+      <div class="pctl">
+        <label class="lbl" for="plan-start" style="margin:0">Starts</label>
+        <input id="plan-start" type="date" value="${myPlan.start}" class="dt">
+        <div class="seg" role="group" aria-label="How sure are you of the date"><button data-exact="1" aria-pressed="${myPlan.exact}">Exact</button><button data-exact="0" aria-pressed="${!myPlan.exact}">Roughly</button></div>
+        <div class="seg" role="group" aria-label="View" style="margin-left:auto"><button data-pview="day" aria-pressed="${planView==='day'}">Day by day</button><button data-pview="stop" aria-pressed="${planView==='stop'}">Stops</button></div>
+      </div>
+      <div class="pstats"><span class="pstat ok">${booked} booked</span><span class="pstat info">${offersIn} offer received</span><span class="pstat warn">${full} free day${full===1?'':'s'}, ${half} free half-day${half===1?'':'s'}</span></div>
+      ${lost.length?`<p class="note warn" style="margin-top:12px"><b>${lost[0].title}</b> (${fShort(d(lost[0].start))}) no longer falls inside this plan’s dates.</p>`:''}
+      ${planView==='day'?`<ol class="days">${dayList}</ol>`:stopList}
+      <button class="btn" style="margin-top:14px" data-toast="Add a stop (prototype)">${svg('plus')}Add a stop</button>
     </section>
     <aside style="display:flex;flex-direction:column;gap:16px">
-      <section class="cardish"><h3 style="font-size:16px">Get custom offers</h3><p style="font-size:14px;margin:6px 0 14px">Share this plan with hosts you like. They send you an offer for the whole trip or part of it.</p>
-        ${myPlan.offers.map(o=>`<div class="offer"><span class="av">${o.init}</span><div class="t"><b>${o.name}</b>${o.state}${o.price?`, ${o.price}`:''}</div>${o.price?'<button class="btn" style="min-height:34px;padding:0 12px" data-toast="Opening the offer (prototype)">View</button>':''}</div>`).join('')}
+      <section class="cardish"><h3 style="font-size:16px">Custom offers</h3><p style="font-size:14px;margin:6px 0 14px">Share this plan with hosts. They quote for one stop or the whole trip, using your days and nights.</p>
+        ${myPlan.offers.map(o=>`<div class="offer"><span class="av">${o.init}</span><div class="t"><b>${o.name}</b>${o.scope}<br><span style="color:${o.price?'var(--ok)':'var(--cn-muted)'};font-weight:600">${o.state}${o.price?`, ${o.price}`:''}</span>
+          ${o.whole?'<small class="price-k" style="display:block;margin-top:2px">Accepting turns the whole trip into one booking</small>':''}
+          <div style="display:flex;gap:14px;margin-top:6px">${o.price?'<button class="linkish" style="color:var(--cn-ink);font-weight:600" data-toast="Opening the offer (prototype)">View offer</button>':''}<a class="linkish" href="#messages">Open chat</a></div></div></div>`).join('')}
         <button class="btn primary" style="width:100%;margin-top:14px" data-toast="Choose hosts to share your plan with (prototype)">${svg('send')}Request offers</button></section>
-      <section class="cardish"><h3 style="font-size:16px">Saved ideas</h3><p class="price-k" style="font-size:13px;margin:4px 0 10px">Add them to a stop with one tap</p>
+      <section class="cardish"><h3 style="font-size:16px">Saved ideas</h3><p class="price-k" style="font-size:13px;margin:4px 0 10px">Drop them into a stop with one tap</p>
         ${savedIdeas.map(x=>`<div class="offer"><img src="${x.img}" alt="" style="width:44px;height:44px;border-radius:8px;object-fit:cover"><div class="t"><b>${x.title}</b>${x.meta}</div><button class="btn" style="min-height:34px;padding:0 12px" data-toast="Added to your plan">Add</button></div>`).join('')}</section>
+      <section class="cardish"><h3 style="font-size:16px">Planning tools</h3><p class="price-k" style="font-size:13px;margin:4px 0 10px">Their results feed straight into this plan</p>
+        <div class="tools"><a href="#" data-toast="Trip Planner (prototype)">${svg('route')}Trip Planner</a><a href="#" data-toast="Travel time estimator (prototype)">${svg('clock')}Travel time estimator</a><a href="#" data-toast="Best time to visit (prototype)">${svg('cal')}Best time to visit</a></div></section>
     </aside>
   </div>`;
+  const inp=$('#plan-start'); if(inp) inp.onchange=()=>{if(inp.value){myPlan.start=inp.value;renderPlan();toast('Every day moved to the new dates')}};
+}
+function renderSetup(el){
+  const st=(k,l,v,min)=>`<div class="stepper" aria-label="${l}"><button data-setup="${k}:-1" aria-label="Fewer" ${v<=min?'disabled':''}>−</button><span>${v}</span><button data-setup="${k}:1" aria-label="More">+</button></div>`;
+  const from=[['blank','Blank plan','Start from your first stop'],['saved','Your saved items','Nothing saved yet'],['planner','A Trip Planner result','Answer a few questions, get a route'],['sample','A sample route','Classic 10 days: Colombo, Sigiriya, Kandy, Ella, the south coast']];
+  el.innerHTML=`<div class="pane-head"><div><h2>Plan a trip</h2><p>Lay out your days, see the gaps, and ask hosts for offers. Nothing is booked until you choose.</p></div></div>
+  <section class="cardish setup"><h3 style="font-size:20px">Start a plan</h3><p class="price-k" style="font-size:14px;margin-top:4px">Takes a minute. You can change everything later.</p>
+    <div class="setup-grid">
+      <div><label class="lbl" for="su-date">When do you start?</label>
+        ${setup.rough?`<select id="su-date"><option>October 2026</option><option selected>November 2026</option><option>December 2026</option><option>January 2027</option></select>`:`<input id="su-date" type="date" value="2026-11-14" class="dt" style="width:100%">`}
+        <label class="choice" style="margin-top:8px"><input type="checkbox" data-rough ${setup.rough?'checked':''}>Not sure yet, roughly this month</label></div>
+      <div><label class="lbl">How long?</label>${st('len','Trip length in days',setup.len+' days',0)}</div>
+      <div><label class="lbl">Who’s going?</label><div style="display:flex;gap:10px;flex-wrap:wrap">${st('adults','Adults',setup.adults+' adult'+(setup.adults>1?'s':''),0)}${st('kids','Children',setup.kids+' child'+(setup.kids===1?'':'ren'),0)}</div></div>
+      <div><label class="lbl" for="su-first">First stop</label><select id="su-first"><option>Colombo</option><option>Negombo</option><option>Sigiriya</option><option>Kandy</option><option>Ella</option><option>Galle</option></select></div>
+    </div>
+    <p class="lbl" style="margin-top:20px">Start from</p>
+    <div class="from">${from.map(([k,l,m])=>`<button class="fromc" data-from="${k}" aria-pressed="${setup.from===k}" ${k==='saved'?'disabled':''}><b>${l}</b><span>${m}</span></button>`).join('')}</div>
+    <p class="note info" style="margin-top:18px">No account needed to start. If you’re not logged in, we keep the plan on this device and add it to your account when you sign up.</p>
+    <div style="display:flex;justify-content:flex-end;margin-top:18px"><button class="btn primary" data-toast="Plan created (prototype)">Create plan</button></div>
+  </section>`;
 }
 function renderSaved(){
   $('#pane-saved').innerHTML=`<div class="pane-head"><div><h2>Saved</h2><p>Everything you tapped the heart on. Add ideas to a plan when you’re ready.</p></div><a class="btn" href="#plan">${svg('route')}Go to my plan</a></div>`+
@@ -1188,6 +1305,7 @@ function go(h){location.hash=h}
 function openTrip(id){sheetPushed=true;go('trip/'+id)}
 function leaveTrip(){if(sheetPushed){sheetPushed=false;history.back()}else{history.replaceState(null,'','#bookings');route()}}
 addEventListener('hashchange',route);
+document.addEventListener('change',e=>{if(e.target.matches('[data-rough]')){setup.rough=e.target.checked;renderPlan()}});
 document.addEventListener('click',e=>{
   const b=e.target.closest('button,a,[data-pin]');
   if(!e.target.closest('#calmenu'))$('#calmenu').classList.remove('open');
@@ -1201,6 +1319,10 @@ document.addEventListener('click',e=>{
   if(x.drawerClose!==undefined){$('#drawer').classList.remove('open');$('#hamb').setAttribute('aria-expanded','false')}
   if(b.id==='demo-toggle'){e.preventDefault();EMPTY=!EMPTY;b.textContent=EMPTY?'Back to the sample traveller':'Preview as a new traveller (empty states)';renderAll();scrollTo({top:0})}
   if(x.cat&&!b.disabled){cat=x.cat;renderCats()}
+  if(x.pview){planView=x.pview;renderPlan()}
+  if(x.exact){myPlan.exact=x.exact==='1';renderPlan()}
+  if(x.setup){const [k,dl]=x.setup.split(':');setup[k]=Math.max(k==='kids'?0:1,setup[k]+(+dl));renderPlan()}
+  if(x.from&&!b.disabled){setup.from=x.from;renderPlan()}
   if(x.night){const [i,dlt]=x.night.split(':').map(Number);myPlan.stops[i].nights=Math.max(1,myPlan.stops[i].nights+dlt);renderPlan()}
   if(x.rmPartner){const p=partners.splice(+x.rmPartner,1)[0];renderPartners();renderPlan();toast(`${p.name} removed`)}
   if(x.close!==undefined)leaveTrip();
