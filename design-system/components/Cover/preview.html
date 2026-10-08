@@ -1,0 +1,54 @@
+<!-- @dsCard height=288 -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Lumey Energy</title>
+<style>
+  html, body { margin:0; height:100%; }
+  body { background:var(--surface); color:var(--ink); font-family:var(--font-sans); overflow:hidden; }
+  .cover { position:relative; height:288px; overflow:hidden; }
+  .art { position:absolute; top:0; left:480px; width:480px; height:288px; overflow:hidden; }
+  .art svg { display:block; width:480px; height:288px; }
+  .sun { fill:var(--sun); }
+  .soft { fill:var(--sun-soft); }
+  .ink { fill:var(--surface-inverse); }
+  .alt { fill:var(--surface-alt); }
+  .cell { fill:var(--surface-inverse-raised); }
+  .sq { rx:var(--radius-0); }
+  .words { position:absolute; left:var(--space-8); bottom:var(--space-8); max-width:440px; }
+  .name { margin:0; font-family:var(--font-display); font-stretch:112%; font-size:88px; line-height:.92; font-weight:900; letter-spacing:-.02em; color:var(--ink); }
+  .tag { margin:var(--space-3) 0 0 2px; font-size:14px; line-height:20px; color:var(--ink-muted); }
+</style>
+</head>
+<body>
+<div class="cover">
+<div class="art" aria-hidden="true">
+<svg viewBox="0 0 480 288" width="480" height="288">
+<!--
+  blocks      surface-inverse 240×288 bled top and bottom (the black sections people know the brand by) · sun 160×192 crossing into it (the yellow) · sun-soft 96×96 (price-column tint) · surface-alt 64×64 (light-grey sections) — about 40% of 960×288
+  arrangement one tall black slab bleeding off the right edge with a yellow block overlapping its left edge, satellites stepping down to the left, all square
+  pattern     a battery-gauge ladder from "Lumey is square" and the model ladder: eight stacked bars in surface-inverse-raised and sun cut into the black slab, the three "same capability" rungs left as outlines of the slab colour
+  scales      sides and gaps in space-2/space-4/space-6 multiples; bar height space-4, pitch space-6; every corner radius-0
+-->
+<rect class="ink sq" x="240" y="0" width="240" height="288"/>
+<rect class="sun sq" x="176" y="48" width="160" height="192"/>
+<rect class="soft sq" x="64" y="144" width="96" height="96"/>
+<rect class="alt sq" x="96" y="208" width="64" height="64"/>
+<rect class="cell sq" x="360" y="40" width="96" height="16"/>
+<rect class="sun sq" x="360" y="64" width="88" height="16"/>
+<rect class="cell sq" x="360" y="88" width="80" height="16"/>
+<rect class="sun sq" x="360" y="112" width="72" height="16"/>
+<rect class="cell sq" x="360" y="136" width="64" height="16"/>
+<rect class="sun sq" x="360" y="160" width="56" height="16"/>
+<rect class="cell sq" x="360" y="184" width="48" height="16"/>
+<rect class="sun sq" x="360" y="208" width="40" height="16"/>
+</svg>
+</div>
+<div class="words">
+<h1 class="name">Lumey Energy</h1>
+<p class="tag">Solar generators built in Akure, for here.</p>
+</div>
+</div>
+</body>
+</html>

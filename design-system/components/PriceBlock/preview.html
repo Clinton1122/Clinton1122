@@ -1,0 +1,21 @@
+<!-- @dsCard group="Commerce" height=250 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>PriceBlock — preview</title></head>
+<body>
+<div id="root">
+<div class="lm-ground-inverse lm-pad"><div class="lm-priceblock">
+<div class="lm-toggle" role="radiogroup" aria-label="Choose an option">
+<label><input type="radio" name="opt" id="opt-box" value="box" checked><span>PowerBox only</span></label>
+<label><input type="radio" name="opt" id="opt-bundle" value="bundle"><span>+ 2 × 600W panels</span></label>
+</div>
+<p class="lm-price-xl" id="pb-price">₦700,000</p>
+<p class="lm-priceblock-note lm-muted">Payment plans available. Prices exclude installation kits and workmanship.</p>
+<div class="lm-row"><a class="lm-btn lm-btn-primary" href="#">Order on WhatsApp</a><a class="lm-link" href="#">Not sure this is the right size?</a></div>
+</div></div>
+</div>
+<script>
+document.querySelectorAll('input[name="opt"]').forEach(function(r){r.addEventListener('change',function(){document.getElementById('pb-price').textContent=r.value==='box'?'\u20a6700,000':'\u20a61,000,000';});});
+</script>
+</body>
+</html>

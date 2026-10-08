@@ -1,0 +1,20 @@
+<!-- @dsCard group="Navigation" height=120 -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Tabs — preview</title></head>
+<body>
+<div id="root">
+<div class="lm-tabs lm-ground lm-pad">
+  <div role="tablist" aria-label="Series">
+    <button role="tab" id="t1" aria-selected="true" aria-controls="p1">Portable Series</button>
+    <button role="tab" id="t2" aria-selected="false" aria-controls="p2" tabindex="-1">Heavy Duty Series</button>
+  </div>
+  <div role="tabpanel" id="p1" aria-labelledby="t1" class="lm-small">PowerBox 600 · 1500 · 1900 · 2600 · 3100</div>
+  <div role="tabpanel" id="p2" aria-labelledby="t2" class="lm-small" hidden>PowerBox 4000 · 8000 · 8000 Plus</div>
+</div>
+</div>
+<script>
+document.querySelectorAll('[role="tab"]').forEach(function(t){t.addEventListener('click',function(){document.querySelectorAll('[role="tab"]').forEach(function(o){var on=o===t;o.setAttribute('aria-selected',on);o.tabIndex=on?0:-1;document.getElementById(o.getAttribute('aria-controls')).hidden=!on;});});});
+</script>
+</body>
+</html>
