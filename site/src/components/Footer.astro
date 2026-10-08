@@ -1,0 +1,62 @@
+---
+import Logo from './Logo.astro';
+import { site } from '../data/site';
+import { products } from '../data/products';
+
+const year = new Date().getFullYear();
+const cols = [
+  { title: 'Products', links: [...products.map((p) => ({ label: p.name, href: `/products/${p.slug}` })), { label: 'All prices', href: '/solar-generator-prices-in-nigeria' }] },
+  { title: 'Buy & own', links: [
+    { label: 'Which PowerBox do I need', href: '/products/which-powerbox-do-i-need' },
+    { label: 'Compare models', href: '/products#compare' },
+    { label: 'Where to buy', href: '/where-to-buy' },
+    { label: 'Payment plans', href: '/financing' },
+  ] },
+  { title: 'Support', links: [
+    { label: 'Support hub', href: '/support' },
+    { label: 'Warranty', href: '/support/warranty' },
+    { label: 'Verify your product', href: '/verify-product' },
+    { label: 'Contact', href: '/contact' },
+  ] },
+  { title: 'Company', links: [
+    { label: 'About us', href: '/about' },
+    { label: 'Made in Nigeria', href: '/about/made-in-nigeria' },
+    { label: 'Installations', href: '/projects' },
+    { label: 'Blog', href: '/blog' },
+  ] },
+];
+---
+<footer class="lm-footer">
+  <div class="lm-container">
+    <div class="lm-footer-cols">
+      <div>
+        <Logo />
+        <p class="lm-small" style="color:var(--ink-inverse-muted)">{site.tagline}</p>
+      </div>
+      {cols.map((c) => (
+        <div>
+          <h2>{c.title}</h2>
+          <ul>{c.links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}</ul>
+        </div>
+      ))}
+    </div>
+    <div class="lm-footer-contact">
+      {site.offices.map((o) => {
+        const phone = site.phones[o.phone];
+        return (
+          <div>
+            <b>{o.name}</b>
+            {o.address ?? `${o.city}, ${o.region}`} · <a href={`tel:${phone.tel}`}>{phone.display}</a>
+          </div>
+        );
+      })}
+      <div><b>Email</b><a href={`mailto:${site.email}`}>{site.email}</a></div>
+    </div>
+    <div class="lm-legal">
+      <span>© {year} Lumey Energy</span>
+      <a href="/privacy-policy">Privacy Policy</a>
+      <a href="/terms">Terms</a>
+      <a href="/support/warranty">Warranty Policy</a>
+    </div>
+  </div>
+</footer>

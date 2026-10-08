@@ -1,0 +1,87 @@
+---
+import Base from '../layouts/Base.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import PriceTable from '../components/PriceTable.astro';
+import ModelLadder from '../components/ModelLadder.astro';
+import Faq from '../components/Faq.astro';
+import FinalCta from '../components/FinalCta.astro';
+import { products, inSeries, priceRange } from '../data/products';
+import { naira } from '../lib/format';
+import { pricesUpdatedText } from '../lib/prices';
+import { itemList, breadcrumbs, faqPage } from '../lib/schema';
+
+const trail = [{ name: 'Home', href: '/' }, { name: 'Solar Generator Prices in Nigeria', href: '/solar-generator-prices-in-nigeria' }];
+const p = (slug: string) => products.find((x) => x.slug === slug)!;
+
+const faqs = [
+  { q: 'How much does a solar generator cost in Nigeria?', a: `A Lumey PowerBox costs from ${naira(priceRange.min)} (PowerBox 600, box only) to ${naira(priceRange.max)} (PowerBox 8000 Plus with six 600W panels). A full household with a fridge, freezer and microwave starts at ${naira(p('powerbox-2600').priceBox)} with the PowerBox 2600. Air conditioning starts at ${naira(p('powerbox-4000').priceBox)} with the PowerBox 4000.` },
+  { q: 'What is the cheapest Lumey solar generator?', a: `The PowerBox 600 at ${naira(p('powerbox-600').priceBox)} box only, or ${naira(p('powerbox-600').priceBundle)} with its 200W panel. It runs bulbs, a fan, a laptop, a 32" TV and a decoder.` },
+  { q: 'Do the prices include installation?', a: 'No. Prices exclude installation kits and workmanship. The PowerBox itself is plug-and-play and needs no installation; panels need mounting and wiring, and we tell you what that involves before you buy.' },
+  { q: 'Can I pay in instalments?', a: 'Yes. Instalment payment is available across the range, so you can buy the size your appliances need rather than the size you can pay for today.' },
+  { q: 'Why do solar generator prices change in Nigeria?', a: 'Battery cells, inverter components and panels move with exchange rates. We show the date these prices were last updated at the top of this page. Confirm the current price on WhatsApp before you transfer money, and only pay an authorised Lumey channel.' },
+  { q: 'Is a solar generator cheaper than a petrol generator?', a: 'A petrol generator has a lower purchase price and a permanent running cost: fuel, oil, servicing, repairs and eventual replacement. A PowerBox has a higher purchase price and effectively no running cost once panels are fitted.' },
+];
+---
+<Base
+  title="Solar Generator Prices in Nigeria — All 8 Models"
+  description={`Every Lumey solar generator price, from ${naira(priceRange.min)} to ${naira(priceRange.max)}. Box only and with panels, what each model runs, and what is not included.`}
+  schema={[{ '@type': 'WebPage', name: 'Solar generator prices in Nigeria' }, itemList(products), breadcrumbs(trail), faqPage(faqs)]}
+>
+  <section class="lm-ground-inverse lm-section">
+    <div class="lm-container lm-stack" style="max-width:860px">
+      <Breadcrumb trail={trail} />
+      <div>
+        <h1 class="lm-h1">Solar generator prices in Nigeria</h1>
+        <hr class="lm-rule" />
+        <p class="lm-intro lm-muted">Every Lumey PowerBox, every price, on one page. From {naira(priceRange.min)} to {naira(priceRange.max)}. No form to fill, no “request a quote.”</p>
+      </div>
+      <p class="lm-label" style="color:var(--sun);margin:0">Prices last updated: {pricesUpdatedText}</p>
+      <div class="lm-prose lm-muted">
+        <p>Most companies in this market will not publish a price. You fill a form, you wait for a call, and by the time anyone tells you a number you have already spent a week not knowing whether you can afford it.</p>
+        <p>So here is the whole range, box only and bundled with panels, with what each model actually runs and what is not included in the figure.</p>
+      </div>
+      <div class="lm-row lm-cta-stack">
+        <a class="lm-btn lm-btn-primary" href="#prices">Jump to the price table</a>
+        <a class="lm-btn lm-btn-secondary" href="/products/which-powerbox-do-i-need">Not sure which one you need?</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="lm-ground lm-section">
+    <div class="lm-container lm-stack">
+      <h2 class="lm-h2">How much does a solar generator cost in Nigeria?</h2>
+      <dl class="lm-grid" style="margin:0">
+        <div class="lm-card-topline"><dt class="lm-label lm-muted">Lights, fan, TV, laptop</dt><dd style="margin:var(--space-2) 0 0"><span class="lm-price-xl">{naira(p('powerbox-600').priceBox)}</span><br />PowerBox 600</dd></div>
+        <div class="lm-card-topline"><dt class="lm-label lm-muted">The full house, with the fridge</dt><dd style="margin:var(--space-2) 0 0"><span class="lm-price-xl">{naira(p('powerbox-2600').priceBox)}</span><br />PowerBox 2600</dd></div>
+        <div class="lm-card-topline"><dt class="lm-label lm-muted">Everything, with air conditioning</dt><dd style="margin:var(--space-2) 0 0"><span class="lm-price-xl">{naira(p('powerbox-4000').priceBox)}</span><br />PowerBox 4000</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="lm-ground lm-section" id="prices" style="padding-top:0">
+    <div class="lm-container lm-stack-lg">
+      <div class="lm-stack">
+        <h2 class="lm-h2">Portable Series prices</h2>
+        <PriceTable items={inSeries('portable')} showRuns caption="Portable Series prices" />
+      </div>
+      <div class="lm-stack">
+        <h2 class="lm-h2">Heavy Duty Series prices</h2>
+        <PriceTable items={inSeries('heavy-duty')} showRuns caption="Heavy Duty Series prices" footnote="All heavy-duty batteries carry a 5-year warranty. Prices exclude installation kits and workmanship." />
+      </div>
+    </div>
+  </section>
+
+  <section class="lm-ground-inverse lm-section">
+    <div class="lm-container lm-stack">
+      <h2 class="lm-h2">What each model adds to the one below it</h2>
+      <p class="lm-intro lm-muted">Read down until something you need appears. That is your model. Prices shown are box only.</p>
+      <ModelLadder />
+    </div>
+  </section>
+
+  <section class="lm-ground lm-section">
+    <div class="lm-container"><Faq title="Price questions" faqs={faqs} /></div>
+  </section>
+
+  <FinalCta title="You know the price. Now pick the size." body="Tell us what you want to run and we will tell you exactly which box does it." />
+</Base>

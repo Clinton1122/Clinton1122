@@ -1,0 +1,54 @@
+---
+import Logo from './Logo.astro';
+import WhatsAppIcon from './WhatsAppIcon.astro';
+import { site } from '../data/site';
+import { waLink } from '../lib/format';
+
+const path = Astro.url.pathname;
+const links = [
+  { label: 'Products', href: '/products' },
+  { label: 'Prices', href: '/solar-generator-prices-in-nigeria' },
+  { label: 'Which PowerBox?', href: '/products/which-powerbox-do-i-need' },
+  { label: 'Why Lumey', href: '/about' },
+  { label: 'Support', href: '/support' },
+  { label: 'Where to buy', href: '/where-to-buy' },
+];
+const current = (href: string) => (path === href || path.startsWith(href + '/') ? 'page' : undefined);
+---
+<header class="lm-header">
+  <div class="lm-utility">
+    <span>Made in Nigeria · Akure &amp; Lagos · Nationwide delivery</span>
+    <span>Custom systems: <a href={`tel:${site.phones.sales.tel}`} style="color:inherit">{site.phones.sales.display}</a></span>
+    <span>Support: <a href={`tel:${site.phones.support.tel}`} style="color:inherit">{site.phones.support.display}</a></span>
+  </div>
+  <nav class="lm-nav" aria-label="Main">
+    <Logo />
+    <ul class="lm-nav-links">
+      {links.map((l) => <li><a href={l.href} aria-current={current(l.href)}>{l.label}</a></li>)}
+    </ul>
+    <div class="lm-nav-ctas">
+      <a class="lm-btn lm-btn-secondary" href="/products/which-powerbox-do-i-need">Find my PowerBox</a>
+      <a class="lm-btn lm-btn-primary" href={waLink()}><WhatsAppIcon /> Talk to us on WhatsApp</a>
+    </div>
+    <details class="lm-menu">
+      <summary class="lm-burger">Menu</summary>
+      <ul>
+        {links.map((l) => <li><a href={l.href} aria-current={current(l.href)}>{l.label}</a></li>)}
+        <li><a href="/products/which-powerbox-do-i-need">Find my PowerBox</a></li>
+      </ul>
+    </details>
+  </nav>
+</header>
+
+<style>
+  /* Mobile menu: a <details> so it works with no JavaScript. */
+  .lm-menu { display: none; margin-left: auto; position: relative; }
+  .lm-menu summary { list-style: none; display: inline-grid; place-items: center; padding: 0 var(--space-4); cursor: pointer; }
+  .lm-menu summary::-webkit-details-marker { display: none; }
+  .lm-menu ul { position: absolute; right: 0; top: calc(100% + var(--space-2)); min-width: 240px; margin: 0; padding: var(--space-2) 0; list-style: none; background: var(--surface-inverse); border: 1px solid var(--line-inverse); border-radius: var(--radius-md); box-shadow: var(--shadow-float); }
+  .lm-menu a { display: flex; align-items: center; min-height: var(--tap-min); padding: 0 var(--space-4); color: var(--ink-inverse); text-decoration: none; font-weight: 600; }
+  .lm-menu a[aria-current] { color: var(--sun); }
+  @media (max-width: 1023px) {
+    .lm-menu { display: block; }
+  }
+</style>

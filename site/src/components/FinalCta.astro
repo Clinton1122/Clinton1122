@@ -1,0 +1,20 @@
+---
+import { site } from '../data/site';
+import { waLink } from '../lib/format';
+interface Props { title: string; body: string; primary?: { label: string; href: string }; waMessage?: string }
+const { title, body, primary = { label: 'Find my PowerBox', href: '/products/which-powerbox-do-i-need' }, waMessage } = Astro.props;
+---
+<section class="lm-ground-inverse lm-section">
+  <div class="lm-container lm-stack" style="justify-items:center;text-align:center">
+    <h2 class="lm-h2">{title}</h2>
+    <p class="lm-intro lm-muted">{body}</p>
+    <div class="lm-row lm-cta-stack" style="justify-content:center">
+      <a class="lm-btn lm-btn-primary" href={primary.href}>{primary.label}</a>
+      <a class="lm-btn lm-btn-secondary" href={waLink(waMessage)}>Chat with us on WhatsApp</a>
+    </div>
+    <p class="lm-small lm-muted" style="margin:0">
+      Custom systems: <a class="lm-link" href={`tel:${site.phones.sales.tel}`}>{site.phones.sales.display}</a> ·
+      Customer support: <a class="lm-link" href={`tel:${site.phones.support.tel}`}>{site.phones.support.display}</a> · Akure &amp; Lagos
+    </p>
+  </div>
+</section>

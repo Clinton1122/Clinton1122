@@ -1,0 +1,24 @@
+---
+import type { Product } from '../data/products';
+import { seriesInfo } from '../data/products';
+import { naira } from '../lib/format';
+interface Props { p: Product; flip?: boolean }
+const { p, flip = false } = Astro.props;
+---
+<article class:list={['lm-product-row', { 'lm-flip': flip }]} id={p.slug}>
+  <div class="lm-photo-slot">lumey-{p.slug}-product.jpg<br />(studio three-quarter shot to come)</div>
+  <div>
+    <p class="lm-label lm-eyebrow" style="margin-bottom:var(--space-2)">{seriesInfo[p.series].name}</p>
+    <div class="lm-product-head">
+      <h3 class="lm-h3">{p.name}</h3>
+      <span class="lm-product-prices"><b>{naira(p.priceBox)}</b> box only · <b>{naira(p.priceBundle)}</b> with panels</span>
+    </div>
+    <p class="lm-spec" style="margin:0 0 var(--space-3)">{p.inverter} · {p.batteryWh.toLocaleString('en-NG')}Wh {p.chemistry} · {p.panels} panels</p>
+    <p style="margin:0"><b>Who it's for:</b> {p.whoFor}</p>
+    <dl class="lm-fit">
+      <dt>Best for</dt><dd>{p.bestFor.join(' · ')}</dd>
+      <dt>Not for</dt><dd class="lm-not">{p.notFor.join(' · ')}</dd>
+    </dl>
+    <a class="lm-btn lm-btn-secondary" href={`/products/${p.slug}`}>See the {p.name}</a>
+  </div>
+</article>

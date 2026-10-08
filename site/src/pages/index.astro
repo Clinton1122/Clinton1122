@@ -1,0 +1,160 @@
+---
+import Base from '../layouts/Base.astro';
+import TrustStrip from '../components/TrustStrip.astro';
+import PriceTable from '../components/PriceTable.astro';
+import SizingBand from '../components/SizingBand.astro';
+import Faq from '../components/Faq.astro';
+import FinalCta from '../components/FinalCta.astro';
+import { products, inSeries, priceRange } from '../data/products';
+import { naira } from '../lib/format';
+import { itemList, faqPage } from '../lib/schema';
+
+const faqs = [
+  { q: 'What is a solar generator?', a: 'A solar generator is a battery, an inverter and a charge controller built into one box, charged by solar panels or from a wall socket. It stores electricity and gives it back as normal AC power. Unlike a petrol generator, it has no engine, uses no fuel, makes no noise and produces no fumes, so it is safe to run indoors.' },
+  { q: 'Do I still need an inverter if I buy a PowerBox?', a: 'No. The inverter is already inside. A Lumey PowerBox contains a hybrid pure sine wave inverter, a lithium battery, a charge controller and a protection system in one unit.' },
+  { q: 'Can I charge it with NEPA?', a: 'Yes. Every PowerBox charges three ways: from solar panels, from a wall socket, or from grid power when it is available.' },
+  { q: 'Can I buy the box now and add panels later?', a: `Yes. Every model is sold box only or bundled with the panels sized for it, and you can add the recommended panels at any time afterwards. Box-only prices start at ${naira(priceRange.min)} for the PowerBox 600.` },
+  { q: 'Can it power my fridge?', a: 'From the PowerBox 1500 upward, yes: a table-top or energy-saving fridge up to 120L. For a full-size fridge or a freezer, plus a microwave and a washing machine, you need the PowerBox 2600 or larger.' },
+  { q: 'Can it run my air conditioner?', a: 'Only the heavy-duty range. The PowerBox 4000 and 8000 run one inverter AC, best during the day with panels connected. The PowerBox 8000 Plus runs one or two 1hp inverter ACs. The portable series does not run air conditioners.' },
+  { q: 'How much does a Lumey solar generator cost?', a: `Prices run from ${naira(priceRange.min)} for the PowerBox 600 box only to ${naira(priceRange.max)} for the PowerBox 8000 Plus with its six 600W panels. Prices exclude installation kits and workmanship.` },
+  { q: 'What is the warranty?', a: 'Twelve months on every hybrid pure sine wave inverter system, and five years on heavy-duty solar generator batteries. Claims are handled from our Akure and Lagos offices.' },
+  { q: 'Do you deliver outside Akure and Lagos?', a: 'Yes. We deliver nationwide from both offices, and we build custom systems for customers anywhere in Nigeria. Call or WhatsApp 07062878273.' },
+];
+---
+<Base
+  title="Solar Generators Made in Nigeria | Lumey Energy"
+  description={`Plug-and-play solar generators and power stations, built in Nigeria. From ${naira(priceRange.min)}. Prices, specs and what each of the 8 PowerBox models runs.`}
+  schema={[{ '@type': 'WebSite', name: 'Lumey Energy', url: 'https://www.lumeyenergy.com' }, itemList(products), faqPage(faqs)]}
+>
+  <!-- 1 Hero -->
+  <section class="lm-ground-inverse lm-section">
+    <div class="lm-container lm-split">
+      <div class="lm-stack">
+        <div>
+          <h1 class="lm-h1">Nigeria's solar generators. Built here, for here.</h1>
+          <hr class="lm-rule" />
+          <p class="lm-intro">Plug-and-play power stations that run your home or business without a drop of fuel. Designed and manufactured in Nigeria.</p>
+        </div>
+        <p class="lm-prose lm-muted" style="margin:0">No fuel queues. No 5&nbsp;am generator noise. No waiting on a technician in another country for a part. Eight models, from a 600Wh unit that keeps your bulbs, fan, laptop and TV running, up to a 10kVA system that carries a full household with two air conditioners.</p>
+        <div class="lm-row lm-cta-stack">
+          <a class="lm-btn lm-btn-primary" href="/products/which-powerbox-do-i-need">Find my PowerBox</a>
+          <a class="lm-btn lm-btn-secondary" href="/solar-generator-prices-in-nigeria">See all prices</a>
+        </div>
+        <TrustStrip items={['Made in Nigeria', 'Akure & Lagos', 'Nationwide delivery', '12-month inverter warranty', 'Payment plans available']} />
+      </div>
+      <div class="lm-photo-slot">lumey-powerbox-2600-hero-living-room.jpg<br />(PowerBox 2600 in a Nigerian living room at dusk, lights, fan and TV on)</div>
+    </div>
+  </section>
+
+  <!-- 2 Problem -->
+  <section class="lm-ground lm-section">
+    <div class="lm-container lm-stack">
+      <h2 class="lm-h2">You are not paying for electricity. You are paying to survive without it.</h2>
+      <p class="lm-intro lm-muted">Every month the money leaves in three directions at once: fuel for the generator, repairs for the generator, and replacing whatever the last power surge killed. None of it is an asset. It is rent on a problem.</p>
+      <div class="lm-grid">
+        <!-- TODO(confirm): Card 1's comparison needs the current pump price per litre (PRD Section 2). -->
+        <article class="lm-problem"><span class="lm-problem-num">01</span><h3 class="lm-h3">The generator that eats your profit</h3><p>Fuel every day, then servicing, oil changes, the carburettor, the rewinding. You are renting electricity at the worst rate in the world.</p></article>
+        <article class="lm-problem"><span class="lm-problem-num">02</span><h3 class="lm-h3">The noise, the fumes, the 5&nbsp;am wahala</h3><p>Generator noise wakes the baby and annoys your neighbours. The fumes are dangerous indoors. And when the fuel finishes at 2&nbsp;am, somebody has to go outside with a keg.</p></article>
+        <article class="lm-problem"><span class="lm-problem-num">03</span><h3 class="lm-h3">Imported solar that nobody can fix</h3><p>Solar that costs a fortune, takes a two-day installation, and when a component fails, the company that made it is on another continent.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 What a PowerBox is -->
+  <section class="lm-ground-inverse lm-section">
+    <div class="lm-container lm-split" style="align-items:start">
+      <div class="lm-photo-slot">lumey-powerbox-cutaway-components.jpg<br />(cutaway: battery, inverter, charge controller, protection system)</div>
+      <div class="lm-stack">
+        <h2 class="lm-h2">One box. Everything already inside it.</h2>
+        <p class="lm-intro lm-muted">A normal solar setup is four separate purchases and an installation: panels, an inverter, a battery bank, a charge controller. A PowerBox is all of that already engineered into one unit, tested before it leaves our factory floor in Akure.</p>
+        <div class="lm-grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr))">
+          <div class="lm-capability"><h3 class="lm-h4">Three ways to charge</h3><p class="lm-muted">Solar, wall socket, or NEPA. Whichever one is available today is the one it uses.</p></div>
+          <div class="lm-capability"><h3 class="lm-h4">Hybrid pure sine wave</h3><p class="lm-muted">Clean output, safe for laptops, fridges and anything with a compressor or a board inside it.</p></div>
+          <div class="lm-capability"><h3 class="lm-h4">Little technical skill needed</h3><p class="lm-muted">Connect the whole house, or plug your appliances in directly.</p></div>
+          <div class="lm-capability"><h3 class="lm-h4">Quiet and fume-free</h3><p class="lm-muted">Safe indoors. No exhaust, no fuel, nothing to hear.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 Range and prices -->
+  <section class="lm-ground lm-section">
+    <div class="lm-container lm-stack-lg">
+      <div class="lm-stack" style="gap:var(--space-3)">
+        <h2 class="lm-h2">Eight models. Every price on the page.</h2>
+        <p class="lm-intro lm-muted">From a unit that keeps a student's room running to a system that carries a full household with air conditioning. Box only, or bundled with the panels sized for it.</p>
+      </div>
+      <div class="lm-stack">
+        <h3 class="lm-h3"><a href="/products#portable" style="color:inherit">Portable Series</a></h3>
+        <PriceTable items={inSeries('portable')} showRuns footnote="The 1500 and 1900 do not run microwaves, air fryers, freezers above 120L or air conditioners. The 2600 and 3100 do not run air conditioners or pumping machines. Prices exclude installation kits and workmanship." />
+      </div>
+      <div class="lm-stack">
+        <h3 class="lm-h3"><a href="/products#heavy-duty" style="color:inherit">Heavy Duty Series</a></h3>
+        <PriceTable items={inSeries('heavy-duty')} showRuns footnote="All heavy-duty batteries carry a 5-year warranty. Every inverter carries a 12-month warranty. Prices exclude installation kits and workmanship." />
+      </div>
+      <div class="lm-row">
+        <a class="lm-btn lm-btn-primary" href="/products#compare">Compare all eight side by side</a>
+        <a class="lm-link lm-link-arrow" href="/custom-solar-systems">Need something bigger? Talk to us about a custom system</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 Sizing band -->
+  <SizingBand />
+
+  <!-- 6 Why Lumey -->
+  <section class="lm-ground lm-section">
+    <div class="lm-container lm-stack">
+      <h2 class="lm-h2">Why buy from us and not from an importer</h2>
+      <div class="lm-grid">
+        <article class="lm-feature"><h3 class="lm-h3">We built it, so we can fix it.</h3><p>When something goes wrong with an imported unit, the conversation starts with a distributor and ends with a shrug. Ours was designed and assembled in Nigeria.</p></article>
+        <article class="lm-feature"><h3 class="lm-h3">12 months on the inverter, 5 years on heavy-duty batteries</h3><p>Every hybrid pure sine wave inverter carries a 12-month warranty. Every heavy-duty LiFePO4 battery carries five years.</p></article>
+        <!-- TODO(confirm): the "save around 40%" upgrade claim needs its mechanism before it ships (PRD /support/upgrades). -->
+        <article class="lm-feature"><h3 class="lm-h3">Upgrade instead of replacing</h3><p>As your needs grow, you do not start again. Bring your existing unit back and upgrade it. Buy the size you need today.</p></article>
+        <article class="lm-feature"><h3 class="lm-h3">A manufacturer's price</h3><p>The price you see is a manufacturer's price, which is why a 2,600Wh whole-household system starts at {naira(products[3].priceBox)}.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 Made in Nigeria -->
+  <section class="lm-ground-inverse lm-section">
+    <div class="lm-container lm-split">
+      <div class="lm-stack">
+        <h2 class="lm-h2">Every PowerBox is built in Akure</h2>
+        <div class="lm-prose lm-muted">
+          <p>A product designed in Nigeria is designed for Nigerian conditions: our grid, our voltage swings, our appliances, our humidity, our dust.</p>
+          <p>And the money stays. Every box we build is work for Nigerian engineers, technicians, assemblers, installers and sales people.</p>
+        </div>
+        <dl class="lm-stats">
+          <div class="lm-stat"><dt>models designed and developed in-house</dt><dd>8</dd></div>
+          <div class="lm-stat"><dt>centres: Akure production, Lagos distribution</dt><dd>2</dd></div>
+          <div class="lm-stat"><dt>of sales come from referrals</dt><dd>75%</dd></div>
+        </dl>
+        <a class="lm-link lm-link-arrow" href="/about/made-in-nigeria">Read the full story</a>
+      </div>
+      <div class="lm-photo-slot">lumey-production-floor-akure-assembly.jpg<br />(a technician assembling a PowerBox in Akure)</div>
+    </div>
+  </section>
+
+  <!-- 9 Proof: testimonials do not ship until real, consented ones exist (PRD). -->
+
+  <!-- 10 Paying and after -->
+  <section class="lm-ground-alt lm-section">
+    <div class="lm-container lm-stack">
+      <h2 class="lm-h2">How people pay, and what you get after you have paid</h2>
+      <div class="lm-grid">
+        <div class="lm-card-topline"><h3 class="lm-h3">Payment plans</h3><p>You do not have to find the full amount at once. Instalment payment is available across the range.</p><a class="lm-link lm-link-arrow" href="/financing">See payment options</a></div>
+        <div class="lm-card-topline"><h3 class="lm-h3">Delivery and setup</h3><p>We deliver nationwide from Akure and Lagos. A PowerBox is plug-and-play, so most customers are up and running the same day.</p><a class="lm-link lm-link-arrow" href="/where-to-buy">Delivery and where to buy</a></div>
+        <div class="lm-card-topline"><h3 class="lm-h3">Support that answers</h3><p>Setup help, troubleshooting, warranty claims, servicing and upgrades, on WhatsApp, in plain language.</p><a class="lm-link lm-link-arrow" href="/support">Support</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 FAQ -->
+  <section class="lm-ground lm-section">
+    <div class="lm-container"><Faq title="Questions people ask before they buy" faqs={faqs} /></div>
+  </section>
+
+  <!-- 12 Final CTA -->
+  <FinalCta title="Stop buying fuel. Start owning your power." body="Eight models. Prices published. Built in Akure, delivered anywhere in Nigeria, backed by people you can reach." />
+</Base>

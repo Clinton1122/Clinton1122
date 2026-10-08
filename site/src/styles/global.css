@@ -1,0 +1,33 @@
+/* Fonts are self-hosted; only the subsets a page uses are downloaded. */
+@import '@fontsource-variable/archivo/wdth.css';
+@import '@fontsource/ibm-plex-sans/400.css';
+@import '@fontsource/ibm-plex-sans/600.css';
+@import '@fontsource/ibm-plex-mono/500.css';
+/* The design system: tokens first, then components. */
+@import '../../../design-system/tokens.css';
+@import '../../../design-system/components/bundle.css';
+
+/* ---------- Page scaffolding (site-only) ---------- */
+.lm-container { max-width: var(--content-max); margin-inline: auto; padding-inline: var(--space-4); }
+@media (min-width: 768px) { .lm-container { padding-inline: var(--space-8); } }
+.lm-section { padding-block: var(--space-16); }
+@media (min-width: 1024px) { .lm-section { padding-block: var(--space-24); } }
+.lm-stack { display: grid; gap: var(--space-6); }
+.lm-stack-lg { display: grid; gap: var(--space-12); }
+.lm-intro { max-width: var(--measure); font-size: 18px; line-height: 28px; margin: 0; }
+.lm-prose { max-width: var(--measure); }
+.lm-prose p { margin: 0 0 var(--space-4); }
+.lm-eyebrow { color: var(--sun-ink); margin: 0; }
+.lm-ground-inverse .lm-eyebrow { color: var(--sun); }
+.lm-split { display: grid; gap: var(--space-8); align-items: center; }
+@media (min-width: 900px) { .lm-split { grid-template-columns: 55fr 45fr; } }
+.lm-split > * { min-width: 0; }
+.lm-photo-slot { aspect-ratio: 4 / 3; max-width: 100%; display: grid; place-items: center; text-align: center; padding: var(--space-4); border: 1px dashed var(--line-strong); color: var(--ink-muted); font-family: var(--font-mono); font-size: 12px; line-height: 16px; }
+.lm-ground-inverse .lm-photo-slot { border-color: var(--line-inverse); color: var(--ink-inverse-muted); }
+.lm-skip { position: absolute; left: -9999px; }
+.lm-skip:focus { left: var(--space-4); top: var(--space-4); z-index: 100; background: var(--sun); color: var(--on-sun); padding: var(--space-2) var(--space-4); }
+.lm-header { position: sticky; top: 0; z-index: 30; }
+.lm-logo-img { height: 32px; width: auto; display: block; }
+.lm-faq-cols { display: grid; gap: 0 var(--space-8); }
+@media (min-width: 1024px) { .lm-faq-cols { grid-template-columns: 1fr 1fr; } }
+.lm-pending-inline { color: var(--ink-muted); font-style: italic; }

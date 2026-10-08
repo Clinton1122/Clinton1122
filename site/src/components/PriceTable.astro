@@ -1,0 +1,45 @@
+---
+// Stays a table at every width: the model column is frozen and the table
+// scrolls sideways inside its own container. Every price is in the HTML.
+import type { Product } from '../data/products';
+import { naira } from '../lib/format';
+import { pricesUpdatedText } from '../lib/prices';
+
+interface Props { items: Product[]; showRuns?: boolean; showMaxPv?: boolean; caption?: string; id?: string; footnote?: string }
+const { items, showRuns = false, showMaxPv = false, caption, id, footnote } = Astro.props;
+---
+<div class="lm-stack" style="gap:var(--space-2)">
+  <div class="lm-table-wrap" id={id}>
+    <table class="lm-table">
+      {caption && <caption class="lm-skip">{caption}</caption>}
+      <thead>
+        <tr>
+          <th class="lm-sticky-col" scope="col">Model</th>
+          <th scope="col">Inverter</th>
+          <th scope="col">Battery</th>
+          {showRuns && <th scope="col">What it powers</th>}
+          <th scope="col">Panels</th>
+          <th scope="col">Box only</th>
+          <th scope="col">Box + panels</th>
+        </tr>
+      </thead>
+      <tbody>
+        {items.map((p) => (
+          <tr>
+            <th class="lm-sticky-col" scope="row"><a href={`/products/${p.slug}`}>{p.name}</a></th>
+            <td class="lm-spec">{p.inverter}</td>
+            <td class="lm-spec">{p.batteryWh.toLocaleString('en-NG')}Wh {p.chemistry === 'LiFePO4' ? 'LiFePO4' : 'lithium'}</td>
+            {showRuns && <td style="min-width:260px">{p.runs}</td>}
+            <td class="lm-spec">{p.panels}{showMaxPv && p.maxPv && <> (max PV {p.maxPv})</>}</td>
+            <td class="lm-price-col lm-num">{naira(p.priceBox)}</td>
+            <td class="lm-price-col lm-num">{naira(p.priceBundle)}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p class="lm-swipe-hint">Swipe to see prices →</p>
+  <p class="lm-small lm-muted" style="margin:0">
+    Prices last updated: {pricesUpdatedText}. {footnote ?? 'Prices exclude installation kits and workmanship.'}
+  </p>
+</div>

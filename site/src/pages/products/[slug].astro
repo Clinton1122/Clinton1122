@@ -1,0 +1,252 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import TrustStrip from '../../components/TrustStrip.astro';
+import Faq from '../../components/Faq.astro';
+import FinalCta from '../../components/FinalCta.astro';
+import WhatsAppIcon from '../../components/WhatsAppIcon.astro';
+import { products, seriesInfo, neighbours, bySlug, type Product } from '../../data/products';
+import { site } from '../../data/site';
+import { naira, waProduct, absolute } from '../../lib/format';
+import { pricesUpdatedText } from '../../lib/prices';
+import { productSchema, breadcrumbs, faqPage } from '../../lib/schema';
+
+export function getStaticPaths() {
+  return products.map((p) => ({ params: { slug: p.slug }, props: { p } }));
+}
+
+interface Props { p: Product }
+const { p } = Astro.props;
+const series = seriesInfo[p.series];
+const { below, above } = neighbours(p);
+const twin = p.twinOf ? bySlug(p.twinOf) : products.find((x) => x.twinOf === p.slug);
+const url = absolute(`/products/${p.slug}`);
+const heavy = p.series === 'heavy-duty';
+const wh = p.batteryWh.toLocaleString('en-NG');
+const rating = p.inverter.match(/\(([\d.]+kVA)\)/)?.[1] ?? p.inverter.replace(/\s*\(.*\)/, '');
+
+const trail = [
+  { name: 'Home', href: '/' },
+  { name: 'Products', href: '/products' },
+  { name: series.name, href: `/products#${p.series}` },
+  { name: p.name, href: `/products/${p.slug}` },
+];
+
+const specs: [string, string | null][] = [
+  ['Model', `Lumey ${p.name}`],
+  ['Inverter rating', p.inverter],
+  ['Inverter type', 'Hybrid pure sine wave'],
+  ['Battery capacity', `${wh}Wh`],
+  ['Battery type', p.chemistry],
+  ['Surge rating', null],
+  ['Maximum PV input', p.maxPv ?? null],
+  ['Recommended panels', p.panels],
+  ['Charging methods', 'Solar · wall socket · grid'],
+  ['AC recharge time', null],
+  [`Solar recharge time (${(p.panelCount * p.panelW).toLocaleString('en-NG')}W)`, null],
+  ['AC outlets', null],
+  ['USB / DC outputs', null],
+  ['Weight', null],
+  ['Dimensions (H × W × D)', null],
+  ['Cycle life', null],
+  ['Noise level', 'Silent: no engine, no exhaust'],
+  ['Protection', 'Built-in protection system'],
+  ['Warranty', heavy ? `${site.warranty.inverterMonths} months on the inverter · ${site.warranty.heavyDutyBatteryYears} years on the battery` : `${site.warranty.inverterMonths} months on the inverter system`],
+  ['Made in', 'Akure, Nigeria'],
+];
+
+const cmp = [below, p, above].filter(Boolean) as Product[];
+
+const faqs = [
+  {
+    q: `How much is the Lumey ${p.name}?`,
+    a: `${naira(p.priceBox)} for the PowerBox on its own, or ${naira(p.priceBundle)} bundled with its recommended ${p.panels} solar panels. Instalment payment is available. Prices exclude installation kits and workmanship.`,
+  },
+  {
+    q: `What can the ${p.name} power?`,
+    a: `${p.runs}. It runs a ${p.inverter} hybrid pure sine wave inverter on a ${wh}Wh ${p.chemistry} battery. It is not for ${p.notFor.join(', ')}.`,
+  },
+  {
+    q: `Can the ${p.name} run an air conditioner?`,
+    a: heavy
+      ? p.slug === 'powerbox-8000-plus'
+        ? 'Yes. At 8kW (10kVA) it runs one or two 1hp inverter ACs, with extended backup for day use and mild night use on one AC.'
+        : 'Yes, one inverter AC, best during the day with panels connected. For two air conditioners you need the PowerBox 8000 Plus.'
+      : 'No. No model in the portable series runs an air conditioner. Air conditioning starts with the PowerBox 4000, which runs one inverter AC on a 4kW (5kVA) inverter.',
+  },
+  ...(twin
+    ? [{
+        q: `What is the difference between the ${p.name} and the ${twin.name}?`,
+        a: `${p.inverter === twin.inverter ? 'Battery size only. Both use the same ' + p.inverter + ' inverter and run exactly the same appliances.' : 'Inverter rating.'} The ${p.name} holds ${wh}Wh and the ${twin.name} holds ${twin.batteryWh.toLocaleString('en-NG')}Wh. The difference on the box price is ${naira(Math.abs(p.priceBox - twin.priceBox))}.`,
+      }]
+    : []),
+  {
+    q: 'Should I buy the box only or the bundle?',
+    a: `If grid power reaches you often enough to recharge a ${wh}Wh battery every day, box only at ${naira(p.priceBox)} works. If it does not, take the bundle. Panels can be added later if you start with the box; nothing inside the box changes when you do.`,
+  },
+  {
+    q: `What is the warranty on the ${p.name}?`,
+    a: heavy
+      ? `Twelve months on the inverter system and five years on the LiFePO4 battery, handled from our Akure and Lagos offices.`
+      : `Twelve months on the inverter system, handled from our Akure and Lagos offices. Because we manufacture in Nigeria, servicing and parts do not depend on a supplier overseas.`,
+  },
+];
+---
+<Base
+  title={`Lumey ${p.name}: ${naira(p.priceBox)} | ${rating} Solar Generator`}
+  description={`The ${p.name}: ${p.inverter} inverter, ${wh}Wh ${p.chemistry} battery. ${naira(p.priceBox)} box only, ${naira(p.priceBundle)} with ${p.panels} panels. Made in Akure.`.slice(0, 155)}
+  schema={[productSchema(p), breadcrumbs(trail), faqPage(faqs)]}
+  waMessage={`Hello Lumey, I have a question about the ${p.name}. Page: ${url}`}
+>
+  <!-- 1 Hero -->
+  <section class="lm-ground-inverse lm-section" id="hero">
+    <div class="lm-container lm-split">
+      <div class="lm-stack">
+        <Breadcrumb trail={trail} />
+        <div>
+          <h1 class="lm-h1">Lumey {p.name}</h1>
+          <hr class="lm-rule" />
+          <p class="lm-intro lm-muted">{p.whoFor}</p>
+        </div>
+
+        <div class="lm-priceblock pb">
+          <div class="lm-toggle" role="radiogroup" aria-label="Choose an option">
+            <label><input type="radio" name="opt" id="opt-box" value="box" checked /><span>PowerBox only</span></label>
+            <label><input type="radio" name="opt" id="opt-bundle" value="bundle" /><span>+ {p.panels} panels</span></label>
+          </div>
+          <p class="lm-price-xl pb-box">{naira(p.priceBox)} <span class="lm-small lm-muted" style="font-family:var(--font-sans);font-weight:400">PowerBox only</span></p>
+          <p class="lm-price-xl pb-bundle">{naira(p.priceBundle)} <span class="lm-small lm-muted" style="font-family:var(--font-sans);font-weight:400">with {p.panels} panels</span></p>
+          <p class="lm-priceblock-note lm-muted">Payment plans available. Prices exclude installation kits and workmanship. Prices last updated {pricesUpdatedText}.</p>
+          <div class="lm-row lm-cta-stack">
+            <a class="lm-btn lm-btn-primary pb-box" href={waProduct(p, 'box', url)}><WhatsAppIcon /> Order on WhatsApp</a>
+            <a class="lm-btn lm-btn-primary pb-bundle" href={waProduct(p, 'bundle', url)}><WhatsAppIcon /> Order on WhatsApp</a>
+            <a class="lm-link" href="/products/which-powerbox-do-i-need">Not sure this is the right size?</a>
+          </div>
+        </div>
+        <TrustStrip items={['Made in Akure', heavy ? '5-year battery warranty' : '12-month inverter warranty', 'Nationwide delivery', 'Payment plans', 'Plug-and-play']} />
+      </div>
+      <div class="lm-photo-slot">lumey-{p.slug}-hero.jpg<br />(three-quarter studio shot on black, ports visible)</div>
+    </div>
+  </section>
+
+  <!-- 2 What it is for -->
+  <section class="lm-ground lm-section">
+    <div class="lm-container lm-split" style="align-items:start">
+      <div class="lm-stack">
+        <p class="lm-label lm-eyebrow">{series.name}</p>
+        <h2 class="lm-h2">What the {p.name} runs</h2>
+        <div class="lm-prose">{p.body.map((para) => <p>{para}</p>)}</div>
+        {p.note && <p class="lm-prose"><b>Note:</b> {p.note}</p>}
+        <a class="lm-link lm-link-arrow" href="/products/which-powerbox-do-i-need">Size it from your own appliances</a>
+      </div>
+      <div class="lm-card-topline">
+        <dl class="lm-fit" style="margin:0">
+          <dt>Best for</dt><dd>{p.bestFor.join(' · ')}</dd>
+          <dt>Not for</dt><dd class="lm-not">{p.notFor.join(' · ')}</dd>
+        </dl>
+        <p class="lm-small lm-muted">Run-times on a full charge will be published once they are measured. For a rough figure, divide {wh}Wh by your total load in watts, then allow for losses.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 Full specification -->
+  <section class="lm-ground-alt lm-section">
+    <div class="lm-container lm-stack">
+      <h2 class="lm-h2">Full specification</h2>
+      <div class="lm-table-wrap" style="border:0">
+        <table class="lm-spec-table">
+          <tbody>
+            {specs.map(([k, v]) => (
+              <tr><th scope="row">{k}</th>{v ? <td>{v}</td> : <td class="lm-pending">To be confirmed</td>}</tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 Against its neighbours -->
+  <section class="lm-ground lm-section" id="compare">
+    <div class="lm-container lm-stack">
+      <h2 class="lm-h2">{cmp.map((x) => x.name).join(', ').replace(/, ([^,]*)$/, ' or $1')}?</h2>
+      <div class="lm-table-wrap">
+        <table class="lm-table" style="min-width:560px">
+          <thead><tr><th class="lm-sticky-col" scope="col"></th>{cmp.map((x) => <th scope="col">{x.name}</th>)}</tr></thead>
+          <tbody>
+            <tr><th class="lm-sticky-col" scope="row">Box only</th>{cmp.map((x) => <td class:list={['lm-num', { 'lm-col-hl': x === p }]}>{naira(x.priceBox)}</td>)}</tr>
+            <tr><th class="lm-sticky-col" scope="row">With panels</th>{cmp.map((x) => <td class:list={['lm-num', { 'lm-col-hl': x === p }]}>{naira(x.priceBundle)}</td>)}</tr>
+            <tr><th class="lm-sticky-col" scope="row">Inverter</th>{cmp.map((x) => <td class:list={['lm-spec', { 'lm-col-hl': x === p }]}>{x.inverter}</td>)}</tr>
+            <tr><th class="lm-sticky-col" scope="row">Battery</th>{cmp.map((x) => <td class:list={['lm-spec', { 'lm-col-hl': x === p }]}>{x.batteryWh.toLocaleString('en-NG')}Wh {x.chemistry}</td>)}</tr>
+            <tr><th class="lm-sticky-col" scope="row">Panels</th>{cmp.map((x) => <td class:list={['lm-spec', { 'lm-col-hl': x === p }]}>{x.panels}</td>)}</tr>
+            <tr><th class="lm-sticky-col" scope="row">Runs</th>{cmp.map((x) => <td class:list={[{ 'lm-col-hl': x === p }]} style="min-width:200px">{x.runs}</td>)}</tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lm-row">
+        {cmp.filter((x) => x !== p).map((x) => <a class="lm-btn lm-btn-secondary" href={`/products/${x.slug}`}>See the {x.name}</a>)}
+        <a class="lm-link lm-link-arrow" href="/products#compare">Compare all eight models</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 After you buy it / paying for it -->
+  <section class="lm-ground lm-section" style="padding-top:0">
+    <div class="lm-container lm-stack">
+      <h2 class="lm-h2">How to buy it, and what happens after</h2>
+      <div class="lm-grid">
+        <article class="lm-feature"><h3 class="lm-h3">Pay in instalments</h3><p>{naira(p.priceBox)} does not have to move in one payment. Instalment payment is available on this model.</p><p style="margin-top:var(--space-4)"><a class="lm-link" href="/financing">Payment plans</a></p></article>
+        <article class="lm-feature"><h3 class="lm-h3">Walk in or have it delivered</h3><p>Buy from Akure or Lagos, or we deliver nationwide. Tell us if you are on an upper floor so delivery arrives prepared.</p><p style="margin-top:var(--space-4)"><a class="lm-link" href="/where-to-buy">Where to buy</a></p></article>
+        <article class="lm-feature"><h3 class="lm-h3">{heavy ? '5 years on the battery' : '12-month inverter warranty'}</h3><p>Handled from Akure and Lagos, not from a distributor's distributor overseas. We built it, so we can fix it.</p><p style="margin-top:var(--space-4)"><a class="lm-link" href="/support/warranty">Warranty</a></p></article>
+        <article class="lm-feature"><h3 class="lm-h3">Check it is genuine</h3><p>If someone is selling you a "Lumey {p.short}" outside our channels, verify it before you pay.</p><p style="margin-top:var(--space-4)"><a class="lm-link" href="/verify-product">Verify your product</a></p></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 FAQ -->
+  <section class="lm-ground-alt lm-section">
+    <div class="lm-container"><Faq title={`Questions about the ${p.name}`} faqs={faqs} /></div>
+  </section>
+
+  <FinalCta
+    title={`${naira(p.priceBox)}, and ${heavy ? 'the pump and the AC just work' : 'the lights stay on'}`}
+    body={`${p.name}: quiet, fuel-free, built in Akure, delivered anywhere in Nigeria. Payment plans available.`}
+    primary={{ label: 'Check this is the right size for you', href: '/products/which-powerbox-do-i-need' }}
+    waMessage={`Hello Lumey, I'd like to order the ${p.name}. Page: ${url}`}
+  />
+
+  <!-- Sticky buy-bar: appears once the hero leaves the screen -->
+  <div class="lm-buybar" id="buybar" hidden>
+    <span class="lm-buybar-name">{p.name}</span>
+    <span class="lm-buybar-prices"><span>Box <b>{naira(p.priceBox)}</b></span><span>With panels <b>{naira(p.priceBundle)}</b></span></span>
+    <span class="lm-buybar-actions">
+      <a class="lm-link" href="/financing">Pay in instalments</a>
+      <a class="lm-btn lm-btn-primary" href={waProduct(p, 'box', url)}><WhatsAppIcon /> Order on WhatsApp</a>
+    </span>
+  </div>
+</Base>
+
+<style>
+  /* Both prices are always in the HTML. Browsers with :has() show the chosen one;
+     older browsers simply show both. */
+  @supports selector(:has(*)) {
+    .pb:has(#opt-box:checked) .pb-bundle,
+    .pb:has(#opt-bundle:checked) .pb-box { display: none; }
+  }
+  @supports not selector(:has(*)) {
+    .lm-toggle { display: none; }
+  }
+  .pb p.lm-price-xl { margin: 0; }
+</style>
+
+<script>
+  const bar = document.getElementById('buybar');
+  const hero = document.getElementById('hero');
+  const fab = document.getElementById('wa-fab');
+  if (bar && hero && 'IntersectionObserver' in window) {
+    new IntersectionObserver(([e]) => {
+      const show = !e.isIntersecting;
+      bar.hidden = !show;
+      if (fab) fab.hidden = show;
+    }).observe(hero);
+  }
+</script>

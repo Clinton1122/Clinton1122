@@ -1,11 +1,11 @@
-@import url("https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;600&display=swap");
-
-/* Lumey Energy components. Every colour, size and radius comes from tokens.css.
+/* Lumey Energy components. Fonts: the site self-hosts them (@fontsource); previews link Google Fonts.
+    Every colour, size and radius comes from tokens.css.
    Class prefix: lm-. Sections set their own ground; components read it. */
 
 html { -webkit-text-size-adjust: 100%; }
 body { margin: 0; background: var(--surface); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 26px; }
 *, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
 
 /* ---------- Grounds ---------- */
 .lm-ground { background: var(--surface); color: var(--ink); }
@@ -94,6 +94,7 @@ body { margin: 0; background: var(--surface); color: var(--ink); font-family: va
 .lm-nav-links .lm-has-menu::after { content: " ▾"; font-size: 11px; }
 .lm-nav-ctas { margin-left: auto; display: flex; gap: var(--space-3); }
 .lm-burger { display: none; margin-left: auto; min-width: var(--tap-min); min-height: var(--tap-min); background: none; border: 1px solid var(--line-inverse); color: var(--ink-inverse); border-radius: var(--radius-sm); font: 600 14px var(--font-sans); }
+@media (max-width: 767px) { .lm-utility > :not(:first-child) { display: none; } }
 @media (max-width: 1023px) {
   .lm-nav-links, .lm-nav-ctas { display: none; }
   .lm-burger { display: inline-block; }
@@ -178,7 +179,12 @@ body { margin: 0; background: var(--surface); color: var(--ink); font-family: va
 .lm-buybar-prices b { color: var(--ink-inverse); font-family: var(--font-display); font-stretch: 112%; font-weight: 800; font-size: 16px; font-variant-numeric: tabular-nums; }
 .lm-buybar-actions { margin-left: auto; display: flex; gap: var(--space-4); align-items: center; }
 .lm-buybar .lm-link { font-size: 14px; }
-@media (max-width: 767px) { .lm-buybar-prices span:nth-child(2) { display: none; } .lm-buybar .lm-link { display: none; } }
+@media (max-width: 767px) {
+  .lm-buybar { flex-wrap: nowrap; gap: var(--space-3); }
+  .lm-buybar-name, .lm-buybar-prices span:nth-child(2), .lm-buybar .lm-link { display: none; }
+  .lm-buybar-prices { flex-direction: column; gap: 0; }
+  .lm-buybar .lm-btn { padding: 0 var(--space-4); }
+}
 
 /* ---------- Product row (series detail) ---------- */
 .lm-product-row { display: grid; grid-template-columns: 45fr 55fr; gap: var(--space-8); align-items: center; }

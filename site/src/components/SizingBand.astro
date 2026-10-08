@@ -1,0 +1,26 @@
+---
+import { waLink } from '../lib/format';
+interface Props { title?: string; body?: string }
+const {
+  title = 'Not sure which one? Tell us what you want to run.',
+  body = 'Most people buy the wrong size: either too small, so it cuts off at night, or too big, so they spent money they did not need to. Pick the appliances you actually want to keep running and we will tell you the model, the run-time and the price.',
+} = Astro.props;
+const chips = [
+  { label: 'Bulbs, fan, TV and my laptop', key: 'essentials' },
+  { label: 'Everything including the fridge', key: 'fridge' },
+  { label: 'The whole house, including AC', key: 'ac' },
+];
+---
+<section class="lm-ground-sun lm-section">
+  <div class="lm-container lm-stack">
+    <h2 class="lm-h2">{title}</h2>
+    <p class="lm-intro">{body}</p>
+    <div class="lm-chips">
+      {chips.map((c) => <a class="lm-chip" href={`/products/which-powerbox-do-i-need#${c.key}`}>{c.label}</a>)}
+    </div>
+    <div class="lm-row lm-cta-stack">
+      <a class="lm-btn lm-btn-primary" href="/products/which-powerbox-do-i-need">Find my PowerBox</a>
+      <a class="lm-btn lm-btn-secondary" href={waLink("Hello Lumey, here is what I want to run: ")}>Or send your appliance list on WhatsApp</a>
+    </div>
+  </div>
+</section>

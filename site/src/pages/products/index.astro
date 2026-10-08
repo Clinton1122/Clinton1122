@@ -1,0 +1,121 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import TrustStrip from '../../components/TrustStrip.astro';
+import PriceTable from '../../components/PriceTable.astro';
+import ProductRow from '../../components/ProductRow.astro';
+import Faq from '../../components/Faq.astro';
+import FinalCta from '../../components/FinalCta.astro';
+import { products, inSeries, seriesInfo, priceRange } from '../../data/products';
+import { naira, waLink } from '../../lib/format';
+import { itemList, breadcrumbs, faqPage } from '../../lib/schema';
+
+const trail = [{ name: 'Home', href: '/' }, { name: 'Products', href: '/products' }];
+const portable = inSeries('portable');
+const heavy = inSeries('heavy-duty');
+
+const faqs = [
+  { q: 'How much does a Lumey solar generator cost?', a: `Prices start at ${naira(priceRange.min)} for the PowerBox 600 box only and go up to ${naira(priceRange.max)} for the PowerBox 8000 Plus with its six 600W panels. Every model and every price is listed in the comparison table on this page. Prices exclude installation kits and workmanship.` },
+  { q: 'What is the difference between the Portable and Heavy Duty series?', a: 'The Portable Series (600 to 3100) uses lithium batteries and inverters from 400W to 2kW, and covers everything up to a full household with a fridge, freezer, microwave and washing machine. The Heavy Duty Series (4000, 8000, 8000 Plus) uses LiFePO4 batteries and 4kW to 8kW inverters, and adds pumping machines and inverter air conditioners. Heavy-duty batteries carry a five-year warranty.' },
+  { q: 'Which PowerBox can run an air conditioner?', a: 'Only the heavy-duty models. The PowerBox 4000 and 8000 each run one inverter AC, best during the day with panels connected. The PowerBox 8000 Plus runs one or two 1hp inverter ACs with extended backup. No model in the portable series runs an air conditioner.' },
+  { q: 'What is the difference between the PowerBox 2600 and the 3100?', a: 'Nothing in what they can run. Both use the same 2kW (2.5kVA) inverter and take the same two 600W panels. The 3100 has a larger battery, 3,100Wh against 2,600Wh, so it runs the same appliances for longer before it needs recharging. You are buying backup time, not extra capability.' },
+  { q: 'Can I buy the box now and add panels later?', a: 'Yes. Every model is sold box only or bundled with its recommended panels, and panels can be added at any time afterwards. Nothing in the box needs changing when you add them.' },
+  { q: 'What is not included in the price?', a: 'Installation kits and workmanship are excluded from every price shown. The box itself is plug-and-play and needs no installation. Panels do require mounting and wiring, and we will tell you what that involves for your specific setup before you buy.' },
+  { q: 'Do the prices change?', a: 'Component and exchange-rate movements do affect pricing. Confirm the current price on WhatsApp before you transfer any money, and never pay anyone who is not an authorised Lumey channel.' },
+  { q: 'What if none of the eight models fits what I need?', a: 'We build custom systems for loads beyond the 8000 Plus: factories, hotels, filling stations, farms and multi-flat compounds. Call 07062878273 with your load details and we will size and quote it.' },
+];
+---
+<Base
+  title="All Lumey PowerBox Models & Prices | Lumey Energy"
+  description={`Compare all 8 Lumey PowerBox solar generators: capacity, what each powers, and prices from ${naira(priceRange.min)}. Box only or bundled with panels.`}
+  schema={[{ '@type': 'CollectionPage', name: 'All Lumey PowerBox models' }, itemList(products), breadcrumbs(trail), faqPage(faqs)]}
+>
+  <section class="lm-ground-inverse lm-section">
+    <div class="lm-container lm-split">
+      <div class="lm-stack">
+        <Breadcrumb trail={trail} />
+        <div>
+          <h1 class="lm-h1">All eight PowerBox models, with prices</h1>
+          <hr class="lm-rule" />
+          <p class="lm-intro lm-muted">From a 600Wh unit for a single room to a 10kVA system that carries a full household with air conditioning. Every price is on this page. Nothing hidden behind a form.</p>
+        </div>
+        <div class="lm-row lm-cta-stack">
+          <a class="lm-btn lm-btn-primary" href="/products/which-powerbox-do-i-need">Find my PowerBox</a>
+          <a class="lm-btn lm-btn-secondary" href="#compare">Jump to the comparison table</a>
+        </div>
+        <TrustStrip items={['8 models', `${naira(priceRange.min)} – ${naira(priceRange.max)}`, '12-month inverter warranty', '5-year heavy-duty battery warranty', 'Nationwide delivery']} />
+      </div>
+      <div class="lm-photo-slot">lumey-powerbox-range-lineup.jpg<br />(all eight models on black, smallest to largest)</div>
+    </div>
+  </section>
+
+  <section class="lm-ground lm-section" id="compare">
+    <div class="lm-container lm-stack">
+      <h2 class="lm-h2">Every model, side by side</h2>
+      <p class="lm-intro lm-muted">Panel bundles use the panels recommended for that model.</p>
+      <PriceTable items={products} showMaxPv caption="All eight PowerBox models with prices" footnote="All inverters are hybrid pure sine wave with a 12-month warranty. Heavy-duty batteries carry a 5-year warranty. Prices exclude installation kits and workmanship." />
+      <div class="lm-row">
+        <a class="lm-btn lm-btn-primary" href="/products/which-powerbox-do-i-need">Not sure? Answer three questions</a>
+        <a class="lm-btn lm-btn-secondary" href={waLink("Hello Lumey, please send me today's price list.")}>Get today's price list on WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="lm-ground lm-section" id="portable" style="padding-top:0">
+    <div class="lm-container lm-stack-lg">
+      <div class="lm-stack" style="gap:var(--space-3)">
+        <h2 class="lm-h2">{seriesInfo.portable.name}</h2>
+        <p class="lm-intro lm-muted">Five models. The difference between them is how much you want to run, and for how long.</p>
+      </div>
+      {portable.map((p, i) => <ProductRow p={p} flip={i % 2 === 1} />)}
+    </div>
+  </section>
+
+  <section class="lm-ground-alt lm-section" id="heavy-duty">
+    <div class="lm-container lm-stack-lg">
+      <div class="lm-stack" style="gap:var(--space-3)">
+        <h2 class="lm-h2">{seriesInfo['heavy-duty'].name}</h2>
+        <p class="lm-intro lm-muted">LiFePO4 batteries, 4kW to 8kW inverters, five-year battery warranty. This is where air conditioning and pumping machines become possible.</p>
+      </div>
+      {heavy.map((p, i) => <ProductRow p={p} flip={i % 2 === 1} />)}
+    </div>
+  </section>
+
+  <section class="lm-ground lm-section">
+    <div class="lm-container lm-stack">
+      <h2 class="lm-h2">Every model is sold two ways</h2>
+      <div class="lm-grid">
+        <div class="lm-card-topline">
+          <h3 class="lm-h3">Box only</h3>
+          <p>You get the complete power station (inverter, battery, charge controller and protection system) and you charge it from the wall socket or from grid power. It works from the moment you plug it in.</p>
+          <p>Right if your budget is tight today, you are in a rented flat and cannot mount panels yet, or the grid in your area comes often enough to keep the box topped up.</p>
+        </div>
+        <div class="lm-card-topline">
+          <h3 class="lm-h3">Box plus panels</h3>
+          <p>The same unit with the solar panels sized for it, so it charges free every day the sun comes out.</p>
+          <p>Right if your goal is to stop paying for energy altogether, or grid power in your area is too unreliable to depend on. The panel cost is the difference between the two price columns: {naira(products[0].priceBundle - products[0].priceBox)} on the 600, {naira(products[3].priceBundle - products[3].priceBox)} on the 2600, {naira(products[7].priceBundle - products[7].priceBox)} on the 8000 Plus.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="lm-ground-inverse lm-section">
+    <div class="lm-container lm-split">
+      <div class="lm-stack">
+        <h2 class="lm-h2">Need more than 8kW? We build it.</h2>
+        <p class="lm-intro lm-muted">A factory, a filling station, a hotel, a farm with several pumps, a multi-flat compound on one system. You tell us what you run and for how long, we size the system, quote it, build it in Akure and install it.</p>
+        <div class="lm-row lm-cta-stack">
+          <a class="lm-btn lm-btn-primary" href="/custom-solar-systems">Talk about a custom system</a>
+          <a class="lm-btn lm-btn-secondary" href="tel:+2347062878273">Call 07062878273</a>
+        </div>
+      </div>
+      <div class="lm-photo-slot">lumey-custom-solar-system-commercial-install.jpg<br />(a genuine Lumey installation)</div>
+    </div>
+  </section>
+
+  <section class="lm-ground lm-section">
+    <div class="lm-container"><Faq title="Questions about the range" faqs={faqs} /></div>
+  </section>
+
+  <FinalCta title="Eight models. One of them is yours." body="Tell us what you want to run and we will name the model, the run-time and the price: no form, no waiting, no “request a quote.”" />
+</Base>

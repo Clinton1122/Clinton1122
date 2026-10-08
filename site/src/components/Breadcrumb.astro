@@ -1,0 +1,11 @@
+---
+interface Props { trail: { name: string; href: string }[] }
+const { trail } = Astro.props;
+---
+<nav class="lm-crumbs" aria-label="Breadcrumb">
+  <ol>
+    {trail.map((t, i) => (
+      <li>{i === trail.length - 1 ? <span aria-current="page">{t.name}</span> : <a href={t.href}>{t.name}</a>}</li>
+    ))}
+  </ol>
+</nav>

@@ -1,0 +1,22 @@
+---
+// Native <details>: every answer is in the HTML, open or closed.
+interface Props { faqs: { q: string; a: string }[]; title: string }
+const { faqs, title } = Astro.props;
+const half = Math.ceil(faqs.length / 2);
+const cols = [faqs.slice(0, half), faqs.slice(half)];
+---
+<div class="lm-stack">
+  <h2 class="lm-h2">{title}</h2>
+  <div class="lm-faq-cols">
+    {cols.map((col, c) => (
+      <div class="lm-faq">
+        {col.map((f, i) => (
+          <details open={c === 0 && i === 0}>
+            <summary>{f.q}</summary>
+            <div class="lm-answer"><p>{f.a}</p></div>
+          </details>
+        ))}
+      </div>
+    ))}
+  </div>
+</div>

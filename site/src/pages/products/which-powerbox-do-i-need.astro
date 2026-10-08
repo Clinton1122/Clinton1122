@@ -1,0 +1,150 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import ModelLadder from '../../components/ModelLadder.astro';
+import Faq from '../../components/Faq.astro';
+import FinalCta from '../../components/FinalCta.astro';
+import { bySlug } from '../../data/products';
+import { naira, waLink } from '../../lib/format';
+import { breadcrumbs, faqPage } from '../../lib/schema';
+
+const trail = [
+  { name: 'Home', href: '/' },
+  { name: 'Products', href: '/products' },
+  { name: 'Which PowerBox do I need?', href: '/products/which-powerbox-do-i-need' },
+];
+const m = (s: string) => bySlug(s)!;
+
+const answers = [
+  { id: 'essentials', title: 'Lights, fan, TV, laptop', body: 'No fridge, no iron, nothing heavy. One room or a small flat.', model: m('powerbox-600'), step: m('powerbox-1500'), stepWhy: 'if you think a small fridge is coming.' },
+  { id: 'fridge', title: 'The full house, including the fridge', body: 'Fridge or freezer, microwave, washing machine, induction cooker, plus all your lighting and entertainment.', model: m('powerbox-2600'), step: m('powerbox-3100'), stepWhy: 'if your nights are long or the grid rarely comes.' },
+  { id: 'ac', title: 'Everything, including air conditioning', body: 'AC and a pumping machine on top of the full household load.', model: m('powerbox-4000'), step: m('powerbox-8000'), stepWhy: 'for longer backup, or the 8000 Plus for two ACs.' },
+];
+
+const steps = [
+  { t: 'List what must stay on', b: 'Not everything in your house: the things that must keep running when the power goes. For most people that is lights, fans, a TV, phone and laptop charging, and the fridge.' },
+  { t: 'Add up the watts', b: 'Every appliance draws a certain number of watts while it is running. Add them together and you get your load: the power you need at one time. Your load decides the inverter rating you need. A 1kW inverter cannot run 1,500W of appliances at once, no matter how big its battery is.' },
+  { t: 'Decide how many hours', b: 'Four hours in the evening is a different purchase from twelve hours overnight. Watts × hours = watt-hours. That is your energy need, and it decides the battery size.' },
+  { t: 'Match it to a model', b: 'Find the smallest model whose inverter rating exceeds your load and whose battery exceeds your energy need. If the load clears but the battery does not, you want the longer-backup twin: the 1900 instead of the 1500, the 3100 instead of the 2600, the 8000 instead of the 4000.' },
+];
+
+// TODO(confirm): engineering sign-off on these ranges (PRD Section 5).
+const watts: [string, string, string?][] = [
+  ['LED bulb', '7–15W', 'Six bulbs is roughly 60W.'],
+  ['Ceiling fan', '60–80W'],
+  ['Standing fan', '45–75W'],
+  ['Phone charger', '5–20W'],
+  ['Wi-Fi router', '10–20W', 'Runs all night on almost nothing.'],
+  ['Decoder', '20–30W'],
+  ['32" LED TV', '50–80W'],
+  ['43"–55" LED TV', '90–150W'],
+  ['Laptop', '45–90W'],
+  ['Desktop computer', '150–300W'],
+  ['Table-top fridge (≤120L)', '80–150W running', 'Compressor cycles on and off.'],
+  ['Double-door fridge/freezer', '200–400W running', 'Starts at the PowerBox 2600.'],
+  ['Chest freezer', '200–500W running', 'Starts at the PowerBox 2600.'],
+  ['Blender', '300–700W', 'The 1500 handles up to 700W.'],
+  ['Microwave', '800–1,500W', 'Starts at the PowerBox 2600.'],
+  ['Electric kettle', '1,500–2,500W', 'Heavy, brief draw. 2600 and above.'],
+  ['Induction cooker', '200–1,800W', 'Cap at 1,500W on the 2600 and 3100.'],
+  ['Washing machine (10kg)', '300–500W'],
+  ['Standard dry iron', '1,000–2,000W', 'Use a 300W inverter iron instead.'],
+  ['Inverter iron', '300W'],
+  ['Pumping machine', '750–1,500W', 'Heavy duty only, from the PowerBox 4000.'],
+  ['1hp inverter AC', '700–900W running', 'Heavy duty only. Higher on startup.'],
+  ['1.5hp inverter AC', '1,000–1,400W running', 'Heavy duty only.'],
+  ['Non-inverter AC', '1,500–2,500W+', 'Not recommended on any PowerBox.'],
+];
+
+const faqs = [
+  { q: 'What size solar generator do I need for my house in Nigeria?', a: `Add up the watts of everything you want running at once, then multiply by the hours you need covered. For lights, fans, a TV and a fridge, the PowerBox 2600 at 2kW and 2,600Wh covers it, ${naira(m('powerbox-2600').priceBox)} box only. For lights, a fan, a laptop and a TV with no fridge, the PowerBox 600 at ${naira(m('powerbox-600').priceBox)} is enough. For air conditioning or a pumping machine, you need the heavy-duty range, starting with the PowerBox 4000.` },
+  { q: 'What size solar generator do I need to run a fridge?', a: 'A table-top or energy-saving fridge up to 120L runs on the PowerBox 1500 and above. A full double-door fridge or a chest freezer needs the PowerBox 2600 or larger. Size for the fridge running all night, not only in the evening.' },
+  { q: 'What is the difference between inverter rating and battery capacity?', a: 'Inverter rating, in watts or kVA, is how much you can run at the same time. Battery capacity, in watt-hours, is how long you can run it. You need both to clear your requirement.' },
+  { q: 'How do I calculate run-time?', a: "Divide your battery's watt-hours by your total load in watts, then allow for losses. A 2,600Wh battery carrying a 260W load gives you roughly ten hours before those losses. Real figures are always a little lower." },
+  { q: 'Should I buy a bigger model than I need, just in case?', a: 'Usually not. If you have no air conditioner and no pumping machine, anything above the PowerBox 3100 is capability you cannot reach. A better use of that money is panels, which cut your charging cost to nothing.' },
+  { q: 'Can I run my iron and my electric kettle?', a: 'Not a standard dry iron: it can pull 2,000W, more than the full inverter rating of every portable model. Use a 300W inverter iron instead. An electric kettle works on the PowerBox 2600 and above, though you will see it on your battery level.' },
+];
+---
+<Base
+  title="Which PowerBox Do I Need? Solar Generator Sizing Guide"
+  description="Work out what size solar generator you need in Nigeria. Pick your appliances, get the right PowerBox model and price in under a minute."
+  schema={[
+    breadcrumbs(trail),
+    faqPage(faqs),
+    { '@type': 'HowTo', name: 'How to size a solar generator for your home in Nigeria', step: steps.map((s, i) => ({ '@type': 'HowToStep', position: i + 1, name: s.t, text: s.b })) },
+  ]}
+  waMessage="Hello Lumey, please help me size a PowerBox. Here is what I want to run: "
+>
+  <section class="lm-ground-inverse lm-section">
+    <div class="lm-container lm-stack" style="max-width:860px">
+      <Breadcrumb trail={trail} />
+      <div>
+        <h1 class="lm-h1">Which PowerBox do I need?</h1>
+        <hr class="lm-rule" />
+        <p class="lm-intro lm-muted">Size it from what you want to run, not from what you want to spend.</p>
+      </div>
+      <div class="lm-prose lm-muted">
+        <p>Almost every bad experience with solar in Nigeria starts here. Somebody buys the unit they can afford, it cuts off at 11pm with the fridge still humming, and they decide solar does not work. Or they buy the biggest one in the shop and spend money on capability they will never use.</p>
+        <p>Both are the same mistake: sizing by price instead of by load. Take one minute and do it the other way round.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="lm-ground lm-section">
+    <div class="lm-container lm-stack">
+      <h2 class="lm-h2">If you want the answer in ten seconds</h2>
+      <p class="lm-intro lm-muted">Most households in Nigeria land in one of three places.</p>
+      <div class="lm-grid">
+        {answers.map((a) => (
+          <article class="lm-card-topline" id={a.id}>
+            <h3 class="lm-h3">{a.title}</h3>
+            <p>{a.body}</p>
+            <p><b>Your model:</b> <a class="lm-link" href={`/products/${a.model.slug}`}>{a.model.name}</a><br />
+              <span class="lm-price">{naira(a.model.priceBox)}</span> box only, <span class="lm-price">{naira(a.model.priceBundle)}</span> with panels</p>
+            <p class="lm-small lm-muted"><b>Step up to:</b> the <a class="lm-link" href={`/products/${a.step.slug}`}>{a.step.name}</a> {a.stepWhy}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="lm-ground-alt lm-section">
+    <div class="lm-container lm-stack">
+      <h2 class="lm-h2">How to size a solar generator, in four steps</h2>
+      <p class="lm-intro lm-muted">This is the same arithmetic our sales team does on WhatsApp.</p>
+      <ol class="lm-steps">
+        {steps.map((s) => <li><h3 class="lm-h4">{s.t}</h3><p>{s.b}</p></li>)}
+      </ol>
+      <p class="lm-small lm-muted">The interactive sizing tool (tick your appliances, get your model and run-time) is on its way. Until then, send your list on WhatsApp and we will do the sum for you.</p>
+      <div class="lm-row"><a class="lm-btn lm-btn-primary" href={waLink('Hello Lumey, please help me size a PowerBox. Here is what I want to run: ')}>Send your appliance list on WhatsApp</a></div>
+    </div>
+  </section>
+
+  <section class="lm-ground lm-section">
+    <div class="lm-container lm-stack">
+      <h2 class="lm-h2">Typical wattage of common Nigerian household appliances</h2>
+      <p class="lm-intro lm-muted">Check the rating plate on your own appliance where you can; it is usually on the back or underneath.</p>
+      <div class="lm-table-wrap">
+        <table class="lm-table">
+          <thead><tr><th class="lm-sticky-col" scope="col">Appliance</th><th scope="col">Typical running watts</th><th scope="col">Notes</th></tr></thead>
+          <tbody>{watts.map(([a, w, n]) => <tr><th class="lm-sticky-col" scope="row">{a}</th><td class="lm-spec">{w}</td><td>{n ?? ''}</td></tr>)}</tbody>
+        </table>
+      </div>
+      <p class="lm-small lm-muted">Typical ranges for guidance. Anything with a motor or a compressor draws considerably more for a second or two when it starts, which is why inverter rating matters more than the sticker on the appliance.</p>
+    </div>
+  </section>
+
+  <section class="lm-ground-inverse lm-section">
+    <div class="lm-container lm-stack">
+      <h2 class="lm-h2">What each model adds to the one below it</h2>
+      <p class="lm-intro lm-muted">Read down until something you need appears. That is your model.</p>
+      <ModelLadder />
+    </div>
+  </section>
+
+  <section class="lm-ground lm-section">
+    <div class="lm-container"><Faq title="Sizing questions people ask" faqs={faqs} /></div>
+  </section>
+
+  <FinalCta title="You know the model. Here's the price." body="Eight models, every price published, built in Akure and delivered anywhere in Nigeria." primary={{ label: 'See all models and prices', href: '/products' }} />
+</Base>

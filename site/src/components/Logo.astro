@@ -1,0 +1,14 @@
+---
+// Uses the official logo file once it is committed to public/brand/.
+// Until then the wordmark is set in type. The mark is never redrawn by hand.
+import { existsSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+
+const candidates = ['lumey-logo.svg', 'lumey-logo.png'];
+const found = candidates.find((f) =>
+  existsSync(fileURLToPath(new URL(`../../public/brand/${f}`, import.meta.url))),
+);
+---
+<a class="lm-wordmark" href="/" aria-label="Lumey Energy home">
+  {found ? <img class="lm-logo-img" src={`/brand/${found}`} alt="Lumey Energy" width="128" height="32" /> : <>LUMEY<b>.</b></>}
+</a>

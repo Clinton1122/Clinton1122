@@ -1,0 +1,10 @@
+# Old product URLs → new ones (Netlify / Cloudflare Pages format).
+/products/LE%20550    /products/powerbox-600   301
+/products/LE%20600    /products/powerbox-600   301
+/products/LE%201500   /products/powerbox-1500  301
+/products/LE%201900   /products/powerbox-1900  301
+/products/LE%202600   /products/powerbox-2600  301
+/products/LE%203100   /products/powerbox-3100  301
+/products/LE%204000   /products/powerbox-4000  301
+/products/LE%208000   /products/powerbox-8000  301
+# TODO(confirm): full list of old URLs, including the 1200 and 6500 the old site sells.

@@ -1,0 +1,22 @@
+---
+import { products } from '../data/products';
+import { naira } from '../lib/format';
+const adds: Record<string, string> = {
+  'powerbox-600': 'Bulbs, fans, laptop, 32" TV, decoder, chargers. One room, or the essentials of a small flat.',
+  'powerbox-1500': 'a table-top or energy-saving fridge up to 120L, a 10kg washing machine, a blender up to 700W, a 500W inverter iron.',
+  'powerbox-1900': 'the same loads as the 1500, for longer. A bigger battery behind the same 1kW inverter.',
+  'powerbox-2600': 'a full fridge or freezer, a microwave, an induction cooker up to 1,500W. The whole kitchen. This is the step change in the range.',
+  'powerbox-3100': 'the same loads as the 2600, for longer.',
+  'powerbox-4000': 'a pumping machine, office equipment, and one inverter AC for day use with panels. LiFePO4 battery, five-year warranty.',
+  'powerbox-8000': 'the same loads as the 4000, with double the storage. Extended day use and mild night use.',
+  'powerbox-8000-plus': 'double the instantaneous power (8kW against 4kW), so one or two 1hp inverter ACs instead of one.',
+};
+---
+<ol class="lm-ladder">
+  {products.map((p, i) => (
+    <li class:list={['lm-rung', { 'lm-same': !!p.twinOf }]}>
+      <span class="lm-rung-name"><a href={`/products/${p.slug}`} style="color:inherit;text-decoration:none">{p.name}</a><small>{naira(p.priceBox)}</small></span>
+      <p>{i === 0 ? adds[p.slug] : p.twinOf ? <>Nothing new: {adds[p.slug]}</> : <><b>Adds:</b> {adds[p.slug]}</>}</p>
+    </li>
+  ))}
+</ol>
