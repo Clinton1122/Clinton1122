@@ -539,6 +539,10 @@ input.dt{width:auto;padding:7px 12px;border-radius:999px;font-size:13px;min-heig
 .fromc[disabled]{opacity:.55;cursor:not-allowed}
 @media (max-width:860px){.from{grid-template-columns:1fr 1fr}.setup-grid{grid-template-columns:1fr}}
 @media (max-width:560px){.day{grid-template-columns:minmax(0,1fr);gap:8px}.day .when{display:flex;gap:8px;align-items:baseline}.it:not(.travel):not(.warnline){display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 10px}.it:not(.travel):not(.warnline) .t{grid-column:2}.it:not(.travel):not(.warnline) .linkish{grid-column:2;justify-self:start}.it.offerline .av{grid-row:span 2}.pctl .seg:last-child{margin-left:0}}
+.btn.added{background:var(--ok-bg);border-color:#CFE8D7;color:var(--ok)}
+.menu .mh{padding:10px 12px 12px;font-size:13px;color:var(--cn-body);border-bottom:1px solid var(--cn-border);margin-bottom:6px;max-width:280px;line-height:1.45}
+.menu .mh b{display:flex;align-items:center;gap:6px;color:var(--ok);font-size:14px;margin-bottom:4px}.menu .mh .i{width:16px;height:16px}
+.menu .mlab{font-size:11px;font-weight:600;color:var(--cn-muted);text-transform:uppercase;letter-spacing:.06em;padding:4px 12px}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition-duration:.01ms!important}
 }
@@ -921,7 +925,7 @@ function renderNext(){
   strip.innerHTML=`
     <div class="msg"><span class="dotstate ${r.kind}"></span><span><b>${r.title}.</b> ${r.line}.</span></div>
     <div class="acts">
-      <button class="btn" data-cal="${t.id}">${svg('cal')}Add to calendar</button>
+      ${calBtn(t)}
       <button class="btn" data-resched-id="${t.id}">${svg('swap')}Change date</button>
     </div>`;
   requestAnimationFrame(placePerf);
@@ -1063,7 +1067,7 @@ function openSheet(id){
         <p style="font-size:13px;margin-top:14px">${isFree(t)?`Cancel before ${fShort(c)}, ${fTime(c)} and we refund everything except a 5% payment processing fee.`:`Free cancellation has ended. If something unexpected happens, like a delayed flight or illness, you can request a refund and our team will review it.`}</p>
         <div class="cancel-row"><span>Can’t make it? Try <button class="linkish" data-reschedule>changing the date</button> first.</span><button class="linkish" data-cancel>${isFree(t)?'Cancel booking':'Request a refund'}</button></div>
       </section>`;
-    $('#sh-foot').innerHTML=`<button class="btn primary" data-reschedule>${svg('swap')}Change date</button><button class="btn" data-cal="${t.id}">${svg('cal')}Add to calendar</button>`;
+    $('#sh-foot').innerHTML=`<button class="btn primary" data-reschedule>${svg('swap')}Change date</button>${calBtn(t)}`;
   } else if(t.status==='past'){
     html+=`<section class="panel"><div class="head"><h3>${t.vat?'Tax invoice':'Receipt'}</h3>${t.vat?'<span>VAT collected for '+t.host+'</span>':''}</div>${bill(t,'Total paid, Visa ending 4242')}</section>
       <section class="panel"><h3>${t.reviewed?'Thanks for your review':'Leave a review for '+t.host}</h3><p style="font-size:14px">Reviews from real travellers are what new guides in Ella depend on.</p></section>`;
@@ -1272,9 +1276,13 @@ function calLinks(t){
     }
   };
 }
+const calAdded={};
+const calBtn=t=>calAdded[t.id]?`<button class="btn added" data-cal="${t.id}" aria-label="In your calendar, change">${svg('check')}In your calendar</button>`:`<button class="btn" data-cal="${t.id}">${svg('cal')}Add to calendar</button>`;
+function markCal(id,where){calAdded[id]=where;$$(`[data-cal="${id}"]`).forEach(b=>b.outerHTML=calBtn(trips.find(t=>t.id===id)));$('#calmenu').classList.remove('open');toast(`Added to ${where}. Reminder set for 30 min before pickup`)}
 function openCal(btn,id){
-  const t=trips.find(x=>x.id===id), L=calLinks(t), m=$('#calmenu');
-  m.innerHTML=`<a role="menuitem" href="${L.google}" target="_blank" rel="noopener">Google Calendar</a><button role="menuitem" data-ics="${id}">Apple Calendar (.ics file)</button><a role="menuitem" href="${L.outlook}" target="_blank" rel="noopener">Outlook</a>`;
+  const t=trips.find(x=>x.id===id), L=calLinks(t), m=$('#calmenu'), a=calAdded[id];
+  m.innerHTML=(a?`<div class="mh"><b>${svg('check')}Added to ${a}</b>Reminder 30 minutes before pickup. If the time changes, we email you an updated invite.</div><p class="mlab">Add to another calendar</p>`:'')+
+   `<a role="menuitem" href="${L.google}" target="_blank" rel="noopener" data-calto="${id}|Google Calendar">Google Calendar</a><button role="menuitem" data-ics="${id}">Apple Calendar (.ics file)</button><a role="menuitem" href="${L.outlook}" target="_blank" rel="noopener" data-calto="${id}|Outlook">Outlook</a>`;
   const r=btn.getBoundingClientRect(); m.classList.add('open');
   const top=r.bottom+scrollY+6+m.offsetHeight>scrollY+innerHeight?r.top+scrollY-m.offsetHeight-6:r.bottom+scrollY+6;
   m.style.left=Math.max(8,Math.min(r.left+scrollX,innerWidth-m.offsetWidth-8))+'px'; m.style.top=top+'px';
@@ -1336,7 +1344,8 @@ document.addEventListener('click',e=>{
   }
   if(x.policy!==undefined){e.preventDefault();policy()}
   if(x.cal){e.stopPropagation();openCal(b,x.cal)}
-  if(x.ics){calLinks(trips.find(t=>t.id===x.ics)).ics();$('#calmenu').classList.remove('open');toast('Calendar file downloaded')}
+  if(x.ics){calLinks(trips.find(t=>t.id===x.ics)).ics();markCal(x.ics,'Apple Calendar')}
+  if(x.calto){const [id,w]=x.calto.split('|');setTimeout(()=>markCal(id,w),0)}
   if(x.copy){navigator.clipboard?.writeText(x.copy).catch(()=>{});toast(`Booking number ${x.copy} copied`)}
   if(x.msg){const h=trips.find(t=>t.id===x.msg).host;go('messages');toast(`Opening your chat with ${h}`)}
   if(x.toast)toast(x.toast);
