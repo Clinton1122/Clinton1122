@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en-NG">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lumey PowerBox 2600: ₦700,000 | 2.5kVA solar generator</title>
+<meta name="description" content="The PowerBox 2600 runs your fridge, freezer, microwave and washing machine through a power cut. 2kW inverter, 2,600Wh battery. ₦700,000 box only.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=Familjen+Grotesk:wght@400;600;700&display=swap">
+<style>
+<!--CSS-->
+
+/* ---------- Product page ---------- */
+.p-hero { display: grid; }
+@media (min-width: 960px) { .p-hero { grid-template-columns: 1fr 1fr; min-height: 640px; } }
+.stage { background: var(--sun); position: relative; display: grid; align-content: space-between; gap: var(--s6); padding: var(--s6) var(--s4); overflow: hidden; }
+@media (min-width: 768px) { .stage { padding: var(--s7) var(--s6); } }
+.stage .big { font-family: var(--display); font-weight: 800; font-size: clamp(150px, 22vw, 320px); line-height: .78; letter-spacing: -0.02em; margin: 0; }
+.stage .unit { font-family: var(--display); font-weight: 700; font-size: clamp(26px, 3vw, 40px); line-height: 1; margin: var(--s3) 0 0; }
+.stage .place { display: grid; gap: var(--s3); }
+.stage .photo-note { font-size: 14px; color: #3D3300; margin: 0; max-width: 26em; }
+.stage .range, .stage-range { height: 120px; min-height: 120px; }
+
+.buy { padding: var(--s6) var(--s4) var(--s7); display: grid; gap: var(--s5); align-content: start; }
+@media (min-width: 768px) { .buy { padding: var(--s7) var(--s7) var(--s8); } }
+.crumbs { display: flex; flex-wrap: wrap; gap: var(--s2); font-size: 15px; margin: 0; padding: 0; list-style: none; color: var(--muted); }
+.crumbs li + li::before { content: "/"; margin-right: var(--s2); color: var(--rule); }
+.crumbs a { text-decoration: none; }
+.crumbs a:hover { text-decoration: underline; }
+.buy h1 { margin: 0; }
+.options { border: 0; padding: 0; margin: 0; display: grid; gap: var(--s3); }
+.options legend { font-weight: 600; margin-bottom: var(--s3); padding: 0; }
+.opt { display: grid; grid-template-columns: auto 1fr auto; gap: var(--s3) var(--s4); align-items: center; padding: var(--s4); border: 2px solid var(--control); border-radius: var(--r-control); cursor: pointer; }
+.opt input { appearance: none; margin: 0; width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--control); display: grid; place-items: center; }
+.opt input::after { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--ink); transform: scale(0); transition: transform .12s ease-out; }
+.opt input:checked::after { transform: scale(1); }
+.opt input:checked { border-color: var(--ink); }
+.opt:has(input:checked) { border-color: var(--ink); background: #FFF6C2; }
+.opt input:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+.opt .what b { display: block; font-size: 18px; }
+.opt .what span { font-size: 15px; color: var(--muted); }
+.opt .price { font-size: 34px; }
+@media (max-width: 520px) { .opt { grid-template-columns: auto 1fr; } .opt .price { grid-column: 2; font-size: 30px; } .plate dd { font-size: 20px; } }
+.buy .btn { width: 100%; min-height: 56px; font-size: 18px; }
+.buy .after { display: flex; flex-wrap: wrap; gap: var(--s3) var(--s5); font-size: 16px; }
+.plate { display: grid; grid-template-columns: 1fr 1fr; border-top: 2px solid var(--ink); margin: 0; }
+.plate div { padding: var(--s3) 0; border-bottom: 1px solid var(--rule); }
+.plate div:nth-child(odd) { padding-right: var(--s4); }
+.plate div:nth-child(even) { padding-left: var(--s4); border-left: 1px solid var(--rule); }
+.plate dt { font-size: 14px; color: var(--muted); }
+.plate dd { margin: 0; font-family: var(--display); font-weight: 800; font-size: 24px; line-height: 1.1; }
+
+.tonight { padding-block: var(--s9); }
+.tonight-grid { display: grid; gap: var(--s6); }
+@media (min-width: 960px) { .tonight-grid { grid-template-columns: 8fr 4fr; gap: var(--s7); align-items: center; } }
+.scene { padding: var(--s4) var(--s4) var(--s3); }
+.runs-list { margin: 0; display: grid; gap: var(--s5); }
+.runs-list dt { font-family: var(--display); font-weight: 800; font-size: 28px; line-height: 1; margin-bottom: var(--s2); }
+.runs-list dd { margin: 0; }
+.runs-list .no dt { color: var(--dead); }
+.runs-list .no dd { color: var(--dead); }
+
+.neighbours { padding-block: var(--s9); }
+.trio { display: grid; gap: 0; margin-top: var(--s6); border-top: 2px solid var(--ink); }
+@media (min-width: 900px) { .trio { grid-template-columns: 1fr 1.3fr 1fr; } }
+.trio article { padding: var(--s5) var(--s5) var(--s6) 0; display: grid; gap: var(--s3); align-content: start; }
+@media (min-width: 900px) { .trio article + article { padding-left: var(--s5); border-left: 1px solid var(--rule); } }
+@media (max-width: 899px) { .trio article + article { border-top: 1px solid var(--rule); } }
+.trio .this { background: var(--sun); padding-left: var(--s5); }
+.trio h3 { margin: 0; }
+.trio .verdict-line { font-weight: 700; font-size: 20px; line-height: 1.3; margin: 0; }
+.trio p { margin: 0; }
+.trio .vs { font-family: var(--display); font-weight: 800; font-size: 22px; }
+
+.specs { padding-block: var(--s9); }
+.specs-grid { display: grid; gap: var(--s6); }
+@media (min-width: 960px) { .specs-grid { grid-template-columns: 4fr 8fr; gap: var(--s8); } }
+.spec-table { width: 100%; border-collapse: collapse; }
+.spec-table th, .spec-table td { text-align: left; padding: var(--s3) 0; border-bottom: 1px solid var(--rule); vertical-align: baseline; }
+.spec-table th { font-weight: 400; color: var(--muted); width: 45%; padding-right: var(--s4); }
+.spec-table td { font-weight: 600; }
+.spec-table td.tbc { font-weight: 400; color: var(--muted); }
+.spec-table td.tbc::before { content: ""; display: inline-block; width: 14px; height: 2px; background: var(--control); vertical-align: middle; margin-right: var(--s2); }
+
+.bundle { padding-block: var(--s9); }
+.bundle-grid { display: grid; gap: var(--s6); }
+@media (min-width: 960px) { .bundle-grid { grid-template-columns: 5fr 7fr; gap: var(--s8); align-items: start; } }
+.choice { display: grid; gap: var(--s5); }
+.choice article { border-top: 2px solid var(--ink); padding-top: var(--s4); display: grid; gap: var(--s2); }
+.choice p { margin: 0; }
+
+.questions { padding-block: var(--s9); }
+.q-grid { display: grid; gap: var(--s6); }
+@media (min-width: 960px) { .q-grid { grid-template-columns: 4fr 8fr; gap: var(--s8); } }
+
+/* Sticky buy bar, shown once the price block scrolls away */
+.buybar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 25; background: var(--night); color: var(--moon); border-top: 3px solid var(--sun); padding: var(--s3) 0 calc(var(--s3) + env(safe-area-inset-bottom, 0px)); transform: translateY(110%); visibility: hidden; transition: transform .2s ease-out, visibility 0s .2s; }
+.buybar.show { transform: none; visibility: visible; transition: transform .2s ease-out; }
+.buybar .wrap { display: flex; align-items: center; gap: var(--s5); }
+.buybar .n { font-family: var(--display); font-weight: 800; font-size: 26px; line-height: 1; }
+.buybar .pr { color: var(--sun); font-family: var(--display); font-weight: 800; font-size: 26px; }
+.buybar .btn { margin-left: auto; }
+.buybar .textlink { font-size: 15px; }
+@media (max-width: 600px) { .buybar .n, .buybar .textlink { display: none; } .buybar .btn { padding: 0 var(--s4); } }
+body.bar-on .wa-float { display: none; }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <!--LOGO-->
+    <ul class="nav">
+      <li><a href="home.html#rates">Prices</a></li>
+      <li><a href="home.html#outage">Which PowerBox?</a></li>
+      <li><a href="powerbox-2600.html" aria-current="page">PowerBox 2600</a></li>
+      <li><a href="home.html#akure">Made in Akure</a></li>
+    </ul>
+    <a class="btn btn-sun" href="https://wa.me/2347062878273"><!--WA--><span>Order on WhatsApp</span></a>
+    <button class="btn menu-btn" type="button" aria-label="Menu">Menu</button>
+  </div>
+</header>
+
+<main>
+  <section class="p-hero" aria-labelledby="p-title">
+    <div class="stage">
+      <div>
+        <p class="big" aria-hidden="true">2600</p>
+        <p class="unit">watt-hours of stored power</p>
+      </div>
+      <div class="place">
+        <p class="small" style="margin:0;font-weight:600">Where it sits in the range</p>
+        <ul class="range on-sun" aria-label="PowerBox range"><!--RANGE-LINKS--></ul>
+        <p class="photo-note">Product photograph goes here: the 2600 three-quarter on a plain background, ports visible.</p>
+      </div>
+    </div>
+
+    <div class="buy day">
+      <ol class="crumbs"><li><a href="home.html">Home</a></li><li><a href="home.html#rates">PowerBox</a></li><li>Portable</li></ol>
+      <h1 class="d-1" id="p-title">PowerBox 2600</h1>
+      <p class="lede" style="margin:0">The whole house, running normally. Fridge or freezer, microwave, washing machine and induction cooker through a power cut.</p>
+
+      <fieldset class="options">
+        <legend>Choose how you want it</legend>
+        <label class="opt"><input type="radio" name="opt" value="box" checked>
+          <span class="what"><b>PowerBox only</b><span>Charge from the wall or NEPA. Add panels later.</span></span>
+          <span class="price">₦700,000</span></label>
+        <label class="opt"><input type="radio" name="opt" value="bundle">
+          <span class="what"><b>With two 600W panels</b><span>Charges free from the sun every day.</span></span>
+          <span class="price">₦1,000,000</span></label>
+      </fieldset>
+
+      <a class="btn btn-sun" id="order" href="https://wa.me/2347062878273?text=Hello%20Lumey%2C%20I%27d%20like%20to%20order%20the%20PowerBox%202600%20(PowerBox%20only%2C%20%E2%82%A6700%2C000)."><!--WA--> Order on WhatsApp</a>
+      <div class="after"><a class="textlink" href="#">Pay in instalments</a><a class="textlink" href="home.html#outage">Not sure it's the right size?</a></div>
+
+      <dl class="plate">
+        <div><dt>Inverter</dt><dd>2kW (2.5kVA)</dd></div>
+        <div><dt>Battery</dt><dd>2,600Wh lithium-ion</dd></div>
+        <div><dt>Charges from</dt><dd>Sun, wall or NEPA</dd></div>
+        <div><dt>Warranty</dt><dd>12 months, inverter</dd></div>
+      </dl>
+      <p class="small quiet" style="margin:0">Built in Akure. Delivered nationwide. Prices updated 9 October 2026 and exclude installation kits and workmanship.</p>
+    </div>
+  </section>
+
+  <section class="night tonight" aria-labelledby="t-title">
+    <div class="wrap tonight-grid">
+      <div class="scene-frame"><div class="scene"><!--SCENE--></div></div>
+      <div>
+        <h2 class="d-2" id="t-title" style="margin-bottom:var(--s6)">What it runs when NEPA goes</h2>
+        <dl class="runs-list">
+          <div><dt>Runs</dt><dd>Lights and ceiling fans in every room, the TV and decoder, a full fridge or chest freezer, the microwave, the washing machine, an induction cooker up to 1,500W.</dd></div>
+          <div class="no"><dt>Not this one</dt><dd>Air conditioners and pumping machines. They start at the PowerBox 4000, ₦1,550,000.</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="day neighbours" aria-labelledby="n-title">
+    <div class="wrap">
+      <h2 class="d-1" id="n-title">1900, 2600 or 3100?</h2>
+      <p class="lede quiet" style="margin-top:var(--s4)">Below it, a gap in what you can run. Above it, only more hours.</p>
+      <div class="trio">
+        <article>
+          <span class="vs">₦440,000</span>
+          <h3 class="d-3">PowerBox 1900</h3>
+          <p class="verdict-line">₦260,000 less, and no kitchen.</p>
+          <p class="quiet">A 1kW inverter can't start a chest freezer or a microwave, however big the battery. If your fridge is over 120L, this one is out.</p>
+        </article>
+        <article class="this">
+          <span class="vs">₦700,000</span>
+          <h3 class="d-3">PowerBox 2600</h3>
+          <p class="verdict-line">The step that brings the kitchen back.</p>
+          <p>Double the inverter of the 1900. A full fridge or freezer, the microwave and the cooker all run. The model most families end up on.</p>
+        </article>
+        <article>
+          <span class="vs">₦800,000</span>
+          <h3 class="d-3">PowerBox 3100</h3>
+          <p class="verdict-line">₦100,000 more buys hours, not appliances.</p>
+          <p class="quiet">Same inverter, same panels, about 19% more battery. Worth it where the grid hardly comes and nights are long.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="haze specs" aria-labelledby="s-title">
+    <div class="wrap specs-grid">
+      <div><h2 class="d-1" id="s-title">Full specification</h2><p class="quiet" style="margin-top:var(--s4)">A dash marks a figure we are still measuring. We publish it when it is confirmed, not before.</p></div>
+      <table class="spec-table">
+        <tbody>
+          <tr><th scope="row">Inverter rating</th><td>2kW (2.5kVA)</td></tr>
+          <tr><th scope="row">Inverter type</th><td>Hybrid pure sine wave</td></tr>
+          <tr><th scope="row">Battery</th><td>2,600Wh lithium-ion</td></tr>
+          <tr><th scope="row">Maximum solar input</th><td>1,300W</td></tr>
+          <tr><th scope="row">Panels in the bundle</th><td>2 × 600W</td></tr>
+          <tr><th scope="row">Charges from</th><td>Solar, wall socket, grid</td></tr>
+          <tr><th scope="row">Surge rating</th><td class="tbc">Being measured</td></tr>
+          <tr><th scope="row">Time to charge from the wall</th><td class="tbc">Being measured</td></tr>
+          <tr><th scope="row">Weight and size</th><td class="tbc">Being measured</td></tr>
+          <tr><th scope="row">Sockets and outputs</th><td class="tbc">Being measured</td></tr>
+          <tr><th scope="row">Noise</th><td>None. No engine, no exhaust.</td></tr>
+          <tr><th scope="row">Warranty</th><td>12 months on the inverter system</td></tr>
+          <tr><th scope="row">Made in</th><td>Akure, Ondo State</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="day bundle" aria-labelledby="b-title">
+    <div class="wrap bundle-grid">
+      <h2 class="d-1" id="b-title">Box only, or with panels?</h2>
+      <div class="choice">
+        <article><h3 class="d-3">Take the panels if NEPA rarely comes</h3><p>A 2,600Wh battery that runs a kitchen needs refilling every day. Two panels on the roof do that for free; waiting on the grid doesn't. Of all eight models, this is the one where we most often say take the bundle.</p></article>
+        <article><h3 class="d-3">Box only if the grid visits most days</h3><p>The box charges from any socket. Start with ₦700,000 and add the two 600W panels later; nothing inside the box changes when you do.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="haze questions" aria-labelledby="q-title">
+    <div class="wrap q-grid">
+      <h2 class="d-1" id="q-title">Questions about the 2600</h2>
+      <div class="faq">
+        <details open><summary>Can the PowerBox 2600 run a freezer?</summary><div class="a"><p>Yes. A chest freezer or a full double-door fridge runs on it; it is the smallest PowerBox that does. Size for the freezer running all night, because it keeps cycling while you sleep.</p></div></details>
+        <details><summary>Can it run a microwave?</summary><div class="a"><p>Yes, within its 2kW rating. Avoid running the microwave at the same moment as the induction cooker or a kettle.</p></div></details>
+        <details><summary>Can it run an air conditioner?</summary><div class="a"><p>No. Air conditioning starts with the PowerBox 4000, which runs one inverter AC on a 4kW (5kVA) inverter.</p></div></details>
+        <details><summary>How long does it last on a full charge?</summary><div class="a"><p>It depends on what you run. Divide 2,600 by your total load in watts for a rough number of hours, then allow for losses. Measured run-times will be published here.</p></div></details>
+        <details><summary>Is it heavy?</summary><div class="a"><p>Heavier than the smaller models; most people set it down once and leave it. If you're on an upper floor, say so when you order so delivery comes prepared.</p></div></details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!--FOOTER-->
+
+<div class="buybar" id="buybar" aria-hidden="true">
+  <div class="wrap">
+    <span class="n">PowerBox 2600</span><span class="pr" id="bar-price">₦700,000</span>
+    <a class="textlink on-night" href="#">Pay in instalments</a>
+    <a class="btn btn-sun" id="bar-order" tabindex="-1" href="https://wa.me/2347062878273"><!--WA--> Order on WhatsApp</a>
+  </div>
+</div>
+<a class="wa-float" href="https://wa.me/2347062878273" aria-label="Chat with Lumey on WhatsApp"><!--WA--><span>WhatsApp us</span></a>
+
+<script>
+(function () {
+  var prices = { box: ['₦700,000', 'PowerBox only'], bundle: ['₦1,000,000', 'with two 600W panels'] };
+  var order = document.getElementById('order'), barOrder = document.getElementById('bar-order');
+  function sync() {
+    var v = document.querySelector('input[name="opt"]:checked').value, p = prices[v];
+    var href = 'https://wa.me/2347062878273?text=' + encodeURIComponent("Hello Lumey, I'd like to order the PowerBox 2600 (" + p[1] + ', ' + p[0] + ').');
+    order.href = barOrder.href = href;
+    document.getElementById('bar-price').textContent = p[0];
+  }
+  document.querySelectorAll('input[name="opt"]').forEach(function (r) { r.addEventListener('change', sync); });
+  sync();
+  var bar = document.getElementById('buybar');
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (e) {
+      var show = !e[0].isIntersecting && e[0].boundingClientRect.top < 0;
+      bar.classList.toggle('show', show); bar.setAttribute('aria-hidden', !show);
+      barOrder.tabIndex = show ? 0 : -1; document.body.classList.toggle('bar-on', show);
+    }).observe(order);
+  }
+})();
+</script>
+</body>
+</html>

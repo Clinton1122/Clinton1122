@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lumey design language</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=Familjen+Grotesk:wght@400;600;700&display=swap">
+<style>
+<!--CSS-->
+
+/* ---------- Design-system page ---------- */
+.ds-hero { padding-block: var(--s8) var(--s9); }
+.ds-hero .d-hero { max-width: 9em; }
+.laws { margin: var(--s8) 0 0; display: grid; gap: var(--s6); }
+@media (min-width: 960px) { .laws { grid-template-columns: repeat(3, 1fr); gap: var(--s7); } }
+.laws div { border-top: 3px solid var(--sun); padding-top: var(--s4); display: grid; gap: var(--s3); align-content: start; }
+.laws dt { font-family: var(--display); font-weight: 800; font-size: 40px; line-height: .95; }
+.laws dd { margin: 0; color: var(--dead); }
+.laws dd b { color: var(--moon); font-weight: 600; }
+
+.part { padding-block: var(--s9); }
+.part-head { display: grid; gap: var(--s4); margin-bottom: var(--s7); }
+@media (min-width: 960px) { .part-head { grid-template-columns: 5fr 7fr; gap: var(--s8); align-items: end; } }
+.part-head p { margin: 0; }
+
+/* Logo */
+.logo-slots { display: grid; gap: var(--s4); }
+@media (min-width: 800px) { .logo-slots { grid-template-columns: 1fr 1fr; } }
+.slot { min-height: 260px; display: grid; place-items: center; text-align: center; padding: var(--s6); gap: var(--s3); }
+.slot .need { font-weight: 700; }
+.slot code { font-family: var(--text); font-weight: 600; background: rgba(255,255,255,.08); padding: 2px 6px; border-radius: 4px; }
+.sunfield .slot code, .slot.sunfield code { background: rgba(0,0,0,.08); }
+.rules-list { margin: var(--s6) 0 0; padding: 0; list-style: none; display: grid; gap: var(--s3); max-width: 46em; }
+.rules-list li { padding-left: var(--s5); position: relative; }
+.rules-list li::before { content: ""; position: absolute; left: 0; top: .55em; width: 10px; height: 10px; background: var(--sun); }
+.day .rules-list li::before, .haze .rules-list li::before { background: var(--ink); }
+
+/* Colour */
+.swatch-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.swatch-row + .swatch-row { margin-top: var(--s5); }
+.sw { min-height: 220px; padding: var(--s4); display: grid; align-content: space-between; gap: var(--s5); }
+.sw h3 { margin: 0; font-family: var(--display); font-weight: 800; font-size: 34px; line-height: 1; }
+.sw p { margin: 0; font-size: 15px; line-height: 1.4; }
+.sw .hex { font-weight: 700; }
+.sw-paper { background: var(--paper); color: var(--ink); box-shadow: inset 0 0 0 1px var(--rule); }
+.sw-haze { background: var(--haze); color: var(--ink); }
+.sw-sun { background: var(--sun); color: var(--ink); }
+.sw-ink { background: var(--ink); color: var(--sun); }
+.sw-night { background: var(--night); color: var(--moon); box-shadow: inset 0 0 0 1px var(--dusk-line); }
+.sw-dusk { background: var(--dusk); color: var(--moon); }
+.sw-moon { background: var(--moon); color: var(--night); }
+.sw-dead { background: var(--dead); color: var(--night); }
+.sw-ochre { background: var(--ochre); color: var(--paper); }
+.sw-flame { background: var(--flame); color: var(--ink); }
+.sw-alert { background: var(--alert); color: var(--paper); }
+.group-label { font-family: var(--display); font-weight: 800; font-size: 26px; margin: var(--s7) 0 var(--s3); }
+.group-label:first-of-type { margin-top: 0; }
+.share { display: flex; height: 56px; margin-top: var(--s3); }
+.share span { display: grid; place-items: center; font-weight: 700; font-size: 14px; }
+
+/* Type */
+.specimen { display: grid; gap: var(--s7); }
+@media (min-width: 960px) { .specimen { grid-template-columns: 7fr 5fr; gap: var(--s8); } }
+.specimen .money { font-family: var(--display); font-weight: 800; font-size: clamp(64px, 13vw, 190px); line-height: .85; overflow-wrap: anywhere; margin: 0; letter-spacing: -0.01em; }
+.specimen .glyphs { font-family: var(--display); font-weight: 800; font-size: 40px; line-height: 1.1; margin: var(--s5) 0 0; word-break: break-all; }
+.specimen .bodyset { font-size: 22px; line-height: 1.5; margin: 0; }
+.scale { width: 100%; border-collapse: collapse; margin-top: var(--s7); }
+.scale td, .scale th { text-align: left; padding: var(--s4) var(--s4) var(--s4) 0; border-bottom: 1px solid var(--rule); vertical-align: baseline; }
+.scale th { font-weight: 600; font-size: 15px; color: var(--muted); white-space: nowrap; width: 1%; }
+.scale td:last-child { font-size: 15px; color: var(--muted); width: 30%; }
+.scale-wrap { overflow-x: auto; }
+.scale { min-width: 640px; }
+
+/* Bars */
+.bars-demo { display: grid; gap: var(--s5); }
+@media (min-width: 960px) { .bars-demo { grid-template-columns: 7fr 5fr; } }
+.demo { padding: var(--s5); border-radius: var(--r-frame); }
+.demo .range { height: 180px; }
+.demo-label { font-weight: 700; margin: 0 0 var(--s4); }
+
+/* Components */
+.comp { display: grid; gap: var(--s5); padding-block: var(--s6); border-top: 1px solid var(--rule); }
+@media (min-width: 960px) { .comp { grid-template-columns: 4fr 8fr; gap: var(--s8); } }
+.comp h3 { margin: 0 0 var(--s2); font-family: var(--display); font-weight: 800; font-size: 32px; line-height: 1; }
+.comp p { margin: 0; }
+.comp .use { color: var(--muted); font-size: 16px; }
+.board { display: grid; gap: var(--s4); }
+.board .pair { display: grid; gap: var(--s4); }
+@media (min-width: 700px) { .board .pair { grid-template-columns: 1fr 1fr; } }
+.tile { padding: var(--s5); display: flex; flex-wrap: wrap; gap: var(--s4); align-items: center; }
+.tile.night { border-radius: 0; }
+.opt { display: grid; grid-template-columns: auto 1fr auto; gap: var(--s3) var(--s4); align-items: center; padding: var(--s4); border: 2px solid var(--control); border-radius: var(--r-control); cursor: pointer; background: var(--paper); width: 100%; }
+.opt input { appearance: none; margin: 0; width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--control); display: grid; place-items: center; }
+.opt input::after { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--ink); transform: scale(0); }
+.opt input:checked::after { transform: scale(1); }
+.opt:has(input:checked) { border-color: var(--ink); background: #FFF6C2; }
+.opt .what b { display: block; }
+.opt .what span { font-size: 15px; color: var(--muted); }
+.plate { display: grid; grid-template-columns: 1fr 1fr; border-top: 2px solid var(--ink); margin: 0; width: 100%; }
+.plate div { padding: var(--s3) 0; border-bottom: 1px solid var(--rule); }
+.plate div:nth-child(even) { padding-left: var(--s4); border-left: 1px solid var(--rule); }
+.plate dt { font-size: 14px; color: var(--muted); }
+.plate dd { margin: 0; font-family: var(--display); font-weight: 800; font-size: 24px; line-height: 1.1; }
+.buybar-static { width: 100%; background: var(--night); color: var(--moon); border-top: 3px solid var(--sun); padding: var(--s3) var(--s4); display: flex; align-items: center; gap: var(--s4); flex-wrap: wrap; }
+.buybar-static .n { font-family: var(--display); font-weight: 800; font-size: 24px; }
+.buybar-static .pr { color: var(--sun); font-family: var(--display); font-weight: 800; font-size: 24px; }
+.buybar-static .btn { margin-left: auto; }
+.wa-static { position: static; box-shadow: none; }
+.office { border-top: 2px solid var(--sun); padding-top: var(--s4); display: grid; gap: var(--s2); width: 100%; max-width: 360px; }
+.office h4 { margin: 0; font-family: var(--display); font-weight: 800; font-size: 32px; line-height: 1; }
+.office .tel { font-family: var(--display); font-weight: 800; font-size: 40px; line-height: 1; text-decoration: none; color: var(--sun); }
+.office p { margin: 0; }
+
+/* Voice */
+.voice { width: 100%; border-collapse: collapse; }
+.voice th, .voice td { text-align: left; padding: var(--s4) var(--s4) var(--s4) 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+.voice thead th { font-family: var(--display); font-weight: 800; font-size: 26px; border-bottom: 2px solid var(--ink); }
+.voice td:first-child { font-weight: 600; }
+.voice td:nth-child(2) { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--alert); text-decoration-thickness: 2px; }
+.voice td:last-child { color: var(--muted); font-size: 16px; }
+.voice-wrap { overflow-x: auto; }
+.voice { min-width: 700px; }
+
+.ds-nav { position: sticky; top: 68px; z-index: 10; background: var(--paper); border-bottom: 1px solid var(--rule); }
+.ds-nav ul { display: flex; gap: var(--s5); overflow-x: auto; margin: 0; padding: var(--s3) 0; list-style: none; font-weight: 600; font-size: 16px; white-space: nowrap; scrollbar-width: none; }
+.ds-nav a { text-decoration: none; }
+.ds-nav a:hover { text-decoration: underline; text-decoration-color: var(--sun); text-decoration-thickness: 3px; }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <!--LOGO-->
+    <ul class="nav">
+      <li><a href="home.html">Homepage</a></li>
+      <li><a href="powerbox-2600.html">Product page</a></li>
+      <li><a href="design-system.html" aria-current="page">Design language</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+  <section class="night ds-hero" aria-labelledby="ds-title">
+    <div class="wrap">
+      <h1 class="d-hero" id="ds-title">Yellow is light.</h1>
+      <p class="lede" style="margin-top:var(--s5);color:var(--dead)">How the Lumey site looks, sounds and behaves. Every rule here comes from one fact about the business: people buy a PowerBox for the night NEPA takes light.</p>
+      <dl class="laws">
+        <div><dt>Day and night</dt><dd>Day sections (paper, haze, sun) are where people compare prices and buy. <b>Night sections show the PowerBox working</b> during a power cut. A page moves between the two on purpose, never at random.</dd></div>
+        <div><dt>Yellow means on</dt><dd>Yellow fills what is powered, what is chosen and the next step. <b>It is never decoration</b> and never body text on white. If nothing is on, nothing is yellow.</dd></div>
+        <div><dt>The bars are the range</dt><dd>The logo's stepped bars become the eight PowerBoxes, <b>each as tall as its battery</b>. They pick a model, measure a battery and show where a model sits. Never drawn at random heights.</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <nav class="ds-nav" aria-label="On this page"><div class="wrap"><ul>
+    <li><a href="#logo">Logo</a></li><li><a href="#colour">Colour</a></li><li><a href="#type">Type</a></li><li><a href="#bars">The bars</a></li><li><a href="#components">Components</a></li><li><a href="#scene">The outage scene</a></li><li><a href="#voice">Voice</a></li><li><a href="#motion">Motion</a></li>
+  </ul></div></nav>
+
+  <section class="day part" id="logo" aria-labelledby="logo-title">
+    <div class="wrap">
+      <div class="part-head"><h2 class="d-1" id="logo-title">Logo</h2><p class="lede quiet">The mark is the yellow stepped bars. Until the original file is in hand, the pages set the name in Big Shoulders. The mark is never redrawn by hand.</p></div>
+      <div class="logo-slots">
+        <div class="slot night"><div><p class="need">Logo file needed</p><p class="small" style="color:var(--dead)">Yellow mark on night. Save as <code>assets/lumey-logo.svg</code></p></div></div>
+        <div class="slot sunfield"><div><p class="need">Black version needed</p><p class="small quiet">Black mark on sun, for the yellow sections.</p></div></div>
+      </div>
+      <ul class="rules-list">
+        <li>On night and on ink, the mark is yellow. On sun, it is black. On paper and haze, it is black with yellow allowed only if the file provides it.</li>
+        <li>Never smaller than 32px tall in the header, 24px anywhere else.</li>
+        <li>Keep clear space of one bar's width on every side.</li>
+        <li>Never recolour individual bars, stretch the mark or set it on a photograph without a solid ground behind it.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="haze part" id="colour" aria-labelledby="colour-title">
+    <div class="wrap">
+      <div class="part-head"><h2 class="d-1" id="colour-title">Colour</h2><p class="lede quiet">Two grounds and one light. Night is a blue-black, not a tinted grey, so the yellow reads as actual lamplight against it.</p></div>
+
+      <p class="group-label">Day</p>
+      <div class="swatch-row">
+        <div class="sw sw-paper"><h3>Paper</h3><p><span class="hex">#FFFFFF</span><br>Reading, tables, prices. Ink text 21:1.</p></div>
+        <div class="sw sw-haze"><h3>Haze</h3><p><span class="hex">#EEF0F2</span><br>Harmattan haze. Alternate day ground. Ink 18:1.</p></div>
+        <div class="sw sw-sun"><h3>Sun</h3><p><span class="hex">#FFD21F</span><br>Lumey yellow, from the logo. Fills only. Ink on sun 14.5:1.</p></div>
+        <div class="sw sw-ink"><h3>Ink</h3><p><span class="hex">#000000</span><br>The logo's black. All text by day; buttons on sun.</p></div>
+      </div>
+
+      <p class="group-label">Night</p>
+      <div class="swatch-row">
+        <div class="sw sw-night"><h3>Night</h3><p><span class="hex">#0E1624</span><br>The outage. Hero, scene, Akure, footer.</p></div>
+        <div class="sw sw-dusk"><h3>Dusk</h3><p><span class="hex">#1A2537</span><br>Unlit rooms, raised night surfaces.</p></div>
+        <div class="sw sw-moon"><h3>Moon</h3><p><span class="hex">#E9EDF3</span><br>Text at night. 15.4:1 on night.</p></div>
+        <div class="sw sw-dead"><h3>Dead</h3><p><span class="hex">#8A94A8</span><br>Unpowered things, secondary text at night. 5.9:1.</p></div>
+      </div>
+
+      <p class="group-label">Signals, used once each</p>
+      <div class="swatch-row">
+        <div class="sw sw-ochre"><h3>Ochre</h3><p><span class="hex">#7A5A00</span><br>Yellow-family text on paper, when yellow itself would fail.</p></div>
+        <div class="sw sw-flame"><h3>Flame</h3><p><span class="hex">#FF8A3D</span><br>Generator light. The neighbour's window and nothing else.</p></div>
+        <div class="sw sw-alert"><h3>Alert</h3><p><span class="hex">#B3261E</span><br>Safety warnings and form errors only.</p></div>
+      </div>
+
+      <p class="group-label">Roughly how a page spends them</p>
+      <div class="share" role="img" aria-label="About half the page on day grounds, a third on night, and a sixth in sun">
+        <span style="flex:5;background:var(--paper);box-shadow:inset 0 0 0 1px var(--rule)">Paper and haze</span>
+        <span style="flex:3;background:var(--night);color:var(--moon)">Night</span>
+        <span style="flex:1.2;background:var(--sun)">Sun</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="day part" id="type" aria-labelledby="type-title">
+    <div class="wrap">
+      <div class="part-head"><h2 class="d-1" id="type-title">Type</h2><p class="lede quiet">Big Shoulders Display for headlines and every price: tall, condensed strokes that echo the bars, and it draws the ₦ sign. Familjen Grotesk for everything people read.</p></div>
+      <div class="specimen">
+        <div>
+          <p class="money">₦3,200,000</p>
+          <p class="glyphs">Aa Bb Gg Rr 0123456789 ₦ , .</p>
+          <p class="small quiet" style="margin-top:var(--s3)">Big Shoulders Display, weights 700 and 800. Sentence case only. Never letter-spaced capitals.</p>
+        </div>
+        <div>
+          <p class="bodyset">A PowerBox holds the battery, the inverter and the charge controller in one box. Plug your appliances in, or have the whole house wired to it.</p>
+          <p class="small quiet" style="margin-top:var(--s3)">Familjen Grotesk, 400 for reading, 600 for labels and buttons, 700 for emphasis. 18px body, never below 15px.</p>
+        </div>
+      </div>
+      <div class="scale-wrap">
+        <table class="scale">
+          <tbody>
+            <tr><th>Hero</th><td><span class="d-hero" style="font-size:72px">NEPA took light</span></td><td>128px desktop, 56px phone, leading 0.88. One per page.</td></tr>
+            <tr><th>Display 1</th><td><span class="d-1" style="font-size:56px">Every price on the page</span></td><td>88px desktop. Section headlines.</td></tr>
+            <tr><th>Display 2</th><td><span class="d-2" style="font-size:44px">PowerBox 2600</span></td><td>60px. Model names, sub-sections.</td></tr>
+            <tr><th>Display 3</th><td><span class="d-3">Take the panels if NEPA rarely comes</span></td><td>30px. Card and list headings.</td></tr>
+            <tr><th>Price</th><td><span class="price">₦700,000</span></td><td>Always Big Shoulders, the ₦ sign, commas, tabular figures.</td></tr>
+            <tr><th>Lede</th><td><span class="lede">The whole house, running normally.</span></td><td>21px. Opening paragraph under a headline.</td></tr>
+            <tr><th>Body</th><td>Panels on the roof refill it every day the sun comes out.</td><td>18px, leading 1.55, under 70 characters a line.</td></tr>
+            <tr><th>Small</th><td><span class="small">Prices exclude installation kits and workmanship.</span></td><td>15px. Notes and conditions.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="haze part" id="bars" aria-labelledby="bars-title">
+    <div class="wrap">
+      <div class="part-head"><h2 class="d-1" id="bars-title">The bars</h2><p class="lede quiet">The logo's idea, used as data. Eight bars, one per model, height proportional to battery size. The current or chosen model is the filled one.</p></div>
+      <div class="bars-demo">
+        <div class="demo night">
+          <p class="demo-label">Picker, at night</p>
+          <ul class="range" id="demo-range"><!--RANGE--></ul>
+          <div class="range-axis"><span>Portable</span><span>Heavy duty</span></div>
+        </div>
+        <div class="demo sunfield" style="border-radius:0">
+          <p class="demo-label">Position, on a product page</p>
+          <ul class="range on-sun" aria-label="PowerBox range" style="height:150px"><!--RANGE-LINKS--></ul>
+        </div>
+      </div>
+      <div class="ratecard-wrap" style="background:var(--paper);padding:var(--s4) var(--s5);margin-top:var(--s5)">
+        <p class="demo-label">Meter, in the price table</p>
+        <table class="ratecard"><thead><tr><th scope="col">Model</th><th scope="col" class="cap">Battery, to scale</th><th scope="col">Keeps running</th><th scope="col" class="num">Box only</th><th scope="col" class="num">With panels</th></tr></thead>
+        <tbody><!--ROWS-SAMPLE--></tbody></table>
+      </div>
+      <ul class="rules-list">
+        <li>Bar height is battery size, to scale, every time. If the numbers change, the bars change.</li>
+        <li>Outlined means available, filled means chosen. Only one bar is filled.</li>
+        <li>Under the bars, say what they measure in words. The bars never stand alone.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="day part" id="components" aria-labelledby="comp-title">
+    <div class="wrap">
+      <div class="part-head"><h2 class="d-1" id="comp-title">Components</h2><p class="lede quiet">Few, and each with one job. The radius tells you what kind of thing it is: controls are slightly rounded, the night scene has a soft frame, everything else is square like the bars.</p></div>
+
+      <div class="comp">
+        <div><h3>Buttons</h3><p class="use">Sun for the one thing a section is for. Ink when the ground is already yellow. A plain underlined link for the second choice. Verbs that say what happens: “Order on WhatsApp”, “See every price”.</p></div>
+        <div class="board"><div class="pair">
+          <div class="tile day" style="box-shadow:inset 0 0 0 1px var(--rule)"><a class="btn btn-sun" href="#">Order on WhatsApp</a><a class="textlink" href="#">Pay in instalments</a></div>
+          <div class="tile night"><a class="btn btn-sun" href="#">See every price</a><a class="textlink" href="#">Ask on WhatsApp</a></div>
+          <div class="tile sunfield"><a class="btn btn-ink" href="#">Find my PowerBox</a><a class="textlink" href="#">Compare models</a></div>
+          <div class="tile day" style="box-shadow:inset 0 0 0 1px var(--rule)"><a class="wa-float wa-static" href="#"><!--WA--><span>WhatsApp us</span></a></div>
+        </div></div>
+      </div>
+
+      <div class="comp">
+        <div><h3>Option rows</h3><p class="use">How a buyer picks box only or with panels. The price sits on the row it belongs to, large, so the choice and its cost are read together.</p></div>
+        <div class="board">
+          <label class="opt"><input type="radio" name="demo-opt" checked><span class="what"><b>PowerBox only</b><span>Charge from the wall or NEPA. Add panels later.</span></span><span class="price">₦700,000</span></label>
+          <label class="opt"><input type="radio" name="demo-opt"><span class="what"><b>With two 600W panels</b><span>Charges free from the sun every day.</span></span><span class="price">₦1,000,000</span></label>
+        </div>
+      </div>
+
+      <div class="comp">
+        <div><h3>Spec plate</h3><p class="use">Four facts under the price, set like the rating plate on the back of a machine. Only confirmed numbers.</p></div>
+        <div class="board"><dl class="plate"><div><dt>Inverter</dt><dd>2kW (2.5kVA)</dd></div><div><dt>Battery</dt><dd>2,600Wh lithium-ion</dd></div><div><dt>Charges from</dt><dd>Sun, wall or NEPA</dd></div><div><dt>Warranty</dt><dd>12 months, inverter</dd></div></dl></div>
+      </div>
+
+      <div class="comp">
+        <div><h3>Naira field</h3><p class="use">For amounts people type, like monthly fuel spend. The ₦ sits outside the input, digits group as you type, and an error says exactly what to enter.</p></div>
+        <div class="board"><div class="pair">
+          <div class="field"><label for="d1">Monthly fuel spend</label><div class="naira-input"><span aria-hidden="true">₦</span><input id="d1" value="60,000" inputmode="numeric"></div><p class="hint" style="margin:0">A starting figure. Type your own.</p></div>
+          <div class="field invalid"><label for="d2">Monthly fuel spend</label><div class="naira-input"><span aria-hidden="true">₦</span><input id="d2" value="" inputmode="numeric" aria-invalid="true" aria-describedby="d2e"></div><p class="err" id="d2e" style="margin:0">Enter an amount in naira, for example 45,000.</p></div>
+        </div></div>
+      </div>
+
+      <div class="comp">
+        <div><h3>NEPA switch</h3><p class="use">Shows the grid's state in the outage scene. Off by default, because a power cut is the moment the page is about.</p></div>
+        <div class="board"><div class="tile night"><label class="switch on-night"><input type="checkbox" role="switch"> NEPA</label><label class="switch on-night"><input type="checkbox" role="switch" checked> NEPA</label></div></div>
+      </div>
+
+      <div class="comp">
+        <div><h3>Buy bar</h3><p class="use">Slides up on product pages once the price has scrolled away: name, chosen price, instalments, order. The floating WhatsApp button hides while it shows.</p></div>
+        <div class="board"><div class="buybar-static"><span class="n">PowerBox 2600</span><span class="pr">₦700,000</span><a class="textlink" href="#">Pay in instalments</a><a class="btn btn-sun" href="#"><!--WA--> Order on WhatsApp</a></div></div>
+      </div>
+
+      <div class="comp">
+        <div><h3>Office</h3><p class="use">The phone number is the biggest thing on it, in yellow, because calling is how people here reach a business. “Call before you come” stays until opening hours are confirmed.</p></div>
+        <div class="board"><div class="tile night"><div class="office"><h4>Akure</h4><p style="color:var(--dead)">Head office and production. Call before you come.</p><a class="tel" href="#">0706 287 8273</a></div></div></div>
+      </div>
+
+      <div class="comp">
+        <div><h3>Questions</h3><p class="use">Native disclosure, so every answer is in the page for search engines and for people without JavaScript. First answer opens by default.</p></div>
+        <div class="board faq"><details open><summary>Can I charge it with NEPA?</summary><div class="a"><p>Yes. Every PowerBox charges three ways: from solar panels, from a wall socket, or from the grid when it comes.</p></div></details><details><summary>Can it run my air conditioner?</summary><div class="a"><p>Only the heavy-duty range, from the PowerBox 4000.</p></div></details></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="night part" id="scene" aria-labelledby="scene-title-h">
+    <div class="wrap">
+      <div class="part-head"><h2 class="d-1" id="scene-title-h">The outage scene</h2><p class="lede" style="color:var(--dead)">A section through a Nigerian bungalow at night: parlour, kitchen, two bedrooms, the overhead tank and the neighbour on a generator. It shows what a model runs. It is the signature of the site.</p></div>
+      <div class="scene-frame"><div class="scene" style="padding:var(--s4)"><!--SCENE--></div></div>
+      <ul class="rules-list">
+        <li>Lit and drawn in ink means the model runs it. Grey with a cross means it doesn't. The same facts always appear in words beside the drawing.</li>
+        <li>What each model runs comes from the product data, never from the drawing. Change the data and the drawing follows.</li>
+        <li>Only the neighbour's window uses flame orange, and it is the only thing on the site that moves by itself. It stops for anyone who prefers reduced motion.</li>
+        <li>Run-times are not drawn until they are measured.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="day part" id="voice" aria-labelledby="voice-title">
+    <div class="wrap">
+      <div class="part-head"><h2 class="d-1" id="voice-title">Voice</h2><p class="lede quiet">Plain Nigerian English, with numbers. Say what it runs and what it doesn't. Write like the person on the WhatsApp line, not like a brochure.</p></div>
+      <div class="voice-wrap"><table class="voice">
+        <thead><tr><th scope="col">Write</th><th scope="col">Not</th><th scope="col">Why</th></tr></thead>
+        <tbody>
+          <tr><td>NEPA took light. Your house didn't notice.</td><td>Revolutionary energy solutions for modern living</td><td>Name the moment people actually live through.</td></tr>
+          <tr><td>₦700,000</td><td>N700k, NGN 700000, 700,000 naira</td><td>The ₦ sign and commas, every time.</td></tr>
+          <tr><td>Runs a chest freezer. Not air conditioners.</td><td>Powers all your appliances</td><td>The limit is as useful as the claim.</td></tr>
+          <tr><td>Order on WhatsApp</td><td>Get started</td><td>Say where the button takes you.</td></tr>
+          <tr><td>Being measured</td><td>Up to 12 hours*</td><td>A missing figure stays missing until it is real.</td></tr>
+          <tr><td>Three in four customers came from a referral.</td><td>Trusted by thousands of Nigerians</td><td>Only numbers we can stand behind.</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <section class="haze part" id="motion" aria-labelledby="motion-title">
+    <div class="wrap">
+      <div class="part-head"><h2 class="d-1" id="motion-title">Motion</h2><p class="lede quiet">Things move when someone does something, to show what changed. Nothing fades in on scroll.</p></div>
+      <ul class="rules-list">
+        <li>Switching NEPA off cuts the scene to dark for under half a second, then the PowerBox brings the rooms back. That is the one dramatic moment on the site.</li>
+        <li>Choosing a model: bars and appliances change colour over 150ms. Hover: colour only, 120ms. Nothing scales or bounces.</li>
+        <li>The buy bar slides up in 200ms. The neighbour's window flickers. Nothing else moves on its own.</li>
+        <li>With reduced motion turned on, every change is instant and the flicker stops.</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<!--FOOTER-->
+
+<script>
+document.querySelectorAll('#demo-range button').forEach(function (b, i, all) {
+  b.addEventListener('click', function () { all.forEach(function (o) { o.setAttribute('aria-pressed', o === b); }); });
+});
+</script>
+</body>
+</html>
