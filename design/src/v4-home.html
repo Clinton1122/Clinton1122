@@ -84,24 +84,43 @@ h1, h2, h3 { margin: 0; letter-spacing: -0.02em; text-wrap: balance; }
 .menu { display: none; }
 @media (max-width: 1060px) { .nav { display: none; } .menu { display: inline-flex; align-items: center; min-height: 46px; padding: 0 14px; border: 1px solid var(--rule); background: none; border-radius: 6px; font: 600 15px var(--font); } .head .btn span { display: none; } .head .btn { padding: 0 14px; margin-left: auto; } .head .wrap { gap: 12px; } }
 
-/* 1. Hero */
-.hero { background: var(--clay); overflow: hidden; }
-.hero .wrap { display: grid; }
-@media (min-width: 1000px) { .hero .wrap { grid-template-columns: 1fr 1fr; min-height: calc(100vh - 116px); max-height: 860px; } }
-.hero-copy { display: grid; gap: 28px; align-content: center; padding-block: 56px 40px; }
-@media (min-width: 1000px) { .hero-copy { padding-block: 64px; padding-right: 24px; } }
-.hero-copy .lede { max-width: 26em; }
-.pricebox { display: inline-grid; grid-template-columns: auto auto; align-items: stretch; justify-self: start; }
-.pricebox .k { background: var(--black); color: var(--yellow); padding: 10px 14px; font-size: 13px; font-weight: 500; line-height: 1.25; display: grid; align-content: center; }
-.pricebox .v { background: var(--white); padding: 6px 18px; font-size: clamp(26px, 2.4vw, 32px); font-weight: 600; display: grid; align-content: center; }
-.hero-photo { position: relative; margin-inline: -20px; min-height: 360px; }
-.hero-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 58%; }
-@media (min-width: 1000px) { .hero-photo { margin: 0 calc(-1 * max(44px, (100vw - var(--wrap)) / 2 + 44px)) 0 0; } }
-@media (max-width: 999px) { .hero-photo { aspect-ratio: 1 / 1; min-height: 0; } }
-.hero-photo .stamp { position: absolute; right: 24px; top: 24px; background: var(--black); color: var(--white); padding: 14px 16px; display: grid; gap: 2px; max-width: 220px; }
-.hero-photo .stamp b { color: var(--yellow); font-size: 15px; font-weight: 500; }
-.hero-photo .stamp span { font-size: 13px; color: var(--on-black); line-height: 1.4; }
-@media (max-width: 999px) { .hero-photo .stamp { display: none; } }
+/* 1. Hero: the live site's idea (full photo, white type, "Lumey" in yellow), done with
+   the real studio shoot. The clay backdrop of each photo fades into a warm dark, so
+   photo and text read as one lit studio wall. */
+.hero { position: relative; background: #24160C; color: var(--white); overflow: hidden; isolation: isolate; }
+.hero-slides { position: relative; aspect-ratio: 4 / 3.4; overflow: hidden; }
+.hero-slides::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(36,22,12,0) 55%, #24160C 94%); pointer-events: none; }
+.hero-slides img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.4s var(--ease); }
+.hero-slides img.on { opacity: 1; animation: drift 9s linear both; }
+@keyframes drift { from { transform: scale(1.06); } to { transform: scale(1); } }
+.hero-copy { position: relative; z-index: 1; display: grid; gap: 22px; align-content: center; padding-block: 0 44px; }
+.eyebrow { justify-self: start; display: inline-flex; align-items: center; gap: 10px; padding: 7px 14px 7px 10px; border: 1px solid rgba(255,255,255,.22); border-radius: 999px; font-size: 13px; font-weight: 400; color: rgba(255,255,255,.88); }
+.eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--yellow); box-shadow: 0 0 0 4px rgba(254,220,34,.18); }
+.hero h1 { font-size: clamp(36px, 4.4vw, 62px); line-height: 1.06; font-weight: 600; letter-spacing: -0.025em; }
+.hero h1 em { font-style: normal; color: var(--yellow); }
+.hero .lede { color: rgba(255,255,255,.82); font-weight: 300; max-width: 27em; }
+.hero-price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; margin: 0; font-size: 15px; color: rgba(255,255,255,.72); }
+.hero-price b { font-size: clamp(24px, 2.2vw, 30px); font-weight: 600; color: var(--white); }
+.hero-price span + span { padding-left: 14px; border-left: 1px solid rgba(255,255,255,.25); }
+.hero .btn { border-radius: 10px; }
+.hero .btn-yellow { box-shadow: 0 10px 30px -10px rgba(254,220,34,.55); }
+.btn-ghost { color: var(--white); border-color: rgba(255,255,255,.4); }
+.btn-ghost:hover { background: var(--white); color: var(--black); border-color: var(--white); }
+.hero-foot { position: relative; z-index: 1; display: flex; align-items: center; gap: 16px; padding-bottom: 28px; font-size: 13px; color: rgba(255,255,255,.7); }
+.dots { display: flex; gap: 8px; }
+.dots button { width: 28px; height: 28px; padding: 0; border: 0; background: none; cursor: pointer; display: grid; place-items: center; }
+.dots button::before { content: ""; width: 8px; height: 8px; border-radius: 999px; background: rgba(255,255,255,.4); transition: width .3s var(--ease), background-color .3s; }
+.dots button[aria-current="true"]::before { width: 26px; background: var(--yellow); }
+@media (min-width: 1000px) {
+  .hero { min-height: min(calc(100vh - 116px), 820px); display: grid; }
+  .hero-slides { position: absolute; inset: 0 0 0 auto; width: 64%; aspect-ratio: auto;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 40%); mask-image: linear-gradient(90deg, transparent 0, #000 40%); }
+  .hero-slides::after { background: linear-gradient(180deg, rgba(36,22,12,0) 70%, rgba(36,22,12,.6) 100%); }
+  .hero .wrap { width: 100%; display: grid; grid-template-rows: 1fr auto; }
+  .hero-copy { max-width: 620px; padding-block: 72px 40px; }
+  .hero h1 span { white-space: nowrap; }
+  .hero-foot { padding-bottom: 32px; }
+}
 
 /* Proof band */
 .proof { background: var(--black); color: var(--white); }
@@ -294,20 +313,25 @@ details .a p { margin: 0; color: var(--grey); }
 <main>
   <!-- 1. Hero -->
   <section class="hero" aria-labelledby="h-title">
+    <div class="hero-slides" aria-hidden="true">
+      <img class="on" src="https://ik.imagekit.io/wxeoxjool/Lumey/LEH_2967a.jpg?tr=w-1800" alt="" width="1800" height="1478" data-cap="The Lumey team in Akure">
+      <img src="https://ik.imagekit.io/wxeoxjool/Lumey/LEH_2942a.jpg?tr=w-1800" alt="" width="1800" height="1607" loading="lazy" data-cap="Laptop and Wi-Fi on a PowerBox">
+      <img src="https://ik.imagekit.io/wxeoxjool/Lumey/LEH_2797.jpg?tr=w-1600" alt="" width="1600" height="1946" loading="lazy" data-cap="PowerBox 550, 1200 and 2100" style="object-position:50% 80%">
+    </div>
     <div class="wrap">
       <div class="hero-copy">
-        <span class="label" style="justify-self:start">Designed and built in Akure, Nigeria</span>
-        <h1 class="h1" id="h-title">Light up.<br>Power on.</h1>
-        <p class="lede">Battery, inverter and charge controller in one yellow box. Plug in your appliances and stop buying fuel.</p>
-        <div class="pricebox"><span class="k">From<br>only</span><span class="v num">₦260,000</span></div>
+        <span class="eyebrow">Welcome to Lumey Energy</span>
+        <h1 id="h-title"><span>Dream 24/7 light.</span><br><span>Dream <em>Lumey</em>.</span></h1>
+        <p class="lede">Solar generators designed and built in Akure. Battery, inverter and charge controller in one yellow box: plug in your appliances and stop buying fuel.</p>
+        <p class="hero-price"><span>From <b class="num">₦260,000</b></span><span>Pay small small</span></p>
         <div class="ctas">
-          <a class="btn btn-black" href="#keep">Find my PowerBox</a>
-          <a class="btn btn-yellow" href="https://wa.me/2347062878273">{WA} Order on WhatsApp</a>
+          <a class="btn btn-yellow" href="#range">Shop the PowerBox range</a>
+          <a class="btn btn-ghost" href="https://wa.me/2347062878273">{WA} Order on WhatsApp</a>
         </div>
       </div>
-      <div class="hero-photo">
-        <img src="https://ik.imagekit.io/wxeoxjool/Lumey/LEH_2797.jpg?tr=w-1600" alt="Three yellow Lumey PowerBoxes standing on their kraft shipping boxes" width="1600" height="1946">
-        <div class="stamp"><b>Pay small small</b><span>Instalment payment on every model</span></div>
+      <div class="hero-foot">
+        <div class="dots" role="group" aria-label="Hero photos"></div>
+        <span class="cap" aria-live="polite">The Lumey team in Akure</span>
       </div>
     </div>
   </section>
@@ -490,6 +514,25 @@ details .a p { margin: 0; color: var(--grey); }
 <a class="float" href="https://wa.me/2347062878273" aria-label="Chat with Lumey on WhatsApp">{WA}<span>WhatsApp us</span></a>
 <div class="orderbar on-black"><span><b>From ₦260,000</b>Pay small small</span><a class="btn btn-yellow" href="https://wa.me/2347062878273">{WA} Order on WhatsApp</a></div>
 
+<script>
+(function () {
+  var imgs = [].slice.call(document.querySelectorAll('.hero-slides img'));
+  var dots = document.querySelector('.hero .dots'), cap = document.querySelector('.hero .cap');
+  var cur = 0, timer = null, still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function show(i) {
+    imgs[cur].classList.remove('on'); cur = i; void imgs[cur].offsetWidth; imgs[cur].classList.add('on');
+    [].forEach.call(dots.children, function (d, j) { d.setAttribute('aria-current', j === cur); });
+    cap.textContent = imgs[cur].dataset.cap;
+  }
+  imgs.forEach(function (im, i) {
+    var b = document.createElement('button'); b.type = 'button';
+    b.setAttribute('aria-label', 'Photo ' + (i + 1) + ': ' + im.dataset.cap); b.setAttribute('aria-current', i === 0);
+    b.addEventListener('click', function () { show(i); restart(); }); dots.appendChild(b);
+  });
+  function restart() { clearInterval(timer); if (!still) timer = setInterval(function () { if (!document.hidden) show((cur + 1) % imgs.length); }, 6500); }
+  restart();
+})();
+</script>
 <script>
 var MODELS = {MODELS};
 (function () {
