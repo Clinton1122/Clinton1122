@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lumey website research</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap">
+<style>
+:root { --yellow:#FEDC22; --black:#000; --clay:#D08F63; --sand:#F4E3D3; --sand-ink:#6B4A33; --grey:#5A5A5A; --rule:#E3DED8; --red:#B3261E; --font:"Poppins","Segoe UI",Roboto,system-ui,sans-serif; }
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;font-family:var(--font);font-size:16px;line-height:1.6;color:var(--black);background:#fff}
+img{display:block;max-width:100%;height:auto}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+@media(min-width:900px){.wrap{padding:0 40px}}
+h1,h2,h3{margin:0;letter-spacing:-.03em;text-wrap:balance}
+h1{font-size:clamp(40px,6vw,76px);line-height:1;font-weight:800}
+h2{font-size:clamp(28px,3.4vw,44px);line-height:1.08;font-weight:700}
+h3{font-size:20px;line-height:1.3;font-weight:700;letter-spacing:-.01em}
+p{margin:0}
+.muted{color:var(--grey)}
+.label{display:inline-block;background:var(--black);color:var(--yellow);font-weight:600;font-size:13px;padding:6px 10px}
+section{padding:72px 0;border-top:1px solid var(--rule)}
+.top{background:var(--clay);border:0;padding:64px 0 56px}
+.top .wrap{display:grid;gap:20px}
+.top p{max-width:44em;font-size:18px}
+.lead{display:grid;gap:12px;margin-bottom:32px;max-width:52em}
+.cols{display:grid;gap:24px}
+@media(min-width:900px){.cols{grid-template-columns:1fr 1fr}.cols.c3{grid-template-columns:1fr 1fr 1fr}}
+.cols>*{min-width:0}
+.shot{border:1px solid var(--rule);border-radius:8px;overflow:hidden;background:#f6f6f6}
+.shot figcaption{font-size:13px;color:var(--grey);padding:8px 12px;background:#fff;border-top:1px solid var(--rule)}
+figure{margin:0}
+.swatches{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.sw{border-radius:8px;padding:16px;min-height:120px;display:grid;align-content:end;gap:2px;font-size:14px}
+.sw b{font-size:17px}
+.list{margin:0;padding:0;list-style:none;display:grid;gap:12px}
+.list li{padding-left:28px;position:relative}
+.list li::before{content:"";position:absolute;left:0;top:7px;width:14px;height:10px;background:linear-gradient(90deg,#000 0 3px,transparent 3px 5px,#000 5px 9px,transparent 9px 11px,#000 11px)}
+.bad li::before{background:var(--red);height:3px;top:11px}
+.issue{display:grid;gap:4px;padding:16px 0;border-bottom:1px solid var(--rule)}
+.issue:first-child{border-top:1px solid var(--rule)}
+.sev{font-size:12px;font-weight:700;color:#fff;background:var(--red);padding:2px 8px;border-radius:4px;justify-self:start}
+.sev.mid{background:#8A5A00}
+.ref{display:grid;gap:20px;padding:40px 0;border-top:1px solid var(--rule)}
+.ref:first-of-type{border-top:0;padding-top:0}
+@media(min-width:900px){.ref{grid-template-columns:5fr 6fr;gap:40px;align-items:start}}
+.ref>*{min-width:0}
+.take{background:var(--sand);border-radius:8px;padding:20px;display:grid;gap:10px}
+.take h3{font-size:16px}
+.map{width:100%;border-collapse:collapse;font-size:15px}
+.map th,.map td{text-align:left;padding:14px 12px 14px 0;border-bottom:1px solid var(--rule);vertical-align:top}
+.map th{font-weight:600}
+.map thead th{border-bottom:2px solid var(--black);font-size:14px}
+.tbl{overflow-x:auto}
+.map{min-width:640px}
+.cta{background:var(--yellow);border:0}
+.cta .wrap{display:grid;gap:14px}
+</style>
+</head>
+<body>
+
+<section class="top">
+  <div class="wrap">
+    <span class="label" style="justify-self:start">Research, 9 October 2026</span>
+    <h1>What I found, and what the new site does about it.</h1>
+    <p>I studied your live site (homepage, products page, a product page), every photo it uses, your logo files, your packaging and uniforms, and the four reference sites in your PRD: Reeddi, LetsGoSolar, Thrillhouse and EcoFlow Nigeria. Everything below comes from those pages as they are today.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="lead"><h2>1. Your brand already exists. The website ignores it.</h2>
+      <p class="muted">Your packaging, uniforms and product shoot share one strong, consistent look. The current website uses almost none of it.</p></div>
+    <div class="cols">
+      <div style="display:grid;gap:20px">
+        <figure class="shot"><img src="{shirt}" alt="Lumey logo and wordmark printed on a yellow shirt"><figcaption>The full logo: stepped bars plus “Lumey Energy” in Poppins. Tagline: “Dream 24/7 light, Dream Lumey”.</figcaption></figure>
+        <figure class="shot"><img src="{box}" alt="Kraft shipping box with Lumey logo and a black label reading Light Up. Power On."><figcaption>The packaging: kraft card, black label, “Light Up. Power On.” and the product name in heavy Poppins.</figcaption></figure>
+      </div>
+      <div style="display:grid;gap:20px;align-content:start">
+        <div class="swatches">
+          <div class="sw" style="background:#FEDC22"><b>Lumey yellow</b>#FEDC22, sampled from logo.jpg</div>
+          <div class="sw" style="background:#000;color:#fff"><b>Logo black</b>#000000</div>
+          <div class="sw" style="background:#D08F63"><b>Studio clay</b>#D08F63, the backdrop of every product photo</div>
+          <div class="sw" style="background:#F4E3D3;color:#6B4A33"><b>Kraft light</b>#F4E3D3, from the packaging</div>
+        </div>
+        <ul class="list">
+          <li><b>Typeface: Poppins.</b> It is on the boxes and in the wordmark. Keep it; use it with weight and scale, not as a template default.</li>
+          <li><b>Lines you already own:</b> “Light Up. Power On.”, “Dream 24/7 light, Dream Lumey”, “Your go-to solar partner”, “Are you tired of the everyday blackouts?”</li>
+          <li><b>Photography:</b> about 45 real shots of the PowerBoxes, the packaging and the team, all on the same clay backdrop. This is the most valuable asset you have, and the site barely shows it.</li>
+          <li><b>The black label</b> from the box is a ready-made design element: small black block, yellow or kraft text.</li>
+        </ul>
+      </div>
+    </div>
+    <figure class="shot" style="margin-top:24px"><img src="{sheet}" alt="Contact sheet of Lumey's product and team photographs"><figcaption>Some of the photos already on your image server. Product shots, packaging, team, and a real customer-style scene (woman working at a desk with a PowerBox).</figcaption></figure>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="lead"><h2>2. The current website: what's broken</h2><p class="muted">Captured 9 October 2026 at lumeyenergy.com.</p></div>
+    <div class="cols">
+      <div style="display:grid;gap:20px;align-content:start">
+        <figure class="shot"><img src="{lumey_hero}" alt="Current Lumey homepage with an empty grey banner"><figcaption>The homepage banner is an empty grey box.</figcaption></figure>
+        <figure class="shot"><img src="{lumey_cards}" alt="Current Lumey product cards"><figcaption>Product cards: good photos, but generic layout, orange links, small prices.</figcaption></figure>
+        <div class="cols" style="grid-template-columns:1fr 1.4fr">
+          <figure class="shot"><img src="{lumey_product}" alt="Current Lumey product page showing Loading product"><figcaption>Every product page: “Loading product…”.</figcaption></figure>
+          <figure class="shot"><img src="{lumey_lower}" alt="Current Lumey How it works, Who we serve and Testimonials sections"><figcaption>Icon cards, a blurred testimonial, stock-looking “past projects”.</figcaption></figure>
+        </div>
+      </div>
+      <div>
+        <div class="issue"><span class="sev">Broken now</span><h3>Homepage banner and About video don't load</h3><p class="muted">They're hosted on a Cloudinary account that returns “401 Unauthorized”. Every visitor sees a grey box at the top of the homepage. Fix today: move the files or restore the account.</p></div>
+        <div class="issue"><span class="sev">Broken now</span><h3>Product pages show “Loading product…”</h3><p class="muted">The price, specs and name are not in the page, so Google and WhatsApp link previews see nothing.</p></div>
+        <div class="issue"><span class="sev">Broken now</span><h3>Testimonial image is a blurred, cropped photo</h3><p class="muted">It reads as fake, and it is the first proof a buyer sees.</p></div>
+        <div class="issue"><span class="sev mid">Off-brand</span><h3>Orange (#FF6B35) everywhere</h3><p class="muted">Orange is not in the logo, packaging or uniforms. It's in links, prices, labels and the browser theme colour. The yellow on the site (#FFD23F) also differs from the logo yellow (#FEDC22).</p></div>
+        <div class="issue"><span class="sev mid">Off-brand</span><h3>Template layout</h3><p class="muted">Rounded white cards, coloured icon tiles (“How it works”, “Who we serve”), centred headings, a scrolling marquee and an emoji in the menu (“💰 Earn”). Nothing says Lumey.</p></div>
+        <div class="issue"><span class="sev mid">Trust</span><h3>Claims and numbers that conflict</h3><p class="muted">“Nigeria's No 1”, “save up to 85%”, “Over 518 sold”. Three phone numbers in the header, an Akure address that differs from the flyer, a Gmail address, and an empty blog section.</p></div>
+        <div class="issue"><span class="sev mid">Data</span><h3>Model names and prices don't match the pricing sheet</h3><p class="muted">The site and the box say PowerBox 550; the PRD says 600. The site says 3kVA, 6kVA and 12kVA where the sheet says 2.5, 5 and 10. The 1500 bundle is ₦530,000 on the site and ₦500,000 in the PRD.</p></div>
+        <div class="issue"><span class="sev mid">Photos</span><h3>Heavy-duty photos look computer-generated</h3><p class="muted">The 3100, 4000 and 8000 shots (boxes on wheels in offices) and one file named “Realistic Solar Generator Scene” look AI-made. The 2600 and 8000 Plus have no photo of their own. These need a real shoot like the portable range had.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="lead"><h2>3. The four references, studied properly</h2><p class="muted">What each does well, and what we take from it.</p></div>
+
+    <div class="ref">
+      <div style="display:grid;gap:16px"><figure class="shot"><img src="{letsgo_hero}" alt="LetsGoSolar product page hero and delivery form"><figcaption>LetsGoSolar, product page (your “product page layout” reference).</figcaption></figure>
+      <figure class="shot"><img src="{letsgo_fuel}" alt="LetsGoSolar fuel comparison and lifestyle sections"><figcaption>Fuel comparison, then lifestyle scenes with appliance tags.</figcaption></figure></div>
+      <div class="take">
+        <h3>LetsGoSolar, product page</h3>
+        <ul class="list">
+          <li>Price in the hero, big, beside one clear headline (“NEPA went off. Life ON.”).</li>
+          <li>Order form right on the page: state, LGA, name, WhatsApp number. Ordering is two steps.</li>
+          <li>Runtime calculator with appliance buttons and a big result.</li>
+          <li>“Three months of fuel could buy your YC1100”: the price crossed out against a year of petrol.</li>
+          <li>Lifestyle scenes (work, family, shop), each with the appliances it runs.</li>
+          <li>Specs in an accordion beside a large product view, Instagram video testimonials, FAQ.</li>
+        </ul>
+        <p class="muted"><b>We take:</b> the price-first hero, the appliance picker, the fuel comparison and the lifestyle scenes. <b>We skip:</b> the navy and the cartoon sunburst; your colours are yellow, black and clay.</p>
+      </div>
+    </div>
+
+    <div class="ref">
+      <div style="display:grid;gap:16px"><figure class="shot"><img src="{reeddi}" alt="Reeddi homepage hero, workshop photo and press quotes"><figcaption>Reeddi, homepage (your “general layout” reference).</figcaption></figure>
+      <figure class="shot"><img src="{reeddi2}" alt="Reeddi impact number and supporter logos"><figcaption>Impact number over a full-width photo, then supporter logos.</figcaption></figure></div>
+      <div class="take">
+        <h3>Reeddi, homepage</h3>
+        <ul class="list">
+          <li>One confident headline, lots of white space, a single accent colour.</li>
+          <li>A full-width documentary photo of people building the product.</li>
+          <li>Press quotes and partner logos straight after the hero.</li>
+          <li>One big impact number, video testimonials, and a clean footer with both offices.</li>
+        </ul>
+        <p class="muted"><b>We take:</b> the confidence, the full-width “people who build it” photo (your team shots), and proof straight after the products. <b>We skip:</b> numbers we can't back up, and their generic green newsletter band.</p>
+      </div>
+    </div>
+
+    <div class="ref">
+      <div style="display:grid;gap:16px"><figure class="shot"><img src="{thrill}" alt="Thrillhouse product page with what it can power table"><figcaption>Thrillhouse, product page (your “purchase flow” reference).</figcaption></figure>
+      <figure class="shot"><img src="{thrill_home}" alt="Thrillhouse pay small small section"><figcaption>“Pay small small. Own it big.”</figcaption></figure></div>
+      <div class="take">
+        <h3>Thrillhouse, buying and instalments</h3>
+        <ul class="list">
+          <li>“Pay small small” said plainly, on the homepage and on every package.</li>
+          <li>A “What can it power?” table: appliance, quantity, maximum power, recommended hours.</li>
+          <li>Add to cart and a Klump instalment option at checkout, plus a free-delivery bar.</li>
+        </ul>
+        <p class="muted"><b>We take:</b> “pay small small” as a headline promise, and the appliance table for each product page. <b>We skip:</b> the cluttered shop layout and stock banners.</p>
+      </div>
+    </div>
+
+    <div class="ref">
+      <div style="display:grid;gap:16px"><figure class="shot"><img src="{eco}" alt="EcoFlow Nigeria homepage with lifestyle hero and product rails"><figcaption>EcoFlow Nigeria (your “secondary layout” reference).</figcaption></figure>
+      <figure class="shot"><img src="{eco2}" alt="EcoFlow why shop with us section"><figcaption>Trust reasons and user reviews with real photos.</figcaption></figure></div>
+      <div class="take">
+        <h3>EcoFlow Nigeria</h3>
+        <ul class="list">
+          <li>Photography does the selling: real homes, the product in use.</li>
+          <li>Each product card shows capacity, output and price, with the old price crossed out.</li>
+          <li>Ranges grouped as series, a “why buy here” block, and customer reviews with photos.</li>
+        </ul>
+        <p class="muted"><b>We take:</b> photo-first sections and capacity-plus-price on every card. <b>We skip:</b> the endless rails and pop-ups.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="lead"><h2>4. How the new homepage uses all this</h2></div>
+    <div class="tbl"><table class="map">
+      <thead><tr><th>Finding</th><th>On the new homepage</th></tr></thead>
+      <tbody>
+        <tr><th>Your packaging line and black label</th><td>The hero headline is “Light up. Power on.”; small black labels mark key facts, as on the box.</td></tr>
+        <tr><th>Real photos on the clay backdrop</th><td>The hero sits on the same clay colour with your boxes-on-packaging photo. Every product card uses its real photo.</td></tr>
+        <tr><th>Logo yellow and black, no orange</th><td>Only #FEDC22, black, clay and kraft. Orange is gone.</td></tr>
+        <tr><th>LetsGoSolar's price-first hero and calculator</th><td>“From ₦260,000, or pay small small” in the hero; a “What must stay on when NEPA takes light?” picker names the right PowerBox.</td></tr>
+        <tr><th>LetsGoSolar's fuel comparison</th><td>“A year of generator fuel could pay for your PowerBox”, worked out from what you type.</td></tr>
+        <tr><th>LetsGoSolar's lifestyle scenes</th><td>Your own photos: the woman working at her desk, the team member carrying a box.</td></tr>
+        <tr><th>Reeddi's people-who-build-it photo</th><td>Full-width team photo: “Built in Akure, by people you can call”, with the two phone numbers.</td></tr>
+        <tr><th>Thrillhouse's “pay small small”</th><td>In the top bar, the hero and the buying section.</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="wrap">
+    <h2>Before launch, I need from you</h2>
+    <ul class="list">
+      <li>The logo as a vector file (SVG, AI or PDF) with the wordmark. I cut the bars from your logo.jpg for this preview.</li>
+      <li>The final model names and prices: 550 or 600? 3kVA or 2.5kVA? ₦500,000 or ₦530,000 for the 1500 bundle?</li>
+      <li>A real photo shoot of the 2600, 3100, 4000, 8000 and 8000 Plus, like the one you did for the portable range.</li>
+      <li>Two or three real customers (name, town, photo, their words) to replace the current testimonials.</li>
+    </ul>
+  </div>
+</section>
+</body>
+</html>
