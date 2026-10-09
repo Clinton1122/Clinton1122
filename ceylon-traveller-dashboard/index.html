@@ -837,7 +837,7 @@ const total=t=>r2(sub(t)+vat(t)+t.fee-disc(t));
 /* Refunds (Akila, 7 Oct): Ceylon Nooks keeps no fee. Everything is refunded except a 5% payment
    gateway reversal fee. Inside 48 h a request goes to an admin, with reason and evidence. */
 const GATEWAY=0.05;
-const gwFee=t=>r2(total(t)*GATEWAY);
+const gwFee=t=>r2(Math.max(1,total(t)*GATEWAY)); /* 5%, minimum USD 1 (trust-link spec, 8 Oct) */
 const refundable=t=>r2(total(t)-gwFee(t));
 function bill(t,label,open){
   const L=(a,b,v,cls='')=>`<tr class="${cls}"><td>${a}${b?`<small>${b}</small>`:''}</td><td>${v}</td></tr>`;
@@ -1118,7 +1118,7 @@ function cancelStep(n){
   }
   if(n===3) dlg(free?`${head('Confirm cancellation')}${prog(3)}<div class="db">
       <table class="bill num"><tr><td>${t.title}</td><td></td></tr><tr><td>Total paid</td><td>${money(total(t))}</td></tr>
-      <tr><td>Payment processing fee (5%)</td><td>−${money(gwFee(t))}</td></tr>
+      <tr><td>Payment processing fee (5%, min. $1)</td><td>−${money(gwFee(t))}</td></tr>
       <tr class="tot"><td>Refund to Visa ending 4242</td><td style="color:var(--ok)">${money(refundable(t))}</td></tr></table>
       ${reason?`<p style="font-size:13px;color:var(--cn-muted);margin-top:12px">Reason: ${reason}</p>`:''}
     </div><div class="df"><button class="btn" data-cstep="2">Back</button><button class="btn primary" data-confirm>Cancel booking</button></div>`
@@ -1128,7 +1128,7 @@ function cancelStep(n){
     </div><div class="df"><button class="btn" data-cstep="2">Back</button><button class="btn primary" data-confirm>Send request</button></div>`);
   if(n===4) dlg(`<div class="db" style="text-align:center;padding-top:28px"><div class="done-ic">${svg('check')}</div>
       <h2 id="dlg-title" style="font-size:22px">${free?'Booking cancelled':'Request received'}</h2>
-      <p style="margin:10px auto 0;max-width:42ch">${free?`${money(refundable(t))} is on its way to Visa ending 4242. We’ve emailed you the confirmation.`:`We’ll review your request and reply by email within 2 working days. Your reference is CR-${t.ref.slice(-5)}. Your booking stays active until then.`}</p></div>
+      <p style="margin:10px auto 0;max-width:42ch">${free?`We’ve emailed you the confirmation. Your refund of about ${money(refundable(t))} is confirmed by our team and reaches Visa ending 4242 within 5 to 10 business days of approval.`:`We’ll review your request and reply by email within 2 working days. Your reference is CR-${t.ref.slice(-5)}. Your booking stays active until then.`}</p></div>
       <div class="df" style="justify-content:center"><button class="btn primary" data-dclose>Done</button></div>`);
 }
 function reschedule(){
@@ -1147,10 +1147,15 @@ function reschedule(){
 }
 function policy(){
   dlg(`${head('How cancellations and refunds work')}<div class="db">
-    <p class="note ok"><b>More than 48 hours before pickup:</b> cancel from your booking and we refund everything you paid, minus a 5% payment processing fee.</p>
-    <p class="note warn" style="margin-top:8px"><b>Less than 48 hours before:</b> request a refund with your reason and any evidence. Our team reviews it and replies within 2 working days.</p>
-    <p class="note info" style="margin-top:8px"><b>Booked with “Book now, pay later”?</b> Cancel before you’re charged and you pay nothing.</p>
-    <p style="font-size:13px;color:var(--cn-muted);margin-top:12px">Some hosts set their own policy, shown on the booking. Ceylon Nooks keeps no fee on refunds; the 5% covers the payment gateway’s reversal charge. Refunds take 5 to 10 working days to show.</p>
+    <p class="note ok"><b>At least 48 hours before the start:</b> cancel from your booking for a full refund, less the 5% payment processing fee (minimum $1).</p>
+    <p class="note warn" style="margin-top:8px"><b>Less than 48 hours before:</b> no refund. If you have a genuine emergency, like a cancelled flight or illness, you can still send a request with an explanation. Refunds in these cases are at Ceylon Nooks’ discretion and aren’t guaranteed.</p>
+    <p class="note info" style="margin-top:8px"><b>Reserve now, pay later:</b> your card is charged automatically 5 days before your experience, and we email you a reminder first. Cancel before the charge and you’re never charged.</p>
+    <ul style="font-size:13px;color:var(--cn-body);margin:12px 0 0;padding-left:18px;line-height:1.7">
+      <li>No-show without cancelling: no refund. The host keeps the full payment.</li>
+      <li>Times are calculated from the service start time, in Sri Lanka time.</li>
+      <li>The 5% covers the payment gateway’s reversal charge and isn’t kept by Ceylon Nooks.</li>
+      <li>Refund amounts are confirmed by our team. Refunds arrive 5 to 10 business days after approval.</li>
+      <li>Some hosts set their own policy. Their booking links to it instead of this one.</li></ul>
   </div><div class="df"><button class="btn primary" data-dclose>Got it</button></div>`);
 }
 
@@ -1159,7 +1164,7 @@ function policy(){
    or the provider's own policy, which links to its full page. No custom policy = site policy applies. */
 const POLICIES={
   free:{name:'Free cancellation',src:'Ceylon Nooks policy'},
-  bnpl:{name:'Free cancellation · Book now, pay later',src:'Ceylon Nooks policy'},
+  bnpl:{name:'Free cancellation · Reserve now, pay later',src:'Ceylon Nooks policy'},
   nonref:{name:'Non-refundable',src:'Ceylon Nooks policy'},
   custom:{name:'Host’s own policy',src:'Set by the host'}};
 function policyPanel(t,type){
@@ -1171,10 +1176,10 @@ function policyPanel(t,type){
       `<div class="ptl" aria-hidden="true" style="margin-top:8px"><i style="flex:1;background:#E4E4E7;border-radius:4px"></i><span class="now" style="left:${pNow}%"></span></div>
        <div class="ptl-l"><div><b>Booked</b>${fShort(booked)}</div><div></div><div><b>Pickup</b>${fShort(s)}</div></div>`:
       `<div class="ptl" aria-hidden="true" style="margin-top:8px"><i style="width:${pCut}%;background:var(--ok);border-radius:4px 0 0 4px"></i><i style="flex:1;background:#E5B04A;border-radius:0 4px 4px 0"></i><span class="now" style="left:${pNow}%"></span></div>
-       <div class="ptl-l"><div><b>Booked</b>${fShort(booked)}</div><div><b>${type==='bnpl'?'Free cancellation ends, card charged':'Free cancellation ends'}</b>${fShort(c)}, ${fTime(c)}</div><div><b>Pickup</b>${fShort(s)}</div></div>`;
+       <div class="ptl-l"><div><b>Booked</b>${fShort(booked)}</div><div><b>Free cancellation ends</b>${fShort(c)}, ${fTime(c)}</div><div><b>Pickup</b>${fShort(s)}</div></div>`;
   const txt={
-    free:free?`Cancel before ${fShort(c)}, ${fTime(c)} and we refund everything except a 5% payment processing fee.`:`Free cancellation has ended. If something unexpected happens, like a delayed flight or illness, you can request a refund and our team will review it.`,
-    bnpl:free?`Nothing is charged until ${fShort(c)}, ${fTime(c)}. Cancel before then and you pay nothing.`:`Your card was charged when free cancellation ended. If something unexpected happens, you can request a refund and our team will review it.`,
+    free:free?`Cancel before ${fShort(c)}, ${fTime(c)} (Sri Lanka time) for a full refund, less a 5% payment processing fee.`:`Free cancellation has ended. If something unexpected happens, like a delayed flight or illness, you can request a refund and our team will review it.`,
+    bnpl:free?`Your card is charged automatically on ${fShort(new Date(d(t.start)-5*24*HOUR))}, 5 days before the start. Cancel before then and you’re never charged; after that, cancel before ${fShort(c)}, ${fTime(c)} for a full refund less the 5% fee.`:`Free cancellation has ended. If you have a genuine emergency, you can still send a request and our team will review it.`,
     nonref:`This booking can’t be refunded. If something serious happens, like a cancelled flight or illness, you can still send a request and our team will review it.`,
     custom:`${t.policyText||'The host sets their own terms for this experience.'} <a href="#" data-toast="Opens ${t.host}’s full cancellation policy (prototype)" style="font-weight:600;color:var(--cn-primary-text)">Read ${t.host}’s full policy</a>`}[type];
   return `<section class="panel"><div class="head"><h3>Cancellation policy</h3><span class="pol-src ${type==='custom'?'host':''}">${type==='custom'?t.host+' policy':P.src}</span></div>
