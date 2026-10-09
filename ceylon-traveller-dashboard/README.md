@@ -49,6 +49,12 @@ Still open in the brief:
 - What invited partners can do (edit and request offers, or view and comment).
 - Which parts ship at launch.
 
+## Ready for developers (9 Oct)
+
+- **Cancellation policy types:** each listing uses Free cancellation, Free cancellation with book now, pay later, Non-refundable, or the host's own policy (a summary plus a link to their full policy page). When a host has no policy, the Ceylon Nooks policy applies. In the demo, Sigiriya uses Free cancellation and Mirissa uses the host's own policy.
+- **Add to calendar** turns into **In your calendar** after adding. It keeps a menu showing where it was added, with options to add it to another calendar.
+- The Figma file has a **Developer handoff** page with the business rules (price, VAT, 5% fee, 48-hour rule, refund requests, policy types, plan dates and gaps), every component state, and the open questions.
+
 ## Kept from v2
 
 - Every screen and trip has its own address (`#bookings`, `#plan`, `#trip/sigiriya`, `#profile`). Browser Back closes a trip, and a refresh keeps your place.

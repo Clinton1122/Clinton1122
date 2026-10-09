@@ -543,6 +543,9 @@ input.dt{width:auto;padding:7px 12px;border-radius:999px;font-size:13px;min-heig
 .menu .mh{padding:10px 12px 12px;font-size:13px;color:var(--cn-body);border-bottom:1px solid var(--cn-border);margin-bottom:6px;max-width:280px;line-height:1.45}
 .menu .mh b{display:flex;align-items:center;gap:6px;color:var(--ok);font-size:14px;margin-bottom:4px}.menu .mh .i{width:16px;height:16px}
 .menu .mlab{font-size:11px;font-weight:600;color:var(--cn-muted);text-transform:uppercase;letter-spacing:.06em;padding:4px 12px}
+.pol-name{font-size:14px;font-weight:600;color:var(--cn-ink);margin-top:2px}
+.pol-src{font-size:12px;font-weight:600;padding:3px 9px;border-radius:999px;background:var(--cn-page);color:var(--cn-body)}
+.pol-src.host{background:var(--info-bg);color:var(--info)}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition-duration:.01ms!important}
 }
@@ -770,7 +773,7 @@ const trips = [
     credit:'Santhosh Janardhanan, CC BY-SA 2.0',
     title:'Sigiriya Rock sunrise climb and Pidurangala', place:'Sigiriya', lat:7.957, lon:80.760,
     host:'Arkam Sahdi', hostShort:'Arkam', init:'AS', phone:'+94 77 123 4567', ref:'CNE71230415',
-    start:'2026-09-25T04:30:00+05:30', booked:'2026-09-11T09:12:00+05:30', hours:6, party:'2 adults',
+    start:'2026-09-25T04:30:00+05:30', booked:'2026-09-11T09:12:00+05:30', policy:'free', hours:6, party:'2 adults',
     meet:'Your hotel lobby, Dambulla', meetLat:7.8597, meetLon:80.6517,
     lines:[['Experience price','2 adults at $180.00',360]], addons:[['Breakfast pack','2 at $12.00',24]], fee:22.40, vat:true,
     pack:['Water, 1 litre each','Sturdy shoes','Head torch for the dark start','Light layer for the summit','Shoulders and knees covered for the temple'],
@@ -787,7 +790,7 @@ const trips = [
     credit:'Kenny Ross, CC BY 2.0',
     title:'Blue whale watching in Mirissa', place:'Mirissa', lat:5.948, lon:80.456,
     host:'Mirissa Ocean Co.', hostShort:'the crew', init:'MO', phone:'+94 76 555 0192', ref:'CNE71544082',
-    start:'2026-10-08T06:00:00+05:30', booked:'2026-09-14T18:30:00+05:30', hours:5, party:'2 adults',
+    start:'2026-10-08T06:00:00+05:30', booked:'2026-09-14T18:30:00+05:30', policy:'custom', policyText:'Free cancellation up to 48 hours before departure. If the crew cancels for bad weather, you get a full refund or a free new date.', hours:5, party:'2 adults',
     meet:'Mirissa harbour, jetty 3', meetLat:5.9445, meetLon:80.4590,
     lines:[['Experience price','2 adults at $95.00',190]], addons:[['Breakfast on board','2 at $13.00',26]], fee:12.60, vat:true, coupon:{code:'SUMMER26',amount:20},
     pack:['Sunscreen and a hat','Motion-sickness tablets, taken the night before','Binoculars if you have them','Cash for crew tips'],
@@ -854,7 +857,7 @@ const fTime=x=>x.toLocaleTimeString('en-US',{...TZ,hour:'numeric',minute:'2-digi
 const dayKey=x=>x.toLocaleDateString('en-CA',TZ);
 const daysBetween=(a,b)=>Math.round((new Date(dayKey(b))-new Date(dayKey(a)))/864e5);
 const cutoff=t=>new Date(d(t.start)-FREE_HOURS*HOUR);
-const isFree=t=>d(t.start)-NOW>FREE_HOURS*HOUR;
+const isFree=t=>t.policy!=='nonref'&&d(t.start)-NOW>FREE_HOURS*HOUR;
 const svg=(id,cls='i')=>`<svg class="${cls}" aria-hidden="true"><use href="#i-${id}"/></svg>`;
 function rel(t){const n=daysBetween(NOW,d(t.start));return n===0?'Today':n===1?'Tomorrow':n>1&&n<7?`In ${n} days`:null}
 function untilText(ms){const h=Math.floor(ms/HOUR),m=Math.round(ms%HOUR/6e4);return h>=48?`in ${Math.round(h/24)} days`:`in ${h} h ${m} min`}
@@ -1061,12 +1064,7 @@ function openSheet(id){
       <section class="panel"><h3>What you paid</h3>
         ${bill(t,'Total paid, Visa ending 4242')}
       </section>
-      <section class="panel"><div class="head"><h3>Cancellation policy</h3><span>Ceylon Nooks standard policy</span></div>
-        <div class="ptl" aria-hidden="true" style="margin-top:8px"><i style="width:${pCut}%;background:var(--ok);border-radius:4px 0 0 4px"></i><i style="flex:1;background:#E5B04A;border-radius:0 4px 4px 0"></i><span class="now" style="left:${pNow}%"></span></div>
-        <div class="ptl-l"><div><b>Booked</b>${fShort(booked)}</div><div><b>Free cancellation ends</b>${fShort(c)}, ${fTime(c)}</div><div><b>Pickup</b>${fShort(s)}</div></div>
-        <p style="font-size:13px;margin-top:14px">${isFree(t)?`Cancel before ${fShort(c)}, ${fTime(c)} and we refund everything except a 5% payment processing fee.`:`Free cancellation has ended. If something unexpected happens, like a delayed flight or illness, you can request a refund and our team will review it.`}</p>
-        <div class="cancel-row"><span>Can’t make it? Try <button class="linkish" data-reschedule>changing the date</button> first.</span><button class="linkish" data-cancel>${isFree(t)?'Cancel booking':'Request a refund'}</button></div>
-      </section>`;
+      ${policyPanel(t)}`;
     $('#sh-foot').innerHTML=`<button class="btn primary" data-reschedule>${svg('swap')}Change date</button>${calBtn(t)}`;
   } else if(t.status==='past'){
     html+=`<section class="panel"><div class="head"><h3>${t.vat?'Tax invoice':'Receipt'}</h3>${t.vat?'<span>VAT collected for '+t.host+'</span>':''}</div>${bill(t,'Total paid, Visa ending 4242')}</section>
@@ -1154,6 +1152,37 @@ function policy(){
     <p class="note info" style="margin-top:8px"><b>Booked with “Book now, pay later”?</b> Cancel before you’re charged and you pay nothing.</p>
     <p style="font-size:13px;color:var(--cn-muted);margin-top:12px">Some hosts set their own policy, shown on the booking. Ceylon Nooks keeps no fee on refunds; the 5% covers the payment gateway’s reversal charge. Refunds take 5 to 10 working days to show.</p>
   </div><div class="df"><button class="btn primary" data-dclose>Got it</button></div>`);
+}
+
+
+/* Cancellation policies (8 Oct call): a listing uses one of the three Ceylon Nooks policies,
+   or the provider's own policy, which links to its full page. No custom policy = site policy applies. */
+const POLICIES={
+  free:{name:'Free cancellation',src:'Ceylon Nooks policy'},
+  bnpl:{name:'Free cancellation · Book now, pay later',src:'Ceylon Nooks policy'},
+  nonref:{name:'Non-refundable',src:'Ceylon Nooks policy'},
+  custom:{name:'Host’s own policy',src:'Set by the host'}};
+function policyPanel(t,type){
+  type=type||t.policy||'free';
+  const P=POLICIES[type], s=d(t.start), c=cutoff(t), booked=d(t.booked||t.start);
+  const span=s-booked, pCut=Math.max(0,Math.min(100,(c-booked)/span*100)), pNow=Math.max(0,Math.min(100,(NOW-booked)/span*100));
+  const free=isFree(t)&&type!=='nonref';
+  const line=type==='nonref'?
+      `<div class="ptl" aria-hidden="true" style="margin-top:8px"><i style="flex:1;background:#E4E4E7;border-radius:4px"></i><span class="now" style="left:${pNow}%"></span></div>
+       <div class="ptl-l"><div><b>Booked</b>${fShort(booked)}</div><div></div><div><b>Pickup</b>${fShort(s)}</div></div>`:
+      `<div class="ptl" aria-hidden="true" style="margin-top:8px"><i style="width:${pCut}%;background:var(--ok);border-radius:4px 0 0 4px"></i><i style="flex:1;background:#E5B04A;border-radius:0 4px 4px 0"></i><span class="now" style="left:${pNow}%"></span></div>
+       <div class="ptl-l"><div><b>Booked</b>${fShort(booked)}</div><div><b>${type==='bnpl'?'Free cancellation ends, card charged':'Free cancellation ends'}</b>${fShort(c)}, ${fTime(c)}</div><div><b>Pickup</b>${fShort(s)}</div></div>`;
+  const txt={
+    free:free?`Cancel before ${fShort(c)}, ${fTime(c)} and we refund everything except a 5% payment processing fee.`:`Free cancellation has ended. If something unexpected happens, like a delayed flight or illness, you can request a refund and our team will review it.`,
+    bnpl:free?`Nothing is charged until ${fShort(c)}, ${fTime(c)}. Cancel before then and you pay nothing.`:`Your card was charged when free cancellation ended. If something unexpected happens, you can request a refund and our team will review it.`,
+    nonref:`This booking can’t be refunded. If something serious happens, like a cancelled flight or illness, you can still send a request and our team will review it.`,
+    custom:`${t.policyText||'The host sets their own terms for this experience.'} <a href="#" data-toast="Opens ${t.host}’s full cancellation policy (prototype)" style="font-weight:600;color:var(--cn-primary-text)">Read ${t.host}’s full policy</a>`}[type];
+  return `<section class="panel"><div class="head"><h3>Cancellation policy</h3><span class="pol-src ${type==='custom'?'host':''}">${type==='custom'?t.host+' policy':P.src}</span></div>
+        <p class="pol-name">${type==='custom'?'Free cancellation up to 48 hours before':P.name}</p>
+        ${line}
+        <p style="font-size:13px;margin-top:14px">${txt}</p>
+        <div class="cancel-row"><span>Can’t make it? Try <button class="linkish" data-reschedule>changing the date</button> first.</span><button class="linkish" data-cancel>${free?'Cancel booking':'Request a refund'}</button></div>
+      </section>`;
 }
 
 /* ---------- plan a trip, saved, travel partners ---------- */
