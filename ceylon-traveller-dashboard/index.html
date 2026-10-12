@@ -83,13 +83,20 @@ img{display:block;max-width:100%}
 .acct{background:var(--cn-paper);border-bottom:1px solid var(--cn-border)}
 .crumb{font-size:12px;color:var(--cn-muted);padding-top:18px}
 .crumb a{color:var(--cn-muted);text-decoration:none}
-.dash-tabs{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;margin:0 -4px}
+.dnav{position:relative;margin:0 0 18px}
+.dash-tabs{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;scroll-behavior:smooth;scroll-snap-type:x proximity;padding:5px;background:#F2F2F4;border-radius:16px}
 .dash-tabs::-webkit-scrollbar{display:none}
-.dash-tabs a{position:relative;display:inline-flex;align-items:center;gap:8px;padding:12px 12px 14px;color:var(--cn-muted);font-weight:500;font-size:14px;text-decoration:none;white-space:nowrap}
-.dash-tabs a:hover{color:var(--cn-ink)}
-.dash-tabs a .i{width:17px;height:17px}
-.dash-tabs a[aria-current=page]{color:var(--cn-ink);font-weight:600}
-.dash-tabs a[aria-current=page]::after{content:"";position:absolute;left:12px;right:12px;bottom:-1px;height:2px;border-radius:2px;background:var(--cn-primary)}
+.dash-tabs a{flex:none;scroll-snap-align:start;display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 16px;border-radius:12px;color:var(--cn-body);font-weight:500;font-size:14px;text-decoration:none;white-space:nowrap;transition:background .15s,color .15s}
+.dash-tabs a:hover{background:rgba(255,255,255,.7);color:var(--cn-ink)}
+.dash-tabs a .i{width:17px;height:17px;color:var(--cn-muted)}
+.dash-tabs a[aria-current=page]{background:var(--cn-paper);color:var(--cn-ink);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.06),0 2px 8px rgba(0,0,0,.06)}
+.dash-tabs a[aria-current=page] .i{color:var(--cn-primary)}
+.dnav .arr{position:absolute;top:5px;bottom:5px;z-index:2;width:44px;border:0;display:none;align-items:center;color:var(--cn-ink);cursor:pointer;padding:0}
+.dnav .arr .i{width:28px;height:28px;padding:6px;border-radius:50%;background:var(--cn-paper);box-shadow:0 1px 4px rgba(0,0,0,.16)}
+.dnav .arr.l{left:5px;justify-content:flex-start;border-radius:12px 0 0 12px;background:linear-gradient(90deg,#F2F2F4 55%,rgba(242,242,244,0))}
+.dnav .arr.l .i{transform:rotate(180deg)}
+.dnav .arr.r{right:5px;justify-content:flex-end;border-radius:0 12px 12px 0;background:linear-gradient(270deg,#F2F2F4 55%,rgba(242,242,244,0))}
+.dnav.can-l .arr.l,.dnav.can-r .arr.r{display:flex}
 .chips{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 24px}
 .chip{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 14px;border-radius:999px;border:1px solid var(--cn-border);background:var(--cn-paper);font:500 13px var(--text);color:var(--cn-ink)}
 .chip[aria-pressed=true]{background:var(--cn-ink);border-color:var(--cn-ink);color:#fff}
@@ -497,9 +504,49 @@ footer.foot{border-top:1px solid var(--cn-border);padding:20px 0 40px;font-size:
 }
 
 .chip{position:relative}
-.chip .soon{position:absolute;top:-9px;right:-8px;background:var(--cn-primary);color:#fff;font:600 10px/1 var(--text);padding:4px 7px;border-radius:999px;letter-spacing:.01em;white-space:nowrap;box-shadow:0 1px 2px rgba(0,0,0,.12)}
-.chip[disabled]{background:repeating-linear-gradient(135deg,#fff 0 6px,#F7F7F8 6px 12px)}
-.chips{padding-top:10px}
+.chip .soon{font:500 10px/1 var(--text);color:var(--cn-muted);background:#F2F2F4;padding:3px 6px;border-radius:999px;white-space:nowrap}
+.chip[disabled]{background:var(--cn-paper);border-style:dashed}
+/* Bookings toolbar: status tabs carry the counts, type chips stay on one row */
+.bk-bar{display:flex;align-items:center;justify-content:space-between;gap:12px 16px;flex-wrap:wrap;margin:0 0 8px}
+.stabs{display:inline-flex;gap:2px;padding:4px;background:#F2F2F4;border-radius:14px}
+.stabs button{display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 14px;border:0;border-radius:10px;background:none;font:500 14px var(--text);color:var(--cn-body);cursor:pointer;white-space:nowrap}
+.stabs button:hover{color:var(--cn-ink)}
+.stabs button[aria-selected=true]{background:var(--cn-paper);color:var(--cn-ink);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.06),0 2px 8px rgba(0,0,0,.06)}
+.stabs .n{min-width:22px;height:20px;padding:0 6px;border-radius:10px;background:#E4E4E7;font-size:12px;font-weight:600;color:var(--cn-body);display:inline-grid;place-items:center}
+.stabs button[aria-selected=true] .n{background:var(--cn-primary-tint);color:var(--cn-primary-text)}
+.body > section,.bk-bar > *{min-width:0}
+.bk-bar .chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0;padding:2px 0;gap:6px}
+.bk-bar .chips::-webkit-scrollbar{display:none}
+.bk-bar .chip{flex:none;height:32px;padding:0 12px}
+.pager{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:28px;padding-top:18px;border-top:1px solid var(--cn-border)}
+.pager[hidden]{display:none}
+.pager .info{font-size:13px;color:var(--cn-muted)}
+.pager .pg{display:flex;gap:6px}
+.pager button{min-width:38px;height:38px;padding:0 10px;border:1px solid var(--cn-border);border-radius:10px;background:var(--cn-paper);font:600 14px var(--text);color:var(--cn-ink);display:inline-flex;align-items:center;justify-content:center;gap:4px;cursor:pointer}
+.pager button[aria-current=page]{background:var(--cn-ink);border-color:var(--cn-ink);color:#fff}
+.pager button:disabled{color:#C4C4C8;cursor:not-allowed}
+.pager button .i{width:16px;height:16px}
+.pager .pg-prev .i{transform:rotate(180deg)}
+@media (max-width:640px){.bk-bar{flex-direction:column;align-items:stretch}.bk-bar > *{width:100%}.stabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}.stabs button{justify-content:center;padding:0 6px;gap:6px}.pager .lbl-t{display:none}
+  .bk-bar .chips{justify-content:space-between}.bk-bar .chip{height:42px;padding:0 12px}.bk-bar .chip[disabled]{flex-direction:column;justify-content:center;gap:2px;line-height:1.1}.bk-bar .chip .soon{background:none;padding:0;font-size:9.5px}}
+/* Add a card */
+.cards-list{display:flex;flex-direction:column;gap:10px}
+.card-row{display:flex;align-items:center;gap:12px;padding:12px;border:1px solid var(--cn-border);border-radius:var(--r-md)}
+.card-row .brand{width:44px;height:30px;border-radius:6px;display:grid;place-items:center;font:700 10px var(--text);color:#fff;background:var(--cn-ink);flex:none}
+.card-row .brand.mc{background:#2B2B30}
+.card-row .t{flex:1;min-width:0;font-size:13px;color:var(--cn-muted);line-height:1.35}
+.card-row .t b{display:block;font-size:14px;color:var(--cn-ink)}
+.card-row .tag{font-size:11px;font-weight:600;color:var(--cn-primary-text);background:var(--cn-primary-tint);padding:3px 8px;border-radius:999px}
+.card-row .acts{display:flex;gap:14px;margin-top:6px}
+.card-row .linkish{font-size:13px}
+.cc-num{position:relative}
+.cc-num .brand-hint{position:absolute;right:12px;top:50%;transform:translateY(-50%);font:700 11px var(--text);color:var(--cn-muted)}
+.cc-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+.cc-secure{display:flex;gap:10px;align-items:flex-start;margin-top:16px;padding:12px 14px;background:var(--cn-page);border-radius:var(--r-md);font-size:13px;color:var(--cn-body)}
+.cc-secure .i{width:18px;height:18px;color:var(--ok);flex:none;margin-top:1px}
+.field-err{font-size:12px;color:#B42318;margin-top:4px}
+.chk{display:flex;gap:10px;align-items:center;margin-top:14px;font-size:14px;color:var(--cn-ink)}
+.chk input{width:18px;height:18px;accent-color:var(--cn-primary)}
 .ph{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
 .src{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--cn-primary-text);background:var(--cn-primary-tint);padding:4px 10px;border-radius:999px}
 .src .i{width:14px;height:14px}
@@ -626,7 +673,8 @@ input.dt{width:auto;padding:7px 12px;border-radius:999px;font-size:13px;min-heig
         <span>Profile 40% complete<small>Add a phone number and your travel partners</small></span>
       </a>
     </div>
-    <nav class="dash-tabs" aria-label="My account"><a href="#bookings" data-nav="bookings"><svg class="i"><use href="#i-bag"/></svg>My bookings</a><a href="#plan" data-nav="plan"><svg class="i"><use href="#i-route"/></svg>Plan a trip</a><a href="#saved" data-nav="saved"><svg class="i"><use href="#i-heart"/></svg>Saved</a><a href="#messages" data-nav="messages"><svg class="i"><use href="#i-chat"/></svg>Messages<span class="badge">1</span></a><a href="#profile" data-nav="profile"><svg class="i"><use href="#i-user"/></svg>Profile</a><a href="#settings" data-nav="settings"><svg class="i"><use href="#i-gear"/></svg>Settings and payments</a><a href="#help" data-nav="help"><svg class="i"><use href="#i-help"/></svg>Help centre</a></nav>
+    <div class="dnav" id="dnav"><button class="arr l" type="button" tabindex="-1" aria-hidden="true" data-dnav="-1"><svg class="i"><use href="#i-chev"/></svg></button>
+    <nav class="dash-tabs" aria-label="My account"><a href="#bookings" data-nav="bookings"><svg class="i"><use href="#i-bag"/></svg>My bookings</a><a href="#plan" data-nav="plan"><svg class="i"><use href="#i-route"/></svg>Plan a trip</a><a href="#saved" data-nav="saved"><svg class="i"><use href="#i-heart"/></svg>Saved</a><a href="#messages" data-nav="messages"><svg class="i"><use href="#i-chat"/></svg>Messages<span class="badge">1</span></a><a href="#profile" data-nav="profile"><svg class="i"><use href="#i-user"/></svg>Profile</a><a href="#settings" data-nav="settings"><svg class="i"><use href="#i-gear"/></svg>Settings and payments</a><a href="#help" data-nav="help"><svg class="i"><use href="#i-help"/></svg>Help centre</a></nav><button class="arr r" type="button" tabindex="-1" aria-hidden="true" data-dnav="1"><svg class="i"><use href="#i-chev"/></svg></button></div>
   </div>
 </section>
 
@@ -639,8 +687,12 @@ input.dt{width:auto;padding:7px 12px;border-radius:999px;font-size:13px;min-heig
     <div class="body">
       <section aria-labelledby="trips-title">
         <h2 class="sr" id="trips-title">My bookings</h2>
-        <div class="chips" role="group" aria-label="Show bookings for" id="cats"></div>
-        <div class="tl" id="timeline"></div>
+        <div class="bk-bar" id="bk-bar">
+          <div class="stabs" role="tablist" aria-label="Bookings by status" id="stabs"></div>
+          <div class="chips" role="group" aria-label="Type of booking" id="cats"></div>
+        </div>
+        <div class="tl" id="timeline" role="tabpanel"></div>
+        <nav class="pager" id="pager" aria-label="Bookings pages" hidden></nav>
       </section>
 
       <aside class="side">
@@ -721,8 +773,9 @@ input.dt{width:auto;padding:7px 12px;border-radius:999px;font-size:13px;min-heig
       </div>
       <aside class="cardish">
         <h3 style="font-size:16px;margin-bottom:12px">Payment cards</h3>
-        <div class="host-mini" style="margin:0"><span class="av" style="border-radius:8px;background:var(--cn-ink);color:#fff;font-size:11px">VISA</span><span class="t"><b>Visa ending 4242</b>Refunds go back to this card</span></div>
-        <button class="btn" style="width:100%;margin-top:16px">Add a card</button>
+        <div class="cards-list" id="cards"></div>
+        <button class="btn" style="width:100%;margin-top:16px" data-addcard>Add a card</button>
+        <p style="font-size:12px;color:var(--cn-muted);margin-top:10px">Refunds always go back to the card you paid with.</p>
       </aside>
     </div>
   </div>
@@ -769,6 +822,41 @@ const trips = [
     host:'Nuwan Perera', hostShort:'Nuwan', init:'NP', ref:'CNE70988120',
     start:'2026-09-12T07:00:00+05:30', hours:4, party:'2 adults', meet:'Ella town clock tower',
     lines:[['Experience price','2 adults at $64.00',128]], addons:[], fee:14.00 },
+  { id:'galle', status:'past', img:'img/galle-fort.jpg', alt:'A quiet alley inside Galle Fort', credit:'Gane, CC BY 2.0',
+    title:'Galle Fort walking tour at golden hour', place:'Galle', lat:6.026, lon:80.217,
+    host:'Ruwan de Silva', hostShort:'Ruwan', init:'RS', ref:'CNE70871134', reviewed:true,
+    start:'2026-09-08T16:00:00+05:30', hours:2, party:'2 adults', meet:'Galle Fort clock tower',
+    lines:[['Experience price','2 adults at $28.00',56]], addons:[], fee:5.60 },
+  { id:'adams', status:'past', img:'img/adams-peak.jpg', alt:'Adam’s Peak above the clouds at dawn', credit:'Lakpura LLC, CC BY 2.0',
+    title:'Adam’s Peak night climb for sunrise', place:'Adam’s Peak', lat:6.809, lon:80.4994,
+    host:'Sunil Rathnayake', hostShort:'Sunil', init:'SR', ref:'CNE70802251',
+    start:'2026-09-05T02:00:00+05:30', hours:8, party:'2 adults', meet:'Dalhousie bus stand',
+    lines:[['Experience price','2 adults at $55.00',110]], addons:[], fee:11.00 },
+  { id:'colombo', status:'past', img:'img/colombo.jpg', alt:'Kites over Galle Face Green in Colombo', credit:'Andrew from Sydney, CC BY 2.0',
+    title:'Colombo street food tuk-tuk evening', place:'Colombo', lat:6.927, lon:79.845,
+    host:'Fathima Rizwan', hostShort:'Fathima', init:'FR', ref:'CNE70755310', reviewed:true,
+    start:'2026-09-02T18:00:00+05:30', hours:3, party:'2 adults', meet:'Galle Face Green, north end',
+    lines:[['Experience price','2 adults at $39.00',78]], addons:[], fee:7.80 },
+  { id:'pidurangala', status:'past', img:'img/pidurangala.jpg', alt:'Pidurangala Rock in morning light', credit:'Lakpura LLC, CC BY 2.0',
+    title:'Pidurangala sunset hike', place:'Sigiriya', lat:7.966, lon:80.758,
+    host:'Arkam Sahdi', hostShort:'Arkam', init:'AS', ref:'CNE69120488', reviewed:true,
+    start:'2025-12-28T16:30:00+05:30', hours:3, party:'2 adults', meet:'Pidurangala temple car park',
+    lines:[['Experience price','2 adults at $30.00',60]], addons:[], fee:6.00 },
+  { id:'anuradhapura', status:'past', img:'img/anuradhapura.jpg', alt:'Jetavanaramaya dagoba in Anuradhapura', credit:'Arian Zwegers, CC BY 2.0',
+    title:'Anuradhapura sacred city by bicycle', place:'Anuradhapura', lat:8.351, lon:80.404,
+    host:'Chaminda Bandara', hostShort:'Chaminda', init:'CB', ref:'CNE69088721', reviewed:true,
+    start:'2025-12-26T07:00:00+05:30', hours:5, party:'2 adults', meet:'Your hotel, Anuradhapura',
+    lines:[['Experience price','2 adults at $42.00',84]], addons:[], fee:8.40 },
+  { id:'trinco', status:'past', img:'img/trincomalee.jpg', alt:'A calm beach near Trincomalee', credit:'Dennis S. Hurd, CC0',
+    title:'Pigeon Island snorkelling trip', place:'Trincomalee', lat:8.723, lon:81.207,
+    host:'Blue Reef Divers', hostShort:'the crew', init:'BR', ref:'CNE69040615',
+    start:'2025-12-23T08:00:00+05:30', hours:4, party:'2 adults', meet:'Nilaveli beach, boat point',
+    lines:[['Experience price','2 adults at $48.00',96]], addons:[], fee:9.60 },
+  { id:'jaffna', status:'past', img:'img/jaffna.jpg', alt:'The golden gateway of Nallur Kandaswamy Kovil in Jaffna', credit:'D-Stanley, CC BY 2.0',
+    title:'Jaffna temples and peninsula food tour', place:'Jaffna', lat:9.668, lon:80.009,
+    host:'Kumaran Sivam', hostShort:'Kumaran', init:'KS', ref:'CNE68990342', reviewed:true,
+    start:'2025-12-20T09:00:00+05:30', hours:6, party:'2 adults', meet:'Jaffna railway station',
+    lines:[['Experience price','2 adults at $52.00',104]], addons:[], fee:10.40 },
   { id:'sigiriya', status:'upcoming', img:'img/sigiriya.jpg', alt:'Sigiriya Rock rising above the palace gardens',
     credit:'Santhosh Janardhanan, CC BY-SA 2.0',
     title:'Sigiriya Rock sunrise climb and Pidurangala', place:'Sigiriya', lat:7.957, lon:80.760,
@@ -938,38 +1026,42 @@ addEventListener('resize',placePerf);
 function mapsUrl(t){return `https://www.google.com/maps/search/?api=1&query=${t.meetLat||t.lat},${t.meetLon||t.lon}`}
 
 /* ---------- timeline ---------- */
-/* Upcoming first (soonest on top), then past (newest on top), then cancellations.
-   No filter control to learn: the order answers "what's next?" without scrolling. */
-let cat='all';
+/* Bookings are split by status (Upcoming, Past, Cancelled) in one toolbar, so past trips
+   and refunds are one tap away however many upcoming trips there are. Pages of 5. */
+let cat='all', stab='upcoming', page=1;
+const PER=5;
+const STABS=[['upcoming','Upcoming'],['past','Past'],['cancelled','Cancelled']];
 function renderCats(){
-  const n=T().length;
-  $('#cats').innerHTML=[['all','All',n],['exp','Experiences',n],['stay','Stays',null],['ride','Transportation',null]]
-    .map(([k,l,c])=>`<button class="chip" data-cat="${k}" aria-pressed="${cat===k}" ${c===null?'disabled title="Coming soon"':''}>${l}${c===null?'<span class="soon">Coming soon</span>':` <small>${c}</small>`}</button>`).join('');
+  const by=st=>T().filter(t=>t.status===st).length;
+  $('#stabs').innerHTML=STABS.map(([k,l])=>`<button type="button" role="tab" id="st-${k}" data-stab="${k}" aria-selected="${stab===k}" aria-controls="timeline" tabindex="${stab===k?0:-1}">${l}<span class="n num">${by(k)}</span></button>`).join('');
+  $('#cats').innerHTML=[['all','All'],['exp','Experiences'],['stay','Stays',1],['ride','Transport',1]]
+    .map(([k,l,soon])=>`<button class="chip" data-cat="${k}" aria-pressed="${cat===k}" ${soon?'disabled':''}>${l}${soon?'<span class="soon">Coming soon</span>':''}</button>`).join('');
+  $('#timeline').setAttribute('aria-labelledby','st-'+stab);
 }
 function renderTimeline(){
   renderCats();
-  if(!T().length){$('#timeline').innerHTML=`<div class="empty-mini" style="margin-top:16px"><h3>Your bookings will show here</h3><p>Upcoming first, then past trips and any cancellations.</p></div>`;return}
-  const by=(st,dir)=>T().filter(t=>t.status===st).sort((a,b)=>dir*(d(a.start)-d(b.start)));
-  const groups=[
-    {key:'upcoming',title:'Upcoming',list:by('upcoming',1),empty:'No upcoming trips. <a href="#">Find something to do in Sri Lanka</a>.'},
-    {key:'past',title:'Past trips',list:by('past',-1)},
-    {key:'cancelled',title:'Cancelled and refunds',list:by('cancelled',-1)},
-  ];
+  const pager=$('#pager');
+  if(!T().length){pager.hidden=true;$('#timeline').innerHTML=`<div class="empty-mini" style="margin-top:16px"><h3>Your bookings will show here</h3><p>Upcoming trips, past trips and any cancellations, each in its own tab.</p></div>`;return}
+  const dir=stab==='upcoming'?1:-1;
+  const list=T().filter(t=>t.status===stab).sort((a,b)=>dir*(d(a.start)-d(b.start)));
+  const pages=Math.max(1,Math.ceil(list.length/PER)); page=Math.min(page,pages);
+  const from=(page-1)*PER, shown=list.slice(from,from+PER);
+  const empty={upcoming:'No upcoming trips. <a href="#">Find something to do in Sri Lanka</a>.',past:'No past trips yet. After each experience, you can leave a review here.',cancelled:'Nothing cancelled. If you cancel a booking, its refund progress shows here.'}[stab];
   let html='';
-  groups.forEach(g=>{
-    if(!g.list.length&&!g.empty)return;
-    html+=`<section class="group" id="g-${g.key}" aria-labelledby="h-${g.key}"><div class="sec-head"><h2 id="h-${g.key}">${g.title}</h2><span class="count">${g.list.length}</span></div>`;
-    if(!g.list.length)html+=`<p class="group-empty">${g.empty}</p>`;
-    let month='';
-    if(g.key==='upcoming'&&g.list.length)html+=`<div class="today" aria-label="Today"><span class="tag">Today</span><span class="line"></span></div>`;
-    g.list.forEach(t=>{
-      const m=fDate(d(t.start),{month:'long',year:'numeric'});
-      if(m!==month&&g.key==='upcoming'){html+=`<h3 class="month">${m}</h3>`;month=m}
-      html+=row(t);
-    });
-    html+='</section>';
+  if(!list.length)html=`<p class="group-empty">${empty}</p>`;
+  if(stab==='upcoming'&&list.length&&page===1)html+=`<div class="today" aria-label="Today"><span class="tag">Today</span><span class="line"></span></div>`;
+  let month='';
+  shown.forEach(t=>{
+    const m=fDate(d(t.start),{month:'long',year:'numeric'});
+    if(stab!=='cancelled'&&m!==month){html+=`<h3 class="month">${m}</h3>`;month=m}
+    html+=row(t);
   });
-  $('#timeline').innerHTML=html;
+  $('#timeline').innerHTML=`<section class="group" id="g-${stab}">${html}</section>`;
+  pager.hidden=pages<2;
+  if(pages>1)pager.innerHTML=`<span class="info">Showing ${from+1}–${from+shown.length} of ${list.length}</span>
+    <div class="pg"><button type="button" class="pg-prev" data-page="${page-1}" ${page===1?'disabled':''} aria-label="Previous page">${svg('chev')}<span class="lbl-t">Previous</span></button>
+    ${Array.from({length:pages},(_,i)=>`<button type="button" data-page="${i+1}" ${i+1===page?'aria-current="page"':''} aria-label="Page ${i+1}">${i+1}</button>`).join('')}
+    <button type="button" class="pg-next" data-page="${page+1}" ${page===pages?'disabled':''} aria-label="Next page"><span class="lbl-t">Next</span>${svg('chev')}</button></div>`;
 }
 function row(t){
   const s=d(t.start), tot=total(t);
@@ -1002,8 +1094,11 @@ function row(t){
 }
 
 /* ---------- map ---------- */
+/* The map shows this trip only. Older trips stay in the Past tab. */
+const TRIP_FROM=new Date('2026-09-10T00:00:00+05:30');
+const onMap=()=>T().filter(t=>d(t.start)>=TRIP_FROM);
 function renderMap(){
-  const ordered=T().filter(t=>t.status!=='cancelled').sort((a,b)=>d(a.start)-d(b.start));
+  const ordered=onMap().filter(t=>t.status!=='cancelled').sort((a,b)=>d(a.start)-d(b.start));
   const pts=ordered.map(t=>proj(t.lat,t.lon));
   const doneIdx=ordered.findIndex(t=>t.status!=='past');
   const pathOf=a=>a.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+','+p[1].toFixed(1)).join('');
@@ -1011,7 +1106,7 @@ function renderMap(){
   const nextId=ordered[doneIdx]?.id;
   let pins='';
   (EMPTY?[]:saved).forEach(p=>{const [x,y]=proj(p.lat,p.lon);pins+=`<g><circle cx="${x}" cy="${y}" r="5" fill="#fff" stroke="#F15623" stroke-width="2"/><text class="pin-label" x="${x-9}" y="${y+3}" text-anchor="end" style="font-weight:600;fill:var(--cn-muted)">${p.name}</text></g>`});
-  T().forEach(t=>{
+  onMap().forEach(t=>{
     const [x,y]=proj(t.lat,t.lon), c=t.status==='past'?'#18181B':t.status==='cancelled'?'#C9C9CE':'#F15623';
     const n=ordered.indexOf(t)+1;
     const lx=t.id==='kandy'?x-13:x+13, anchor=t.id==='kandy'?'end':'start';
@@ -1031,7 +1126,7 @@ function renderMap(){
     <path class="route" id="route-next" d="${pathOf(nextPts)}"/>
     ${pins}
   </svg>`;
-  const booked=T().filter(t=>t.status==='upcoming').length, done=T().filter(t=>t.status==='past').length;
+  const booked=onMap().filter(t=>t.status==='upcoming').length, done=onMap().filter(t=>t.status==='past').length;
   $('#map-lede').textContent=EMPTY?'Places you book appear here, joined in the order you’ll visit them.':`${done} place visited, ${booked} still to go. Your route follows the dates you booked.`;
   $('#prep').hidden=EMPTY;
 }
@@ -1323,6 +1418,57 @@ function openCal(btn,id){
   m.querySelector('a,button').focus();
 }
 
+/* ---------- payment cards ---------- */
+const cards=[{brand:'Visa',last:'4242',exp:'08/28',def:true}];
+function renderCards(){
+  $('#cards').innerHTML=cards.map((c,i)=>`<div class="card-row"><span class="brand ${c.brand==='Mastercard'?'mc':''}">${c.brand==='Mastercard'?'MC':c.brand==='Amex'?'AMEX':'VISA'}</span>
+    <span class="t"><b>${c.brand} ending ${c.last}</b>Expires ${c.exp}${c.def?'':`<span class="acts"><button class="linkish" data-defcard="${i}">Make default</button><button class="linkish" data-rmcard="${i}" aria-label="Remove ${c.brand} ending ${c.last}">Remove</button></span>`}</span>
+    ${c.def?'<span class="tag">Default</span>':''}</div>`).join('');
+}
+const brandOf=n=>/^4/.test(n)?'Visa':/^(5[1-5]|2[2-7])/.test(n)?'Mastercard':/^3[47]/.test(n)?'Amex':'';
+function addCard(){
+  dlg(`${head('Add a card')}<form class="db" id="cc-form" novalidate>
+    <label class="lbl" for="cc-n" style="margin-top:0">Card number</label>
+    <div class="cc-num"><input id="cc-n" type="text" inputmode="numeric" autocomplete="cc-number" placeholder="1234 5678 9012 3456" maxlength="23" autofocus><span class="brand-hint" id="cc-b"></span></div>
+    <div class="cc-grid">
+      <div><label class="lbl" for="cc-e">Expiry date</label><input id="cc-e" type="text" inputmode="numeric" autocomplete="cc-exp" placeholder="MM / YY" maxlength="7"></div>
+      <div><label class="lbl" for="cc-c">Security code</label><input id="cc-c" type="text" inputmode="numeric" autocomplete="cc-csc" placeholder="3 or 4 digits" maxlength="4"></div>
+    </div>
+    <label class="lbl" for="cc-name">Name on card</label><input id="cc-name" type="text" autocomplete="cc-name" value="John Carter">
+    <label class="lbl" for="cc-ctry">Billing country</label><select id="cc-ctry" autocomplete="country-name"><option>United Kingdom</option><option>Australia</option><option>United States</option><option>Germany</option><option>Japan</option><option>Sri Lanka</option><option>Other</option></select>
+    <label class="chk"><input type="checkbox" id="cc-def">Use this card by default for new bookings</label>
+    <div class="cc-secure">${svg('shield')}<span>We check the card with a small temporary hold that’s released straight away, so you won’t be charged. Your bank may ask you to confirm in its app. Card details are kept by our payment provider, not by Ceylon Nooks.</span></div>
+  </form><div class="df"><button class="btn" data-dclose>Cancel</button><button class="btn primary" id="cc-save">Save card</button></div>`);
+  const n=$('#cc-n'),e=$('#cc-e');
+  n.oninput=()=>{const v=n.value.replace(/\D/g,'').slice(0,19);n.value=v.replace(/(.{4})/g,'$1 ').trim();$('#cc-b').textContent=brandOf(v).toUpperCase()};
+  e.oninput=()=>{const v=e.value.replace(/\D/g,'').slice(0,4);e.value=v.length>2?v.slice(0,2)+' / '+v.slice(2):v};
+  $('#cc-save').onclick=()=>{
+    $$('#cc-form .field-err').forEach(x=>x.remove());
+    const num=n.value.replace(/\D/g,''),[mm,yy]=e.value.split(' / ').map(Number),cvc=$('#cc-c').value.replace(/\D/g,'');
+    const err=(el,m)=>{(el.closest('.cc-num')||el).insertAdjacentHTML('afterend',`<p class="field-err">${m}</p>`);el.setAttribute('aria-invalid','true')};
+    let ok=true;
+    if(num.length<15||!brandOf(num)){err(n,'Check the card number. We accept Visa, Mastercard and American Express.');ok=false}
+    if(!mm||mm>12||!yy||new Date(2000+yy,mm)<=NOW){err(e,'Enter an expiry date that’s still in the future.');ok=false}
+    if(cvc.length<3){err($('#cc-c'),'Enter the 3 or 4 digit code.');ok=false}
+    if(!ok)return;
+    const b=$('#cc-save');b.disabled=true;b.textContent='Checking card…';
+    setTimeout(()=>{const def=$('#cc-def').checked;if(def)cards.forEach(c=>c.def=false);
+      cards.push({brand:brandOf(num),last:num.slice(-4),exp:String(mm).padStart(2,'0')+'/'+String(yy).padStart(2,'0'),def});
+      renderCards();closeDlg();toast(`${brandOf(num)} ending ${num.slice(-4)} added`)},900);
+  };
+}
+
+/* ---------- account menu: slides sideways when it doesn't fit ---------- */
+function dnavState(){const n=$('.dash-tabs'),w=$('#dnav');w.classList.toggle('can-l',n.scrollLeft>8);w.classList.toggle('can-r',n.scrollLeft+n.clientWidth<n.scrollWidth-8)}
+function dnavShowActive(){const n=$('.dash-tabs'),a=n.querySelector('[aria-current=page]');if(!a)return;
+  const l=a.offsetLeft-n.offsetLeft, r=l+a.offsetWidth;
+  if(l<n.scrollLeft+40||r>n.scrollLeft+n.clientWidth-40)n.scrollTo({left:Math.max(0,l-(n.clientWidth-a.offsetWidth)/2),behavior:'auto'});setTimeout(dnavState,50)}
+$('.dash-tabs').addEventListener('scroll',dnavState,{passive:true});
+addEventListener('resize',dnavState);
+$('#stabs').addEventListener('keydown',ev=>{const i=STABS.findIndex(([k])=>k===stab);let j=i;
+  if(ev.key==='ArrowRight')j=(i+1)%3;else if(ev.key==='ArrowLeft')j=(i+2)%3;else if(ev.key==='Home')j=0;else if(ev.key==='End')j=2;else return;
+  ev.preventDefault();stab=STABS[j][0];page=1;renderTimeline();$('#st-'+stab).focus()});
+
 /* ---------- events ---------- */
 /* ---------- routing: every screen has an address, so Back, refresh and shared links work ---------- */
 const PAGES=['bookings','plan','saved','messages','profile','settings','help'];
@@ -1333,6 +1479,7 @@ function showPage(name){
   $$('[data-nav]').forEach(a=>a.dataset.nav===name?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'));
   document.title=TITLES[name]+' | Ceylon Nooks';
   if(name==='bookings')requestAnimationFrame(placePerf);
+  requestAnimationFrame(dnavShowActive);
 }
 function route(){
   let h=location.hash.slice(1)||'bookings'; if(h==='trips')h='bookings';
@@ -1361,6 +1508,12 @@ document.addEventListener('click',e=>{
   if(x.drawerClose!==undefined){$('#drawer').classList.remove('open');$('#hamb').setAttribute('aria-expanded','false')}
   if(b.id==='demo-toggle'){e.preventDefault();EMPTY=!EMPTY;b.textContent=EMPTY?'Back to the sample traveller':'Preview as a new traveller (empty states)';renderAll();scrollTo({top:0})}
   if(x.cat&&!b.disabled){cat=x.cat;renderCats()}
+  if(x.stab){stab=x.stab;page=1;renderTimeline();$('#st-'+stab).focus()}
+  if(x.page&&!b.disabled){page=+x.page;renderTimeline();const top=$('#bk-bar').getBoundingClientRect().top+scrollY-80;if(scrollY>top)scrollTo({top,behavior:'smooth'})}
+  if(x.dnav){const n=$('.dash-tabs');n.scrollBy({left:x.dnav*n.clientWidth*.7})}
+  if(x.addcard!==undefined)addCard();
+  if(x.rmcard){cards.splice(+x.rmcard,1);renderCards();toast('Card removed')}
+  if(x.defcard){cards.forEach((c,i)=>c.def=i===+x.defcard);renderCards();toast('Default card updated')}
   if(x.pview){planView=x.pview;renderPlan()}
   if(x.exact){myPlan.exact=x.exact==='1';renderPlan()}
   if(x.setup){const [k,dl]=x.setup.split(':');setup[k]=Math.max(k==='kids'?0:1,setup[k]+(+dl));renderPlan()}
@@ -1400,7 +1553,7 @@ document.addEventListener('mouseover',e=>{
   $$('.trip').forEach(r=>r.classList.toggle('selected',!!id&&r.dataset.trip===id&&!!e.target.closest('[data-pin]')));
 });
 
-function renderAll(){renderHeader();renderNext();renderTimeline();renderMap();renderPlan();renderSaved();renderPartners()}
+function renderAll(){renderCards();renderHeader();renderNext();renderTimeline();renderMap();renderPlan();renderSaved();renderPartners()}
 const hr=+NOW.toLocaleTimeString('en-GB',{...TZ,hour:'2-digit',hour12:false});
 $('#greet').textContent=`${hr<12?'Good morning':hr<18?'Good afternoon':'Good evening'}, John`;
 renderAll();

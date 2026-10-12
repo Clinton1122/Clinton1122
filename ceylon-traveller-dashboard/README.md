@@ -33,6 +33,19 @@ The current draft is an account page: a welcome banner, stat boxes, and then the
 | Empty states | The footer link **"Preview as a new traveller"** switches to a no-bookings account. It shows a welcome card with Explore and Start a plan buttons and popular places, plus empty states for the list, map, plan and saved pages. |
 | Mobile | Hamburger drawer with Explore and My account sections, matching the site's mobile header. The account tabs scroll sideways under the greeting. On phones, trip details open full screen with "‹ My bookings". |
 
+## v4: changes from Akila's feedback (11 Oct)
+
+| # | Akila's note | What changed |
+| --- | --- | --- |
+| 1 | No way to paginate My bookings | Lists show 5 bookings per page, with Previous, page numbers, Next and "Showing 1–5 of 8". The demo has 8 past trips, so the Past tab has 2 pages. |
+| 2 | Past and cancelled trips are too far down | One toolbar with **Upcoming**, **Past** and **Cancelled** tabs. Each tab has its own list, so past trips are one tap away however many upcoming trips there are. Arrow keys move between tabs. |
+| 3 | Category tabs should sit on one row; counts and "Coming soon" too loud | The booking counts moved onto the status tabs. The category chips (All, Experiences, Stays, Transport) stay on one row at every width. "Coming soon" is now a small grey label inside the chip, not an orange badge. On phones it sits under the chip name so all four fit. |
+| 4 | The account menu should slide and could be read as a breadcrumb | Redesigned as a grey bar with a white pill on the current page, so it reads as navigation, not a path. It slides sideways when it doesn't fit, with arrow buttons and a fade at the edges. The current page is scrolled into view. |
+| 5 | Plan a trip isn't right yet | Parked until Akila has more clarity. Nothing changed in this round. |
+| 6 | What happens on Add a card? | A dialog asks for card number (brand detected while typing), expiry, security code, name, billing country and "use by default". It explains the temporary hold and the bank check. Errors appear under each field. Saved cards can be made default or removed. |
+
+The map now shows this trip only (from 10 Sep). Older trips stay in the Past tab.
+
 ## Plan a trip (brief of 8 Oct)
 
 The trip is the top-level object, not the booking.
@@ -88,5 +101,9 @@ Still open in the brief:
 | `img/galle-fort.jpg` | [Alley in Galle Fort](https://www.flickr.com/photos/19396720@N00/6753207585), Gane | CC BY 2.0 |
 | `img/adams-peak.jpg` | [Adam's Peak](https://www.flickr.com/photos/60210556@N03/6945753283), Lakpura LLC | CC BY 2.0 |
 | `img/pidurangala.jpg` | [Pidurangala Rock](https://www.flickr.com/photos/60210556@N03/7821826468), Lakpura LLC | CC BY 2.0 |
+| `img/anuradhapura.jpg` | [Anuradhapura, Jetavanaramaya Dagoba](https://www.flickr.com/photos/67769030@N07/6501713131), Arian Zwegers | CC BY 2.0 |
+| `img/jaffna.jpg` | [Nallur Kandaswamy Kovil](https://www.flickr.com/photos/79721788@N00/44292459955), D-Stanley | CC BY 2.0 |
+| `img/colombo.jpg` | [Kite Flying on Galle Face Green](https://www.flickr.com/photos/58314390@N08/6330794507), Andrew from Sydney | CC BY 2.0 |
+| `img/trincomalee.jpg` | [Trincomalee Beach, Sri Lanka](https://www.flickr.com/photos/43296902@N00/39842113), Dennis S. Hurd | CC0 |
 
 Island outline: Natural Earth 1:10m, public domain.
