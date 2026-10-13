@@ -11,10 +11,12 @@ const CUR={USD:{r:1,s:'USD',n:'US dollar'},AUD:{r:1.4379,s:'AUD',n:'Australian d
 let cur='USD';
 const fmt=v=>{const c=CUR[cur],x=v*c.r;return cur==='JPY'?`${c.s} ${Math.round(x).toLocaleString('en-US')}`:`${c.s} ${x.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}`};
 const fmt0=v=>{const c=CUR[cur],x=v*c.r;return `${c.s} ${Math.round(x).toLocaleString('en-US')}`};
-$('#curmenu').innerHTML+=Object.entries(CUR).map(([k,c])=>`<button role="menuitemradio" aria-checked="${k===cur}" data-cur="${k}">${k}<span>${c.n}</span></button>`).join('');
-function setCur(k){cur=k;$('#cur-lab').textContent=(innerWidth>600?'ENG · ':'')+k;$$('#curmenu [data-cur]').forEach(b=>b.setAttribute('aria-checked',b.dataset.cur===k));$$('[data-p]').forEach(e=>e.textContent=fmt(+e.dataset.p));$$('[data-p0]').forEach(e=>e.textContent=fmt0(+e.dataset.p0));const o=Object.keys(CUR).filter(x=>x!==k);if(window.onCur)onCur();if($('#alt-cur'))$('#alt-cur').textContent=`Or the same amount in ${o.slice(0,-1).join(', ')} or ${o.at(-1)}.`}
+if($('#curmenu'))$('#curmenu').innerHTML+=Object.entries(CUR).map(([k,c])=>`<button role="menuitemradio" aria-checked="${k===cur}" data-cur="${k}">${k}<span>${c.n}</span></button>`).join('');
+function setCur(k){cur=k;try{localStorage.setItem('cn-cur',k)}catch(e){}if($('#cur-lab'))$('#cur-lab').textContent=(innerWidth>600?'ENG · ':'')+k;$$('#curmenu [data-cur]').forEach(b=>b.setAttribute('aria-checked',b.dataset.cur===k));$$('[data-p]').forEach(e=>e.textContent=fmt(+e.dataset.p));$$('[data-p0]').forEach(e=>e.textContent=fmt0(+e.dataset.p0));const o=Object.keys(CUR).filter(x=>x!==k);if(window.onCur)onCur();if($('#alt-cur'))$('#alt-cur').textContent=`Or the same amount in ${o.slice(0,-1).join(', ')} or ${o.at(-1)}.`}
 
 if(innerWidth<=600&&$('#cur-lab'))$('#cur-lab').textContent='USD';
+/* keep the traveller's currency from page to page (this browser only) */
+try{const c=localStorage.getItem('cn-cur');if(c&&CUR[c]&&c!=='USD')setCur(c)}catch(e){}
 
 /* shared header: currency menu, drawer, placeholder links */
 document.addEventListener('click',e=>{

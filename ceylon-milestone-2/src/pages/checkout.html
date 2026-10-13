@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Confirm and pay | Ceylon Nooks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+{{BASE_CSS}}
+{{BOOKING_CSS}}
+/* ================= Checkout (Milestone 2): no site menu, nothing but the booking ================= */
+body{background:#fff}
+.ck-h{border-bottom:1px solid var(--cn-border);background:#fff}
+.ck-h .wrap{max-width:1120px;display:flex;align-items:center;justify-content:space-between;height:72px}
+.secure{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--cn-ink)}
+.secure .i{width:18px;height:18px;color:var(--cn-primary)}
+.ck{display:grid;grid-template-columns:minmax(0,1fr) 420px;gap:0 72px;align-items:start;max-width:1120px;margin:0 auto;padding:40px 24px 80px}
+.ck-top{grid-column:1/-1;margin-bottom:-8px}
+.ck-title{display:flex;align-items:center;gap:14px;margin-bottom:8px}
+.ck-title a{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:var(--cn-ink);text-decoration:none;margin-left:-10px}
+.ck-title a:hover{background:var(--cn-page)}
+.ck-title a .i{transform:rotate(180deg)}
+.ck-title h1{font-size:32px;letter-spacing:-.03em;font-weight:700}
+.login{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px 18px;margin:20px 0 4px;max-width:calc(100% - 492px);border-radius:14px;background:var(--cn-page);font-size:14px}
+.login b{color:var(--cn-ink)}
+.cs{padding:28px 0;border-bottom:1px solid var(--cn-border)}
+.cs:last-of-type{border-bottom:0}
+.cs h2{font-size:21px;letter-spacing:-.02em;margin-bottom:16px;display:flex;align-items:baseline;gap:10px}
+.cs h2 .n{font-size:13px;font-weight:600;color:var(--cn-muted)}
+.trip-row{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding:6px 0}
+.trip-row+.trip-row{margin-top:10px}
+.trip-row b{display:block;color:var(--cn-ink);font-size:15px}
+.trip-row span{font-size:14px}
+.ed{border:0;background:none;padding:0;font:600 14px var(--text);color:var(--cn-ink);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+/* pay options */
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{display:grid;grid-template-columns:1fr auto;gap:4px 16px;padding:16px 18px;border:1px solid var(--cn-input);border-radius:16px;cursor:pointer;align-items:start}
+.opt:has(input:checked){border-color:var(--cn-ink);box-shadow:inset 0 0 0 1px var(--cn-ink)}
+.opt input{grid-column:2;grid-row:1/3;width:22px;height:22px;accent-color:var(--cn-ink);margin:2px 0 0}
+.opt b{font-size:15px;color:var(--cn-ink)}
+.opt small{font-size:13px;color:var(--cn-body);grid-column:1}
+.opt .tl2{grid-column:1;justify-self:start;margin-top:4px;border:0;background:none;padding:0;font:600 13px var(--text);color:var(--cn-primary-text);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.opt.off{cursor:default;background:var(--cn-page);border-style:dashed}
+.opt.off b,.opt.off small{color:#A1A1AA}
+/* forms */
+.frm{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+.frm .full{grid-column:1/-1}
+.lbl{display:block;font-size:13px;font-weight:600;color:var(--cn-ink);margin:14px 0 6px}
+.lbl small{font-weight:400;color:var(--cn-muted)}
+input[type=text],input[type=email],input[type=tel],select,textarea{width:100%;font:inherit;font-size:15px;padding:12px 14px;border:1px solid var(--cn-input);border-radius:12px;background:#fff;color:var(--cn-ink)}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--cn-ink);outline-offset:-1px}
+[aria-invalid=true]{border-color:#B42318!important;background:#FFFBFA}
+.err{font-size:12.5px;color:#B42318;margin-top:5px}
+.hint{font-size:12.5px;color:var(--cn-muted);margin-top:5px}
+.cbx{display:flex;gap:10px;align-items:center;margin-top:14px;font-size:14px;color:var(--cn-ink);cursor:pointer}
+.cbx input{width:18px;height:18px;accent-color:var(--cn-primary)}
+.cardf{border:1px solid var(--cn-input);border-radius:14px;overflow:hidden}
+.cardf input{border:0;border-radius:0}
+.cardf .row{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--cn-input)}
+.cardf .row input+input{border-left:1px solid var(--cn-input)}
+.cardf .num{position:relative}.cardf .num span{position:absolute;right:14px;top:50%;transform:translateY(-50%);font:700 11px var(--text);color:var(--cn-muted)}
+.paylogos{display:flex;gap:6px;margin-bottom:12px}
+.paylogos span{height:26px;padding:0 8px;border-radius:6px;border:1px solid var(--cn-border);display:inline-grid;place-items:center;font:700 10px var(--text);color:var(--cn-ink);letter-spacing:.02em}
+.agree{font-size:12.5px;color:var(--cn-muted);margin-top:4px;line-height:1.55}
+.agree a{color:var(--cn-ink)}
+.go{width:100%;min-height:56px;font-size:16px;margin-top:20px;border-radius:14px}
+.go[disabled]{opacity:.7;cursor:progress}
+.go .spin{width:18px;height:18px;border-radius:50%;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.errsum{display:none;margin-top:16px;padding:12px 14px;border-radius:12px;background:#FEF3F2;color:#912018;font-size:14px}
+.errsum.show{display:block}
+/* summary card */
+.sum{position:sticky;top:24px;border:1px solid var(--cn-border);border-radius:22px;padding:24px}
+.sum-top{display:grid;grid-template-columns:110px 1fr;gap:16px;padding-bottom:20px;border-bottom:1px solid var(--cn-border)}
+.sum-top img{width:110px;height:96px;border-radius:12px;object-fit:cover}
+.sum-top p{font-size:12px;color:var(--cn-muted)}
+.sum-top h3{font-size:16px;line-height:1.3;margin-top:2px}
+.sum-top .r{display:flex;align-items:center;gap:4px;font-size:13px;margin-top:6px;color:var(--cn-ink)}
+.sum-top .r .i{width:14px;height:14px;color:var(--cn-primary);fill:var(--cn-primary)}
+.sum h4{font-size:17px;margin:20px 0 10px}
+.sum .ln{display:flex;justify-content:space-between;gap:12px;font-size:14px;padding:4px 0}
+.sum .ln.disc span:last-child{color:var(--cn-primary-text)}
+.sum .ln.tot{border-top:1px solid var(--cn-border);margin-top:10px;padding-top:14px;font-weight:700;font-size:16px;color:var(--cn-ink)}
+.sum .due{margin-top:12px;padding:12px 14px;border-radius:12px;background:var(--cn-primary-tint);font-size:13px;color:var(--cn-ink)}
+.sum .due div{display:flex;justify-content:space-between;gap:12px;padding:2px 0}
+.promo{margin-top:12px}
+.promo>button{border:0;background:none;padding:0;font:600 14px var(--text);color:var(--cn-ink);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.promo form{display:flex;gap:8px;margin-top:8px}
+.promo form input{padding:10px 12px;font-size:14px}
+.promo form .btn{min-height:42px}
+.sum .tsig{margin-top:16px}
+.assure{display:flex;flex-direction:column;gap:10px;margin-top:18px;font-size:13px}
+.assure span{display:flex;gap:10px;align-items:flex-start}
+.assure .i{width:18px;height:18px;color:var(--cn-primary);margin-top:1px}
+.mini-foot{border-top:1px solid var(--cn-border);padding:20px 0;font-size:13px;color:var(--cn-muted)}
+.mini-foot .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.mini-foot a{color:var(--cn-muted);margin-left:16px}
+/* edit modal */
+.edm .gst{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--cn-border)}
+.edm .gst b{display:block;font-size:15px;color:var(--cn-ink)}.edm .gst small{font-size:12.5px;color:var(--cn-muted)}
+.step{display:flex;align-items:center;gap:12px}
+.step button{width:34px;height:34px;border-radius:50%;border:1px solid var(--cn-input);background:#fff;font:500 18px/1 var(--text);color:var(--cn-ink);cursor:pointer}
+.step button:disabled{opacity:.3;cursor:default}
+.step output{min-width:16px;text-align:center;font-weight:600;color:var(--cn-ink)}
+.datesel{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.datesel button{padding:10px 4px;border-radius:12px;border:1px solid var(--cn-border);background:#fff;font:500 13px var(--text);color:var(--cn-ink);cursor:pointer;line-height:1.3}
+.datesel button b{display:block;font-size:16px}
+.datesel button[aria-pressed=true]{border-color:var(--cn-ink);box-shadow:inset 0 0 0 1px var(--cn-ink)}
+.datesel button:disabled{color:#C4C4C8;cursor:default;text-decoration:line-through}
+.datesel button .sc{display:block;font-size:10.5px;font-weight:600;margin-top:2px;color:var(--cn-primary-text)}
+.datesel button .sc.a{color:var(--warn)}
+.datesel button .sc.g{color:var(--cn-muted)}
+.mf{display:flex;justify-content:flex-end;gap:8px;padding:0 24px 22px}
+@media (max-width:980px){
+  .ck{grid-template-columns:1fr;gap:0;padding-top:20px}
+  .sum{position:static;grid-row:2;margin:16px 0 8px;padding:18px}
+  .sum .assure{display:none}
+  .ck-title{margin-top:0}
+  .login{max-width:none}
+}
+@media (max-width:600px){
+  .ck{padding:16px 16px 48px}
+  .ck-h .wrap{height:60px}
+  .secure span{display:none}
+  .ck-title h1{font-size:26px}
+  .frm{grid-template-columns:1fr}
+  .login{flex-direction:column;align-items:flex-start}
+  .sum-top{grid-template-columns:84px 1fr}.sum-top img{width:84px;height:76px}
+  .datesel{grid-template-columns:repeat(3,1fr)}
+}
+</style>
+</head>
+<body>
+{{SPRITE}}
+<header class="ck-h"><div class="wrap"><a class="logo" href="homepage.html" aria-label="Ceylon Nooks home"><svg viewBox="0 0 97 30" width="97" height="30" aria-hidden="true"><use href="#logo"/></svg></a><span class="secure"><svg class="i"><use href="#i-lock"/></svg><span>Secure checkout</span></span></div></header>
+
+<main class="ck">
+  <div class="ck-top">
+    <div class="ck-title"><a href="listing.html" id="back" aria-label="Back to the tour"><svg class="i"><use href="#i-chev"/></svg></a><h1>Confirm and pay</h1></div>
+    <div class="login"><span><b>Have an account?</b> Log in to use your saved details and card.</span><a class="btn" href="#" data-act="login" style="min-height:40px">Log in</a></div>
+  </div>
+  <div>
+
+    <section class="cs" aria-labelledby="h-trip">
+      <h2 id="h-trip">Your trip</h2>
+      <div class="trip-row"><div><b>Date</b><span id="r-date"></span></div><button class="ed" data-edit="date">Edit</button></div>
+      <div class="trip-row"><div><b>Start time</b><span id="r-time"></span></div><button class="ed" data-edit="time">Edit</button></div>
+      <div class="trip-row"><div><b>Travellers</b><span id="r-gst"></span></div><button class="ed" data-edit="gst">Edit</button></div>
+    </section>
+
+    <section class="cs" aria-labelledby="h-pay">
+      <h2 id="h-pay">Choose when to pay</h2>
+      <div class="opts" id="opts"></div>
+    </section>
+
+    <form id="f" novalidate>
+    <section class="cs" aria-labelledby="h-pick">
+      <h2 id="h-pick">Pickup</h2>
+      <label class="lbl" for="hotel">Hotel or address in Kandy</label>
+      <input type="text" id="hotel" autocomplete="street-address" placeholder="For example: The Radh Hotel, Kandy" required>
+      <label class="cbx"><input type="checkbox" id="meet">I’ll meet the guide at the Queen’s Hotel entrance instead</label>
+      <label class="lbl" for="notes">Anything Aravinda should know? <small>(optional)</small></label>
+      <textarea id="notes" rows="2" placeholder="Child seat, mobility needs, dietary needs for lunch"></textarea>
+    </section>
+
+    <section class="cs" aria-labelledby="h-who">
+      <h2 id="h-who">Lead traveller</h2>
+      <div class="frm">
+        <div><label class="lbl" for="fn">First name</label><input type="text" id="fn" autocomplete="given-name" required></div>
+        <div><label class="lbl" for="ln">Last name</label><input type="text" id="ln" autocomplete="family-name" required></div>
+        <div class="full"><label class="lbl" for="em">Email</label><input type="email" id="em" autocomplete="email" required><p class="hint">We’ll send your confirmation and tickets here.</p></div>
+        <div><label class="lbl" for="ph">Mobile, WhatsApp works best</label><input type="tel" id="ph" autocomplete="tel" placeholder="+44 7700 900123" required><p class="hint">Your guide calls this number on the day.</p></div>
+        <div><label class="lbl" for="ct">Country</label><select id="ct" autocomplete="country-name"><option>United Kingdom</option><option>Australia</option><option>United States</option><option>Germany</option><option>Japan</option><option>India</option><option>Sri Lanka</option><option>Other</option></select></div>
+      </div>
+    </section>
+
+    <section class="cs" aria-labelledby="h-card">
+      <h2 id="h-card">Pay with</h2>
+      <div class="paylogos" aria-label="Accepted cards"><span>VISA</span><span>MASTERCARD</span><span>AMEX</span></div>
+      <div class="cardf">
+        <div class="num"><input type="text" id="cn" inputmode="numeric" autocomplete="cc-number" placeholder="Card number" aria-label="Card number" maxlength="23" required><span id="cb"></span></div>
+        <div class="row"><input type="text" id="ce" inputmode="numeric" autocomplete="cc-exp" placeholder="MM / YY" aria-label="Expiry date" maxlength="7" required><input type="text" id="cc" inputmode="numeric" autocomplete="cc-csc" placeholder="Security code" aria-label="Security code" maxlength="4" required></div>
+      </div>
+      <p class="hint" id="card-hint"></p>
+    </section>
+
+    <section class="cs" id="cancellation-policy" aria-labelledby="h-pol">
+      <h2 id="h-pol">Cancellation policy</h2>
+      <div class="tsig" id="tsig-main" style="margin-top:0"></div>
+    </section>
+
+    <section class="cs" aria-labelledby="h-ok">
+      <p class="agree" id="agree"></p>
+      <div class="errsum" id="errsum" role="alert"></div>
+      <button class="btn primary go" id="go" type="submit"></button>
+    </section>
+    </form>
+  </div>
+
+  <aside class="sum" aria-label="Booking summary">
+    <div class="sum-top"><img id="s-img" alt=""><div><p>Private tour in Kandy</p><h3>Kandy Cultural City Tour</h3><p class="r"><svg class="i"><use href="#i-star"/></svg>4.9 <span style="color:var(--cn-muted)">(128) · Hosted by Aravinda</span></p></div></div>
+    <h4>Price details</h4>
+    <div id="s-lines"></div>
+    <div class="promo" id="promo"></div>
+    <div class="assure"><span><svg class="i"><use href="#i-lock"/></svg>Payments are encrypted and handled by our payment provider.</span><span><svg class="i"><use href="#i-phone"/></svg>24/7 traveller line in English, Sinhala and Tamil.</span></div>
+  </aside>
+</main>
+<footer class="mini-foot"><div class="wrap"><span>© 2026 Ceylon Nooks Pty Ltd</span><span><a href="#" data-act="terms">Booking terms</a><a href="#" data-act="privacy">Privacy</a><a href="#" data-act="help">Help centre</a></span></div></footer>
+
+<div class="mscrim" id="mscrim"></div>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="m-title"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+{{BASE_JS}}
+{{BOOKING_JS}}
+/* ================= Checkout ================= */
+/* The listing passes the booking in the address: #d=2026-10-28&t=08:00&a=2&c=0&p=site&b=1&cur=USD */
+const q=new URLSearchParams(location.hash.slice(1));
+S.date=q.get('d')||'2026-10-28';S.time=q.get('t')||'08:00';S.adults=+(q.get('a')||2);S.children=+(q.get('c')||0);
+L.policy=q.get('p')||'site';L.bnpl=q.get('b')!=='0';
+if(q.get('cur')&&CUR[q.get('cur')])setCur(q.get('cur'));
+let payLater=false, promo=null;
+const PROMOS={WELCOME10:{pct:.1,label:'WELCOME10, 10% off'}};
+$('#s-img').src=pic('kandy-temple.jpg');
+
+function render(){
+  const s=startAt(),sc=scenario(),l=lines();
+  S.disc=promo?Math.round(l.sub*promo.pct*100)/100:0;
+  const t=total();
+  if(!(sc===1&&L.bnpl))payLater=false;
+  $('#r-date').textContent=dYear(s);
+  $('#r-time').textContent=`${ft(s)} · about 6 to 8 hours`;
+  $('#r-gst').textContent=[`${S.adults} adult${S.adults>1?'s':''}`,S.children&&`${S.children} child${S.children>1?'ren':''}`].filter(Boolean).join(', ');
+  // when to pay
+  const canLater=sc===1&&L.bnpl;
+  $('#opts').innerHTML=`<label class="opt"><b>Pay ${fmt(t)} now</b><input type="radio" name="when" value="now" ${payLater?'':'checked'}><small>Pay the full amount today and you’re done.</small></label>`+
+    (L.bnpl?(canLater?`<label class="opt"><b>Reserve now, pay later</b><input type="radio" name="when" value="later" ${payLater?'checked':''}><small>Pay ${fmt(0)} today. ${fmt(t)} is charged automatically on ${dLong(chargeOn())}, 5 days before your tour. No extra fees.</small><button type="button" class="tl2" data-pop="bnpl">How it works</button></label>`
+      :`<div class="opt off"><b>Reserve now, pay later</b><small>Not available within 5 days of the tour date. Choose a date after ${dLong(new Date(+NOW+(BNPL_D+1)*DAY))} to pay later.</small></div>`):'');
+  // card hint and agreement
+  $('#card-hint').textContent=payLater?`Your card is checked today but not charged. We’ll email a reminder 3 days before the charge on ${dLong(chargeOn())}.`:'Your card is charged when you confirm.';
+  const pol=L.policy==='custom'?'Aravinda’s cancellation policy':sc===3?'the non-refundable terms for this booking':'the cancellation policy';
+  $('#agree').innerHTML=`By selecting the button below, I agree to ${pol}, the <a href="#" data-act="terms">booking terms</a> and the <a href="#" data-act="privacy">privacy policy</a>${payLater?`, and I authorise Ceylon Nooks to charge ${fmt(t)} to this card on ${dLong(chargeOn())}`:''}.`;
+  if(!$('#go').disabled)$('#go').textContent=payLater?'Reserve now, pay later':`Confirm and pay ${fmt(t)}`;
+  // summary
+  $('#s-lines').innerHTML=`<div class="ln"><span>${S.adults} adult${S.adults>1?'s':''} × ${fmt(RATE.adult)}</span><span>${fmt(l.a)}</span></div>`+
+    (S.children?`<div class="ln"><span>${S.children} child${S.children>1?'ren':''} × ${fmt(RATE.child)}</span><span>${fmt(l.c)}</span></div>`:'')+
+    `<div class="ln"><span>Service fee</span><span>${fmt(l.fee)}</span></div>`+
+    (S.disc?`<div class="ln disc"><span>Promo ${promo.label}</span><span>− ${fmt(S.disc)}</span></div>`:'')+
+    `<div class="ln tot"><span>Total (${cur})</span><span>${fmt(t)}</span></div>`+
+    (payLater?`<div class="due"><div><span>Due today</span><b>${fmt(0)}</b></div><div><span>Due ${dLong(chargeOn())}</span><b>${fmt(t)}</b></div></div>`:'');
+  $('#promo').innerHTML=promo?`<button type="button" data-promo-rm>Remove promo code</button>`:`<button type="button" data-promo-open>Add a promo code</button>`;
+  // trust rows (same component as the listing)
+  const rows=trustRows(sc).replace(/<div class="trow off">[\s\S]*?<\/div><\/div>/,'');
+  $('#tsig-main').innerHTML=rows;
+}
+window.onCur=render;
+
+/* edit modal: date, time, travellers */
+function editModal(k){
+  const days=[];for(let i=1;i<=24;i++){const d=new Date(+NOW+i*DAY);days.push(ymd(d))}
+  const scOf=k=>{const keep=S.date;S.date=k;const r=scenario();S.date=keep;return r};
+  const body={
+    date:`<p style="font-size:14px;margin-bottom:12px">Your cancellation options depend on how far away the tour is.</p><div class="datesel">${days.map(k=>{const d=new Date(k+'T12:00:00+05:30'),sold=SOLD.includes(k),sc=scOf(k);return `<button type="button" data-pick="${k}" aria-pressed="${S.date===k}" ${sold?'disabled':''}><span>${fd(d,{weekday:'short'})}</span><b>${fd(d,{day:'numeric'})}</b><span>${fd(d,{month:'short'})}</span>${sold?'<span class="sc g">Sold out</span>':`<span class="sc ${sc===3?'a':sc===2?'g':''}">${sc===3?'No refund':sc===2?'Free cancel':'Pay later'}</span>`}</button>`}).join('')}</div>`,
+    time:`<div class="opts">${[['08:00','8:00 AM','Best for the temple'],['10:00','10:00 AM','Later start']].map(([v,l,s])=>`<label class="opt"><b>${l}</b><input type="radio" name="tm" value="${v}" ${S.time===v?'checked':''}><small>${s}</small></label>`).join('')}</div>`,
+    gst:[['adults','Adults','Age 12 and over',1],['children','Children','Age 3 to 11',0]].map(([g,l,s,min])=>`<div class="gst"><span><b>${l}</b><small>${s}</small></span><span class="step"><button type="button" data-g="${g}" data-d="-1" ${S[g]<=min?'disabled':''} aria-label="Fewer ${l.toLowerCase()}">−</button><output>${S[g]}</output><button type="button" data-g="${g}" data-d="1" ${S.adults+S.children>=12?'disabled':''} aria-label="More ${l.toLowerCase()}">+</button></span></div>`).join('')
+  }[k];
+  openModal(`${mhead({date:'Change date',time:'Change start time',gst:'Travellers'}[k])}<div class="mb-body edm">${body}</div><div class="mf"><button class="btn primary" data-mclose>Done</button></div>`);
+  $$('#modal [name=tm]').forEach(r=>r.onchange=()=>{S.time=r.value;render()});
+}
+const SOLD=['2026-10-17','2026-10-25','2026-11-07'];
+const ymd=d=>fd(d,{year:'numeric'})+'-'+fd(d,{month:'2-digit'})+'-'+fd(d,{day:'2-digit'});
+
+/* card field formatting */
+const brandOf=n=>/^4/.test(n)?'VISA':/^(5[1-5]|2[2-7])/.test(n)?'MASTERCARD':/^3[47]/.test(n)?'AMEX':'';
+$('#cn').oninput=e=>{const v=e.target.value.replace(/\D/g,'').slice(0,19);e.target.value=v.replace(/(.{4})/g,'$1 ').trim();$('#cb').textContent=brandOf(v)};
+$('#ce').oninput=e=>{const v=e.target.value.replace(/\D/g,'').slice(0,4);e.target.value=v.length>2?v.slice(0,2)+' / '+v.slice(2):v};
+$('#meet').onchange=e=>{$('#hotel').disabled=e.target.checked;$('#hotel').value=e.target.checked?'Queen’s Hotel entrance, Kandy':''};
+
+/* validation and confirm */
+function validate(){
+  $$('#f .err').forEach(x=>x.remove());$$('#f [aria-invalid]').forEach(x=>x.removeAttribute('aria-invalid'));
+  const bad=[];const err=(id,m)=>{const el=$('#'+id);el.setAttribute('aria-invalid','true');(el.closest('.cardf')||el).insertAdjacentHTML('afterend',`<p class="err">${m}</p>`);bad.push(el)};
+  if(!$('#hotel').value.trim())err('hotel','Add your hotel or address so your guide can find you.');
+  if(!$('#fn').value.trim())err('fn','Enter a first name.');
+  if(!$('#ln').value.trim())err('ln','Enter a last name.');
+  if(!/^\S+@\S+\.\S+$/.test($('#em').value))err('em','Enter an email address, like name@example.com.');
+  if($('#ph').value.replace(/\D/g,'').length<8)err('ph','Enter a mobile number with the country code.');
+  const n=$('#cn').value.replace(/\D/g,''),[mm,yy]=$('#ce').value.split(' / ').map(Number),c=$('#cc').value.replace(/\D/g,'');
+  const cardBad=n.length<15||!brandOf(n)||!mm||mm>12||!yy||new Date(2000+yy,mm)<=NOW||c.length<3;
+  if(cardBad){['cn','ce','cc'].forEach(id=>$('#'+id).setAttribute('aria-invalid','true'));$('.cardf').insertAdjacentHTML('afterend','<p class="err">Check the card number, expiry date and security code.</p>');bad.push($('#cn'))}
+  $('#errsum').classList.toggle('show',bad.length>0);
+  $('#errsum').textContent=bad.length?`Please fix ${bad.length} ${bad.length>1?'things':'thing'} above before you confirm.`:'';
+  if(bad.length)bad[0].focus();
+  return !bad.length;
+}
+$('#f').addEventListener('submit',e=>{
+  e.preventDefault(); if(!validate())return;
+  const b=$('#go');b.disabled=true;b.innerHTML=`<span class="spin"></span>${payLater?'Checking your card…':'Processing payment…'}`;
+  const ref='CNE'+(71600000+Math.floor(Math.random()*90000));
+  setTimeout(()=>{location.href='confirmation.html#'+new URLSearchParams({ref,d:S.date,t:S.time,a:S.adults,c:S.children,p:L.policy,b:+L.bnpl,later:+payLater,disc:S.disc,fn:$('#fn').value.trim(),em:$('#em').value.trim(),card:$('#cn').value.replace(/\D/g,'').slice(-4),brand:brandOf($('#cn').value.replace(/\D/g,'')),cur}).toString()},1400);
+});
+
+document.addEventListener('click',e=>{
+  const b=e.target.closest('button,a');if(!b)return;const x=b.dataset;
+  if(e.target.id==='mscrim')closeModal();
+  if(x.edit)editModal(x.edit);
+  if(x.pick){S.date=x.pick;render();editModal('date')}
+  if(x.g){S[x.g]+=+x.d;render();editModal('gst')}
+  if(x.pop==='cancel')popCancel();
+  if(x.pop==='bnpl'){e.preventDefault();popBnpl()}
+  if(x.mclose!==undefined)closeModal();
+  if(x.goto){e.preventDefault();closeModal();$('#'+x.goto).scrollIntoView({behavior:'smooth'})}
+  if(x.promoOpen!==undefined){$('#promo').innerHTML=`<form id="pf"><input type="text" id="pc" placeholder="Promo code" aria-label="Promo code" autocomplete="off"><button class="btn" type="submit">Apply</button></form><p class="hint">Try WELCOME10 in this prototype.</p>`;$('#pc').focus();$('#pf').onsubmit=ev=>{ev.preventDefault();const c=$('#pc').value.trim().toUpperCase();if(PROMOS[c]){promo=PROMOS[c];render();toast('Promo code applied')}else{$('#pf').nextElementSibling.textContent='That code isn’t valid. Check it and try again.';$('#pf').nextElementSibling.style.color='#B42318'}}}
+  if(x.promoRm!==undefined){promo=null;render()}
+  if(x.act){e.preventDefault();toast({login:'Opens log in',terms:'Opens the booking terms',privacy:'Opens the privacy policy',help:'Opens the help centre',sitepol:'Opens the full cancellation policy',bnplpol:'Opens /help/pay-later-policy'}[x.act]||'Prototype')}
+});
+document.addEventListener('change',e=>{if(e.target.name==='when'){payLater=e.target.value==='later';render()}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#modal').classList.contains('open'))closeModal()});
+$('#back').href='listing.html';
+render();
+</script>
+</body>
+</html>

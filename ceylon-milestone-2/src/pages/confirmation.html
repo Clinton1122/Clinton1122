@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Booking confirmed | Ceylon Nooks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+{{BASE_CSS}}
+{{BOOKING_CSS}}
+/* ================= Booking confirmation (Milestone 2) ================= */
+body{background:var(--cn-page)}
+.cf{max-width:1040px;margin:0 auto;padding:40px 24px 24px}
+.hero-ok{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center}
+.okic{width:64px;height:64px;border-radius:50%;background:var(--cn-primary);color:#fff;display:grid;place-items:center;box-shadow:0 0 0 8px var(--cn-primary-tint)}
+.okic .i{width:32px;height:32px;stroke-width:2.6}
+.hero-ok h1{font-size:36px;letter-spacing:-.035em;font-weight:700;line-height:1.1}
+.hero-ok p{margin-top:6px;font-size:16px}
+.hero-ok p b{color:var(--cn-ink)}
+.refbar{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center;margin-top:24px;padding:14px 18px;background:#fff;border:1px solid var(--cn-border);border-radius:16px;font-size:14px}
+.refbar b{color:var(--cn-ink);font-variant-numeric:tabular-nums}
+.refbar .copy{display:inline-flex;align-items:center;gap:6px;border:0;background:none;padding:0;font:600 13px var(--text);color:var(--cn-primary-text);cursor:pointer}
+.refbar .copy .i{width:15px;height:15px}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:24px;margin-top:24px;align-items:start}
+.card{background:#fff;border:1px solid var(--cn-border);border-radius:20px;padding:24px}
+.card+.card{margin-top:16px}
+.card h2{font-size:19px;letter-spacing:-.02em;margin-bottom:14px}
+.trip{display:grid;grid-template-columns:160px 1fr;gap:18px}
+.trip img{width:160px;height:120px;border-radius:14px;object-fit:cover}
+.trip h3{font-size:19px;line-height:1.25}
+.trip .k{font-size:13px;color:var(--cn-muted)}
+.trip dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:12px 0 0;font-size:14px}
+.trip dt{color:var(--cn-muted)}.trip dd{margin:0;color:var(--cn-ink);font-weight:500}
+.acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.acts .btn{min-height:42px}
+.tl{list-style:none;margin:0;padding:0}
+.tl li{display:grid;grid-template-columns:32px 1fr;gap:14px;position:relative;padding-bottom:18px}
+.tl li:not(:last-child)::before{content:"";position:absolute;left:15px;top:32px;bottom:0;border-left:2px solid var(--cn-border)}
+.tl li.done:not(:last-child)::before{border-color:var(--cn-primary-line)}
+.tl .d{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:#F4F4F5;color:var(--cn-muted)}
+.tl .d .i{width:16px;height:16px}
+.tl li.done .d{background:var(--cn-primary);color:#fff}
+.tl li.warn .d{background:var(--warn-bg);color:var(--warn)}
+.tl .w{font-size:12px;font-weight:600;color:var(--cn-muted);letter-spacing:.02em;text-transform:uppercase;padding-top:2px}
+.tl b{display:block;color:var(--cn-ink);font-size:15px;margin-top:1px}
+.tl p{font-size:14px;margin-top:2px}
+.rcpt .ln{display:flex;justify-content:space-between;gap:12px;font-size:14px;padding:4px 0}
+.rcpt .ln.tot{border-top:1px solid var(--cn-border);margin-top:8px;padding-top:12px;font-weight:700;color:var(--cn-ink);font-size:16px}
+.rcpt .ln.disc span:last-child{color:var(--cn-primary-text)}
+.rcpt .paid{margin-top:12px;padding:12px 14px;border-radius:12px;background:var(--cn-page);font-size:13px}
+.rcpt .paid b{color:var(--cn-ink)}
+.hostc{display:flex;gap:14px;align-items:center}
+.hostc .av{width:52px;height:52px;border-radius:50%;background:#EADFD6;color:#7A4A2A;display:grid;place-items:center;font-weight:700}
+.hostc b{display:block;color:var(--cn-ink)}
+.hostc small{font-size:13px;color:var(--cn-muted)}
+.mbs{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.mbs span{display:inline-flex;align-items:center;gap:5px;height:26px;padding:0 10px;border-radius:999px;background:var(--cn-page);font-size:12px;font-weight:600;color:var(--cn-ink)}
+.mbs .i{width:14px;height:14px;color:var(--cn-primary)}
+.side .tsig{margin-top:0}
+.more{margin-top:40px}
+.more h2{font-size:22px;letter-spacing:-.02em;margin-bottom:14px}
+.rel{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.rcard{text-decoration:none;color:inherit;background:#fff;border:1px solid var(--cn-border);border-radius:16px;overflow:hidden}
+.rcard img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.rcard div{padding:12px 14px 14px}
+.rcard h3{font-size:14.5px;line-height:1.3}
+.rcard p{font-size:13px;color:var(--cn-muted);margin-top:4px}
+.calm{position:absolute;z-index:30;background:#fff;border:1px solid var(--cn-border);border-radius:12px;box-shadow:var(--lift);padding:6px;display:none;min-width:220px}
+.calm.open{display:block}
+.calm a{display:block;padding:9px 12px;border-radius:8px;font-size:14px;color:var(--cn-ink);text-decoration:none}
+.calm a:hover{background:var(--cn-page)}
+.calwrap{position:relative;display:inline-block}
+@media (max-width:900px){.grid2{grid-template-columns:1fr}.rel{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:600px){
+  .cf{padding:24px 16px}
+  .hero-ok{grid-template-columns:1fr;gap:14px}
+  .okic{width:52px;height:52px}.okic .i{width:26px;height:26px}
+  .hero-ok h1{font-size:28px}
+  .trip{grid-template-columns:1fr}.trip img{width:100%;height:180px}
+  .card{padding:18px}
+  .acts .btn{flex:1 1 calc(50% - 8px)}
+}
+@media print{.site,.foot,.acts,.more,.toast{display:none!important}body{background:#fff}.card{break-inside:avoid}}
+</style>
+</head>
+<body>
+{{SPRITE}}
+{{HEADER}}
+<main class="cf">
+  <section class="hero-ok" aria-labelledby="ok-h">
+    <span class="okic"><svg class="i"><use href="#i-check"/></svg></span>
+    <div><h1 id="ok-h"></h1><p id="ok-p"></p></div>
+  </section>
+  <div class="refbar"><span>Booking reference <b id="ref"></b></span><button class="copy" data-copy><svg class="i"><use href="#i-copy"/></svg>Copy</button><span style="color:var(--cn-muted)" id="ref-note"></span></div>
+
+  <div class="grid2">
+    <div>
+      <section class="card" aria-labelledby="t-h">
+        <h2 id="t-h">Your tour</h2>
+        <div class="trip">
+          <img id="t-img" alt="Temple of the Sacred Tooth Relic in Kandy">
+          <div>
+            <p class="k">Private tour in Kandy</p>
+            <h3>Kandy Cultural City Tour</h3>
+            <dl id="t-dl"></dl>
+          </div>
+        </div>
+        <div class="acts">
+          <span class="calwrap"><button class="btn" data-cal><svg class="i"><use href="#i-cal"/></svg>Add to calendar</button><span class="calm" id="calm" role="menu"></span></span>
+          <a class="btn" href="#" data-act="msg"><svg class="i"><use href="#i-chat"/></svg>Message Aravinda</a>
+          <a class="btn" href="../ceylon-traveller-dashboard/index.html#bookings"><svg class="i"><use href="#i-bag"/></svg>View in My bookings</a>
+          <button class="btn" data-print><svg class="i"><use href="#i-dl"/></svg>Receipt</button>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="n-h">
+        <h2 id="n-h">What happens next</h2>
+        <ol class="tl" id="next"></ol>
+      </section>
+
+      <section class="card" aria-labelledby="h-h">
+        <h2 id="h-h">Your host</h2>
+        <div class="hostc"><span class="av">AP</span><span><b>Aravinda Perera</b><small>Licensed guide in Kandy · replies in about 1 hour</small></span></div>
+        <div class="mbs"><span><svg class="i"><use href="#i-badge"/></svg>SLTDA registered</span><span><svg class="i"><use href="#i-shield"/></svg>Police clearance</span><span><svg class="i"><use href="#i-user"/></svg>ID verified</span></div>
+        <p style="font-size:14px;margin-top:12px">Aravinda’s phone number appears here 24 hours before pickup. Until then, message Aravinda through Ceylon Nooks.</p>
+      </section>
+    </div>
+
+    <aside class="side">
+      <section class="card rcpt" aria-labelledby="r-h">
+        <h2 id="r-h">Price details</h2>
+        <div id="rc"></div>
+      </section>
+      <section class="card" aria-labelledby="c-h">
+        <h2 id="c-h">If your plans change</h2>
+        <div class="tsig" id="tsig"></div>
+        <p style="font-size:13px;margin-top:12px">Cancel from <a href="../ceylon-traveller-dashboard/index.html#bookings">My bookings</a>. Need help? Call the 24/7 traveller line on <a href="tel:+94112000000">+94 11 200 0000</a>.</p>
+      </section>
+    </aside>
+  </div>
+
+  <section class="more" aria-labelledby="m-h">
+    <h2 id="m-h">Make the most of your time in Kandy</h2>
+    <div class="rel" id="rel"></div>
+  </section>
+</main>
+{{FOOTER}}
+<div class="mscrim" id="mscrim"></div>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="m-title"></div>
+
+<script>
+{{BASE_JS}}
+{{BOOKING_JS}}
+/* ================= Confirmation ================= */
+const q=new URLSearchParams(location.hash.slice(1));
+S.date=q.get('d')||'2026-10-28';S.time=q.get('t')||'08:00';S.adults=+(q.get('a')||2);S.children=+(q.get('c')||0);S.disc=+(q.get('disc')||0);
+L.policy=q.get('p')||'site';L.bnpl=q.get('b')!=='0';
+const later=q.get('later')==='1', ref=q.get('ref')||'CNE71623408', name=q.get('fn')||'John', email=q.get('em')||'john.carter@example.com';
+const card=`${({VISA:'Visa',MASTERCARD:'Mastercard',AMEX:'Amex'})[q.get('brand')]||'Visa'} ending ${q.get('card')||'4242'}`;
+if(q.get('cur')&&CUR[q.get('cur')])setCur(q.get('cur'));
+$('#t-img').src=pic('kandy-temple.jpg');
+
+function render(){
+  const s=startAt(),t=total(),l=lines(),sc=scenario();
+  $('#ok-h').textContent=later?`Your spot is reserved, ${name}`:`You’re booked, ${name}!`;
+  $('#ok-p').innerHTML=`We’ve emailed your confirmation to <b>${email}</b>. ${later?`Nothing to pay today. ${card} is charged ${fmt(t)} on <b>${dLong(chargeOn())}</b>.`:`${card} was charged ${fmt(t)}.`}`;
+  $('#ref').textContent=ref;
+  $('#ref-note').textContent='Show this at pickup, or use the QR code in your email';
+  $('#t-dl').innerHTML=`<dt>Date</dt><dd>${dYear(s)}</dd><dt>Pickup</dt><dd>${ft(s)}, from your hotel</dd><dt>Travellers</dt><dd>${[`${S.adults} adult${S.adults>1?'s':''}`,S.children&&`${S.children} child${S.children>1?'ren':''}`].filter(Boolean).join(', ')}</dd><dt>Guide</dt><dd>Aravinda Perera</dd>`;
+  const ev=[
+    {c:'done',ic:'check',w:'Today',b:later?'Reserved, card checked':'Booked and paid',p:later?`Your card was checked but not charged.`:`Your receipt is in your email.`},
+    ...(later?[{c:'',ic:'bell',w:dLong(new Date(+chargeOn()-3*DAY)),b:'Payment reminder',p:`We’ll email you 3 days before the charge.`},{c:'',ic:'card',w:dLong(chargeOn()),b:`${fmt(t)} charged automatically`,p:`Cancel before this and your card is never charged.`}]:[]),
+    ...(sc!==3&&L.policy!=='custom'?[{c:'warn',ic:'shield',w:`${dLong(cutoff())}, ${ft(cutoff())}`,b:'Free cancellation ends',p:'After this, cancellations aren’t refunded.'}]:[]),
+    {c:'',ic:'phone',w:dLong(new Date(+s-DAY)),b:'Aravinda gets in touch',p:'Aravinda confirms the pickup on WhatsApp, and the phone number appears on your booking.'},
+    {c:'',ic:'pin',w:`${dLong(s)}, ${ft(s)}`,b:'Pickup from your hotel',p:'Wear clothes that cover shoulders and knees for the temple.'}
+  ];
+  $('#next').innerHTML=ev.map(e=>`<li class="${e.c}"><span class="d"><svg class="i"><use href="#i-${e.ic}"/></svg></span><div><span class="w">${e.w}</span><b>${e.b}</b><p>${e.p}</p></div></li>`).join('');
+  $('#rc').innerHTML=`<div class="ln"><span>${S.adults} adult${S.adults>1?'s':''} × ${fmt(RATE.adult)}</span><span>${fmt(l.a)}</span></div>`+(S.children?`<div class="ln"><span>${S.children} child${S.children>1?'ren':''} × ${fmt(RATE.child)}</span><span>${fmt(l.c)}</span></div>`:'')+
+    `<div class="ln"><span>Service fee</span><span>${fmt(l.fee)}</span></div>`+(S.disc?`<div class="ln disc"><span>Promo code</span><span>− ${fmt(S.disc)}</span></div>`:'')+
+    `<div class="ln tot"><span>Total (${cur})</span><span>${fmt(t)}</span></div><div class="paid">${later?`<b>Due ${dLong(chargeOn())}:</b> ${fmt(t)} to ${card}. <b>Paid today:</b> ${fmt(0)}`:`<b>Paid</b> with ${card} on ${dLong(NOW)}`}</div>`;
+  const keep=L.bnpl;L.bnpl=false;$('#tsig').innerHTML=trustRows(sc);L.bnpl=keep;
+  $('#rel').innerHTML=[['kandy-temple.jpg','Kandy cooking class with a family','Activity · 3 hours'],['pidurangala.jpg','Sigiriya and Dambulla day trip','Private tour · 10 hours'],['ella-nine-arch.jpg','Hill country train and tea estates','Private tour · 9 hours'],['adams-peak.jpg','Adam’s Peak night climb','Small group · 8 hours']]
+    .map(([f,h,p])=>`<a class="rcard" href="listing.html"><img src="${pic(f)}" alt="" loading="lazy"><div><h3>${h}</h3><p>${p}</p></div></a>`).join('');
+}
+window.onCur=render;
+function calLinks(){const s=startAt(),e=new Date(+s+8*HOUR),z=d=>d.toISOString().replace(/[-:]|\.\d{3}/g,'');
+  const t='Kandy Cultural City Tour',det=`Booking ${ref}. Pickup from your hotel. Guide: Aravinda Perera.`;
+  return `<a role="menuitem" target="_blank" rel="noopener" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(t)}&dates=${z(s)}/${z(e)}&details=${encodeURIComponent(det)}&location=Kandy">Google Calendar</a><a role="menuitem" target="_blank" rel="noopener" href="https://outlook.live.com/calendar/0/deeplink/compose?subject=${encodeURIComponent(t)}&startdt=${s.toISOString()}&enddt=${e.toISOString()}&body=${encodeURIComponent(det)}&location=Kandy">Outlook</a><a role="menuitem" href="#" data-ics>Apple Calendar (.ics)</a>`}
+document.addEventListener('click',e=>{
+  const b=e.target.closest('button,a');
+  if(!e.target.closest('.calwrap'))$('#calm').classList.remove('open');
+  if(e.target.id==='mscrim')closeModal();
+  if(!b)return;const x=b.dataset;
+  if(x.cal!==undefined){$('#calm').innerHTML=calLinks();$('#calm').classList.toggle('open')}
+  if(x.ics!==undefined){e.preventDefault();const s=startAt(),z=d=>d.toISOString().replace(/[-:]|\.\d{3}/g,'');const ics=`BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Ceylon Nooks//EN\r\nBEGIN:VEVENT\r\nUID:${ref}@ceylonnooks\r\nDTSTAMP:${z(NOW)}\r\nDTSTART:${z(s)}\r\nDTEND:${z(new Date(+s+8*HOUR))}\r\nSUMMARY:Kandy Cultural City Tour\r\nLOCATION:Kandy\r\nDESCRIPTION:Booking ${ref}\r\nEND:VEVENT\r\nEND:VCALENDAR`;const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([ics],{type:'text/calendar'}));a.download=`${ref}.ics`;a.click();$('#calm').classList.remove('open');toast('Calendar file downloaded')}
+  if(x.copy!==undefined){navigator.clipboard?.writeText(ref).catch(()=>{});toast('Booking reference copied')}
+  if(x.print!==undefined)print();
+  if(x.pop==='cancel')popCancel();
+  if(x.pop==='bnpl')popBnpl();
+  if(x.mclose!==undefined)closeModal();
+  if(x.goto){e.preventDefault();closeModal();toast('Opens the policy on the listing')}
+  if(x.act){e.preventDefault();toast({msg:'Opens a chat with Aravinda',sitepol:'Opens the full cancellation policy',bnplpol:'Opens /help/pay-later-policy'}[x.act]||'Prototype')}
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();$('#calm').classList.remove('open')}});
+render();
+</script>
+</body>
+</html>

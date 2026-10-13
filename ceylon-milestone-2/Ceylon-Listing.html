@@ -292,6 +292,9 @@ body{background:#fff}
 .reserve{width:100%;min-height:50px;margin-top:14px;font-size:16px}
 .nocharge{text-align:center;font-size:13px;color:var(--cn-muted);margin-top:8px}
 
+/* mobile bottom bar */
+.mbar{display:none}
+
 /* trust signal rows under Reserve Now (trust-link spec, scenarios 1-3) */
 .tsig{margin-top:12px;border-radius:14px;border:1px solid var(--cn-border);overflow:hidden}
 .trow{display:flex;gap:12px;padding:12px 14px;align-items:flex-start}
@@ -312,9 +315,6 @@ body{background:#fff}
 .trow.amber .tx{color:#5C4210}
 .bw-foot{display:flex;justify-content:center;gap:16px;margin-top:14px;font-size:13px}
 .bw-foot a{color:var(--cn-muted)}
-
-/* mobile bottom bar */
-.mbar{display:none}
 
 /* ================= modals (desktop centred, mobile bottom sheet) ================= */
 .mscrim{position:fixed;inset:0;background:rgba(24,24,27,.5);z-index:80;opacity:0;pointer-events:none;transition:opacity .2s}
@@ -367,6 +367,14 @@ body{background:#fff}
 .credm .ic .i{width:28px;height:28px}
 .credm dl{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;margin:16px 0 0;font-size:14px}
 .credm dt{color:var(--cn-muted)}.credm dd{margin:0;color:var(--cn-ink);font-weight:500}
+
+@media (max-width:700px){
+  .modal{left:0;right:0;top:auto;bottom:0;width:100%;max-height:90vh;border-radius:24px 24px 0 0;transform:translateY(100%)}
+  .modal.open{transform:none}
+  .grab{display:block;width:40px;height:4px;border-radius:2px;background:var(--cn-input);margin:8px auto 0}
+  .mh{padding:10px 16px 12px 20px}
+  .mb-body{padding:16px 20px calc(24px + env(safe-area-inset-bottom))}
+}
 
 /* ================= gallery modal (Homely-style photo tour) + viewer ================= */
 .gm{position:fixed;inset:0;z-index:90;background:#fff;display:flex;flex-direction:column;transform:translateY(16px);opacity:0;pointer-events:none;transition:transform .25s,opacity .2s}
@@ -445,12 +453,7 @@ body{background:#fff}
   .rsum{grid-template-columns:1fr;gap:16px}
   .rcats{grid-template-columns:repeat(2,1fr)}
   .rel{grid-template-columns:repeat(2,1fr);gap:12px}
-  .modal{left:0;right:0;top:auto;bottom:0;width:100%;max-height:90vh;border-radius:24px 24px 0 0;transform:translateY(100%)}
-  .modal.open{transform:none}
-  .grab{display:block;width:40px;height:4px;border-radius:2px;background:var(--cn-input);margin:8px auto 0}
-  .mh{padding:10px 16px 12px 20px}
-  .mb-body{padding:16px 20px calc(24px + env(safe-area-inset-bottom))}
-  .gm-h{padding:0 12px;height:60px}.gm-h .acts .btn span{display:none}.gm-h .acts .btn{padding:0 12px}
+    .gm-h{padding:0 12px;height:60px}.gm-h .acts .btn span{display:none}.gm-h .acts .btn{padding:0 12px}
   .gm-grid{padding:12px 0 40px;gap:4px}.gm-grid button{border-radius:0}.gm-cap{padding:0 12px}
   .vw-st img{max-width:100%}
   .vw-st .nav{display:none}
@@ -508,6 +511,17 @@ body{background:#fff}
   <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.8L12 16.8l-5.2 2.8 1-5.8-4.3-4.1 5.9-.8z"/></symbol>
   <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></symbol>
   <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15zM10 20.5a2 2 0 0 0 4 0"/></symbol>
+<symbol id="i-share" viewBox="0 0 24 24"><path d="M12 15V4m0 0L8 8m4-4l4 4M5 12v6.5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5V12"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1"/><rect x="13" y="4" width="7" height="7" rx="1"/><rect x="4" y="13" width="7" height="7" rx="1"/><rect x="13" y="13" width="7" height="7" rx="1"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9.5" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
+  <symbol id="i-card" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h3"/></symbol>
+  <symbol id="i-badge" viewBox="0 0 24 24"><path d="M12 3l2.2 1.6 2.7-.1.8 2.6 2.2 1.6-.9 2.6.9 2.6-2.2 1.6-.8 2.6-2.7-.1L12 21l-2.2-1.6-2.7.1-.8-2.6-2.2-1.6.9-2.6-.9-2.6 2.2-1.6.8-2.6 2.7.1z"/><path d="M9 12l2 2 4-4"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M7 3.5h7l4 4V19a1.5 1.5 0 0 1-1.5 1.5h-9.5A1.5 1.5 0 0 1 5.5 19V5A1.5 1.5 0 0 1 7 3.5z"/><path d="M14 3.5V8h4M9 13h6M9 16.5h4"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 4l9 16H3z"/><path d="M12 10v4.5M12 17.2v.1"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.8v.1"/></symbol>
+  <symbol id="i-lang" viewBox="0 0 24 24"><path d="M4 5h9M8.5 3v2M6 5c.5 3.5 3 6.5 6 8M11 5c-.8 3.8-3.3 7-7 9"/><path d="M13 21l4-9 4 9M14.5 17.5h5"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></symbol>
+  <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
   <symbol id="logo" viewBox="0 0 97 30">
 <path d="M0.507471 12.3684C0.827836 11.3872 1.32928 10.4746 1.98582 9.67812C2.63279 8.89747 3.48199 8.28344 4.53342 7.83603C5.58486 7.38862 6.78023 7.16418 8.11953 7.16272C9.28123 7.16272 10.4503 7.47522 11.6266 8.10023C12.8029 8.72524 13.3913 9.31072 13.3918 9.85669C13.3875 9.9757 13.3573 10.0923 13.3033 10.1985C13.216 10.3608 13.1045 10.5089 12.9725 10.6376C12.811 10.8059 12.6822 10.9345 12.5861 11.0233C12.4899 11.1121 12.3131 11.2677 12.0555 11.4902C11.7978 11.7098 11.6398 11.8503 11.5812 11.9096C11.4634 12.012 11.276 12.1818 11.0184 12.4167C10.7608 12.6517 10.5552 12.8354 10.4015 12.9678C10.2478 13.1003 10.0743 13.2474 9.88258 13.4069C9.73441 13.5373 9.57579 13.6553 9.40833 13.7597C9.32644 13.8174 9.23222 13.8552 9.13315 13.8702C9.06346 13.8718 8.99504 13.8514 8.93753 13.812C8.88002 13.7726 8.83633 13.7162 8.8126 13.6506C8.71559 13.4162 8.63106 13.1768 8.55937 12.9334C8.45714 12.6045 8.30055 12.2951 8.09611 12.0179C7.62926 11.3438 7.04347 10.7605 6.36746 10.2965C5.69854 9.83986 5.02572 9.61176 4.34899 9.61225C3.73131 9.61225 3.24974 9.82546 2.90431 10.2519C2.55887 10.6783 2.38591 11.2299 2.38542 11.9066C2.38542 13.0386 2.87454 14.1927 3.85279 15.369C4.81409 16.5324 5.99446 17.4957 7.32693 18.2043C8.66574 18.9171 9.87892 19.2738 10.9665 19.2742C11.5841 19.2742 12.0952 19.1786 12.4997 18.9874C12.9042 18.7961 13.2057 18.6048 13.4043 18.4136C13.6024 18.2228 13.7456 18.1272 13.8339 18.1267C14.0695 18.1267 14.1874 18.2811 14.1874 18.59C14.1874 19.0291 14.0622 19.5106 13.8119 20.0346C13.5343 20.596 13.1694 21.1098 12.731 21.5569C12.2601 22.0492 11.6168 22.4573 10.8011 22.7813C9.98528 23.1053 9.07729 23.267 8.07708 23.2665C5.91273 23.2665 4.02551 22.5276 2.41543 21.0497C0.805337 19.5719 0.00029316 17.7666 0.00029316 15.634C-0.00808562 14.5252 0.163192 13.4224 0.507471 12.3684Z" fill="currentColor"/>
 <path d="M17.5245 9.5237C18.9145 7.9502 20.8596 7.16345 23.3596 7.16345C25.2419 7.16345 26.7381 7.7443 27.8481 8.90601C28.9581 10.0677 29.5133 11.4502 29.5138 13.0534C29.5243 13.5005 29.4377 13.9444 29.2598 14.3547C29.0916 14.7211 28.8092 15.0231 28.4548 15.2154C28.098 15.4163 27.721 15.579 27.3299 15.7006C26.9479 15.8182 26.4551 15.8879 25.8516 15.9099C25.248 15.9318 24.7187 15.9392 24.2635 15.9318C23.8082 15.9245 23.2228 15.9099 22.507 15.8879C21.7912 15.866 21.2287 15.855 20.8193 15.855C20.4819 15.855 20.3122 15.9728 20.3122 16.2078C20.3122 16.4727 20.6356 16.8476 21.2826 17.3326C21.9296 17.8176 22.7458 18.2626 23.7314 18.6675C24.7165 19.0715 25.6062 19.2738 26.4005 19.2742C27.0182 19.2742 27.5305 19.1786 27.9374 18.9874C28.3443 18.7961 28.6458 18.6048 28.842 18.4136C29.0405 18.2228 29.1837 18.1272 29.2716 18.1267C29.5072 18.1267 29.625 18.2811 29.625 18.59C29.625 19.0291 29.4999 19.5106 29.2496 20.0346C28.972 20.596 28.6071 21.1098 28.1687 21.5569C27.6983 22.0492 27.055 22.4573 26.2387 22.7813C25.4225 23.1053 24.5145 23.267 23.5148 23.2665C21.3529 23.2665 19.4669 22.5276 17.8568 21.0497C16.2467 19.5719 15.4416 17.7666 15.4416 15.634C15.4421 13.134 16.1364 11.0972 17.5245 9.5237ZM18.5396 13.8475C18.9592 14.4818 19.5879 14.7989 20.4256 14.7989C21.0286 14.7989 21.5617 14.7806 22.0247 14.744C22.4994 14.7053 22.971 14.6351 23.4365 14.534C23.9141 14.4306 24.2854 14.2615 24.5503 14.0268C24.6778 13.9183 24.7795 13.7828 24.8483 13.6302C24.917 13.4775 24.951 13.3116 24.9477 13.1442C24.9477 12.0859 24.4623 11.2258 23.4913 10.5637C22.5204 9.90158 21.5058 9.57078 20.4475 9.57127C19.814 9.56227 19.1947 9.75955 18.683 10.1333C18.1688 10.509 17.9114 10.9981 17.9109 11.6007C17.9109 12.4663 18.1205 13.2152 18.5396 13.8475Z" fill="currentColor"/>
@@ -521,25 +535,13 @@ body{background:#fff}
 <path d="M92.7496 5.20498C92.3932 4.69268 91.9643 4.35969 91.4996 4.22503C91.5728 4.69854 91.4688 5.18961 91.1915 5.66605C91.6869 5.38063 92.099 5.265 92.2812 5.5292C92.5242 5.88049 92.0221 6.35107 91.3298 6.83117C90.6375 7.31127 90.0176 7.61499 89.7746 7.2637C89.6948 7.14734 89.7014 7.01487 89.7709 6.87289C89.8708 6.69101 90.0048 6.53001 90.1654 6.39864C90.2908 6.31655 90.4075 6.22189 90.5138 6.11615C90.6037 6.02828 90.6876 5.93438 90.7648 5.83511C91.1907 5.28329 91.3327 4.70805 91.2178 4.16574C91.1987 4.07464 91.1728 3.9851 91.1402 3.89788C90.9939 3.51073 90.7106 3.14627 90.2979 2.82791C89.2184 1.99505 88.0781 2.09166 87.2709 3.13822C86.4637 4.18477 86.6591 5.31257 87.7378 6.14542C87.9951 6.34859 88.2862 6.50468 88.5978 6.60649C88.5534 6.3758 88.548 6.13932 88.5817 5.90684C88.5965 5.81343 88.618 5.72122 88.6461 5.63093C88.4346 5.77291 88.2428 5.81535 88.0862 5.6946C87.7561 5.43991 88.0862 4.83174 88.5985 4.16355C89.1108 3.49536 89.6172 3.02405 89.9451 3.27873C90.1822 3.4617 90.0834 3.81518 89.8273 4.23893C89.6962 4.45193 89.5522 4.65674 89.3962 4.85223C89.2678 5.00559 89.1534 5.17018 89.0544 5.34404C88.8246 5.74736 88.7611 6.2244 88.8773 6.67382C88.8988 6.7652 88.9259 6.85515 88.9586 6.94315C89.046 7.17114 89.1613 7.38745 89.3018 7.58718C90.071 8.69961 91.1922 8.96234 92.279 8.21146C93.3658 7.46057 93.5188 6.31741 92.7496 5.20498Z" fill="currentColor"/>
 </symbol>
 </svg>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <symbol id="i-share" viewBox="0 0 24 24"><path d="M12 15V4m0 0L8 8m4-4l4 4M5 12v6.5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5V12"/></symbol>
-  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1"/><rect x="13" y="4" width="7" height="7" rx="1"/><rect x="4" y="13" width="7" height="7" rx="1"/><rect x="13" y="13" width="7" height="7" rx="1"/></symbol>
-  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9.5" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
-  <symbol id="i-card" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h3"/></symbol>
-  <symbol id="i-badge" viewBox="0 0 24 24"><path d="M12 3l2.2 1.6 2.7-.1.8 2.6 2.2 1.6-.9 2.6.9 2.6-2.2 1.6-.8 2.6-2.7-.1L12 21l-2.2-1.6-2.7.1-.8-2.6-2.2-1.6.9-2.6-.9-2.6 2.2-1.6.8-2.6 2.7.1z"/><path d="M9 12l2 2 4-4"/></symbol>
-  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M7 3.5h7l4 4V19a1.5 1.5 0 0 1-1.5 1.5h-9.5A1.5 1.5 0 0 1 5.5 19V5A1.5 1.5 0 0 1 7 3.5z"/><path d="M14 3.5V8h4M9 13h6M9 16.5h4"/></symbol>
-  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 4l9 16H3z"/><path d="M12 10v4.5M12 17.2v.1"/></symbol>
-  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.8v.1"/></symbol>
-  <symbol id="i-lang" viewBox="0 0 24 24"><path d="M4 5h9M8.5 3v2M6 5c.5 3.5 3 6.5 6 8M11 5c-.8 3.8-3.3 7-7 9"/><path d="M13 21l4-9 4 9M14.5 17.5h5"/></symbol>
-  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></symbol>
-  <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
-</svg>
+
 <header class="site">
   <div class="wrap hbar">
     <button class="hamb icon-btn" id="hamb" aria-label="Open menu" aria-expanded="false" aria-controls="drawer"><svg class="i"><use href="#i-menu"/></svg></button>
-    <a class="logo" href="homepage.html" aria-label="Ceylon Nooks home"><svg viewBox="0 0 97 30" width="97" height="30" aria-hidden="true"><use href="#logo"/></svg></a>
+    <a class="logo" href="Ceylon-Homepage.html" aria-label="Ceylon Nooks home"><svg viewBox="0 0 97 30" width="97" height="30" aria-hidden="true"><use href="#logo"/></svg></a>
     <nav class="mainnav" aria-label="Main">
-      <a href="category.html">Tours</a><a href="category.html">Activities</a><a href="#do" class="dim">Stays<span class="soon-tag">Soon</span></a><a href="#do" class="dim">Transport<span class="soon-tag">Soon</span></a><a href="homepage.html#where">Destinations</a><a href="tools.html">Plan your trip</a>
+      <a href="category.html">Tours</a><a href="category.html">Activities</a><a href="#do" class="dim">Stays<span class="soon-tag">Soon</span></a><a href="#do" class="dim">Transport<span class="soon-tag">Soon</span></a><a href="Ceylon-Homepage.html#where">Destinations</a><a href="tools.html">Plan your trip</a>
     </nav>
     <div class="hright">
       <div class="cur"><button id="cur-btn" aria-haspopup="true" aria-expanded="false" aria-label="Language and currency"><svg class="i"><use href="#i-globe"/></svg><span id="cur-lab">ENG · USD</span><svg class="i"><use href="#i-down"/></svg></button>
@@ -558,7 +560,7 @@ body{background:#fff}
 
 
 <main class="wrap">
-  <nav class="crumbs" aria-label="Breadcrumb"><a href="homepage.html">Home</a><svg class="i"><use href="#i-chev"/></svg><a href="#">Kandy</a><svg class="i"><use href="#i-chev"/></svg><a href="category.html">Tours</a><svg class="i"><use href="#i-chev"/></svg><span aria-current="page">Kandy Cultural City Tour</span></nav>
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="Ceylon-Homepage.html">Home</a><svg class="i"><use href="#i-chev"/></svg><a href="#">Kandy</a><svg class="i"><use href="#i-chev"/></svg><a href="category.html">Tours</a><svg class="i"><use href="#i-chev"/></svg><span aria-current="page">Kandy Cultural City Tour</span></nav>
 
   <section class="gal" id="gal" aria-label="Photos"></section>
 
@@ -655,9 +657,9 @@ body{background:#fff}
         </div>
         <div class="revs">
           <div class="rev"><div class="who"><span class="ini">SL</span><span><b>Sophie L.</b><small>United Kingdom · September 2026</small></span></div><p>Aravinda got us into the temple just as the morning offering started. We’d never have managed the timing on our own. The lunch spot was the best food of our trip.</p></div>
-          <div class="rev"><div class="who"><span class="ini">KT</span><span><b>Kenji T.</b><small>Japan · August 2026</small></span></div><p>Very relaxed pace with two children. The van was spotless and cool, and he changed the order of stops when it started to rain.</p></div>
+          <div class="rev"><div class="who"><span class="ini">KT</span><span><b>Kenji T.</b><small>Japan · August 2026</small></span></div><p>Very relaxed pace with two children. The van was spotless and cool, and Aravinda changed the order of stops when it started to rain.</p></div>
           <div class="rev"><div class="who"><span class="ini">MR</span><span><b>Marcus R.</b><small>Australia · August 2026</small></span></div><p>Great guide, but the market was very crowded on a Saturday. Go on a weekday if you can.</p><div class="reply"><b>Aravinda replied:</b> Thanks Marcus. Good tip, we now suggest the market last on weekends.</div></div>
-          <div class="rev"><div class="who"><span class="ini">AN</span><span><b>Anna N.</b><small>Germany · July 2026</small></span></div><p>Booked the day before and he still sorted everything. Loved the Bahirawakanda view at the end.</p></div>
+          <div class="rev"><div class="who"><span class="ini">AN</span><span><b>Anna N.</b><small>Germany · July 2026</small></span></div><p>Booked the day before and Aravinda still sorted everything. Loved the Bahirawakanda view at the end.</p></div>
         </div>
         <button class="btn" style="margin-top:24px" data-act="reviews">Show all 128 reviews</button>
       </section>
@@ -751,10 +753,12 @@ const CUR={USD:{r:1,s:'USD',n:'US dollar'},AUD:{r:1.4379,s:'AUD',n:'Australian d
 let cur='USD';
 const fmt=v=>{const c=CUR[cur],x=v*c.r;return cur==='JPY'?`${c.s} ${Math.round(x).toLocaleString('en-US')}`:`${c.s} ${x.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}`};
 const fmt0=v=>{const c=CUR[cur],x=v*c.r;return `${c.s} ${Math.round(x).toLocaleString('en-US')}`};
-$('#curmenu').innerHTML+=Object.entries(CUR).map(([k,c])=>`<button role="menuitemradio" aria-checked="${k===cur}" data-cur="${k}">${k}<span>${c.n}</span></button>`).join('');
-function setCur(k){cur=k;$('#cur-lab').textContent=(innerWidth>600?'ENG · ':'')+k;$$('#curmenu [data-cur]').forEach(b=>b.setAttribute('aria-checked',b.dataset.cur===k));$$('[data-p]').forEach(e=>e.textContent=fmt(+e.dataset.p));$$('[data-p0]').forEach(e=>e.textContent=fmt0(+e.dataset.p0));const o=Object.keys(CUR).filter(x=>x!==k);if(window.onCur)onCur();if($('#alt-cur'))$('#alt-cur').textContent=`Or the same amount in ${o.slice(0,-1).join(', ')} or ${o.at(-1)}.`}
+if($('#curmenu'))$('#curmenu').innerHTML+=Object.entries(CUR).map(([k,c])=>`<button role="menuitemradio" aria-checked="${k===cur}" data-cur="${k}">${k}<span>${c.n}</span></button>`).join('');
+function setCur(k){cur=k;try{localStorage.setItem('cn-cur',k)}catch(e){}if($('#cur-lab'))$('#cur-lab').textContent=(innerWidth>600?'ENG · ':'')+k;$$('#curmenu [data-cur]').forEach(b=>b.setAttribute('aria-checked',b.dataset.cur===k));$$('[data-p]').forEach(e=>e.textContent=fmt(+e.dataset.p));$$('[data-p0]').forEach(e=>e.textContent=fmt0(+e.dataset.p0));const o=Object.keys(CUR).filter(x=>x!==k);if(window.onCur)onCur();if($('#alt-cur'))$('#alt-cur').textContent=`Or the same amount in ${o.slice(0,-1).join(', ')} or ${o.at(-1)}.`}
 
 if(innerWidth<=600&&$('#cur-lab'))$('#cur-lab').textContent='USD';
+/* keep the traveller's currency from page to page (this browser only) */
+try{const c=localStorage.getItem('cn-cur');if(c&&CUR[c]&&c!=='USD')setCur(c)}catch(e){}
 
 /* shared header: currency menu, drawer, placeholder links */
 document.addEventListener('click',e=>{
@@ -770,6 +774,7 @@ document.addEventListener('click',e=>{
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#drawer')){$('#drawer').classList.remove('open');$('#scrim').classList.remove('open');$('#curmenu')?.classList.remove('open')}});
 
 /* ================= Listing page ================= */
+/* ================= Booking rules shared by listing, checkout and confirmation ================= */
 /* Prototype clock: Tue 13 Oct 2026, 10:00 in Colombo. All times are Sri Lanka time. */
 const NOW=new Date('2026-10-13T10:00:00+05:30'), HOUR=36e5, DAY=24*HOUR;
 const FREE_H=48, BNPL_D=5, FEE=.05, FEE_MIN=1, SERVICE=.079;
@@ -792,7 +797,7 @@ const L={
 const S={date:null,time:'08:00',adults:2,children:0};
 const startAt=()=>S.date?new Date(`${S.date}T${S.time}:00+05:30`):null;
 const lines=()=>{const a=S.adults*RATE.adult,c=S.children*RATE.child;return {a,c,sub:a+c,fee:Math.round((a+c)*SERVICE*100)/100}};
-const total=()=>{const l=lines();return l.sub+l.fee};
+const total=()=>{const l=lines();return l.sub+l.fee-(S.disc||0)};
 const gw=t=>Math.max(FEE_MIN,Math.round(t*FEE*100)/100);
 
 /* Which trust-link scenario applies (spec: akilaliyanage.com/trust-link)
@@ -809,6 +814,53 @@ function scenario(){
 }
 const cutoff=()=>new Date(startAt()-FREE_H*HOUR);
 const chargeOn=()=>new Date(startAt()-BNPL_D*DAY);
+
+/* Trust signal rows under Reserve Now, per the trust-link spec */
+function trustRows(sc){
+  const s=startAt(), fee='less a 5% payment processing fee';
+  const icon=n=>`<span class="ic"><svg class="i"><use href="#i-${n}"/></svg></span>`;
+  if(sc===3) return `<div class="trow amber">${icon('alert')}<div class="tx"><button class="tl" data-pop="cancel">Non-refundable</button><br>${L.policy==='nonref'?'This listing doesn’t offer refunds. Check your date and group before you book.':'Cancellations within 48 hours of your start time are not eligible for a refund.'}</div></div>`;
+  const cRow=L.policy==='custom'
+    ? `<div class="trow">${icon('doc')}<div class="tx"><b class="tl plain">${L.hostShort}’s cancellation policy</b><br>${L.customShort} <button class="tl" data-goto="cancellation-policy" style="font-size:13px">Read ${L.hostShort}’s full policy</button></div></div>`
+    : `<div class="trow">${icon('shield')}<div class="tx"><button class="tl" data-pop="cancel">Free cancellation</button><br>${s?`Cancel before ${dLong(cutoff())} · ${ft(cutoff())} for a full refund, ${fee}.`:`Cancel up to 48 hours before your start time for a full refund, ${fee}.`}</div></div>`;
+  if(!L.bnpl)return cRow;
+  const bRow=sc===1
+    ? `<div class="trow">${icon('cal')}<div class="tx"><button class="tl" data-pop="bnpl">Reserve now &amp; pay later</button><br>Secure your spot today. Your card is charged automatically 5 days before your experience${s?`, on ${dLong(chargeOn())}`:''}.</div></div>`
+    : `<div class="trow off">${icon('card')}<div class="tx"><b class="tl">Pay now required</b><br>Reserve now &amp; pay later isn’t available within 5 days of the service date.</div></div>`;
+  return cRow+bRow;
+}
+/* ---------- popups 4 and 5 ---------- */
+const mhead=t=>`<div class="grab"></div><div class="mh"><h2 id="m-title">${t}</h2><button class="icon-btn" data-mclose aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button></div>`;
+function feeBox(){const t=total(),f=gw(t);
+  return `<div class="feebox"><h4><svg class="i"><use href="#i-card"/></svg>Payment processing fee (5%, min. USD 1)</h4><p>When a paid booking is cancelled, our payment gateway charges a fee to reverse the transaction. This 5% fee is passed on at cost. Ceylon Nooks doesn’t keep it.</p>
+  <table><tr><td>Your booking amount</td><td>${fmt(t)}</td></tr><tr><td>Refund entitlement (100%)</td><td>${fmt(t)}</td></tr><tr><td>Gateway reversal fee (5%)</td><td>− ${fmt(f)}</td></tr><tr class="tot"><td>Returned to you</td><td>${fmt(t-f)}</td></tr></table>
+  <p class="est">Estimate only. The final amount is confirmed when our team reviews it. Refunds reach your card within 5 to 10 business days of approval.</p></div>`}
+function popCancel(){
+  const sc=scenario(),s=startAt();
+  const stateA=`<div class="pstate"><svg class="i"><use href="#i-shield"/></svg><span><b>${s?`Free cancellation before ${dYear(cutoff())} · ${ft(cutoff())}`:'Free cancellation up to 48 hours before your start time'}</b><small>Calculated from your start time, not when you cancel. Times are Sri Lanka local time.</small></span></div>
+    <ul class="rules"><li><span class="dot ok"><svg class="i"><use href="#i-check"/></svg></span><span><b style="color:var(--cn-ink)">At least 48 hours before:</b> full refund, less the payment processing fee.</span></li><li><span class="dot no"><svg class="i"><use href="#i-x"/></svg></span><span><b style="color:var(--cn-ink)">Less than 48 hours before:</b> no refund.</span></li><li><span class="dot no"><svg class="i"><use href="#i-x"/></svg></span><span><b style="color:var(--cn-ink)">No-show without cancelling:</b> no refund. The host keeps the full payment.</span></li></ul>`;
+  const stateB=`<div class="pstate amber"><svg class="i"><use href="#i-alert"/></svg><span><b>This booking is non-refundable</b><small>${L.policy==='nonref'?'The host doesn’t offer refunds on this listing.':'Your start time is within 48 hours, so the free cancellation window has passed.'}</small></span></div>
+    <div class="exc"><b>Exceptional circumstances</b>If you have a genuine emergency, you can still send a request with an explanation. Refunds in these cases are at Ceylon Nooks’ discretion and aren’t guaranteed.</div>`;
+  openModal(`${mhead('Cancellation policy')}<div class="mb-body">${sc===3?stateB:stateA}${feeBox()}<a class="mlink" href="#" data-act="sitepol">View full cancellation policy<svg class="i"><use href="#i-arrow"/></svg></a></div>`);
+}
+function popBnpl(){
+  const s=startAt(),t=total(),f=gw(t);
+  openModal(`${mhead('Reserve now &amp; pay later')}<div class="mb-body"><p>Secure your spot today with no upfront payment. Your card is charged automatically 5 days before your experience. No extra fees.</p>
+  <ol class="ssteps">
+   <li><span class="n">1</span><div><b>Find your experience</b><p>Choose the experience you love. Your spot is held with no upfront payment.</p></div></li>
+   <li><span class="n">2</span><div><b>Make a reservation</b><p>Reserve now with zero stress. Your card is checked but not charged.</p>${s?`<span class="when">Today</span>`:''}</div></li>
+   <li><span class="n">3</span><div><b>Payment is automatic</b><p>We’ll email you a reminder 3 days before the charge. Your card is charged 5 days before your start time.</p>${s?`<span class="when">Charged on ${dLong(chargeOn())}</span>`:''}</div></li>
+   <li><span class="n">4</span><div><b>Enjoy your experience</b><p>You’re all set. Have a fantastic time!</p>${s?`<span class="when">${dLong(s)}, ${ft(s)}</span>`:''}</div></li>
+  </ol>
+  <div class="cancel2"><h4>If you need to cancel</h4>
+   <div class="r"><svg class="i"><use href="#i-check"/></svg><span><b style="color:var(--cn-ink)">Before the automatic charge</b> (more than 5 days before): your card is never charged. No fee.</span></div>
+   <div class="r fee"><svg class="i"><use href="#i-card"/></svg><span><b style="color:var(--cn-ink)">After the charge</b>: a 5% payment processing fee is taken off. It covers the gateway’s cost of reversing the payment and isn’t kept by Ceylon Nooks. For this booking: ${fmt(t)} × 5% = ${fmt(f)} fee, so ${fmt(t-f)} comes back to you.</span></div></div>
+  <a class="mlink" href="#" data-act="bnplpol">View full Reserve now &amp; pay later policy<svg class="i"><use href="#i-arrow"/></svg></a></div>`);
+}
+let lastFocus=null;
+function openModal(h){lastFocus=document.activeElement;$('#modal').innerHTML=h;$('#modal').classList.add('open');$('#mscrim').classList.add('open');setTimeout(()=>$('#modal [data-mclose]').focus(),60)}
+function closeModal(){$('#modal').classList.remove('open');$('#mscrim').classList.remove('open');lastFocus?.focus?.()}
+
 
 /* ---------- gallery ---------- */
 const PH=[
@@ -885,20 +937,6 @@ function renderWidget(){
   $('#mbar').innerHTML=`<span><b>${s?fmt(t):fmt0(RATE.adult)}</b> <small>${s?`${dLong(s)} · ${$('#v-gst').textContent}`:'per adult'}</small><span class="pol ${amber?'amber':''}">${amber?'Non-refundable':L.policy==='custom'?'Host’s own cancellation policy':'Free cancellation'}</span></span><button class="btn primary" data-bw-open>${s?'Reserve':'Check dates'}</button>`;
   renderPolicy();
 }
-/* Trust signal rows under Reserve Now, per the trust-link spec */
-function trustRows(sc){
-  const s=startAt(), fee='less a 5% payment processing fee';
-  const icon=n=>`<span class="ic"><svg class="i"><use href="#i-${n}"/></svg></span>`;
-  if(sc===3) return `<div class="trow amber">${icon('alert')}<div class="tx"><button class="tl" data-pop="cancel">Non-refundable</button><br>${L.policy==='nonref'?'This listing doesn’t offer refunds. Check your date and group before you book.':'Cancellations within 48 hours of your start time are not eligible for a refund.'}</div></div>`;
-  const cRow=L.policy==='custom'
-    ? `<div class="trow">${icon('doc')}<div class="tx"><b class="tl plain">${L.hostShort}’s cancellation policy</b><br>${L.customShort} <button class="tl" data-goto="cancellation-policy" style="font-size:13px">Read ${L.hostShort}’s full policy</button></div></div>`
-    : `<div class="trow">${icon('shield')}<div class="tx"><button class="tl" data-pop="cancel">Free cancellation</button><br>${s?`Cancel before ${dLong(cutoff())} · ${ft(cutoff())} for a full refund, ${fee}.`:`Cancel up to 48 hours before your start time for a full refund, ${fee}.`}</div></div>`;
-  if(!L.bnpl)return cRow;
-  const bRow=sc===1
-    ? `<div class="trow">${icon('cal')}<div class="tx"><button class="tl" data-pop="bnpl">Reserve now &amp; pay later</button><br>Secure your spot today. Your card is charged automatically 5 days before your experience${s?`, on ${dLong(chargeOn())}`:''}.</div></div>`
-    : `<div class="trow off">${icon('card')}<div class="tx"><b class="tl">Pay now required</b><br>Reserve now &amp; pay later isn’t available within 5 days of the service date.</div></div>`;
-  return cRow+bRow;
-}
 /* The cancellation policy section on the page */
 function renderPolicy(){
   const box=$('#polbox');
@@ -907,50 +945,18 @@ function renderPolicy(){
   box.innerHTML=`<div class="pt"><span class="ic"><svg class="i"><use href="#i-shield"/></svg></span><div><p class="src">Ceylon Nooks policy</p><h3>Free cancellation up to 48 hours before</h3></div></div><ul><li>Cancel at least 48 hours before your start time: full refund, less the 5% payment processing fee (minimum USD 1).</li><li>Less than 48 hours before: no refund.</li><li>No-show without cancelling: no refund.</li>${L.bnpl?'<li>Reserve now, pay later is available for dates more than 5 days away.</li>':''}</ul><div class="links"><button class="link" data-pop="cancel" style="border:0;background:none;padding:0;cursor:pointer">How cancellation works<svg class="i"><use href="#i-arrow"/></svg></button>${L.bnpl?`<button class="link" data-pop="bnpl" style="border:0;background:none;padding:0;cursor:pointer">How pay later works<svg class="i"><use href="#i-arrow"/></svg></button>`:''}</div>`;
 }
 
-/* ---------- popups 4 and 5 ---------- */
-const mhead=t=>`<div class="grab"></div><div class="mh"><h2 id="m-title">${t}</h2><button class="icon-btn" data-mclose aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button></div>`;
-function feeBox(){const t=total(),f=gw(t);
-  return `<div class="feebox"><h4><svg class="i"><use href="#i-card"/></svg>Payment processing fee (5%, min. USD 1)</h4><p>When a paid booking is cancelled, our payment gateway charges a fee to reverse the transaction. This 5% fee is passed on at cost. Ceylon Nooks doesn’t keep it.</p>
-  <table><tr><td>Your booking amount</td><td>${fmt(t)}</td></tr><tr><td>Refund entitlement (100%)</td><td>${fmt(t)}</td></tr><tr><td>Gateway reversal fee (5%)</td><td>− ${fmt(f)}</td></tr><tr class="tot"><td>Returned to you</td><td>${fmt(t-f)}</td></tr></table>
-  <p class="est">Estimate only. The final amount is confirmed when our team reviews it. Refunds reach your card within 5 to 10 business days of approval.</p></div>`}
-function popCancel(){
-  const sc=scenario(),s=startAt();
-  const stateA=`<div class="pstate"><svg class="i"><use href="#i-shield"/></svg><span><b>${s?`Free cancellation before ${dYear(cutoff())} · ${ft(cutoff())}`:'Free cancellation up to 48 hours before your start time'}</b><small>Calculated from your start time, not when you cancel. Times are Sri Lanka local time.</small></span></div>
-    <ul class="rules"><li><span class="dot ok"><svg class="i"><use href="#i-check"/></svg></span><span><b style="color:var(--cn-ink)">At least 48 hours before:</b> full refund, less the payment processing fee.</span></li><li><span class="dot no"><svg class="i"><use href="#i-x"/></svg></span><span><b style="color:var(--cn-ink)">Less than 48 hours before:</b> no refund.</span></li><li><span class="dot no"><svg class="i"><use href="#i-x"/></svg></span><span><b style="color:var(--cn-ink)">No-show without cancelling:</b> no refund. The host keeps the full payment.</span></li></ul>`;
-  const stateB=`<div class="pstate amber"><svg class="i"><use href="#i-alert"/></svg><span><b>This booking is non-refundable</b><small>${L.policy==='nonref'?'The host doesn’t offer refunds on this listing.':'Your start time is within 48 hours, so the free cancellation window has passed.'}</small></span></div>
-    <div class="exc"><b>Exceptional circumstances</b>If you have a genuine emergency, you can still send a request with an explanation. Refunds in these cases are at Ceylon Nooks’ discretion and aren’t guaranteed.</div>`;
-  openModal(`${mhead('Cancellation policy')}<div class="mb-body">${sc===3?stateB:stateA}${feeBox()}<a class="mlink" href="#" data-act="sitepol">View full cancellation policy<svg class="i"><use href="#i-arrow"/></svg></a></div>`);
-}
-function popBnpl(){
-  const s=startAt(),t=total(),f=gw(t);
-  openModal(`${mhead('Reserve now &amp; pay later')}<div class="mb-body"><p>Secure your spot today with no upfront payment. Your card is charged automatically 5 days before your experience. No extra fees.</p>
-  <ol class="ssteps">
-   <li><span class="n">1</span><div><b>Find your experience</b><p>Choose the experience you love. Your spot is held with no upfront payment.</p></div></li>
-   <li><span class="n">2</span><div><b>Make a reservation</b><p>Reserve now with zero stress. Your card is checked but not charged.</p>${s?`<span class="when">Today</span>`:''}</div></li>
-   <li><span class="n">3</span><div><b>Payment is automatic</b><p>We’ll email you a reminder 3 days before the charge. Your card is charged 5 days before your start time.</p>${s?`<span class="when">Charged on ${dLong(chargeOn())}</span>`:''}</div></li>
-   <li><span class="n">4</span><div><b>Enjoy your experience</b><p>You’re all set. Have a fantastic time!</p>${s?`<span class="when">${dLong(s)}, ${ft(s)}</span>`:''}</div></li>
-  </ol>
-  <div class="cancel2"><h4>If you need to cancel</h4>
-   <div class="r"><svg class="i"><use href="#i-check"/></svg><span><b style="color:var(--cn-ink)">Before the automatic charge</b> (more than 5 days before): your card is never charged. No fee.</span></div>
-   <div class="r fee"><svg class="i"><use href="#i-card"/></svg><span><b style="color:var(--cn-ink)">After the charge</b>: a 5% payment processing fee is taken off. It covers the gateway’s cost of reversing the payment and isn’t kept by Ceylon Nooks. For this booking: ${fmt(t)} × 5% = ${fmt(f)} fee, so ${fmt(t-f)} comes back to you.</span></div></div>
-  <a class="mlink" href="#" data-act="bnplpol">View full Reserve now &amp; pay later policy<svg class="i"><use href="#i-arrow"/></svg></a></div>`);
-}
 function popCred(k){
   const C={sltda:['badge','Registered with Sri Lanka Tourism','Aravinda is registered with the Sri Lanka Tourism Development Authority (SLTDA) as a national tourist guide. Registered guides have passed the SLTDA training and exam, and are licensed to guide visitors anywhere in Sri Lanka.',[['Licence type','National tourist guide'],['Registration no.','SLTDA/NG/2041'],['Valid until','March 2027'],['Checked by Ceylon Nooks','2 October 2026']]],
-           police:['shield','Police clearance checked','Aravinda gave us a police clearance report issued by the Sri Lanka Police. It confirms there are no criminal records against him.',[['Issued by','Sri Lanka Police, Kandy'],['Issued','14 August 2026'],['Checked by Ceylon Nooks','2 October 2026']]]};
+           police:['shield','Police clearance checked','Aravinda gave us a police clearance report issued by the Sri Lanka Police. It confirms there are no criminal records.',[['Issued by','Sri Lanka Police, Kandy'],['Issued','14 August 2026'],['Checked by Ceylon Nooks','2 October 2026']]]};
   const [ic,t,p,dl]=C[k];
   openModal(`${mhead(t)}<div class="mb-body credm"><span class="ic"><svg class="i"><use href="#i-${ic}"/></svg></span><p>${p}</p><dl>${dl.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join('')}</dl><p style="font-size:12.5px;color:var(--cn-muted);margin-top:16px">Hosts share these documents with us by choice. We check them before the badge appears, and again when they expire. We don’t show the documents themselves.</p></div>`);
 }
-let lastFocus=null;
-function openModal(h){lastFocus=document.activeElement;$('#modal').innerHTML=h;$('#modal').classList.add('open');$('#mscrim').classList.add('open');setTimeout(()=>$('#modal [data-mclose]').focus(),60)}
-function closeModal(){$('#modal').classList.remove('open');$('#mscrim').classList.remove('open');lastFocus?.focus?.()}
-
 /* ---------- host ---------- */
 function renderHost(){
   const c=L.creds,n=(c.sltda?1:0)+(c.police?1:0);
   $('#host').innerHTML=`<span class="av">AP<span class="vf" title="ID verified"><svg class="i"><use href="#i-check"/></svg></span></span>
    <div><h3>${L.host}</h3><p class="hs">Licensed guide in Kandy · Hosting since 2019</p>
-    <div class="hstats"><span><b>4.9</b> rating</span><span><b>412</b> reviews across his tours</span><span><b>Replies in about 1 hour</b></span><span>Speaks <b>English, Sinhala</b></span></div>
+    <div class="hstats"><span><b>4.9</b> rating</span><span><b>412</b> reviews across all tours</span><span><b>Replies in about 1 hour</b></span><span>Speaks <b>English, Sinhala</b></span></div>
     ${n?`<div class="mini-badges">${c.sltda?`<span class="mb"><svg class="i"><use href="#i-badge"/></svg>SLTDA registered</span>`:''}${c.police?`<span class="mb"><svg class="i"><use href="#i-shield"/></svg>Police clearance</span>`:''}<span class="mb"><svg class="i"><use href="#i-user"/></svg>ID verified</span></div>`:`<div class="mini-badges"><span class="mb"><svg class="i"><use href="#i-user"/></svg>ID verified</span></div>`}
    </div>
    ${n?`<div class="creds">${c.sltda?`<button class="cred" data-cred="sltda"><span class="ic"><svg class="i"><use href="#i-badge"/></svg></span><span><b>Registered with Sri Lanka Tourism</b><small>SLTDA national tourist guide licence</small><span class="chk"><svg class="i"><use href="#i-check"/></svg>Checked by Ceylon Nooks, Oct 2026</span></span></button>`:''}${c.police?`<button class="cred" data-cred="police"><span class="ic"><svg class="i"><use href="#i-shield"/></svg></span><span><b>Police clearance checked</b><small>Sri Lanka Police report, no records</small><span class="chk"><svg class="i"><use href="#i-check"/></svg>Checked by Ceylon Nooks, Oct 2026</span></span></button>`:''}</div>`:''}
@@ -993,7 +999,7 @@ document.addEventListener('click',e=>{
   if(x.day){S.date=x.day;closePops();renderAll();if(innerWidth>900)$('#reserve').focus();return}
   if(x.g){S[x.g]+=+x.d;renderGst();renderWidget();return}
   if(x.time){S.time=x.time;closePops();renderAll();return}
-  if(b.id==='reserve'){if(!S.date){togglePop('date');return}location.href='checkout.html#'+new URLSearchParams({d:S.date,t:S.time,a:S.adults,c:S.children,p:L.policy,b:+L.bnpl,cur}).toString()}
+  if(b.id==='reserve'){if(!S.date){togglePop('date');return}location.href='Ceylon-Checkout.html#'+new URLSearchParams({d:S.date,t:S.time,a:S.adults,c:S.children,p:L.policy,b:+L.bnpl,cur}).toString()}
   if(x.pop==='cancel')popCancel();
   if(x.pop==='bnpl')popBnpl();
   if(x.cred)popCred(x.cred);
