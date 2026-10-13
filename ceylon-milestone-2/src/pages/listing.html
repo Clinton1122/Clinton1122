@@ -1,0 +1,806 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kandy Cultural City Tour | Ceylon Nooks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+{{BASE_CSS}}
+/* ================= Listing page (Milestone 2) ================= */
+body{background:#fff}
+.crumbs{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--cn-muted);padding:20px 0 16px;flex-wrap:wrap}
+.crumbs a{color:var(--cn-muted);text-decoration:none}.crumbs a:hover{color:var(--cn-ink)}
+.crumbs .i{width:14px;height:14px}
+
+/* gallery grid */
+.gal{position:relative;display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:220px 220px;gap:8px;border-radius:20px;overflow:hidden}
+.gal button{position:relative;padding:0;border:0;background:var(--cn-page);cursor:zoom-in;overflow:hidden}
+.gal button:first-child{grid-row:1/3}
+.gal img{width:100%;height:100%;object-fit:cover;transition:transform .5s,filter .2s}
+.gal button:hover img{transform:scale(1.03);filter:brightness(.92)}
+.gal .all{position:absolute;right:16px;bottom:16px;z-index:2;display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 16px;border-radius:999px;border:1px solid var(--cn-ink);background:#fff;font:600 14px var(--text);color:var(--cn-ink);cursor:pointer;box-shadow:var(--shadow)}
+.gal .all .i{width:18px;height:18px}
+.gal .count{display:none}
+
+/* layout */
+.lay{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:56px;align-items:start;margin-top:32px}
+.thead{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}
+.thead h1{font-size:34px;line-height:1.12;letter-spacing:-.03em;font-weight:700}
+.tmeta{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:10px;font-size:14px;color:var(--cn-body);align-items:center}
+.tmeta .i{width:16px;height:16px;color:var(--cn-muted)}
+.tmeta span{display:inline-flex;align-items:center;gap:6px}
+.tmeta .rate{font-weight:600;color:var(--cn-ink)}.tmeta .rate .i{color:var(--cn-primary);fill:var(--cn-primary)}
+.tmeta a{color:var(--cn-body)}
+.tacts{display:flex;gap:8px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.chip{position:relative;display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--cn-border);font-size:13px;font-weight:500;color:var(--cn-ink);background:#fff}
+.chip .i{width:16px;height:16px;color:var(--cn-muted)}
+.chip.tip{cursor:help}
+.chip.tip::after{content:attr(data-tip);position:absolute;left:0;top:calc(100% + 8px);width:240px;padding:10px 12px;border-radius:10px;background:var(--cn-ink);color:#fff;font-size:12px;line-height:1.45;font-weight:400;opacity:0;pointer-events:none;transition:opacity .15s;z-index:5}
+.chip.tip:hover::after,.chip.tip:focus::after{opacity:1}
+
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;padding:24px 0;margin-top:24px;border-top:1px solid var(--cn-border);border-bottom:1px solid var(--cn-border)}
+.fact{display:flex;gap:12px;font-size:13px;line-height:1.45;color:var(--cn-muted)}
+.fact .ic{width:40px;height:40px;border-radius:12px;background:var(--cn-page);display:grid;place-items:center;color:var(--cn-ink);flex:none}
+.fact b{display:block;color:var(--cn-ink);font-size:14px;font-weight:600}
+
+.blk{padding:36px 0;border-bottom:1px solid var(--cn-border)}
+.blk:last-child{border-bottom:0}
+.blk h2{font-size:22px;letter-spacing:-.02em;margin-bottom:14px}
+.blk p+p{margin-top:12px}
+.more-txt{max-height:96px;overflow:hidden;position:relative}
+.more-txt::after{content:"";position:absolute;left:0;right:0;bottom:0;height:40px;background:linear-gradient(rgba(255,255,255,0),#fff)}
+.more-txt.open{max-height:none}.more-txt.open::after{display:none}
+.tbtn{margin-top:12px;border:0;background:none;padding:0;font:600 14px var(--text);color:var(--cn-ink);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.hl{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:1fr 1fr;gap:10px 24px}
+.hl li{display:flex;gap:10px;font-size:14px}
+.hl .i{width:18px;height:18px;color:var(--cn-primary);margin-top:2px}
+
+/* pickup */
+.pick{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.pbox{border:1px solid var(--cn-border);border-radius:16px;padding:18px}
+.pbox h3{font-size:15px;display:flex;align-items:center;gap:8px}
+.pbox h3 .i{width:18px;height:18px;color:var(--cn-primary)}
+.pbox p{font-size:14px;margin-top:8px}
+.pbox .link{margin-top:10px}
+
+/* itinerary */
+.itin{position:relative;margin-top:6px}
+.stop{display:grid;grid-template-columns:40px minmax(0,1fr);gap:14px;position:relative;padding-bottom:22px}
+.stop:not(:last-child)::before{content:"";position:absolute;left:19px;top:40px;bottom:0;border-left:2px dashed var(--cn-primary-line)}
+.stop .n{width:40px;height:40px;border-radius:50%;background:var(--cn-primary-tint);color:var(--cn-primary-text);display:grid;place-items:center;font-weight:700;font-size:14px}
+.stop .n.end{background:var(--cn-ink);color:#fff}
+.stop h3{font-size:16px;padding-top:8px}
+.stop p{font-size:14px;margin-top:4px}
+.stop .sm{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:8px;font-size:12.5px;color:var(--cn-muted)}
+.stop .sm span{display:inline-flex;align-items:center;gap:5px}.stop .sm .i{width:14px;height:14px}
+
+/* included */
+.inc{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.inc h3{font-size:15px;margin-bottom:10px}
+.inc ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;font-size:14px}
+.inc li{display:flex;gap:10px}.inc .i{width:18px;height:18px;margin-top:2px}
+.inc .yes .i{color:var(--cn-primary)}.inc .no .i{color:var(--cn-muted)}
+
+/* cancellation policy section on the page */
+.polbox{border:1px solid var(--cn-border);border-radius:18px;padding:22px}
+.polbox .pt{display:flex;gap:12px;align-items:flex-start}
+.polbox .pt .ic{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;flex:none;background:var(--cn-primary-tint);color:var(--cn-primary)}
+.polbox .pt.amber .ic{background:var(--warn-bg);color:var(--warn)}
+.polbox h3{font-size:16px}
+.polbox .src{font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--cn-muted);margin-bottom:4px}
+.polbox ul{margin:14px 0 0;padding-left:20px;font-size:14px;display:flex;flex-direction:column;gap:6px}
+.polbox .q{margin-top:14px;padding:14px 16px;border-radius:12px;background:var(--cn-page);font-size:14px;line-height:1.55;color:var(--cn-ink)}
+.polbox .links{display:flex;gap:18px;flex-wrap:wrap;margin-top:16px}
+
+/* host card + trust badges */
+.host{display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;align-items:start;border:1px solid var(--cn-border);border-radius:20px;padding:24px}
+.av{width:72px;height:72px;border-radius:50%;background:#EADFD6;color:#7A4A2A;display:grid;place-items:center;font-weight:700;font-size:22px;position:relative}
+.av .vf{position:absolute;right:-2px;bottom:-2px;width:24px;height:24px;border-radius:50%;background:var(--cn-primary);color:#fff;display:grid;place-items:center;border:2px solid #fff}
+.av .vf .i{width:13px;height:13px;stroke-width:2.6}
+.host h3{font-size:20px}
+.host .hs{font-size:13px;color:var(--cn-muted);margin-top:2px}
+.hstats{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:10px;font-size:13px}
+.hstats b{color:var(--cn-ink)}
+.creds{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cred{display:flex;gap:12px;align-items:flex-start;text-align:left;padding:14px;border-radius:14px;border:1px solid var(--cn-border);background:#fff;cursor:pointer;font:inherit;color:inherit}
+.cred:hover{border-color:var(--cn-input)}
+.cred .ic{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;flex:none;background:var(--cn-primary-tint);color:var(--cn-primary)}
+.cred b{display:block;font-size:14px;color:var(--cn-ink)}
+.cred small{display:block;font-size:12.5px;color:var(--cn-muted);line-height:1.4;margin-top:2px}
+.cred .chk{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:600;color:var(--cn-primary-text);margin-top:6px}
+.cred .chk .i{width:13px;height:13px;stroke-width:2.4}
+.host .acts{grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap}
+.host .note{grid-column:1/-1;font-size:12.5px;color:var(--cn-muted)}
+.mini-badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.mb{display:inline-flex;align-items:center;gap:5px;height:26px;padding:0 10px;border-radius:999px;background:var(--cn-page);font-size:12px;font-weight:600;color:var(--cn-ink)}
+.mb .i{width:14px;height:14px;color:var(--cn-primary)}
+
+/* reviews */
+.rsum{display:grid;grid-template-columns:210px 1fr;gap:28px;align-items:center}
+.rbig{font-size:52px;font-weight:700;letter-spacing:-.04em;color:var(--cn-ink);line-height:1}
+.rbig small{font-size:16px;color:var(--cn-muted);font-weight:500;letter-spacing:0}
+.stars{display:flex;gap:2px;margin-top:6px}.stars .i{width:16px;height:16px;color:var(--cn-primary);fill:var(--cn-primary)}
+.rcats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.rcat{background:var(--cn-page);border-radius:12px;padding:12px 14px;font-size:13px;color:var(--cn-muted)}
+.rcat b{display:block;font-size:17px;color:var(--cn-ink)}
+.revs{display:grid;grid-template-columns:1fr 1fr;gap:28px 32px;margin-top:28px}
+.rev .who{display:flex;gap:10px;align-items:center}
+.rev .who .ini{width:36px;height:36px;border-radius:50%;background:var(--cn-page);display:grid;place-items:center;font-size:13px;font-weight:700;color:var(--cn-ink)}
+.rev .who b{display:block;font-size:14px;color:var(--cn-ink)}
+.rev .who small{font-size:12px;color:var(--cn-muted)}
+.rev p{font-size:14px;margin-top:10px}
+.rev .reply{margin-top:10px;padding:12px 14px;background:var(--cn-page);border-radius:12px;font-size:13px}
+
+/* faq */
+.faq details{border-bottom:1px solid var(--cn-border)}
+.faq summary{list-style:none;display:flex;justify-content:space-between;gap:16px;padding:16px 0;font-weight:600;color:var(--cn-ink);cursor:pointer}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary .i{transition:transform .2s;color:var(--cn-muted)}
+.faq details[open] summary .i{transform:rotate(45deg)}
+.faq details p{padding:0 0 16px;font-size:14px;max-width:70ch}
+
+/* related */
+.rel{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.rcard{text-decoration:none;color:inherit}
+.rcard .ph{aspect-ratio:4/3;border-radius:16px;overflow:hidden;background:var(--cn-page)}
+.rcard img{width:100%;height:100%;object-fit:cover}
+.rcard h3{font-size:15px;margin-top:10px;line-height:1.3}
+.rcard p{font-size:13px;color:var(--cn-muted);margin-top:3px}
+.rcard .pr{font-size:14px;color:var(--cn-ink);margin-top:4px}.rcard .pr b{font-weight:600}
+
+/* ================= booking widget ================= */
+.bw{position:sticky;top:92px;max-height:calc(100vh - 108px);overflow:auto;scrollbar-width:thin;border:1px solid var(--cn-border);border-radius:22px;box-shadow:0 12px 32px -12px rgba(24,24,27,.18);padding:22px;background:#fff}
+.bw .from{font-size:13px;color:var(--cn-muted)}
+.bw .price{font-size:26px;font-weight:700;letter-spacing:-.03em;color:var(--cn-ink)}
+.bw .price small{font-size:14px;font-weight:500;color:var(--cn-muted);letter-spacing:0}
+.bw .sheet-x{display:none}
+.fields{margin-top:16px;border:1px solid var(--cn-input);border-radius:14px;display:grid;grid-template-columns:1fr 1fr}
+.fld{position:relative;padding:10px 14px;border:0;background:none;text-align:left;font:inherit;cursor:pointer;min-width:0}
+.fld:first-child{grid-column:1/-1;border-bottom:1px solid var(--cn-input)}
+.fld+.fld+.fld{border-left:1px solid var(--cn-input)}
+.fld small{display:block;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--cn-ink)}
+.fld span{display:block;font-size:14px;color:var(--cn-body);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fld .i{position:absolute;right:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--cn-muted)}
+.fld[aria-expanded=true]{outline:2px solid var(--cn-ink);outline-offset:-1px;border-radius:12px}
+.pop{position:absolute;left:0;right:0;top:calc(100% + 8px);z-index:20;background:#fff;border:1px solid var(--cn-border);border-radius:16px;box-shadow:var(--lift);padding:16px;display:none}
+.pop.open{display:block}
+.fwrap{position:relative}
+/* calendar */
+.cal-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.cal-h b{font-size:15px;color:var(--cn-ink)}
+.cal-h button{width:32px;height:32px;border-radius:50%;border:1px solid var(--cn-border);background:#fff;display:grid;place-items:center;cursor:pointer}
+.cal-h button:disabled{opacity:.35;cursor:default}
+.cal-h .i{width:16px;height:16px}.cal-h .pv .i{transform:rotate(180deg)}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center}
+.cal .dow{font-size:11px;font-weight:600;color:var(--cn-muted);padding:4px 0}
+.cal button{height:38px;border:0;border-radius:50%;background:none;font:500 13px var(--text);color:var(--cn-ink);cursor:pointer;position:relative}
+.cal button:hover:not(:disabled){background:var(--cn-page)}
+.cal button:disabled{color:#C4C4C8;text-decoration:line-through;cursor:default}
+.cal button.past:disabled{text-decoration:none}
+.cal button[aria-pressed=true]{background:var(--cn-ink);color:#fff}
+.cal button.few::after{content:"";position:absolute;left:50%;bottom:4px;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:var(--cn-primary)}
+.cal-k{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;font-size:12px;color:var(--cn-muted)}
+.cal-k span{display:inline-flex;align-items:center;gap:6px}
+.cal-k i{width:6px;height:6px;border-radius:50%;background:var(--cn-primary)}
+/* guests */
+.gst{display:flex;justify-content:space-between;align-items:center;padding:10px 0}
+.gst+.gst{border-top:1px solid var(--cn-border)}
+.gst b{display:block;font-size:14px;color:var(--cn-ink)}
+.gst small{font-size:12px;color:var(--cn-muted)}
+.step{display:flex;align-items:center;gap:12px}
+.step button{width:32px;height:32px;border-radius:50%;border:1px solid var(--cn-input);background:#fff;font:500 18px/1 var(--text);color:var(--cn-ink);cursor:pointer}
+.step button:disabled{opacity:.3;cursor:default}
+.step output{min-width:16px;text-align:center;font-weight:600;color:var(--cn-ink)}
+.slots{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.slots button{height:40px;border-radius:10px;border:1px solid var(--cn-border);background:#fff;font:600 14px var(--text);color:var(--cn-ink);cursor:pointer}
+.slots button[aria-pressed=true]{border-color:var(--cn-ink);box-shadow:inset 0 0 0 1px var(--cn-ink)}
+.slots small{display:block;font-size:11px;font-weight:500;color:var(--cn-muted)}
+
+.bill{margin-top:14px;font-size:14px}
+.bill div{display:flex;justify-content:space-between;gap:12px;padding:3px 0}
+.bill .k{color:var(--cn-body)}
+.bill .k u{text-decoration-color:var(--cn-input);text-underline-offset:3px;cursor:help}
+.bill .tot{margin-top:6px;padding-top:10px;border-top:1px solid var(--cn-border);font-weight:700;color:var(--cn-ink);font-size:16px}
+.reserve{width:100%;min-height:50px;margin-top:14px;font-size:16px}
+.nocharge{text-align:center;font-size:13px;color:var(--cn-muted);margin-top:8px}
+
+/* trust signal rows under Reserve Now (trust-link spec, scenarios 1-3) */
+.tsig{margin-top:12px;border-radius:14px;border:1px solid var(--cn-border);overflow:hidden}
+.trow{display:flex;gap:12px;padding:12px 14px;align-items:flex-start}
+.trow+.trow{border-top:1px solid var(--cn-border)}
+.trow .ic{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;flex:none;background:var(--cn-primary-tint);color:var(--cn-primary)}
+.trow .ic .i{width:17px;height:17px}
+.trow .tx{font-size:13px;line-height:1.45;color:var(--cn-body)}
+.trow .tl{display:inline;padding:0;border:0;background:none;font:600 14px var(--text);color:var(--cn-primary-text);text-decoration:underline;text-decoration-color:var(--cn-primary-line);text-underline-offset:3px;cursor:pointer}
+.trow .tl:hover{text-decoration-color:currentColor}
+.trow .tl.plain{color:var(--cn-ink);text-decoration:none;cursor:default}
+.trow b.tl{cursor:default}
+.trow.off .ic{background:var(--cn-page);color:#A1A1AA}
+.trow.off .tl{color:#A1A1AA;text-decoration:none;cursor:default}
+.trow.off .tx{color:#A1A1AA}
+.trow.amber{background:var(--warn-bg)}
+.trow.amber .ic{background:#FFE7B3;color:var(--warn)}
+.trow.amber .tl{color:var(--warn);text-decoration-color:#E6C27A}
+.trow.amber .tx{color:#5C4210}
+.bw-foot{display:flex;justify-content:center;gap:16px;margin-top:14px;font-size:13px}
+.bw-foot a{color:var(--cn-muted)}
+
+/* mobile bottom bar */
+.mbar{display:none}
+
+/* ================= modals (desktop centred, mobile bottom sheet) ================= */
+.mscrim{position:fixed;inset:0;background:rgba(24,24,27,.5);z-index:80;opacity:0;pointer-events:none;transition:opacity .2s}
+.mscrim.open{opacity:1;pointer-events:auto}
+.modal{position:fixed;left:50%;top:50%;z-index:81;width:min(560px,calc(100% - 32px));max-height:calc(100% - 48px);display:flex;flex-direction:column;background:#fff;border-radius:24px;box-shadow:0 30px 80px rgba(0,0,0,.3);transform:translate(-50%,-46%);opacity:0;pointer-events:none;transition:transform .25s,opacity .2s}
+.modal.open{transform:translate(-50%,-50%);opacity:1;pointer-events:auto}
+.mh{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 20px 14px 24px;border-bottom:1px solid var(--cn-border)}
+.mh h2{font-size:19px}
+.mh .icon-btn{width:36px;height:36px}
+.mb-body{padding:20px 24px 24px;overflow:auto}
+.mb-body>p{font-size:14px}
+.grab{display:none}
+.pstate{display:flex;gap:12px;padding:14px 16px;border-radius:14px;background:var(--cn-primary-tint);align-items:flex-start}
+.pstate .i{color:var(--cn-primary);width:22px;height:22px;margin-top:1px}
+.pstate b{display:block;color:var(--cn-ink);font-size:15px}
+.pstate small{display:block;font-size:13px;color:var(--cn-body);margin-top:2px}
+.pstate.amber{background:var(--warn-bg)}.pstate.amber .i{color:var(--warn)}
+.rules{list-style:none;padding:0;margin:16px 0 0;display:flex;flex-direction:column;gap:10px;font-size:14px}
+.rules li{display:flex;gap:10px}
+.rules .dot{width:22px;height:22px;border-radius:50%;flex:none;display:grid;place-items:center;margin-top:1px}
+.rules .dot .i{width:13px;height:13px;stroke-width:2.6}
+.rules .ok{background:var(--cn-primary-tint);color:var(--cn-primary)}
+.rules .no{background:#F4F4F5;color:var(--cn-muted)}
+.exc{margin-top:16px;padding:14px 16px;border-radius:14px;border:1px solid var(--cn-border);font-size:13.5px}
+.exc b{display:block;color:var(--cn-ink);font-size:14px;margin-bottom:4px}
+.feebox{margin-top:16px;border-radius:14px;background:var(--cn-page);padding:16px}
+.feebox h4{font-size:14px;display:flex;align-items:center;gap:8px}
+.feebox h4 .i{width:17px;height:17px;color:var(--cn-muted)}
+.feebox>p{font-size:13px;margin-top:6px}
+.feebox table{width:100%;border-collapse:collapse;margin-top:12px;font-size:14px}
+.feebox td{padding:5px 0}.feebox td:last-child{text-align:right;font-variant-numeric:tabular-nums;color:var(--cn-ink)}
+.feebox tr.tot td{border-top:1px solid var(--cn-border);padding-top:10px;font-weight:700;color:var(--cn-ink)}
+.feebox .est{font-size:12px;color:var(--cn-muted);margin-top:10px}
+.mlink{display:inline-flex;align-items:center;gap:6px;margin-top:16px;font-weight:600;font-size:14px;color:var(--cn-primary-text);text-decoration:none}
+.mlink .i{width:16px;height:16px}
+.ssteps{list-style:none;padding:0;margin:18px 0 0;display:flex;flex-direction:column}
+.ssteps li{display:grid;grid-template-columns:32px 1fr;gap:12px;position:relative;padding-bottom:16px}
+.ssteps li:not(:last-child)::before{content:"";position:absolute;left:15px;top:32px;bottom:0;border-left:2px solid var(--cn-primary-line)}
+.ssteps .n{width:32px;height:32px;border-radius:50%;background:var(--cn-primary);color:#fff;display:grid;place-items:center;font-weight:700;font-size:14px}
+.ssteps b{display:block;color:var(--cn-ink);font-size:15px;padding-top:5px}
+.ssteps p{font-size:13.5px;margin-top:2px}
+.ssteps .when{display:inline-block;margin-top:6px;font-size:12px;font-weight:600;color:var(--cn-primary-text);background:var(--cn-primary-tint);padding:3px 8px;border-radius:999px}
+.cancel2{margin-top:6px;border:1px solid var(--cn-border);border-radius:14px;padding:4px 16px}
+.cancel2 h4{font-size:14px;padding-top:12px}
+.cancel2 .r{display:flex;gap:10px;padding:10px 0;font-size:13.5px}
+.cancel2 .r+.r{border-top:1px solid var(--cn-border)}
+.cancel2 .r .i{width:18px;height:18px;margin-top:1px;color:var(--cn-primary)}
+.cancel2 .r.fee .i{color:var(--cn-muted)}
+.credm .ic{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;background:var(--cn-primary-tint);color:var(--cn-primary);margin-bottom:12px}
+.credm .ic .i{width:28px;height:28px}
+.credm dl{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;margin:16px 0 0;font-size:14px}
+.credm dt{color:var(--cn-muted)}.credm dd{margin:0;color:var(--cn-ink);font-weight:500}
+
+/* ================= gallery modal (Homely-style photo tour) + viewer ================= */
+.gm{position:fixed;inset:0;z-index:90;background:#fff;display:flex;flex-direction:column;transform:translateY(16px);opacity:0;pointer-events:none;transition:transform .25s,opacity .2s}
+.gm.open{transform:none;opacity:1;pointer-events:auto}
+.gm-h{display:flex;align-items:center;gap:12px;height:68px;padding:0 24px;border-bottom:1px solid var(--cn-border);flex:none}
+.gm-h .back{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 14px 0 10px;border-radius:999px;border:1px solid var(--cn-border);background:#fff;font:600 14px var(--text);color:var(--cn-ink);cursor:pointer}
+.gm-h .back .i{transform:rotate(180deg);width:18px;height:18px}
+.gm-h .t{flex:1;min-width:0}
+.gm-h .t b{display:block;color:var(--cn-ink);font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gm-h .t small{font-size:13px;color:var(--cn-muted)}
+.gm-h .acts{display:flex;gap:8px}
+.gm-b{overflow:auto;flex:1}
+.gm-grid{max-width:920px;margin:0 auto;padding:28px 24px 64px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.gm-grid button{padding:0;border:0;background:var(--cn-page);cursor:zoom-in;aspect-ratio:4/3;overflow:hidden;border-radius:6px}
+.gm-grid button.wide{grid-column:1/-1;aspect-ratio:16/9}
+.gm-grid img{width:100%;height:100%;object-fit:cover;transition:filter .2s}
+.gm-grid button:hover img{filter:brightness(.9)}
+.gm-cap{grid-column:1/-1;font-size:12px;color:var(--cn-muted);margin:-2px 0 10px}
+.vw{position:fixed;inset:0;z-index:95;background:#0B0B0C;color:#fff;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .2s}
+.vw.open{opacity:1;pointer-events:auto}
+.vw-h{display:flex;align-items:center;justify-content:space-between;height:64px;padding:0 20px;flex:none}
+.vw-h .close{display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 14px;border-radius:999px;border:0;background:rgba(255,255,255,.12);color:#fff;font:600 14px var(--text);cursor:pointer}
+.vw-h .close .i{width:18px;height:18px}
+.vw-h .ct{font-size:14px;font-weight:600;font-variant-numeric:tabular-nums}
+.vw-st{flex:1;position:relative;display:flex;align-items:center;justify-content:center;min-height:0;touch-action:pan-y;user-select:none}
+.vw-st img{max-width:calc(100% - 160px);max-height:100%;object-fit:contain;border-radius:4px;transition:transform .25s,opacity .2s}
+.vw-st .nav{position:absolute;top:50%;transform:translateY(-50%);width:52px;height:52px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#fff;display:grid;place-items:center;cursor:pointer}
+.vw-st .nav:hover{background:rgba(255,255,255,.24)}
+.vw-st .nav:disabled{opacity:.25;cursor:default}
+.vw-st .nav.l{left:24px}.vw-st .nav.l .i{transform:rotate(180deg)}.vw-st .nav.r{right:24px}
+.vw-cap{text-align:center;font-size:13px;color:#A1A1AA;padding:12px 20px 0;flex:none}
+.vw-th{display:flex;gap:6px;justify-content:center;padding:14px 20px 20px;overflow-x:auto;flex:none;scrollbar-width:none}
+.vw-th button{width:64px;height:46px;flex:none;padding:0;border:2px solid transparent;border-radius:6px;overflow:hidden;opacity:.5;cursor:pointer;background:none}
+.vw-th button[aria-current=true]{border-color:#fff;opacity:1}
+.vw-th img{width:100%;height:100%;object-fit:cover}
+.swipe-hint{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);display:none;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.14);font-size:13px;font-weight:600;white-space:nowrap;transition:opacity .4s}
+
+/* prototype controls */
+.proto{position:fixed;left:16px;bottom:16px;z-index:70}
+.proto>button{display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 14px;border-radius:999px;border:1px dashed var(--cn-input);background:#fff;font:600 13px var(--text);color:var(--cn-muted);cursor:pointer;box-shadow:var(--shadow)}
+.proto>button .i{width:16px;height:16px}
+.proto .pp{position:absolute;left:0;bottom:46px;width:300px;background:#fff;border:1px solid var(--cn-border);border-radius:16px;box-shadow:var(--lift);padding:16px;display:none}
+.proto.open .pp{display:block}
+.proto h4{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--cn-muted);margin:12px 0 6px}
+.proto h4:first-child{margin-top:0}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{height:30px;padding:0 10px;border-radius:999px;border:1px solid var(--cn-border);background:#fff;font:500 12.5px var(--text);color:var(--cn-ink);cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--cn-ink);border-color:var(--cn-ink);color:#fff}
+.proto p{font-size:12px;color:var(--cn-muted);margin-top:10px}
+
+@media (max-width:1100px){.lay{grid-template-columns:minmax(0,1fr) 340px;gap:32px}.rel{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:900px){
+  .lay{grid-template-columns:1fr}
+  .bw{position:fixed;left:0;right:0;bottom:0;top:auto;z-index:85;border-radius:24px 24px 0 0;max-height:92vh;overflow:auto;transform:translateY(105%);transition:transform .3s;box-shadow:0 -20px 60px rgba(0,0,0,.25)}
+  .bw.open{transform:none}
+  .bw .sheet-x{display:grid;position:absolute;right:16px;top:16px}
+  .mbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:60;background:#fff;border-top:1px solid var(--cn-border);padding:12px 16px calc(12px + env(safe-area-inset-bottom));align-items:center;justify-content:space-between;gap:12px}
+  .mbar b{font-size:17px;color:var(--cn-ink)}.mbar small{display:block;font-size:12px;color:var(--cn-muted)}
+  .mbar .pol{font-size:12px;font-weight:600;color:var(--cn-primary-text)}
+  .mbar .pol.amber{color:var(--warn)}
+  .foot{padding-bottom:110px}
+  .proto{bottom:88px}
+  .proto>button{width:38px;padding:0;justify-content:center;font-size:0;gap:0}
+}
+@media (max-width:700px){
+  .crumbs{padding:12px 0}
+  .gal{grid-template-columns:1fr;grid-template-rows:280px;margin:0 -16px;border-radius:0}
+  .gal button[data-photo]:not(:first-child){display:none}
+  .gal .count{display:block;position:absolute;right:12px;bottom:12px;z-index:2;background:rgba(24,24,27,.7);color:#fff;font-size:12px;font-weight:600;padding:5px 10px;border-radius:999px}
+  .gal .all{left:12px;right:auto;bottom:12px;height:34px;font-size:13px;padding:0 12px}
+  .lay{margin-top:20px}
+  .thead h1{font-size:26px}
+  .tacts .btn span{display:none}
+  .facts{grid-template-columns:1fr;gap:14px}
+  .hl,.pick,.inc,.creds,.revs{grid-template-columns:1fr}
+  .rsum{grid-template-columns:1fr;gap:16px}
+  .rcats{grid-template-columns:repeat(2,1fr)}
+  .rel{grid-template-columns:repeat(2,1fr);gap:12px}
+  .modal{left:0;right:0;top:auto;bottom:0;width:100%;max-height:90vh;border-radius:24px 24px 0 0;transform:translateY(100%)}
+  .modal.open{transform:none}
+  .grab{display:block;width:40px;height:4px;border-radius:2px;background:var(--cn-input);margin:8px auto 0}
+  .mh{padding:10px 16px 12px 20px}
+  .mb-body{padding:16px 20px calc(24px + env(safe-area-inset-bottom))}
+  .gm-h{padding:0 12px;height:60px}.gm-h .acts .btn span{display:none}.gm-h .acts .btn{padding:0 12px}
+  .gm-grid{padding:12px 0 40px;gap:4px}.gm-grid button{border-radius:0}.gm-cap{padding:0 12px}
+  .vw-st img{max-width:100%}
+  .vw-st .nav{display:none}
+  .swipe-hint{display:inline-flex}
+  .vw-th{justify-content:flex-start}
+}
+</style>
+</head>
+<body>
+{{SPRITE}}
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-share" viewBox="0 0 24 24"><path d="M12 15V4m0 0L8 8m4-4l4 4M5 12v6.5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5V12"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1"/><rect x="13" y="4" width="7" height="7" rx="1"/><rect x="4" y="13" width="7" height="7" rx="1"/><rect x="13" y="13" width="7" height="7" rx="1"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9.5" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
+  <symbol id="i-card" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h3"/></symbol>
+  <symbol id="i-badge" viewBox="0 0 24 24"><path d="M12 3l2.2 1.6 2.7-.1.8 2.6 2.2 1.6-.9 2.6.9 2.6-2.2 1.6-.8 2.6-2.7-.1L12 21l-2.2-1.6-2.7.1-.8-2.6-2.2-1.6.9-2.6-.9-2.6 2.2-1.6.8-2.6 2.7.1z"/><path d="M9 12l2 2 4-4"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M7 3.5h7l4 4V19a1.5 1.5 0 0 1-1.5 1.5h-9.5A1.5 1.5 0 0 1 5.5 19V5A1.5 1.5 0 0 1 7 3.5z"/><path d="M14 3.5V8h4M9 13h6M9 16.5h4"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 4l9 16H3z"/><path d="M12 10v4.5M12 17.2v.1"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.8v.1"/></symbol>
+  <symbol id="i-lang" viewBox="0 0 24 24"><path d="M4 5h9M8.5 3v2M6 5c.5 3.5 3 6.5 6 8M11 5c-.8 3.8-3.3 7-7 9"/><path d="M13 21l4-9 4 9M14.5 17.5h5"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></symbol>
+  <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+</svg>
+{{HEADER}}
+<main class="wrap">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="homepage.html">Home</a><svg class="i"><use href="#i-chev"/></svg><a href="#">Kandy</a><svg class="i"><use href="#i-chev"/></svg><a href="category.html">Tours</a><svg class="i"><use href="#i-chev"/></svg><span aria-current="page">Kandy Cultural City Tour</span></nav>
+
+  <section class="gal" id="gal" aria-label="Photos"></section>
+
+  <div class="lay">
+    <div>
+      <div class="thead">
+        <div>
+          <h1>Kandy Cultural City Tour</h1>
+          <div class="tmeta">
+            <span class="rate"><svg class="i"><use href="#i-star"/></svg>4.9</span><a href="#reviews">128 reviews</a>
+            <span><svg class="i"><use href="#i-pin"/></svg>Kandy, Central Province</span>
+            <span><svg class="i"><use href="#i-badge"/></svg>Hosted by Aravinda</span>
+          </div>
+        </div>
+        <div class="tacts"><button class="btn" data-act="share"><svg class="i"><use href="#i-share"/></svg><span>Share</span></button><button class="btn" data-act="save"><svg class="i"><use href="#i-heart"/></svg><span>Save</span></button></div>
+      </div>
+      <div class="chips">
+        <span class="chip tip" tabindex="0" data-tip="Only your group. No strangers join the tour."><svg class="i"><use href="#i-user"/></svg>Private tour</span>
+        <span class="chip"><svg class="i"><use href="#i-users"/></svg>1 to 12 travellers</span>
+        <span class="chip"><svg class="i"><use href="#i-car"/></svg>Car or van</span>
+        <span class="chip"><svg class="i"><use href="#i-lang"/></svg>English, Sinhala</span>
+      </div>
+
+      <div class="facts">
+        <div class="fact"><span class="ic"><svg class="i"><use href="#i-temple"/></svg></span><span><b>Culture and heritage</b>Temples, the royal palace, markets and viewpoints</span></div>
+        <div class="fact"><span class="ic"><svg class="i"><use href="#i-clock"/></svg></span><span><b>6 to 8 hours</b>Starts at 8:00 AM or 10:00 AM</span></div>
+        <div class="fact"><span class="ic"><svg class="i"><use href="#i-pin"/></svg></span><span><b>Hotel pickup in Kandy</b>Or meet at the Queen’s Hotel entrance</span></div>
+      </div>
+
+      <section class="blk" aria-labelledby="ov">
+        <h2 id="ov">About this tour</h2>
+        <div class="more-txt" id="ovtxt">
+          <p>Kandy is the cultural heart of Sri Lanka, a city wrapped in green hills around a lake, with temples, palaces and markets that have been part of daily life for centuries. This private day tour is led by a licensed guide who grew up here.</p>
+          <p>You’ll start at the Temple of the Sacred Tooth Relic before the crowds, walk the lake and the old royal palace, taste your way through the central market, and finish at the Bahirawakanda Buddha with the whole city below you. Lunch is at a family-run rice-and-curry place your guide knows well.</p>
+          <p>The day runs at your pace. If you’d rather spend longer at the temple or skip the market, just say so on the day.</p>
+        </div>
+        <button class="tbtn" data-more="ovtxt">Read more</button>
+      </section>
+
+      <section class="blk" aria-labelledby="hl-h">
+        <h2 id="hl-h">Highlights</h2>
+        <ul class="hl">
+          <li><svg class="i"><use href="#i-check"/></svg>Temple of the Tooth, a UNESCO World Heritage Site</li>
+          <li><svg class="i"><use href="#i-check"/></svg>Kandy Lake walk with views across the city</li>
+          <li><svg class="i"><use href="#i-check"/></svg>The old royal palace and museum</li>
+          <li><svg class="i"><use href="#i-check"/></svg>Central market and local snacks</li>
+          <li><svg class="i"><use href="#i-check"/></svg>Sunset at the Bahirawakanda Buddha</li>
+          <li><svg class="i"><use href="#i-check"/></svg>Optional Kandyan dance show in the evening</li>
+        </ul>
+      </section>
+
+      <section class="blk" aria-labelledby="it-h">
+        <h2 id="it-h">What you’ll do</h2>
+        <div class="itin">
+          <div class="stop"><span class="n">1</span><div><h3>Pickup from your hotel in Kandy</h3><p>Your guide meets you in the lobby with a sign showing your name.</p><div class="sm"><span><svg class="i"><use href="#i-clock"/></svg>8:00 AM</span><span><svg class="i"><use href="#i-car"/></svg>Air-conditioned car or van</span></div></div></div>
+          <div class="stop"><span class="n">2</span><div><h3>Temple of the Sacred Tooth Relic</h3><p>Arrive for the morning offering, then explore the inner shrines and the museum.</p><div class="sm"><span><svg class="i"><use href="#i-clock"/></svg>About 2 hours</span><span><svg class="i"><use href="#i-tag"/></svg>Entry included</span></div></div></div>
+          <div class="stop"><span class="n">3</span><div><h3>Lake walk and royal palace</h3><p>A gentle loop of Kandy Lake, then the old palace and audience hall.</p><div class="sm"><span><svg class="i"><use href="#i-clock"/></svg>1 hour 30 minutes</span></div></div></div>
+          <div class="stop"><span class="n">4</span><div><h3>Central market and lunch</h3><p>Fruit, spices and short eats, then rice and curry at a family-run place.</p><div class="sm"><span><svg class="i"><use href="#i-clock"/></svg>1 hour 30 minutes</span><span><svg class="i"><use href="#i-pot"/></svg>Lunch not included</span></div></div></div>
+          <div class="stop"><span class="n end">5</span><div><h3>Bahirawakanda Buddha, then back to your hotel</h3><p>The hilltop statue at sunset, then drop-off anywhere in Kandy.</p><div class="sm"><span><svg class="i"><use href="#i-clock"/></svg>Back around 4:00 PM</span></div></div></div>
+        </div>
+      </section>
+
+      <section class="blk" aria-labelledby="pk-h">
+        <h2 id="pk-h">Pickup and drop-off</h2>
+        <div class="pick">
+          <div class="pbox"><h3><svg class="i"><use href="#i-pin"/></svg>Pickup</h3><p>Any hotel or guesthouse in Kandy. Add the address at checkout. Not staying in Kandy? Meet at the Queen’s Hotel entrance.</p><a class="link" href="https://www.google.com/maps/search/?api=1&query=7.2936,80.6413" target="_blank" rel="noopener">Open in Google Maps<svg class="i"><use href="#i-arrow"/></svg></a></div>
+          <div class="pbox"><h3><svg class="i"><use href="#i-flag"/></svg>Drop-off</h3><p>Back at your hotel, or anywhere in Kandy town. Ask your guide about drop-off at the station for the Ella train.</p></div>
+        </div>
+      </section>
+
+      <section class="blk" aria-labelledby="in-h">
+        <h2 id="in-h">What’s included</h2>
+        <div class="inc">
+          <div class="yes"><h3>Included</h3><ul><li><svg class="i"><use href="#i-check"/></svg>Hotel pickup and drop-off in Kandy</li><li><svg class="i"><use href="#i-check"/></svg>Private car or van with driver</li><li><svg class="i"><use href="#i-check"/></svg>Licensed English-speaking guide</li><li><svg class="i"><use href="#i-check"/></svg>Temple of the Tooth entry</li><li><svg class="i"><use href="#i-check"/></svg>Bottled water and snacks</li><li><svg class="i"><use href="#i-check"/></svg>All taxes</li></ul></div>
+          <div class="no"><h3>Not included</h3><ul><li><svg class="i"><use href="#i-x"/></svg>Lunch, about USD 6 per person</li><li><svg class="i"><use href="#i-x"/></svg>Kandyan dance show tickets</li><li><svg class="i"><use href="#i-x"/></svg>Tips</li><li><svg class="i"><use href="#i-x"/></svg>Travel insurance</li></ul></div>
+        </div>
+      </section>
+
+      <section class="blk" id="cancellation-policy" aria-labelledby="cp-h">
+        <h2 id="cp-h">Cancellation policy</h2>
+        <div class="polbox" id="polbox"></div>
+      </section>
+
+      <section class="blk" aria-labelledby="host-h">
+        <h2 id="host-h">Your host</h2>
+        <div class="host" id="host"></div>
+      </section>
+
+      <section class="blk" id="reviews" aria-labelledby="rv-h">
+        <h2 id="rv-h">Reviews</h2>
+        <div class="rsum">
+          <div><div class="rbig">4.9 <small>out of 5</small></div><div class="stars"><svg class="i"><use href="#i-star"/></svg><svg class="i"><use href="#i-star"/></svg><svg class="i"><use href="#i-star"/></svg><svg class="i"><use href="#i-star"/></svg><svg class="i"><use href="#i-star"/></svg></div><p style="font-size:13px;margin-top:6px">128 verified reviews</p></div>
+          <div class="rcats"><div class="rcat"><b>4.9</b>Guide knowledge</div><div class="rcat"><b>5.0</b>Organisation</div><div class="rcat"><b>4.8</b>Value for money</div><div class="rcat"><b>4.9</b>Communication</div><div class="rcat"><b>4.8</b>Vehicle</div><div class="rcat"><b>4.9</b>Experience</div></div>
+        </div>
+        <div class="revs">
+          <div class="rev"><div class="who"><span class="ini">SL</span><span><b>Sophie L.</b><small>United Kingdom · September 2026</small></span></div><p>Aravinda got us into the temple just as the morning offering started. We’d never have managed the timing on our own. The lunch spot was the best food of our trip.</p></div>
+          <div class="rev"><div class="who"><span class="ini">KT</span><span><b>Kenji T.</b><small>Japan · August 2026</small></span></div><p>Very relaxed pace with two children. The van was spotless and cool, and he changed the order of stops when it started to rain.</p></div>
+          <div class="rev"><div class="who"><span class="ini">MR</span><span><b>Marcus R.</b><small>Australia · August 2026</small></span></div><p>Great guide, but the market was very crowded on a Saturday. Go on a weekday if you can.</p><div class="reply"><b>Aravinda replied:</b> Thanks Marcus. Good tip, we now suggest the market last on weekends.</div></div>
+          <div class="rev"><div class="who"><span class="ini">AN</span><span><b>Anna N.</b><small>Germany · July 2026</small></span></div><p>Booked the day before and he still sorted everything. Loved the Bahirawakanda view at the end.</p></div>
+        </div>
+        <button class="btn" style="margin-top:24px" data-act="reviews">Show all 128 reviews</button>
+      </section>
+
+      <section class="blk faq" aria-labelledby="fq-h">
+        <h2 id="fq-h">Questions</h2>
+        <details open><summary>Is the Temple of the Tooth entry included?<svg class="i"><use href="#i-plus"/></svg></summary><p>Yes. Shoulders and knees must be covered. Bring a scarf or sarong, or borrow one from your guide.</p></details>
+        <details><summary>Can we change the order of stops?<svg class="i"><use href="#i-plus"/></svg></summary><p>Yes. It’s a private tour, so tell your guide on the day.</p></details>
+        <details><summary>Is it suitable for children?<svg class="i"><use href="#i-plus"/></svg></summary><p>Yes. Child seats are free. Ask for one at checkout.</p></details>
+        <details><summary>What happens if it rains?<svg class="i"><use href="#i-plus"/></svg></summary><p>The tour runs in light rain. If the host cancels for safety, you get a full refund or a free new date.</p></details>
+      </section>
+    </div>
+
+    <!-- booking widget -->
+    <aside class="bw" id="bw" aria-label="Book this tour">
+      <button class="icon-btn sheet-x" data-bw-close aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button>
+      <p class="price"><small>From</small> <span data-p0="100">USD 100</span> <small>per adult</small></p>
+      <div class="fwrap">
+        <div class="fields">
+          <button class="fld" id="f-date" aria-expanded="false" aria-controls="pop-date"><small>Date</small><span id="v-date">Choose a date</span><svg class="i"><use href="#i-cal"/></svg></button>
+          <button class="fld" id="f-gst" aria-expanded="false" aria-controls="pop-gst"><small>Travellers</small><span id="v-gst">2 adults</span></button>
+          <button class="fld" id="f-time" aria-expanded="false" aria-controls="pop-time"><small>Start time</small><span id="v-time">8:00 AM</span></button>
+        </div>
+        <div class="pop" id="pop-date" role="dialog" aria-label="Choose a date"></div>
+        <div class="pop" id="pop-gst" role="dialog" aria-label="Travellers"></div>
+        <div class="pop" id="pop-time" role="dialog" aria-label="Start time"></div>
+      </div>
+      <div class="bill" id="bill"></div>
+      <button class="btn primary reserve" id="reserve">Reserve now</button>
+      <p class="nocharge" id="nocharge"></p>
+      <div class="tsig" id="tsig" aria-live="polite"></div>
+      <div class="bw-foot"><a href="#" data-act="ask">Ask Aravinda a question</a><a href="#" data-act="report">Report this listing</a></div>
+    </aside>
+  </div>
+
+  <section class="blk" aria-labelledby="rl-h" style="border-top:1px solid var(--cn-border);margin-top:24px">
+    <h2 id="rl-h">More tours from Kandy</h2>
+    <div class="rel" id="rel"></div>
+  </section>
+</main>
+{{FOOTER}}
+
+<div class="mbar" id="mbar"></div>
+
+<!-- popups -->
+<div class="mscrim" id="mscrim"></div>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="m-title"></div>
+
+<!-- gallery -->
+<div class="gm" id="gm" role="dialog" aria-modal="true" aria-label="All photos">
+  <div class="gm-h"><button class="back" data-gm-close><svg class="i"><use href="#i-chev"/></svg>Back</button><div class="t"><b>Kandy Cultural City Tour</b><small id="gm-n"></small></div><div class="acts"><button class="btn" data-act="share" style="min-height:40px"><svg class="i"><use href="#i-share"/></svg><span>Share</span></button><button class="btn" data-act="save" style="min-height:40px"><svg class="i"><use href="#i-heart"/></svg><span>Save</span></button></div></div>
+  <div class="gm-b"><div class="gm-grid" id="gm-grid"></div></div>
+</div>
+<div class="vw" id="vw" role="dialog" aria-modal="true" aria-label="Photo viewer">
+  <div class="vw-h"><button class="close" data-vw-close><svg class="i"><use href="#i-x"/></svg>Close</button><span class="ct" id="vw-ct"></span><span style="width:84px"></span></div>
+  <div class="vw-st" id="vw-st"><button class="nav l" data-vw="-1" aria-label="Previous photo"><svg class="i"><use href="#i-chev"/></svg></button><img id="vw-img" alt=""><button class="nav r" data-vw="1" aria-label="Next photo"><svg class="i"><use href="#i-chev"/></svg></button><span class="swipe-hint" id="swipe-hint">Swipe for the next photo</span></div>
+  <p class="vw-cap" id="vw-cap"></p>
+  <div class="vw-th" id="vw-th"></div>
+</div>
+
+<div class="proto" id="proto"><div class="pp" id="pp"></div><button data-proto><svg class="i"><use href="#i-gear"/></svg>Prototype controls</button></div>
+
+<script>
+{{BASE_JS}}
+/* ================= Listing page ================= */
+/* Prototype clock: Tue 13 Oct 2026, 10:00 in Colombo. All times are Sri Lanka time. */
+const NOW=new Date('2026-10-13T10:00:00+05:30'), HOUR=36e5, DAY=24*HOUR;
+const FREE_H=48, BNPL_D=5, FEE=.05, FEE_MIN=1, SERVICE=.079;
+const RATE={adult:100,child:70};
+const fd=(d,o)=>d.toLocaleDateString('en-GB',{timeZone:'Asia/Colombo',...o});
+const ft=d=>d.toLocaleTimeString('en-US',{timeZone:'Asia/Colombo',hour:'numeric',minute:'2-digit'});
+const dLong=d=>fd(d,{weekday:'short',day:'numeric',month:'short'});
+const dYear=d=>fd(d,{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+
+/* listing settings (the host chooses these when creating the listing) */
+const L={
+  host:'Aravinda Perera',hostShort:'Aravinda',
+  policy:'site',          // 'site' = Ceylon Nooks policy, 'custom' = host's own, 'nonref' = non-refundable listing
+  bnpl:true,              // host accepts Reserve now, pay later
+  custom:'Free cancellation up to 72 hours before the tour starts, for a full refund less the payment processing fee. Between 72 and 24 hours, 50% back. Less than 24 hours, no refund. If I cancel for weather or safety, you get a full refund or a free new date.',
+  customShort:'Full refund up to 72 hours before. 50% back from 72 to 24 hours.',
+  creds:{sltda:true,police:true}
+};
+/* booking state */
+const S={date:null,time:'08:00',adults:2,children:0};
+const startAt=()=>S.date?new Date(`${S.date}T${S.time}:00+05:30`):null;
+const lines=()=>{const a=S.adults*RATE.adult,c=S.children*RATE.child;return {a,c,sub:a+c,fee:Math.round((a+c)*SERVICE*100)/100}};
+const total=()=>{const l=lines();return l.sub+l.fee};
+const gw=t=>Math.max(FEE_MIN,Math.round(t*FEE*100)/100);
+
+/* Which trust-link scenario applies (spec: akilaliyanage.com/trust-link)
+   1: more than 5 days away  -> free cancellation + reserve now, pay later
+   2: 48 hours to 5 days     -> free cancellation, pay now required
+   3: 48 hours or less       -> non-refundable */
+function scenario(){
+  if(L.policy==='nonref')return 3;
+  const s=startAt(); if(!s)return 1;
+  const h=(s-NOW)/HOUR;
+  if(h<=FREE_H)return 3;
+  if(h<=BNPL_D*24)return 2;
+  return 1;
+}
+const cutoff=()=>new Date(startAt()-FREE_H*HOUR);
+const chargeOn=()=>new Date(startAt()-BNPL_D*DAY);
+
+/* ---------- gallery ---------- */
+const PH=[
+ ['kandy-temple.jpg','Temple of the Sacred Tooth Relic, Kandy'],
+ ['anuradhapura.jpg','Stand-in photo: Jetavanaramaya, Anuradhapura'],
+ ['sigiriya.jpg','Stand-in photo: Sigiriya'],
+ ['galle-fort.jpg','Stand-in photo: Galle Fort'],
+ ['colombo.jpg','Stand-in photo: Galle Face Green, Colombo'],
+ ['ella-nine-arch.jpg','Stand-in photo: Nine Arches Bridge, Ella'],
+ ['jaffna.jpg','Stand-in photo: Nallur Kandaswamy Kovil'],
+ ['adams-peak.jpg','Stand-in photo: Adam’s Peak'],
+ ['pidurangala.jpg','Stand-in photo: Pidurangala'],
+ ['trincomalee.jpg','Stand-in photo: Trincomalee'],
+];
+$('#gal').innerHTML=PH.slice(0,5).map(([f,c],i)=>`<button data-photo="${i}" aria-label="Open photo ${i+1} of ${PH.length}: ${c}"><img src="${pic(f)}" alt="${c}" ${i?'loading="lazy"':''}></button>`).join('')+
+  `<button class="all" data-gallery><svg class="i"><use href="#i-grid"/></svg>Show all ${PH.length} photos</button><span class="count">1 / ${PH.length}</span>`;
+$('#gm-n').textContent=`${PH.length} photos`;
+/* photo tour: one wide photo, then two side by side, repeated. No categories for tours and activities. */
+$('#gm-grid').innerHTML=PH.map(([f,c],i)=>`<button class="${i%3===0?'wide':''}" data-photo="${i}" aria-label="Open photo ${i+1}: ${c}"><img src="${pic(f)}" alt="${c}" loading="lazy"></button>`).join('')+`<p class="gm-cap">Photos are uploaded by the host. Tap any photo to see it full screen.</p>`;
+let vi=0;
+function openGallery(){$('#gm').classList.add('open');document.body.style.overflow='hidden';setTimeout(()=>$('#gm [data-gm-close]').focus(),50)}
+function closeGallery(){$('#gm').classList.remove('open');if(!$('#vw').classList.contains('open'))document.body.style.overflow=''}
+function view(i){vi=(i+PH.length)%PH.length;const [f,c]=PH[vi];
+  $('#vw-img').src=pic(f);$('#vw-img').alt=c;$('#vw-cap').textContent=c;$('#vw-ct').textContent=`${vi+1} / ${PH.length}`;
+  $$('#vw-th button').forEach((b,j)=>b.setAttribute('aria-current',j===vi));
+  $('#vw-th').children[vi]?.scrollIntoView({inline:'center',block:'nearest'});
+  $('[data-vw="-1"]').disabled=vi===0;$('[data-vw="1"]').disabled=vi===PH.length-1}
+$('#vw-th').innerHTML=PH.map(([f],i)=>`<button data-thumb="${i}" aria-label="Photo ${i+1}"><img src="${pic(f)}" alt="" loading="lazy"></button>`).join('');
+function openViewer(i){$('#vw').classList.add('open');document.body.style.overflow='hidden';view(i);
+  const h=$('#swipe-hint');h.style.opacity=1;setTimeout(()=>h.style.opacity=0,2600);setTimeout(()=>$('#vw [data-vw-close]').focus(),50)}
+function closeViewer(){$('#vw').classList.remove('open');if(!$('#gm').classList.contains('open'))document.body.style.overflow=''}
+/* swipe */
+let sx=null;const st=$('#vw-st');
+st.addEventListener('touchstart',e=>{sx=e.touches[0].clientX},{passive:true});
+st.addEventListener('touchend',e=>{if(sx===null)return;const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40)view(vi+(dx<0?1:-1));sx=null});
+
+/* ---------- popovers in the widget ---------- */
+let calMonth=new Date(2026,9,1);
+const SOLD=['2026-10-17','2026-10-25','2026-11-07'], FEW=['2026-10-16','2026-10-18','2026-10-24','2026-11-01'];
+const ymd=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+function renderCal(){
+  const y=calMonth.getFullYear(),m=calMonth.getMonth(),first=new Date(y,m,1),days=new Date(y,m+1,0).getDate(),off=(first.getDay()+6)%7;
+  const today='2026-10-13', max='2027-01-31';
+  let h=`<div class="cal-h"><button class="pv" data-cal="-1" aria-label="Previous month" ${y===2026&&m===9?'disabled':''}><svg class="i"><use href="#i-chev"/></svg></button><b>${first.toLocaleDateString('en-GB',{month:'long',year:'numeric'})}</b><button data-cal="1" aria-label="Next month" ${y===2027&&m===0?'disabled':''}><svg class="i"><use href="#i-chev"/></svg></button></div><div class="cal">`;
+  h+=['Mo','Tu','We','Th','Fr','Sa','Su'].map(x=>`<span class="dow">${x}</span>`).join('')+'<span></span>'.repeat(off);
+  for(let d=1;d<=days;d++){const k=ymd(new Date(y,m,d)),past=k<today,sold=SOLD.includes(k);
+    h+=`<button data-day="${k}" ${past||sold||k>max?'disabled':''} class="${past?'past':''} ${FEW.includes(k)?'few':''}" aria-pressed="${S.date===k}" aria-label="${new Date(y,m,d).toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}${sold?', sold out':FEW.includes(k)?', few spots left':''}">${d}</button>`}
+  h+=`</div><div class="cal-k"><span><i></i>Few spots left</span><span><s style="color:#A1A1AA">12</s> Sold out</span></div>`;
+  $('#pop-date').innerHTML=h;
+}
+function renderGst(){
+  $('#pop-gst').innerHTML=[['adults','Adults','Age 12 and over',1],['children','Children','Age 3 to 11',0]].map(([k,l,s,min])=>`<div class="gst"><span><b>${l}</b><small>${s}</small></span><span class="step"><button data-g="${k}" data-d="-1" ${S[k]<=min?'disabled':''} aria-label="Fewer ${l.toLowerCase()}">−</button><output>${S[k]}</output><button data-g="${k}" data-d="1" ${S.adults+S.children>=12?'disabled':''} aria-label="More ${l.toLowerCase()}">+</button></span></div>`).join('')+`<p style="font-size:12px;color:var(--cn-muted);margin-top:8px">Up to 12 travellers. Children under 3 go free.</p>`;
+}
+function renderTime(){
+  $('#pop-time').innerHTML=`<div class="slots">${[['08:00','8:00 AM','Best for the temple'],['10:00','10:00 AM','Later start']].map(([k,l,s])=>`<button data-time="${k}" aria-pressed="${S.time===k}">${l}<small>${s}</small></button>`).join('')}</div>`;
+}
+function closePops(){$$('.pop').forEach(p=>p.classList.remove('open'));$$('.fld').forEach(f=>f.setAttribute('aria-expanded','false'))}
+function togglePop(id){const p=$('#pop-'+id),o=!p.classList.contains('open');closePops();if(o){p.classList.add('open');$('#f-'+id).setAttribute('aria-expanded','true');({date:renderCal,gst:renderGst,time:renderTime})[id]()}}
+
+/* ---------- widget ---------- */
+function renderWidget(){
+  const s=startAt(),l=lines(),t=total(),sc=scenario();
+  $('#v-date').textContent=s?fd(s,{weekday:'short',day:'numeric',month:'short',year:'numeric'}):'Choose a date';
+  $('#v-gst').textContent=[S.adults&&`${S.adults} adult${S.adults>1?'s':''}`,S.children&&`${S.children} child${S.children>1?'ren':''}`].filter(Boolean).join(', ');
+  $('#v-time').textContent=S.time==='08:00'?'8:00 AM':'10:00 AM';
+  $('#bill').innerHTML=`<div><span class="k">${S.adults} adult${S.adults>1?'s':''} × ${fmt(RATE.adult)}</span><span>${fmt(l.a)}</span></div>`+
+    (S.children?`<div><span class="k">${S.children} child${S.children>1?'ren':''} × ${fmt(RATE.child)}</span><span>${fmt(l.c)}</span></div>`:'')+
+    `<div><span class="k"><u title="Covers secure payments and 24/7 traveller support">Service fee</u></span><span>${fmt(l.fee)}</span></div>`+
+    `<div class="tot"><span>Total price</span><span>${fmt(t)}</span></div>`;
+  $('#reserve').textContent=s?'Reserve now':'Check availability';
+  $('#nocharge').textContent=s?'':'Choose a date to see your cancellation options';$('#nocharge').hidden=!!s;
+  $('#tsig').innerHTML=trustRows(sc);
+  const amber=sc===3;
+  $('#mbar').innerHTML=`<span><b>${s?fmt(t):fmt0(RATE.adult)}</b> <small>${s?`${dLong(s)} · ${$('#v-gst').textContent}`:'per adult'}</small><span class="pol ${amber?'amber':''}">${amber?'Non-refundable':L.policy==='custom'?'Host’s own cancellation policy':'Free cancellation'}</span></span><button class="btn primary" data-bw-open>${s?'Reserve':'Check dates'}</button>`;
+  renderPolicy();
+}
+/* Trust signal rows under Reserve Now, per the trust-link spec */
+function trustRows(sc){
+  const s=startAt(), fee='less a 5% payment processing fee';
+  const icon=n=>`<span class="ic"><svg class="i"><use href="#i-${n}"/></svg></span>`;
+  if(sc===3) return `<div class="trow amber">${icon('alert')}<div class="tx"><button class="tl" data-pop="cancel">Non-refundable</button><br>${L.policy==='nonref'?'This listing doesn’t offer refunds. Check your date and group before you book.':'Cancellations within 48 hours of your start time are not eligible for a refund.'}</div></div>`;
+  const cRow=L.policy==='custom'
+    ? `<div class="trow">${icon('doc')}<div class="tx"><b class="tl plain">${L.hostShort}’s cancellation policy</b><br>${L.customShort} <button class="tl" data-goto="cancellation-policy" style="font-size:13px">Read ${L.hostShort}’s full policy</button></div></div>`
+    : `<div class="trow">${icon('shield')}<div class="tx"><button class="tl" data-pop="cancel">Free cancellation</button><br>${s?`Cancel before ${dLong(cutoff())} · ${ft(cutoff())} for a full refund, ${fee}.`:`Cancel up to 48 hours before your start time for a full refund, ${fee}.`}</div></div>`;
+  if(!L.bnpl)return cRow;
+  const bRow=sc===1
+    ? `<div class="trow">${icon('cal')}<div class="tx"><button class="tl" data-pop="bnpl">Reserve now &amp; pay later</button><br>Secure your spot today. Your card is charged automatically 5 days before your experience${s?`, on ${dLong(chargeOn())}`:''}.</div></div>`
+    : `<div class="trow off">${icon('card')}<div class="tx"><b class="tl">Pay now required</b><br>Reserve now &amp; pay later isn’t available within 5 days of the service date.</div></div>`;
+  return cRow+bRow;
+}
+/* The cancellation policy section on the page */
+function renderPolicy(){
+  const box=$('#polbox');
+  if(L.policy==='custom'){box.innerHTML=`<div class="pt"><span class="ic"><svg class="i"><use href="#i-doc"/></svg></span><div><p class="src">Host’s own policy</p><h3>${L.hostShort}’s cancellation policy</h3></div></div><p class="q">${L.custom}</p><ul><li>Times are Sri Lanka local time, counted from your start time.</li><li>Refunds exclude the 5% payment processing fee (minimum USD 1).</li><li>No-show without cancelling: no refund.</li></ul><div class="links"><a class="link" href="#" data-act="sitepol">Ceylon Nooks booking terms<svg class="i"><use href="#i-arrow"/></svg></a></div>`;return}
+  if(L.policy==='nonref'){box.innerHTML=`<div class="pt amber"><span class="ic"><svg class="i"><use href="#i-alert"/></svg></span><div><p class="src">Set by the host</p><h3>Non-refundable</h3></div></div><ul><li>This listing doesn’t offer refunds once booked.</li><li>If something serious happens, such as a cancelled flight or illness, you can still send a request. Refunds are at Ceylon Nooks’ discretion.</li><li>If the host cancels, you get a full refund.</li></ul><div class="links"><button class="tl link" data-pop="cancel" style="border:0;background:none;padding:0;cursor:pointer">See how it works<svg class="i"><use href="#i-arrow"/></svg></button></div>`;return}
+  box.innerHTML=`<div class="pt"><span class="ic"><svg class="i"><use href="#i-shield"/></svg></span><div><p class="src">Ceylon Nooks policy</p><h3>Free cancellation up to 48 hours before</h3></div></div><ul><li>Cancel at least 48 hours before your start time: full refund, less the 5% payment processing fee (minimum USD 1).</li><li>Less than 48 hours before: no refund.</li><li>No-show without cancelling: no refund.</li>${L.bnpl?'<li>Reserve now, pay later is available for dates more than 5 days away.</li>':''}</ul><div class="links"><button class="link" data-pop="cancel" style="border:0;background:none;padding:0;cursor:pointer">How cancellation works<svg class="i"><use href="#i-arrow"/></svg></button>${L.bnpl?`<button class="link" data-pop="bnpl" style="border:0;background:none;padding:0;cursor:pointer">How pay later works<svg class="i"><use href="#i-arrow"/></svg></button>`:''}</div>`;
+}
+
+/* ---------- popups 4 and 5 ---------- */
+const mhead=t=>`<div class="grab"></div><div class="mh"><h2 id="m-title">${t}</h2><button class="icon-btn" data-mclose aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button></div>`;
+function feeBox(){const t=total(),f=gw(t);
+  return `<div class="feebox"><h4><svg class="i"><use href="#i-card"/></svg>Payment processing fee (5%, min. USD 1)</h4><p>When a paid booking is cancelled, our payment gateway charges a fee to reverse the transaction. This 5% fee is passed on at cost. Ceylon Nooks doesn’t keep it.</p>
+  <table><tr><td>Your booking amount</td><td>${fmt(t)}</td></tr><tr><td>Refund entitlement (100%)</td><td>${fmt(t)}</td></tr><tr><td>Gateway reversal fee (5%)</td><td>− ${fmt(f)}</td></tr><tr class="tot"><td>Returned to you</td><td>${fmt(t-f)}</td></tr></table>
+  <p class="est">Estimate only. The final amount is confirmed when our team reviews it. Refunds reach your card within 5 to 10 business days of approval.</p></div>`}
+function popCancel(){
+  const sc=scenario(),s=startAt();
+  const stateA=`<div class="pstate"><svg class="i"><use href="#i-shield"/></svg><span><b>${s?`Free cancellation before ${dYear(cutoff())} · ${ft(cutoff())}`:'Free cancellation up to 48 hours before your start time'}</b><small>Calculated from your start time, not when you cancel. Times are Sri Lanka local time.</small></span></div>
+    <ul class="rules"><li><span class="dot ok"><svg class="i"><use href="#i-check"/></svg></span><span><b style="color:var(--cn-ink)">At least 48 hours before:</b> full refund, less the payment processing fee.</span></li><li><span class="dot no"><svg class="i"><use href="#i-x"/></svg></span><span><b style="color:var(--cn-ink)">Less than 48 hours before:</b> no refund.</span></li><li><span class="dot no"><svg class="i"><use href="#i-x"/></svg></span><span><b style="color:var(--cn-ink)">No-show without cancelling:</b> no refund. The host keeps the full payment.</span></li></ul>`;
+  const stateB=`<div class="pstate amber"><svg class="i"><use href="#i-alert"/></svg><span><b>This booking is non-refundable</b><small>${L.policy==='nonref'?'The host doesn’t offer refunds on this listing.':'Your start time is within 48 hours, so the free cancellation window has passed.'}</small></span></div>
+    <div class="exc"><b>Exceptional circumstances</b>If you have a genuine emergency, you can still send a request with an explanation. Refunds in these cases are at Ceylon Nooks’ discretion and aren’t guaranteed.</div>`;
+  openModal(`${mhead('Cancellation policy')}<div class="mb-body">${sc===3?stateB:stateA}${feeBox()}<a class="mlink" href="#" data-act="sitepol">View full cancellation policy<svg class="i"><use href="#i-arrow"/></svg></a></div>`);
+}
+function popBnpl(){
+  const s=startAt(),t=total(),f=gw(t);
+  openModal(`${mhead('Reserve now &amp; pay later')}<div class="mb-body"><p>Secure your spot today with no upfront payment. Your card is charged automatically 5 days before your experience. No extra fees.</p>
+  <ol class="ssteps">
+   <li><span class="n">1</span><div><b>Find your experience</b><p>Choose the experience you love. Your spot is held with no upfront payment.</p></div></li>
+   <li><span class="n">2</span><div><b>Make a reservation</b><p>Reserve now with zero stress. Your card is checked but not charged.</p>${s?`<span class="when">Today</span>`:''}</div></li>
+   <li><span class="n">3</span><div><b>Payment is automatic</b><p>We’ll email you a reminder 3 days before the charge. Your card is charged 5 days before your start time.</p>${s?`<span class="when">Charged on ${dLong(chargeOn())}</span>`:''}</div></li>
+   <li><span class="n">4</span><div><b>Enjoy your experience</b><p>You’re all set. Have a fantastic time!</p>${s?`<span class="when">${dLong(s)}, ${ft(s)}</span>`:''}</div></li>
+  </ol>
+  <div class="cancel2"><h4>If you need to cancel</h4>
+   <div class="r"><svg class="i"><use href="#i-check"/></svg><span><b style="color:var(--cn-ink)">Before the automatic charge</b> (more than 5 days before): your card is never charged. No fee.</span></div>
+   <div class="r fee"><svg class="i"><use href="#i-card"/></svg><span><b style="color:var(--cn-ink)">After the charge</b>: a 5% payment processing fee is taken off. It covers the gateway’s cost of reversing the payment and isn’t kept by Ceylon Nooks. For this booking: ${fmt(t)} × 5% = ${fmt(f)} fee, so ${fmt(t-f)} comes back to you.</span></div></div>
+  <a class="mlink" href="#" data-act="bnplpol">View full Reserve now &amp; pay later policy<svg class="i"><use href="#i-arrow"/></svg></a></div>`);
+}
+function popCred(k){
+  const C={sltda:['badge','Registered with Sri Lanka Tourism','Aravinda is registered with the Sri Lanka Tourism Development Authority (SLTDA) as a national tourist guide. Registered guides have passed the SLTDA training and exam, and are licensed to guide visitors anywhere in Sri Lanka.',[['Licence type','National tourist guide'],['Registration no.','SLTDA/NG/2041'],['Valid until','March 2027'],['Checked by Ceylon Nooks','2 October 2026']]],
+           police:['shield','Police clearance checked','Aravinda gave us a police clearance report issued by the Sri Lanka Police. It confirms there are no criminal records against him.',[['Issued by','Sri Lanka Police, Kandy'],['Issued','14 August 2026'],['Checked by Ceylon Nooks','2 October 2026']]]};
+  const [ic,t,p,dl]=C[k];
+  openModal(`${mhead(t)}<div class="mb-body credm"><span class="ic"><svg class="i"><use href="#i-${ic}"/></svg></span><p>${p}</p><dl>${dl.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join('')}</dl><p style="font-size:12.5px;color:var(--cn-muted);margin-top:16px">Hosts share these documents with us by choice. We check them before the badge appears, and again when they expire. We don’t show the documents themselves.</p></div>`);
+}
+let lastFocus=null;
+function openModal(h){lastFocus=document.activeElement;$('#modal').innerHTML=h;$('#modal').classList.add('open');$('#mscrim').classList.add('open');setTimeout(()=>$('#modal [data-mclose]').focus(),60)}
+function closeModal(){$('#modal').classList.remove('open');$('#mscrim').classList.remove('open');lastFocus?.focus?.()}
+
+/* ---------- host ---------- */
+function renderHost(){
+  const c=L.creds,n=(c.sltda?1:0)+(c.police?1:0);
+  $('#host').innerHTML=`<span class="av">AP<span class="vf" title="ID verified"><svg class="i"><use href="#i-check"/></svg></span></span>
+   <div><h3>${L.host}</h3><p class="hs">Licensed guide in Kandy · Hosting since 2019</p>
+    <div class="hstats"><span><b>4.9</b> rating</span><span><b>412</b> reviews across his tours</span><span><b>Replies in about 1 hour</b></span><span>Speaks <b>English, Sinhala</b></span></div>
+    ${n?`<div class="mini-badges">${c.sltda?`<span class="mb"><svg class="i"><use href="#i-badge"/></svg>SLTDA registered</span>`:''}${c.police?`<span class="mb"><svg class="i"><use href="#i-shield"/></svg>Police clearance</span>`:''}<span class="mb"><svg class="i"><use href="#i-user"/></svg>ID verified</span></div>`:`<div class="mini-badges"><span class="mb"><svg class="i"><use href="#i-user"/></svg>ID verified</span></div>`}
+   </div>
+   ${n?`<div class="creds">${c.sltda?`<button class="cred" data-cred="sltda"><span class="ic"><svg class="i"><use href="#i-badge"/></svg></span><span><b>Registered with Sri Lanka Tourism</b><small>SLTDA national tourist guide licence</small><span class="chk"><svg class="i"><use href="#i-check"/></svg>Checked by Ceylon Nooks, Oct 2026</span></span></button>`:''}${c.police?`<button class="cred" data-cred="police"><span class="ic"><svg class="i"><use href="#i-shield"/></svg></span><span><b>Police clearance checked</b><small>Sri Lanka Police report, no records</small><span class="chk"><svg class="i"><use href="#i-check"/></svg>Checked by Ceylon Nooks, Oct 2026</span></span></button>`:''}</div>`:''}
+   <div class="acts"><a class="btn" href="#" data-act="ask"><svg class="i"><use href="#i-chat"/></svg>Message ${L.hostShort}</a><a class="btn" href="#" data-act="profile">View profile</a></div>
+   <p class="note">To protect your payment, always pay and message through Ceylon Nooks.</p>`;
+}
+
+/* ---------- related ---------- */
+$('#rel').innerHTML=[['pidurangala.jpg','Sigiriya and Dambulla day trip','Private tour · 10 hours',120],['ella-nine-arch.jpg','Hill country train and tea estates','Private tour · 9 hours',140],['kandy-temple.jpg','Kandy cooking class with a family','Activity · 3 hours',49],['adams-peak.jpg','Adam’s Peak night climb','Small group · 8 hours',55]]
+  .map(([f,t,s,p])=>`<a class="rcard" href="#"><div class="ph"><img src="${pic(f)}" alt="" loading="lazy"></div><h3>${t}</h3><p>${s}</p><p class="pr">From <b data-p0="${p}">${fmt0(p)}</b> per person</p></a>`).join('');
+
+/* ---------- prototype controls ---------- */
+const PRESET={s1:'2026-10-28',s2:'2026-10-16',s3:'2026-10-14'};
+function renderProto(){
+  const sc=scenario(),cur=S.date;
+  $('#pp').innerHTML=`<h4>Date (sets the scenario)</h4><div class="seg">${[['s1','In 15 days (1)'],['s2','In 3 days (2)'],['s3','Tomorrow (3)'],['none','No date']].map(([k,l])=>`<button data-pdate="${k}" aria-pressed="${k==='none'?!cur:cur===PRESET[k]}">${l}</button>`).join('')}</div>
+  <h4>Cancellation policy</h4><div class="seg">${[['site','Ceylon Nooks'],['custom','Host’s own'],['nonref','Non-refundable']].map(([k,l])=>`<button data-ppol="${k}" aria-pressed="${L.policy===k}">${l}</button>`).join('')}</div>
+  <h4>Reserve now, pay later</h4><div class="seg">${[[1,'Offered'],[0,'Not offered']].map(([k,l])=>`<button data-pbnpl="${k}" aria-pressed="${+L.bnpl===k}">${l}</button>`).join('')}</div>
+  <h4>Host credentials</h4><div class="seg">${[['both','Both'],['sltda','SLTDA only'],['none','None']].map(([k,l])=>`<button data-pcred="${k}" aria-pressed="${(L.creds.sltda&&L.creds.police?'both':L.creds.sltda?'sltda':'none')===k}">${l}</button>`).join('')}</div>
+  <p>Showing scenario ${sc} of the trust-link spec. Prototype clock: Tue 13 Oct 2026, 10:00 AM in Colombo.</p>`;
+}
+
+/* ---------- events ---------- */
+function renderAll(){renderWidget();renderHost();renderProto()}
+window.onCur=()=>{renderWidget();if($('#modal').classList.contains('open')&&$('#m-title'))$('#modal').classList.remove('open'),$('#mscrim').classList.remove('open')};
+document.addEventListener('click',e=>{
+  const b=e.target.closest('button,a');
+  if(!e.target.closest('.fwrap'))closePops();
+  if(!e.target.closest('.proto'))$('#proto').classList.remove('open');
+  if(e.target.id==='mscrim'){closeModal();return}
+  if(!b)return; const x=b.dataset;
+  if(x.photo!==undefined){if(innerWidth<=700&&!$('#gm').classList.contains('open')){openGallery();return}openViewer(+x.photo)}
+  if(x.gallery!==undefined)openGallery();
+  if(x.gmClose!==undefined)closeGallery();
+  if(x.vwClose!==undefined)closeViewer();
+  if(x.vw)view(vi+ +x.vw);
+  if(x.thumb)view(+x.thumb);
+  if(b.id==='f-date'||b.id==='f-gst'||b.id==='f-time'){togglePop(b.id.slice(2));return}
+  if(x.cal){calMonth=new Date(calMonth.getFullYear(),calMonth.getMonth()+ +x.cal,1);renderCal();return}
+  if(x.day){S.date=x.day;closePops();renderAll();if(innerWidth>900)$('#reserve').focus();return}
+  if(x.g){S[x.g]+=+x.d;renderGst();renderWidget();return}
+  if(x.time){S.time=x.time;closePops();renderAll();return}
+  if(b.id==='reserve'){if(!S.date){togglePop('date');return}location.href='checkout.html#'+new URLSearchParams({d:S.date,t:S.time,a:S.adults,c:S.children,p:L.policy,b:+L.bnpl,cur}).toString()}
+  if(x.pop==='cancel')popCancel();
+  if(x.pop==='bnpl')popBnpl();
+  if(x.cred)popCred(x.cred);
+  if(x.mclose!==undefined)closeModal();
+  if(x.goto){e.preventDefault();closeModal();$('#bw').classList.remove('open');$('#'+x.goto).scrollIntoView({behavior:'smooth'});}
+  if(x.more){const t=$('#'+x.more),o=t.classList.toggle('open');b.textContent=o?'Show less':'Read more'}
+  if(x.bwOpen!==undefined){$('#bw').classList.add('open');$('#mscrim').classList.add('open')}
+  if(x.bwClose!==undefined){$('#bw').classList.remove('open');$('#mscrim').classList.remove('open')}
+  if(x.act){e.preventDefault();toast({share:'Link copied',save:'Saved to your list',ask:'Opens a chat with Aravinda',report:'Opens the report form',reviews:'Opens all reviews',profile:'Opens Aravinda’s profile',sitepol:'Opens the full cancellation policy',bnplpol:'Opens /help/pay-later-policy'}[x.act]||'Prototype')}
+  if(x.proto!==undefined)$('#proto').classList.toggle('open');
+  if(x.pdate){S.date=x.pdate==='none'?null:PRESET[x.pdate];renderAll()}
+  if(x.ppol){L.policy=x.ppol;renderAll()}
+  if(x.pbnpl){L.bnpl=!!+x.pbnpl;renderAll()}
+  if(x.pcred){L.creds={sltda:x.pcred!=='none',police:x.pcred==='both'};renderAll()}
+});
+$('#mscrim').addEventListener('click',()=>{if($('#bw').classList.contains('open')){$('#bw').classList.remove('open');$('#mscrim').classList.remove('open')}});
+document.addEventListener('keydown',e=>{
+  if($('#vw').classList.contains('open')){if(e.key==='ArrowRight')view(vi+1);if(e.key==='ArrowLeft')view(vi-1);if(e.key==='Escape')closeViewer();return}
+  if(e.key==='Escape'){if($('#modal').classList.contains('open'))closeModal();else if($('#gm').classList.contains('open'))closeGallery();else{closePops();$('#bw').classList.remove('open');$('#mscrim').classList.remove('open')}}
+});
+renderAll();
+</script>
+</body>
+</html>
