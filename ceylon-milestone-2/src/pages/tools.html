@@ -71,7 +71,7 @@ function renderNext(){
     :!TRIP.start?['tool-best-time','Pick your dates','See which coast is dry and what’s on while you’re there.','Open best time to go']
     :!used.includes('tool-budget')?['tool-budget','What will it cost?','A daily range for your style, for '+tDays()+' days.','Open the budget']
     :['tool-packing-list','Nearly ready to go','Your packing list is built from your route and dates.','Open the packing list'];
-  $('#nextstep').innerHTML=`<p class="k">Your next step</p><h2>${step[1]}</h2><p>${step[2]}</p><a class="btn primary" href="${step[0]}.html">${step[3]}<svg class="i"><use href="#i-arrow"/></svg></a>${used.length?`<div class="done">${used.map(u=>`<span>✓ ${TOOLS.find(t=>t[1]===u)?.[2]||u}</span>`).join('')}</div>`:''}`;
+  $('#nextstep').innerHTML=`<p class="k">Your next step</p><h2>${step[1]}</h2><p>${step[2]}</p><a class="btn primary" href="${pageUrl(step[0])}">${step[3]}<svg class="i"><use href="#i-arrow"/></svg></a>${used.length?`<div class="done">${used.map(u=>`<span>✓ ${TOOLS.find(t=>t[1]===u)?.[2]||u}</span>`).join('')}</div>`:''}`;
 }
 window.onTrip=renderNext;renderNext();
 </script>

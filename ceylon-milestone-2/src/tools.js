@@ -50,7 +50,9 @@ const TOOLS=[
  ['Get ready','','Phrase cards','Sinhala and Tamil, with allergy cards you can show at every meal.','chat',0],
  ['On the ground','','Food decoder','What hoppers, kottu and lamprais are, and how spicy they get.','pot',0],
  ['On the ground','','Fair prices','What a tuk-tuk, a coconut or a train ticket should cost.','tag',0]];
-const toolCard=([g,href,t,p,ic,live])=>live?`<a class="tcard" href="${href}.html"><span class="ic"><svg class="i"><use href="#i-${ic}"/></svg></span><span><h3>${t}</h3><p>${p}</p></span></a>`:`<div class="tcard soon" aria-disabled="true"><span class="ic"><svg class="i"><use href="#i-${ic}"/></svg></span><span><h3>${t}<span class="soon-tag">Soon</span></h3><p>${p}</p></span></div>`;
+/* page links; the single-file build points them at the Ceylon-… copies */
+const pageUrl=s=>s+'.html';
+const toolCard=([g,href,t,p,ic,live])=>live?`<a class="tcard" href="${pageUrl(href)}"><span class="ic"><svg class="i"><use href="#i-${ic}"/></svg></span><span><h3>${t}</h3><p>${p}</p></span></a>`:`<div class="tcard soon" aria-disabled="true"><span class="ic"><svg class="i"><use href="#i-${ic}"/></svg></span><span><h3>${t}<span class="soon-tag">Soon</span></h3><p>${p}</p></span></div>`;
 function nextTools(skip,n=3){const el=$('#next-tools');if(!el)return;const live=TOOLS.filter(x=>x[5]),i=live.findIndex(x=>x[1]===skip);el.innerHTML=[...live.slice(i+1),...live.slice(0,Math.max(i,0))].slice(0,n).map(toolCard).join('')}
 renderTripBar();
 function markUsed(id){try{const u=JSON.parse(localStorage.getItem('cn-tools-used')||'[]');if(!u.includes(id)){u.push(id);localStorage.setItem('cn-tools-used',JSON.stringify(u))}}catch(e){}}

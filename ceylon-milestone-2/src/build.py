@@ -89,6 +89,7 @@ def build(name):
     # standalone pages link to each other's standalone copies
     for n in PAGES:
         st = re.sub(r'(["\'])%s\.html' % re.escape(n), lambda m: m.group(1) + standalone(n), st)
+    st = st.replace("const pageUrl=s=>s+'.html';", "const pageUrl=s=>'Ceylon-'+s.split('-').map(w=>w[0].toUpperCase()+w.slice(1)).join('-')+'.html';")
     st = st.replace('../ceylon-traveller-dashboard/index.html', '../ceylon-traveller-dashboard/Ceylon-Traveller-Dashboard.html')
     open(os.path.join(OUT, standalone(name)), 'w').write(st)
     print(name, round(len(s) / 1e3), 'KB,', 'standalone', round(len(st) / 1e6, 1), 'MB')

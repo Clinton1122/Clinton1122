@@ -13,7 +13,7 @@
 :root{
   --cn-primary:#F15623; --cn-primary-text:#C43D12; --cn-primary-hover:#D9481A; --cn-primary-tint:#FDF1EA; --cn-primary-line:#F6D9C9; --cn-deep:#2B1A10;
   --cn-ink:#18181B; --cn-body:#3F3F46; --cn-muted:#71717A; --cn-border:#E8E8EB; --cn-input:#D4D4D8; --cn-page:#F7F7F8; --cn-paper:#FFFFFF;
-  --ok:#1F6B44; --ok-bg:#EAF6EE; --warn:#6B4600; --warn-bg:#FFF4DB;
+  --warn:#6B4600; --warn-bg:#FFF4DB;
   --land:#EFEDEA; --land-edge:#D6D3CE;
   --shadow:0 1px 2px rgba(16,24,40,.05),0 1px 3px rgba(16,24,40,.06);
   --lift:0 24px 48px -20px rgba(24,24,27,.28);
@@ -448,7 +448,9 @@ const TOOLS=[
  ['Get ready','','Phrase cards','Sinhala and Tamil, with allergy cards you can show at every meal.','chat',0],
  ['On the ground','','Food decoder','What hoppers, kottu and lamprais are, and how spicy they get.','pot',0],
  ['On the ground','','Fair prices','What a tuk-tuk, a coconut or a train ticket should cost.','tag',0]];
-const toolCard=([g,href,t,p,ic,live])=>live?`<a class="tcard" href="${href}.html"><span class="ic"><svg class="i"><use href="#i-${ic}"/></svg></span><span><h3>${t}</h3><p>${p}</p></span></a>`:`<div class="tcard soon" aria-disabled="true"><span class="ic"><svg class="i"><use href="#i-${ic}"/></svg></span><span><h3>${t}<span class="soon-tag">Soon</span></h3><p>${p}</p></span></div>`;
+/* page links; the single-file build points them at the Ceylon-… copies */
+const pageUrl=s=>s+'.html';
+const toolCard=([g,href,t,p,ic,live])=>live?`<a class="tcard" href="${pageUrl(href)}"><span class="ic"><svg class="i"><use href="#i-${ic}"/></svg></span><span><h3>${t}</h3><p>${p}</p></span></a>`:`<div class="tcard soon" aria-disabled="true"><span class="ic"><svg class="i"><use href="#i-${ic}"/></svg></span><span><h3>${t}<span class="soon-tag">Soon</span></h3><p>${p}</p></span></div>`;
 function nextTools(skip,n=3){const el=$('#next-tools');if(!el)return;const live=TOOLS.filter(x=>x[5]),i=live.findIndex(x=>x[1]===skip);el.innerHTML=[...live.slice(i+1),...live.slice(0,Math.max(i,0))].slice(0,n).map(toolCard).join('')}
 renderTripBar();
 function markUsed(id){try{const u=JSON.parse(localStorage.getItem('cn-tools-used')||'[]');if(!u.includes(id)){u.push(id);localStorage.setItem('cn-tools-used',JSON.stringify(u))}}catch(e){}}

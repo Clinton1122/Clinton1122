@@ -94,6 +94,13 @@ Rebuilt on the structure of Akila's homepage demo (akilaliyanage.com/homepage), 
 - **Listing cards** show the cancellation policy: free cancellation up to 48 hours before, reserve now pay later, or the host's own policy.
 - **Logo:** the real Ceylon Nooks logo (`assets/ceylon-logo.svg`, from the Figma file). Listings and prices are sample content, and photos are Creative Commons stand-ins.
 
+## Old palettes and outdated pages (13 Oct)
+
+- The master Figma file has no colour styles or variables, and no palette swatches apart from the current Foundations page (orange and neutral greys). The AI-generated palettes from the call aren't in this file.
+- Green and blue are gone from every Milestone 2 page: policy lines on homepage cards are now orange, and weather "monsoon" is a darker grey.
+- In Figma, the "Previous design" page is renamed "(old, reference only, do not build)". The early homepage page is marked superseded by the Milestone 2 page.
+- The Developer handoff page has a new "Milestone 2 rules" card.
+
 ## How the pages are built
 
 `src/` holds the shared parts (styles, icons, header, footer, currency switcher, booking rules, trip tools) and one template per page in `src/pages/`. Run `python3 src/build.py` to rebuild every page and its single-file copy. The homepage is still edited directly in `homepage.html`.

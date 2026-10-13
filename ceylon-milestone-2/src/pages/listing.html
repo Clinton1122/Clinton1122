@@ -457,7 +457,7 @@ body{background:#fff}
 </div>
 <div class="vw" id="vw" role="dialog" aria-modal="true" aria-label="Photo viewer">
   <div class="vw-h"><button class="close" data-vw-close><svg class="i"><use href="#i-x"/></svg>Close</button><span class="ct" id="vw-ct"></span><span style="width:84px"></span></div>
-  <div class="vw-st" id="vw-st"><button class="nav l" data-vw="-1" aria-label="Previous photo"><svg class="i"><use href="#i-chev"/></svg></button><img id="vw-img" alt=""><button class="nav r" data-vw="1" aria-label="Next photo"><svg class="i"><use href="#i-chev"/></svg></button><span class="swipe-hint" id="swipe-hint">Swipe for the next photo</span></div>
+  <div class="vw-st" id="vw-st"><button class="nav l" data-vw="-1" aria-label="Previous photo"><svg class="i"><use href="#i-chev"/></svg></button><img id="vw-img" alt="" hidden><button class="nav r" data-vw="1" aria-label="Next photo"><svg class="i"><use href="#i-chev"/></svg></button><span class="swipe-hint" id="swipe-hint">Swipe for the next photo</span></div>
   <p class="vw-cap" id="vw-cap"></p>
   <div class="vw-th" id="vw-th"></div>
 </div>
@@ -490,7 +490,7 @@ let vi=0;
 function openGallery(){$('#gm').classList.add('open');document.body.style.overflow='hidden';setTimeout(()=>$('#gm [data-gm-close]').focus(),50)}
 function closeGallery(){$('#gm').classList.remove('open');if(!$('#vw').classList.contains('open'))document.body.style.overflow=''}
 function view(i){vi=(i+PH.length)%PH.length;const [f,c]=PH[vi];
-  $('#vw-img').src=pic(f);$('#vw-img').alt=c;$('#vw-cap').textContent=c;$('#vw-ct').textContent=`${vi+1} / ${PH.length}`;
+  $("#vw-img").hidden=false;$("#vw-img").src=pic(f);$('#vw-img').alt=c;$('#vw-cap').textContent=c;$('#vw-ct').textContent=`${vi+1} / ${PH.length}`;
   $$('#vw-th button').forEach((b,j)=>b.setAttribute('aria-current',j===vi));
   $('#vw-th').children[vi]?.scrollIntoView({inline:'center',block:'nearest'});
   $('[data-vw="-1"]').disabled=vi===0;$('[data-vw="1"]').disabled=vi===PH.length-1}

@@ -13,7 +13,7 @@
 :root{
   --cn-primary:#F15623; --cn-primary-text:#C43D12; --cn-primary-hover:#D9481A; --cn-primary-tint:#FDF1EA; --cn-primary-line:#F6D9C9; --cn-deep:#2B1A10;
   --cn-ink:#18181B; --cn-body:#3F3F46; --cn-muted:#71717A; --cn-border:#E8E8EB; --cn-input:#D4D4D8; --cn-page:#F7F7F8; --cn-paper:#FFFFFF;
-  --ok:#1F6B44; --ok-bg:#EAF6EE; --warn:#6B4600; --warn-bg:#FFF4DB;
+  --warn:#6B4600; --warn-bg:#FFF4DB;
   --land:#EFEDEA; --land-edge:#D6D3CE;
   --shadow:0 1px 2px rgba(16,24,40,.05),0 1px 3px rgba(16,24,40,.06);
   --lift:0 24px 48px -20px rgba(24,24,27,.28);
@@ -206,7 +206,7 @@ body{background:#fff}
 .vd .lv{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;margin-bottom:8px;padding:3px 9px;border-radius:999px}
 .lv.g{background:var(--cn-primary-tint);color:var(--cn-primary-text)}
 .lv.m{background:#F4F4F5;color:var(--cn-body)}
-.lv.w{background:#E8EEF7;color:#2E4B73}
+.lv.w{background:#E4E4E7;color:#3F3F46}
 .vd.mine{border-color:var(--cn-primary);box-shadow:inset 0 0 0 1px var(--cn-primary)}
 .heat{width:100%;border-collapse:separate;border-spacing:3px;margin-top:14px;font-size:12px}
 .heat th{font-weight:600;color:var(--cn-muted);text-align:center;padding:4px 0}
@@ -214,7 +214,7 @@ body{background:#fff}
 .heat td{position:relative;height:34px;border-radius:8px;text-align:center;font-weight:600}
 .heat td.g{background:#FBD7C5;color:#8A2E0C}
 .heat td.m{background:#F1F1F3;color:#71717A}
-.heat td.w{background:#D7E2F1;color:#2E4B73}
+.heat td.w{background:#D4D4D8;color:#3F3F46}
 .heat td.sel{outline:2px solid var(--cn-ink);outline-offset:-2px}
 .heat col.sel{background:none}
 .key{display:flex;flex-wrap:wrap;gap:14px;margin-top:10px;font-size:12.5px;color:var(--cn-muted)}
@@ -350,7 +350,7 @@ body{background:#fff}
   <div class="res">
     <section class="rcard" aria-labelledby="v-h"><h2 id="v-h"></h2><p id="v-p" style="margin-top:6px"></p><div class="verdicts" id="verdicts"></div></section>
     <section class="rcard" aria-labelledby="h-h"><h2 id="h-h">Month by month</h2><div class="scroll-x"><table class="heat" id="heat"></table></div>
-      <div class="key"><span><i style="background:#FBD7C5"></i>Dry and sunny</span><span><i style="background:#F1F1F3"></i>Mixed, some showers</span><span><i style="background:#D7E2F1"></i>Monsoon, often wet</span></div></section>
+      <div class="key"><span><i style="background:#FBD7C5"></i>Dry and sunny</span><span><i style="background:#F1F1F3"></i>Mixed, some showers</span><span><i style="background:#D4D4D8"></i>Monsoon, often wet</span></div></section>
     <section class="rcard" aria-labelledby="e-h"><h2 id="e-h">What’s on</h2><ul class="evs" id="evs"></ul></section>
     <section class="rcard" aria-labelledby="p-h"><h2 id="p-h">Poya days</h2><p style="margin-top:6px;font-size:14px">Every full moon is a public holiday. Temples are busy and beautiful, and shops can’t sell alcohol. Some hotels serve it to guests.</p><div class="poyas" id="poyas"></div><p class="note">Dates are worked out from the full moon and can move by a day. We’ll use the official calendar in the live tool.</p></section>
   </div>
@@ -463,7 +463,9 @@ const TOOLS=[
  ['Get ready','','Phrase cards','Sinhala and Tamil, with allergy cards you can show at every meal.','chat',0],
  ['On the ground','','Food decoder','What hoppers, kottu and lamprais are, and how spicy they get.','pot',0],
  ['On the ground','','Fair prices','What a tuk-tuk, a coconut or a train ticket should cost.','tag',0]];
-const toolCard=([g,href,t,p,ic,live])=>live?`<a class="tcard" href="${href}.html"><span class="ic"><svg class="i"><use href="#i-${ic}"/></svg></span><span><h3>${t}</h3><p>${p}</p></span></a>`:`<div class="tcard soon" aria-disabled="true"><span class="ic"><svg class="i"><use href="#i-${ic}"/></svg></span><span><h3>${t}<span class="soon-tag">Soon</span></h3><p>${p}</p></span></div>`;
+/* page links; the single-file build points them at the Ceylon-… copies */
+const pageUrl=s=>'Ceylon-'+s.split('-').map(w=>w[0].toUpperCase()+w.slice(1)).join('-')+'.html';
+const toolCard=([g,href,t,p,ic,live])=>live?`<a class="tcard" href="${pageUrl(href)}"><span class="ic"><svg class="i"><use href="#i-${ic}"/></svg></span><span><h3>${t}</h3><p>${p}</p></span></a>`:`<div class="tcard soon" aria-disabled="true"><span class="ic"><svg class="i"><use href="#i-${ic}"/></svg></span><span><h3>${t}<span class="soon-tag">Soon</span></h3><p>${p}</p></span></div>`;
 function nextTools(skip,n=3){const el=$('#next-tools');if(!el)return;const live=TOOLS.filter(x=>x[5]),i=live.findIndex(x=>x[1]===skip);el.innerHTML=[...live.slice(i+1),...live.slice(0,Math.max(i,0))].slice(0,n).map(toolCard).join('')}
 renderTripBar();
 function markUsed(id){try{const u=JSON.parse(localStorage.getItem('cn-tools-used')||'[]');if(!u.includes(id)){u.push(id);localStorage.setItem('cn-tools-used',JSON.stringify(u))}}catch(e){}}
