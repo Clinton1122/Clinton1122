@@ -1,0 +1,91 @@
+<!--TOOL
+title: First 24 hours
+h1: Your first 24 hours in Sri Lanka
+icon: clock
+lede: From the plane to your first night: the visa, a SIM, cash and getting out of the airport, in the order you’ll need them. Tick things off as you go.
+desc: Arriving in Sri Lanka: a step-by-step checklist for Colombo airport. Visa, SIM card, cash, taxis and where to spend your first night.
+shares: Uses your arrival date and first stop
+cta_h: Make day one easy
+cta_p: Airport pickups and gentle first-day tours in Negombo and Colombo.
+-->
+<style>
+.arrive{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.arrive button{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:12px 14px;border-radius:14px;border:1px solid var(--cn-border);background:#fff;font:600 14px var(--text);color:var(--cn-ink);cursor:pointer;text-align:left}
+.arrive button small{font-weight:400;font-size:12px;color:var(--cn-muted)}
+.arrive button[aria-pressed=true]{border-color:var(--cn-ink);box-shadow:inset 0 0 0 1px var(--cn-ink)}
+.phase{display:grid;grid-template-columns:48px 1fr;gap:16px}
+.phase .ic{width:48px;height:48px;border-radius:14px;background:var(--cn-primary-tint);color:var(--cn-primary);display:grid;place-items:center}
+.phase h2{font-size:19px;padding-top:2px}
+.phase .when{font-size:13px;color:var(--cn-muted);margin-top:2px}
+.phase .chk{margin-top:8px}
+.plan1{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:flex-start;margin-top:4px}
+.plan1 .big{font-size:30px}
+.rcard+div .rcard,.res>div>.rcard{margin-top:16px}
+@media (max-width:600px){.phase{grid-template-columns:1fr;gap:10px}.phase .ic{width:40px;height:40px}}
+.rcard.head{display:flex;justify-content:space-between;gap:20px;align-items:center;flex-wrap:wrap}
+.rcard.head .prog{min-width:240px;flex:1;max-width:360px}
+</style>
+<main>
+<div class="tl2">
+  <aside class="panel sticky">
+    <h2>Your arrival</h2>
+    <div class="q"><span class="ql">When do you land?</span><div class="arrive" id="arrive"></div></div>
+    <div class="q"><label for="first">Where’s your first stop?</label><select id="first"></select></div>
+    <div class="q"><label for="day">Arrival date</label><input type="date" id="day" min="2026-10-13"></div>
+    <button class="btn noprint" data-print style="margin-top:18px;width:100%"><svg class="i"><use href="#i-dl"/></svg>Print or save as PDF</button>
+  </aside>
+  <div class="res">
+    <section class="rcard head"><div><h2 id="sum-h"></h2><p style="margin-top:4px;font-size:14px" id="sum-p"></p></div><div class="prog"><span id="pc"></span><span class="bar"><i id="pbar"></i></span></div></section>
+    <div id="phases"></div>
+  </div>
+</div>
+</main>
+<script>
+const ARR=[['morning','Morning','6 AM to noon'],['afternoon','Afternoon','Noon to 6 PM'],['evening','Evening','6 PM to 10 PM'],['late','Late night','10 PM to 6 AM']];
+const DRIVE={Colombo:1,Negombo:.3,Kandy:3,Sigiriya:3.8,Galle:2.5,Mirissa:3.2,Ella:6,'Nuwara Eliya':5,Anuradhapura:3.8,Trincomalee:5.5,Jaffna:7,Hikkaduwa:2.2};
+const A={t:'afternoon',first:TRIP.stops.find(s=>DRIVE[s])||'Colombo',day:TRIP.start||''};
+let done={};try{done=JSON.parse(localStorage.getItem('cn-24h')||'{}')}catch(e){}
+$('#first').innerHTML=Object.keys(DRIVE).map(p=>`<option>${p}</option>`).join('');
+function items(){
+  const h=DRIVE[A.first],late=A.t==='late'||A.t==='evening',far=h>2.5;
+  const stayNeg=far&&late||A.t==='late';
+  return [
+   ['passport','Before you fly','Two or three days before','i-passport',[
+     ['eta','Get your ETA online','Apply on eta.gov.lk. Approval usually takes a day or two.','tool-visa.html'],
+     ['book1','Book your first night','Have the address and phone number saved offline.'],
+     ['pickup',stayNeg?'Book a pickup from the airport':'Decide how you’ll leave the airport',stayNeg?'Late at night it’s easier to be met. Most hotels in Negombo can arrange it.':'PickMe and Uber work from the airport. Or ask your hotel to send a driver.'],
+     ['apps','Download PickMe and Uber','PickMe is the local favourite for cars and tuk-tuks.'],
+     ['notify','Tell your bank you’re travelling','So your card isn’t blocked on the first ATM.']]],
+   ['route','On the plane','Fill in the arrival card if you’re given one','i-route',[
+     ['card','Keep a pen handy','For the arrival card. Use your first night’s address.'],
+     ['water','Drink lots of water','It’s hot and humid when you step outside.']]],
+   ['passport','At the airport','Bandaranaike International (CMB), 35 km north of Colombo','i-pin',[
+     ['imm','Immigration','Show your passport and ETA. Queues are longest after 1 AM when several flights land.'],
+     ['bags','Bags and customs','The duty-free shops before customs sell fridges and TVs. Locals buy them tax-free, so don’t be surprised.'],
+     ['cash','Get some rupees','ATMs and exchange counters are in arrivals, with fair rates. Take out about LKR 20,000 (around USD 65) to start.'],
+     ['sim','Buy a tourist SIM','Dialog, Mobitel and Hutch have counters in arrivals. About USD 5 to 10 for plenty of data. Bring your passport.'],
+     ['ride','Get your ride',stayNeg?'Find your driver holding a sign in the arrivals hall.':'Order a PickMe or Uber to the pickup point, or use the official taxi counter for a fixed price.']]],
+   ['bed',stayNeg&&A.first!=='Negombo'?'First night in Negombo':`On to ${A.first}`,stayNeg&&A.first!=='Negombo'?`15 minutes away. Head to ${A.first} tomorrow, fresh.`:`About ${h<1?Math.round(h*60)+' minutes':hm(h)} by car`,'i-bed',[
+     ...(far&&!stayNeg?[['break',`Break up the drive`,`${hm(h)} on the road after a long flight is hard. Stop for lunch on the way.`]]:[]),
+     ['tuk','Agree the fare before a tuk-tuk moves','Or use the meter. In Colombo, most charge about LKR 100 to 150 per km.'],
+     ['eat','Have your first rice and curry','Ask for it “not too spicy” the first time.'],
+     ['sleep','Get an early night','Many tours start at sunrise. Check your first pickup time.']]]];
+}
+const hm=h=>{const m=Math.round(h*4)*15,H=Math.floor(m/60),M=m%60;return H?`${H} h${M?` ${M} min`:''}`:`${M} min`};
+function render(){
+  $('#arrive').innerHTML=ARR.map(([k,l,s])=>`<button data-t="${k}" aria-pressed="${A.t===k}">${l}<small>${s}</small></button>`).join('');
+  $('#first').value=A.first;$('#day').value=A.day;
+  const P=items(),all=P.flatMap(p=>p[4]);
+  const n=all.filter(i=>done[i[0]]).length;
+  $('#sum-h').textContent=A.day?`Landing ${new Date(A.day+'T12:00:00').toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}`:'Your arrival checklist';
+  $('#sum-p').textContent=`${ARR.find(a=>a[0]===A.t)[1]} arrival, first stop ${A.first}.`;
+  $('#pc').textContent=`${n} of ${all.length} done`;$('#pbar').style.width=`${n/all.length*100}%`;
+  $('#phases').innerHTML=P.map(([_,t,w,ic,list])=>`<section class="rcard"><div class="phase"><span class="ic"><svg class="i"><use href="#${ic}"/></svg></span><div><h2>${t}</h2><p class="when">${w}</p>
+   <ul class="chk">${list.map(([k,l,s,href])=>`<li class="${done[k]?'on':''}"><input type="checkbox" id="c-${k}" data-c="${k}" ${done[k]?'checked':''}><label for="c-${k}">${l}<small>${s}${href?` <a href="${href}">Check your visa</a>`:''}</small></label></li>`).join('')}</ul></div></div></section>`).join('');
+}
+window.onTrip=()=>{A.day=TRIP.start||A.day;A.first=TRIP.stops.find(s=>DRIVE[s])||A.first;render()};
+$('#first').onchange=e=>{A.first=e.target.value;render()};$('#day').onchange=e=>{A.day=e.target.value;render()};
+document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.t){A.t=b.dataset.t;render()}if(b.dataset.print!==undefined)print()});
+document.addEventListener('change',e=>{const k=e.target.dataset.c;if(k){done[k]=e.target.checked;try{localStorage.setItem('cn-24h',JSON.stringify(done))}catch(_){}render()}});
+render();
+</script>

@@ -1,0 +1,91 @@
+<!--TOOL
+title: Visa and entry
+h1: Do you need a visa for Sri Lanka?
+icon: passport
+lede: Choose your passport to see if you need a visa, what it costs, how long you can stay and what to have ready at the airport.
+desc: Sri Lanka visa and ETA checker. See if you need a visa, the cost, how long you can stay and the documents to bring, by passport.
+shares: Uses your arrival date
+cta_h: Visa sorted?
+cta_p: Book your first day: airport pickup and an easy Colombo or Negombo tour.
+-->
+<style>
+.verdict{display:flex;gap:16px;align-items:flex-start}
+.verdict .ic{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;flex:none;background:var(--cn-primary-tint);color:var(--cn-primary)}
+.verdict .ic .i{width:28px;height:28px}
+.verdict.free .ic{background:#EAF6EE;color:var(--ok)}
+.verdict.warn .ic{background:var(--warn-bg);color:var(--warn)}
+.verdict h2{font-size:26px;letter-spacing:-.03em}
+.verdict p{margin-top:6px}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:20px}
+.facts div{padding:14px 16px;border-radius:14px;background:var(--cn-page)}
+.facts small{display:block;font-size:12px;color:var(--cn-muted)}
+.facts b{display:block;font-size:18px;color:var(--cn-ink);margin-top:2px}
+.steps{list-style:none;margin:16px 0 0;padding:0;counter-reset:s}
+.steps li{display:grid;grid-template-columns:32px 1fr;gap:12px;padding-bottom:16px;position:relative}
+.steps li:not(:last-child)::before{content:"";position:absolute;left:15px;top:32px;bottom:0;border-left:2px solid var(--cn-primary-line)}
+.steps li::after{counter-increment:s;content:counter(s);grid-column:1;grid-row:1;width:32px;height:32px;border-radius:50%;background:var(--cn-primary);color:#fff;display:grid;place-items:center;font-weight:700;font-size:14px}
+.steps li>div{grid-column:2;grid-row:1}
+.steps b{display:block;color:var(--cn-ink);padding-top:5px}
+.steps p{font-size:14px;margin-top:2px}
+.steps .when{display:inline-block;margin-top:6px;font-size:12px;font-weight:600;color:var(--cn-primary-text);background:var(--cn-primary-tint);padding:3px 8px;border-radius:999px}
+.src{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:16px;padding-top:16px;border-top:1px solid var(--cn-border);font-size:13px;color:var(--cn-muted)}
+@media (max-width:600px){.facts{grid-template-columns:1fr}.verdict{flex-direction:column}}
+</style>
+<main>
+<div class="tl2">
+  <aside class="panel sticky">
+    <h2>About your trip</h2>
+    <div class="q"><label for="pp">Passport</label><select id="pp"></select></div>
+    <div class="q"><span class="ql">Why are you going?</span><div class="pills" id="why"></div></div>
+    <div class="q"><span class="ql">How long will you stay?</span><div class="pills" id="len"></div></div>
+    <div class="q"><label for="arr">Arrival date</label><input type="date" id="arr" min="2026-10-13"></div>
+  </aside>
+  <div class="res">
+    <section class="rcard" aria-live="polite"><div id="verdict"></div><div class="facts" id="facts"></div><div id="callout"></div>
+      <div class="src"><span>Sample rules for the prototype. Ceylon Nooks will check these against the Department of Immigration and Emigration before launch.</span><a class="btn" href="https://www.eta.gov.lk" target="_blank" rel="noopener" style="min-height:38px">Official ETA site<svg class="i"><use href="#i-arrow"/></svg></a></div></section>
+    <section class="rcard" aria-labelledby="h-steps"><h2 id="h-steps">How to apply</h2><ol class="steps" id="steps"></ol></section>
+    <section class="rcard" aria-labelledby="h-bring"><h2 id="h-bring">Have these ready at the airport</h2><ul class="chk" id="bring"></ul><p class="note">Tick them off as you go. We’ll remember them in this browser.</p></section>
+  </div>
+</div>
+</main>
+<script>
+/* SAMPLE RULES for the prototype. Groups: free (no visa needed), saarc (lower fee), eta (standard fee). */
+const PP=[['Australia','eta'],['Canada','eta'],['China','eta'],['France','eta'],['Germany','eta'],['India','saarc'],['Italy','eta'],['Japan','eta'],['Maldives','free'],['Netherlands','eta'],['New Zealand','eta'],['Nigeria','eta'],['Pakistan','saarc'],['Bangladesh','saarc'],['Nepal','saarc'],['Russia','eta'],['Singapore','free'],['South Africa','eta'],['Spain','eta'],['Sweden','eta'],['Switzerland','eta'],['United Arab Emirates','eta'],['United Kingdom','eta'],['United States','eta']];
+const FEE={saarc:20,eta:50};
+const V={pp:'United Kingdom',why:'tour',len:'short',arr:TRIP.start||''};
+let ticks={};try{ticks=JSON.parse(localStorage.getItem('cn-visa-ticks')||'{}')}catch(e){}
+$('#pp').innerHTML=PP.map(([c])=>`<option>${c}</option>`).join('');
+function render(){
+  $('#pp').value=V.pp;$('#arr').value=V.arr;
+  $('#why').innerHTML=[['tour','Holiday'],['biz','Business'],['transit','Transit']].map(([k,l])=>`<button class="pill" data-why="${k}" aria-pressed="${V.why===k}">${l}</button>`).join('');
+  $('#len').innerHTML=[['short','Up to 30 days'],['mid','31 to 90 days'],['long','Over 90 days']].map(([k,l])=>`<button class="pill" data-len="${k}" aria-pressed="${V.len===k}">${l}</button>`).join('');
+  const g=PP.find(p=>p[0]===V.pp)[1];
+  const arr=V.arr?new Date(V.arr+'T12:00:00'):null, applyBy=arr?new Date(+arr-3*864e5):null, f=d=>d.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});
+  let cls='',ic='passport',h,p;
+  if(V.why==='transit'){cls='free';ic='check';h='No visa for a short transit';p='If you stay airside and leave within 48 hours, you don’t need an ETA. Leaving the airport? Apply for a transit ETA.'}
+  else if(g==='free'&&V.len!=='long'){cls='free';ic='check';h='No visa needed';p=`${V.pp} passport holders can visit for up to 30 days without a visa. You’ll get an entry stamp on arrival.`}
+  else if(V.len==='long'){cls='warn';ic='alert';h='You’ll need an extension or a long-stay visa';p='A tourist ETA covers 30 days. Extend it in Colombo for up to 6 months, or apply for a long-stay visa before you travel.'}
+  else{h=V.why==='biz'?'You need a business ETA':'You need an ETA before you fly';p=`The Electronic Travel Authorisation (ETA) is an online visa. For ${V.pp} passports it’s ${fmt0(FEE[g]+(V.why==='biz'?10:0))} and usually approved within 24 to 48 hours.`}
+  $('#verdict').innerHTML=`<div class="verdict ${cls}"><span class="ic"><svg class="i"><use href="#i-${ic}"/></svg></span><div><h2>${h}</h2><p>${p}</p></div></div>`;
+  const need=!(cls==='free');
+  $('#facts').innerHTML=need?`<div><small>Cost</small><b>${V.len==='long'?'From '+fmt0(FEE[g]||50):fmt0((FEE[g]||0)+(V.why==='biz'?10:0))}</b></div><div><small>You can stay</small><b>${V.len==='long'?'Up to 6 months':'30 days'}</b></div><div><small>${applyBy?'Apply by':'Apply'}</small><b>${applyBy?f(applyBy):'At least 3 days before'}</b></div>`
+    :`<div><small>Cost</small><b>Free</b></div><div><small>You can stay</small><b>${V.why==='transit'?'48 hours':'30 days'}</b></div><div><small>On arrival</small><b>Entry stamp</b></div>`;
+  $('#callout').innerHTML=`<div class="callout amber"><svg class="i"><use href="#i-alert"/></svg><span><b>Only apply on the official site.</b> Look-alike sites charge extra fees for the same ETA.</span></div>`;
+  const steps=need&&V.why!=='transit'?[
+    ['Check your passport','It must be valid for at least 6 months from your arrival date, with a blank page.',''],
+    ['Apply online','Fill in the form on eta.gov.lk and pay by card. It takes about 15 minutes.',applyBy?`By ${f(applyBy)}`:''],
+    ['Get your approval','It arrives by email, usually within 24 to 48 hours. Print it or save it to your phone.',''],
+    ['Show it at immigration','With your passport and return ticket. You get a 30-day stamp.',arr?f(arr):'']]
+   :[['Check your passport','Valid for at least 6 months from arrival, with a blank page.',''],['Book a return or onward ticket','Immigration may ask to see it.',''],['Show your passport on arrival','You get an entry stamp. No form to fill in beforehand.',arr?f(arr):'']];
+  $('#steps').innerHTML=steps.map(([b,p,w])=>`<li><div><b>${b}</b><p>${p}</p>${w?`<span class="when">${w}</span>`:''}</div></li>`).join('');
+  const BR=[['pp','Passport','Valid 6 months past arrival'],...(need&&V.why!=='transit'?[['eta','ETA approval','Printed or on your phone']]:[]),['ret','Return or onward ticket',''],['addr','Address of your first night','Hotel name and phone number'],['ins','Travel insurance','Not checked, but strongly recommended'],['cash','A little cash or a card','ATMs are just after customs']];
+  $('#bring').innerHTML=BR.map(([k,l,s])=>`<li class="${ticks[k]?'on':''}"><input type="checkbox" id="b-${k}" data-tick="${k}" ${ticks[k]?'checked':''}><label for="b-${k}">${l}${s?`<small>${s}</small>`:''}</label></li>`).join('');
+}
+window.onTrip=()=>{V.arr=TRIP.start||V.arr;render()};
+window.onCur=(f=>()=>{f&&f();render()})(window.onCur);
+$('#pp').onchange=e=>{V.pp=e.target.value;render()};
+$('#arr').onchange=e=>{V.arr=e.target.value;render()};
+document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.why){V.why=b.dataset.why;render()}if(b.dataset.len){V.len=b.dataset.len;render()}});
+document.addEventListener('change',e=>{const k=e.target.dataset.tick;if(k){ticks[k]=e.target.checked;try{localStorage.setItem('cn-visa-ticks',JSON.stringify(ticks))}catch(_){}e.target.closest('li').classList.toggle('on',e.target.checked)}});
+render();
+</script>

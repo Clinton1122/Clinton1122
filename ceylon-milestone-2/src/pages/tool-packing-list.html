@@ -1,0 +1,95 @@
+<!--TOOL
+title: Packing list
+h1: What to pack for Sri Lanka
+icon: bag
+lede: A list built from your route, your dates and what you’ll do: temples, cool hills, beaches and the monsoon. Tick things off as they go in the bag.
+desc: Sri Lanka packing list built from your route and dates. What to wear for temples, the hill country, beaches, safaris and the monsoon.
+shares: Uses your dates, stops and travellers
+cta_h: All packed?
+cta_p: Book the experiences you’re packing for.
+-->
+<style>
+.grp{margin-top:6px}
+.grp h3{display:flex;align-items:center;gap:10px;font-size:16px;padding:16px 0 4px}
+.grp h3 .ic{width:32px;height:32px;border-radius:10px;background:var(--cn-primary-tint);color:var(--cn-primary);display:grid;place-items:center}
+.grp h3 .ic .i{width:17px;height:17px}
+.grp h3 small{margin-left:auto;font-size:12.5px;font-weight:500;color:var(--cn-muted)}
+.why{display:inline-block;margin-top:4px;font-size:11.5px;font-weight:600;color:var(--cn-primary-text);background:var(--cn-primary-tint);padding:2px 8px;border-radius:999px}
+.why.rain{background:#E8EEF7;color:#2E4B73}
+.rcard.head{display:flex;justify-content:space-between;gap:20px;align-items:center;flex-wrap:wrap}
+.rcard.head .prog{min-width:240px;flex:1;max-width:360px}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.addrow{display:flex;gap:8px;margin-top:14px}
+.addrow input{flex:1;font:inherit;font-size:14px;padding:10px 12px;border:1px solid var(--cn-input);border-radius:12px}
+</style>
+<main>
+<div class="tl2">
+  <aside class="panel sticky">
+    <h2>Your trip</h2>
+    <p class="sub" id="src"></p>
+    <div class="q"><span class="ql">Where you’re going</span><div class="pills" id="where"></div></div>
+    <div class="q"><label for="mon">Month you travel</label><select id="mon"></select></div>
+    <div class="q"><span class="ql">What you’ll do</span><div class="pills" id="dos"></div></div>
+    <div class="acts noprint"><button class="btn" data-print><svg class="i"><use href="#i-dl"/></svg>Print or PDF</button><button class="btn" data-copy><svg class="i"><use href="#i-copy"/></svg>Copy list</button><button class="btn" data-untick>Untick all</button></div>
+  </aside>
+  <div class="res">
+    <section class="rcard head"><div><h2 id="h"></h2><p style="font-size:14px;margin-top:4px" id="hp"></p></div><div class="prog"><span id="pc"></span><span class="bar"><i id="pbar"></i></span></div></section>
+    <section class="rcard"><div id="list"></div>
+      <form class="addrow noprint" id="addf"><input id="addi" placeholder="Add your own item" aria-label="Add your own item"><button class="btn" type="submit">Add</button></form></section>
+  </div>
+</div>
+</main>
+<script>
+const MF=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const AREAS=[['culture','Temples and ancient cities',['Kandy','Sigiriya','Anuradhapura','Polonnaruwa','Jaffna','Colombo']],['hills','Hill country',['Ella','Nuwara Eliya','Kandy']],['beach','Beaches',['Galle','Mirissa','Hikkaduwa','Arugam Bay','Trincomalee','Negombo']],['safari','Safari parks',['Yala','Udawalawe']]];
+const WET={west:[4,5,9],hills:[9,10],east:[10,11,0],north:[9,10,11]};
+const DOS=[['hike','Hiking or Adam’s Peak'],['water','Snorkel or dive'],['surf','Surfing'],['night','Nights out']];
+const P={areas:new Set(),mon:TRIP.start?new Date(TRIP.start+'T12:00:00').getMonth():1,dos:new Set(),own:[]};
+function fromTrip(){P.areas=new Set(AREAS.filter(a=>a[2].some(p=>TRIP.stops.includes(p))).map(a=>a[0]));if(!P.areas.size)P.areas=new Set(['culture','hills','beach']);if(TRIP.start)P.mon=new Date(TRIP.start+'T12:00:00').getMonth()}
+let ticks={};try{ticks=JSON.parse(localStorage.getItem('cn-pack')||'{}');P.own=JSON.parse(localStorage.getItem('cn-pack-own')||'[]')}catch(e){}
+function build(){
+  const has=a=>P.areas.has(a),m=P.mon,kids=TRIP.children>0;
+  const east=['Trincomalee','Arugam Bay'].some(x=>TRIP.stops.includes(x)),west=['Galle','Mirissa','Hikkaduwa','Negombo'].some(x=>TRIP.stops.includes(x))||!east;
+  const rainy=(has('beach')&&((west&&WET.west.includes(m))||(east&&WET.east.includes(m))))||(has('hills')&&WET.hills.includes(m))||(has('culture')&&[10,11].includes(m));
+  const placeOf=a=>AREAS.find(x=>x[0]===a)[2].filter(p=>TRIP.stops.includes(p))[0]||AREAS.find(x=>x[0]===a)[1];
+  const G=[
+   ['Clothes','user',[['tees','Light cotton or linen tops'],['trousers','Loose trousers or a long skirt'],['shorts','Shorts for the coast'],['sandals','Sandals that slip off easily'],['shoes','Comfortable walking shoes'],['under','Underwear and socks for the trip']]],
+   ['For temples','temple',has('culture')?[['sarong','A sarong or light scarf','Covers shoulders and knees',placeOf('culture')],['socks','Thin socks','Temple floors get very hot by midday',placeOf('culture')],['white','Something white','Traditional for temple visits on poya days','']]:[]],
+   ['For the hill country','hike',has('hills')?[['fleece','A warm layer or fleece','Nights in Nuwara Eliya can drop to 10 °C',placeOf('hills')],['longs','Long trousers for cool evenings','',placeOf('hills')],['leech','Leech socks','For forest trails, especially after rain',placeOf('hills')]]:[]],
+   ['For the beach','wave',has('beach')?[['swim','Swimwear','',placeOf('beach')],['rash','A rash vest','For snorkelling and strong sun',placeOf('beach')],['reef','Reef-safe sunscreen','',placeOf('beach')],['sunhat','A wide hat','',placeOf('beach')]]:[]],
+   ['For safari','paw',has('safari')?[['neutral','Neutral-coloured clothes','Khaki and green, not white or bright colours',placeOf('safari')],['binos','Binoculars','Leopards are often far from the track',placeOf('safari')],['dust','A buff or scarf for dust','Jeeps are open',placeOf('safari')]]:[]],
+   ['For what you’ll do','compass',[...(P.dos.has('hike')?[['boots','Hiking shoes with grip','For Adam’s Peak, Ella Rock and Little Adam’s Peak','Hiking'],['torch','A head torch','The Adam’s Peak climb starts around 2 AM','Hiking']]:[]),...(P.dos.has('water')?[['mask','Your own mask','Hired ones don’t always fit well','Snorkel'],['dry','A dry bag','','Snorkel']]:[]),...(P.dos.has('surf')?[['wax','Board wax and a leash','Shops in Arugam Bay and Weligama sell them','Surf']]:[]),...(P.dos.has('night')?[['smart','One smarter outfit','For Colombo rooftop bars','Nights out']]:[])]],
+   ['For the rain','spark',rainy?[['jacket','A light rain jacket','',`${MF[m]} showers`],['bagcover','A cover for your bag','',`${MF[m]} showers`],['quickdry','Quick-dry clothes','Cotton takes days to dry in the humidity',`${MF[m]} showers`]]:[]],
+   ['Health and sun','sun',[['sunscreen','Sunscreen, SPF 50'],['deet','Insect repellent with DEET','Dengue mosquitoes bite in the day'],['meds','Your usual medicines','Plus rehydration salts and stomach tablets'],['bottle','A refillable water bottle','Many hotels have filtered water'],['sunglasses','Sunglasses']]],
+   ['Documents and money','passport',[['passport','Passport','Valid 6 months past arrival'],['etaprint','ETA approval','Printed or on your phone'],['ins','Travel insurance details'],['cards','Two bank cards','Keep them in different bags'],['cashusd','Some cash','USD or EUR exchange easily']]],
+   ['Tech','phone',[['adapter','Plug adapter','Sri Lanka uses type D and G sockets, 230 V'],['power','A power bank','Long drives and train rides'],['unlocked','An unlocked phone','For a local SIM'],['offline','Offline maps downloaded']]],
+   ['For the children','users',kids?[['kidsun','Children’s sunscreen and hats'],['snacks','Familiar snacks','For long drives'],['seat','Ask for a child seat','Most drivers can bring one if you ask ahead']]:[]],
+   ['Your own items','plus',P.own.map((t,i)=>['own'+i,t,'','',1])]
+  ];
+  return {G:G.filter(g=>g[2].length),rainy};
+}
+function render(){
+  $('#src').textContent=TRIP.stops.length||TRIP.start?`From your trip: ${[TRIP.stops.join(', '),TRIP.start&&MF[P.mon]].filter(Boolean).join(' · ')}.`:'Set your trip in the bar above, or choose below.';
+  $('#where').innerHTML=AREAS.map(([k,l])=>`<button class="pill" data-a="${k}" aria-pressed="${P.areas.has(k)}">${l}</button>`).join('');
+  $('#mon').innerHTML=MF.map((x,i)=>`<option value="${i}" ${i===P.mon?'selected':''}>${x}</option>`).join('');
+  $('#dos').innerHTML=DOS.map(([k,l])=>`<button class="pill" data-d="${k}" aria-pressed="${P.dos.has(k)}">${l}</button>`).join('');
+  const {G,rainy}=build(),all=G.flatMap(g=>g[2]);const n=all.filter(i=>ticks[i[0]]).length;
+  $('#h').textContent=`${all.length} things to pack`;
+  $('#hp').textContent=`For ${MF[P.mon]}${rainy?', with rain gear for the monsoon':''}.`;
+  $('#pc').textContent=`${n} of ${all.length} packed`;$('#pbar').style.width=`${all.length?n/all.length*100:0}%`;
+  $('#list').innerHTML=G.map(([t,ic,items])=>`<div class="grp"><h3><span class="ic"><svg class="i"><use href="#i-${ic}"/></svg></span>${t}<small>${items.filter(i=>ticks[i[0]]).length} of ${items.length}</small></h3><ul class="chk">${items.map(([k,l,s,why,own])=>`<li class="${ticks[k]?'on':''}"><input type="checkbox" id="p-${k}" data-p="${k}" ${ticks[k]?'checked':''}><label for="p-${k}">${l}${s?`<small>${s}</small>`:''}${why?`<span class="why ${String(why).includes('showers')?'rain':''}">For ${why}</span>`:''}</label>${own?`<button class="linkish" data-rm="${k.slice(3)}" aria-label="Remove ${l}" style="border:0;background:none;color:var(--cn-muted);cursor:pointer">Remove</button>`:''}</li>`).join('')}</ul></div>`).join('');
+}
+function save(){try{localStorage.setItem('cn-pack',JSON.stringify(ticks));localStorage.setItem('cn-pack-own',JSON.stringify(P.own))}catch(e){}}
+window.onTrip=()=>{fromTrip();render()};
+$('#mon').onchange=e=>{P.mon=+e.target.value;render()};
+$('#addf').onsubmit=e=>{e.preventDefault();const v=$('#addi').value.trim();if(v){P.own.push(v);save();$('#addi').value='';render()}};
+document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const x=b.dataset;
+  if(x.a){P.areas.has(x.a)?P.areas.delete(x.a):P.areas.add(x.a);render()}
+  if(x.d){P.dos.has(x.d)?P.dos.delete(x.d):P.dos.add(x.d);render()}
+  if(x.rm!==undefined){P.own.splice(+x.rm,1);save();render()}
+  if(x.print!==undefined)print();
+  if(x.untick!==undefined){ticks={};save();render()}
+  if(x.copy!==undefined){const {G}=build();const txt=G.map(([t,,it])=>`${t}\n`+it.map(i=>`${ticks[i[0]]?'[x]':'[ ]'} ${i[1]}`).join('\n')).join('\n\n');navigator.clipboard?.writeText(txt).then(()=>toast('List copied'),()=>toast('Couldn’t copy. Try Print instead.'))}});
+document.addEventListener('change',e=>{const k=e.target.dataset.p;if(k){ticks[k]=e.target.checked;save();render()}});
+fromTrip();render();
+</script>

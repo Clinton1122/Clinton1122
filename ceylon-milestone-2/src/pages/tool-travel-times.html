@@ -1,0 +1,105 @@
+<!--TOOL
+title: Travel times
+h1: How long does it take to get around Sri Lanka?
+icon: car
+lede: Distances look short on the map, but roads are slow. These are realistic door-to-door times by car, train and bus, plus the drive times for your route.
+desc: Realistic travel times in Sri Lanka by car, train and bus between Colombo, Kandy, Sigiriya, Ella, Galle, Mirissa, Yala, Trincomalee, Jaffna and more.
+shares: Uses your stops
+cta_h: Skip the driving
+cta_p: Day trips with hotel pickup, so you’re not sitting in traffic.
+-->
+<style>
+.ft{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:end}
+.swap{width:44px;height:46px;border-radius:12px;border:1px solid var(--cn-input);background:#fff;display:grid;place-items:center;cursor:pointer;color:var(--cn-ink)}
+.swap .i{width:18px;height:18px}
+.modes{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+.mode{border:1px solid var(--cn-border);border-radius:16px;padding:16px}
+.mode.best{border-color:var(--cn-primary);box-shadow:inset 0 0 0 1px var(--cn-primary)}
+.mode .h{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--cn-muted)}
+.mode .h .i{width:20px;height:20px;color:var(--cn-ink)}
+.mode .t{font-size:30px;font-weight:700;letter-spacing:-.03em;color:var(--cn-ink);margin-top:8px}
+.mode .t small{font-size:14px;font-weight:500;color:var(--cn-muted);letter-spacing:0}
+.mode p{font-size:13px;margin-top:4px}
+.mode .tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--cn-primary-text);background:var(--cn-primary-tint);padding:3px 8px;border-radius:999px}
+.mode.na{background:var(--cn-page)}.mode.na .t{color:#A1A1AA;font-size:20px}
+.via{font-size:13px;color:var(--cn-muted);margin-top:12px}
+.legs{list-style:none;margin:14px 0 0;padding:0}
+.legs li{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid var(--cn-border);font-size:14px}
+.legs li:last-child{border-bottom:0}
+.legs b{color:var(--cn-ink)}
+.legs .lt{font-weight:700;color:var(--cn-ink);font-variant-numeric:tabular-nums}
+.legs .long{display:inline-block;margin-left:8px;font-size:11.5px;font-weight:600;color:var(--warn);background:var(--warn-bg);padding:2px 8px;border-radius:999px}
+.tot{display:flex;justify-content:space-between;padding-top:14px;font-weight:700;color:var(--cn-ink)}
+.from-all{display:grid;grid-template-columns:1fr 1fr;gap:0 24px;margin-top:10px}
+.from-all div{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--cn-border);font-size:14px}
+.from-all span:last-child{font-weight:600;color:var(--cn-ink);font-variant-numeric:tabular-nums}
+.bars{display:inline-block;width:80px;height:6px;border-radius:3px;background:var(--cn-border);margin-right:10px;vertical-align:middle;overflow:hidden}
+.bars i{display:block;height:100%;background:var(--cn-primary)}
+@media (max-width:600px){.modes{grid-template-columns:1fr}.from-all{grid-template-columns:1fr}}
+</style>
+<main>
+<div class="tl2">
+  <aside class="panel sticky">
+    <h2>Where are you going?</h2>
+    <div class="q ft"><div><label for="from">From</label><select id="from"></select></div><button class="swap" data-swap aria-label="Swap"><svg class="i"><use href="#i-swap"/></svg></button><div><label for="to">To</label><select id="to"></select></div></div>
+    <div class="q"><span class="ql">Quick picks</span><div class="pills" id="quick"></div></div>
+    <p class="note">Times are typical in daylight and include a short stop. Allow more on poya days, weekends and in the rain. Trains are timetable times.</p>
+  </aside>
+  <div class="res">
+    <section class="rcard" aria-labelledby="r-h"><h2 id="r-h"></h2><div class="modes" id="modes"></div><p class="via" id="via"></p><div id="tip"></div></section>
+    <section class="rcard" aria-labelledby="y-h"><h2 id="y-h">Your route</h2><div id="yours"></div></section>
+    <section class="rcard" aria-labelledby="a-h"><h2 id="a-h"></h2><div class="from-all" id="all"></div></section>
+  </div>
+</div>
+</main>
+<script>
+const NODES=['Airport (Colombo)',...PLACES];
+/* car with driver, hours */
+const CAR=[['Airport (Colombo)','Negombo',.3],['Airport (Colombo)','Colombo',.9],['Colombo','Negombo',1],['Airport (Colombo)','Kandy',3],['Colombo','Kandy',3.2],['Airport (Colombo)','Sigiriya',3.8],['Airport (Colombo)','Galle',2.5],['Colombo','Galle',2],['Galle','Hikkaduwa',.4],['Colombo','Hikkaduwa',1.8],['Galle','Mirissa',.8],['Kandy','Sigiriya',2.5],['Sigiriya','Anuradhapura',1.8],['Sigiriya','Polonnaruwa',1.3],['Sigiriya','Trincomalee',2.3],['Anuradhapura','Jaffna',3.5],['Anuradhapura','Trincomalee',2.5],['Polonnaruwa','Trincomalee',2.3],['Polonnaruwa','Arugam Bay',4.5],['Colombo','Anuradhapura',4.2],['Kandy','Nuwara Eliya',2.5],['Nuwara Eliya','Ella',2.5],['Kandy','Ella',5],['Ella','Yala',2.3],['Ella','Arugam Bay',3],['Yala','Mirissa',2.5],['Mirissa','Udawalawe',2.5],['Udawalawe','Ella',2.3],['Yala','Udawalawe',1.8],['Yala','Arugam Bay',3.5],['Mirissa','Ella',4],['Colombo','Udawalawe',4]];
+/* train timetable hours (no train to Sigiriya, Yala, Udawalawe or Arugam Bay) */
+const TRAIN=[['Airport (Colombo)','Colombo',1.2],['Colombo','Negombo',.9],['Colombo','Kandy',2.8],['Kandy','Nuwara Eliya',4.2],['Nuwara Eliya','Ella',3],['Colombo','Hikkaduwa',2],['Hikkaduwa','Galle',.4],['Galle','Mirissa',1],['Colombo','Anuradhapura',4.5],['Anuradhapura','Jaffna',2.8],['Colombo','Trincomalee',7.5],['Colombo','Polonnaruwa',6.3]];
+const TIPS={
+ 'Kandy|Ella':['Take the train if you can','The Kandy to Ella line is one of the most beautiful train rides in the world. Reserved seats sell out, so book up to 30 days ahead.'],
+ 'Nuwara Eliya|Ella':['Take the train','Nanu Oya station is 15 minutes from Nuwara Eliya. Sit on the right for the best views toward Ella.'],
+ 'Colombo|Galle':['The coast train is slow but lovely','By car, the Southern Expressway gets you there in about 2 hours.'],
+ 'Airport (Colombo)|Colombo':['Use PickMe or Uber','Rides from the airport to Colombo cost about USD 15 to 20. The airport expressway avoids most traffic.'],
+ 'Colombo|Jaffna':['The Yal Devi train is easiest','It’s about 6 to 7 hours, with air-conditioned first class.']};
+function graph(E){const g={};E.forEach(([a,b,h])=>{(g[a]=g[a]||[]).push([b,h]);(g[b]=g[b]||[]).push([a,h])});return g}
+const G={car:graph(CAR),train:graph(TRAIN)};
+function path(mode,a,b){const g=G[mode],dist={},prev={},Q=new Set(NODES);NODES.forEach(n=>dist[n]=Infinity);dist[a]=0;
+  while(Q.size){let u=null;Q.forEach(n=>{if(u===null||dist[n]<dist[u])u=n});if(dist[u]===Infinity)break;Q.delete(u);if(u===b)break;(g[u]||[]).forEach(([v,h])=>{const nd=dist[u]+h+(mode==='train'&&u!==a?.3:0);if(nd<dist[v]){dist[v]=nd;prev[v]=u}})}
+  if(dist[b]===Infinity)return null;const p=[b];while(p[0]!==a)p.unshift(prev[p[0]]);return {h:dist[b],p}}
+const hm=h=>{const m=Math.round(h*4)*15,H=Math.floor(m/60),M=m%60;return H?`${H} h${M?` ${M} min`:''}`:`${M} min`};
+const hmB=h=>{const m=Math.round(h*4)*15,H=Math.floor(m/60),M=m%60;return `${H}<small> h</small>${M?` ${M}<small> min</small>`:''}`};
+let A='Kandy',B='Ella';
+$('#from').innerHTML=NODES.map(n=>`<option>${n}</option>`).join('');$('#to').innerHTML=$('#from').innerHTML;
+$('#quick').innerHTML=[['Airport (Colombo)','Kandy'],['Kandy','Ella'],['Colombo','Galle'],['Kandy','Sigiriya'],['Ella','Mirissa'],['Sigiriya','Trincomalee']].map(([a,b])=>`<button class="pill" data-q="${a}|${b}">${a.replace(' (Colombo)','')} to ${b}</button>`).join('');
+function render(){
+  $('#from').value=A;$('#to').value=B;
+  $('#r-h').textContent=`${A} to ${B}`;
+  if(A===B){$('#modes').innerHTML='<p>Pick two different places.</p>';$('#via').textContent='';$('#tip').innerHTML='';}
+  else{
+    const c=path('car',A,B),t=path('train',A,B),bus=c?{h:c.h*1.6+.5}:null;
+    const best=t&&t.h<c.h*1.3&&TIPS[[A,B].sort().join('|')]?'train':'car';
+    const card=(k,l,ic,r,p)=>r?`<div class="mode ${best===k?'best':''}"><div class="h"><span>${l}</span><svg class="i"><use href="#i-${ic}"/></svg></div><div class="t">${hmB(r.h)}</div><p>${p}</p>${best===k?'<span class="tag" style="margin-top:8px">Best choice</span>':''}</div>`:`<div class="mode na"><div class="h"><span>${l}</span><svg class="i"><use href="#i-${ic}"/></svg></div><div class="t">No direct option</div><p>${k==='train'?'No railway line here. Go by car or bus.':''}</p></div>`;
+    $('#modes').innerHTML=card('car','Car with driver','car',c,'Door to door. About USD 40 to 60 a day for a driver.')+card('train','Train','route',t,t?'Plus time to get to and from the stations.':'')+card('bus','Bus','users',bus,'Cheapest, slowest. Change in bigger towns.');
+    $('#via').textContent=c&&c.p.length>2?`By road via ${c.p.slice(1,-1).join(', ')}.`:'';
+    const tip=TIPS[[A,B].join('|')]||TIPS[[B,A].join('|')];
+    $('#tip').innerHTML=tip?`<div class="callout"><svg class="i"><use href="#i-info"/></svg><span><b>${tip[0]}.</b> ${tip[1]}</span></div>`:'';
+  }
+  // route from the trip
+  const st=TRIP.stops;
+  if(st.length<2)$('#yours').innerHTML=`<p style="margin-top:8px;font-size:14px">Add two or more places to your trip and we’ll add up the driving. <button class="btn" data-trip-edit style="margin-top:12px">Add places</button></p>`;
+  else{let tot=0;const legs=st.slice(1).map((b,i)=>{const r=path('car',st[i],b);const h=r?r.h:0;tot+=h;return `<li><span><b>${st[i]}</b> to <b>${b}</b>${h>4.5?'<span class="long">Long day</span>':''}</span><span class="lt">${hm(h)}</span></li>`});
+    $('#yours').innerHTML=`<ul class="legs">${legs.join('')}</ul><div class="tot"><span>Total driving</span><span>${hm(tot)}</span></div>${legs.some(l=>l.includes('Long day'))?`<div class="callout amber"><svg class="i"><use href="#i-alert"/></svg><span>Some days have more than 4½ hours on the road. Break them up with a stop, or take the train where you can.</span></div>`:''}`}
+  // everywhere from A
+  $('#a-h').textContent=`From ${A} to everywhere, by car`;
+  const all=NODES.filter(n=>n!==A).map(n=>[n,path('car',A,n).h]).sort((x,y)=>x[1]-y[1]),mx=Math.max(...all.map(x=>x[1]));
+  $('#all').innerHTML=all.map(([n,h])=>`<div><span>${n}</span><span><span class="bars"><i style="width:${h/mx*100}%"></i></span>${hm(h)}</span></div>`).join('');
+}
+window.onTrip=render;
+$('#from').onchange=e=>{A=e.target.value;render()};$('#to').onchange=e=>{B=e.target.value;render()};
+document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.swap!==undefined){[A,B]=[B,A];render()}if(b.dataset.q){[A,B]=b.dataset.q.split('|');render()}});
+if(TRIP.stops.length>=2){A=TRIP.stops[0];B=TRIP.stops[1]}
+render();
+</script>

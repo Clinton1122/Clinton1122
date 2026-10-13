@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Free Sri Lanka trip tools | Ceylon Nooks</title>
+<meta name="description" content="Free tools to plan Sri Lanka properly: traveller quiz, best time to go, travel times, budget, visa and entry, first 24 hours and packing list. They share one trip, so you never type the same thing twice.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+{{BASE_CSS}}
+{{TOOLS_CSS}}
+/* hub */
+.hub-hero{padding:48px 0 40px;background:radial-gradient(900px 400px at 85% 0%,#FFE6D8 0%,rgba(255,230,216,0) 60%),linear-gradient(180deg,#FFF7F2 0%,#fff 100%)}
+.hub-hero .wrap{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:40px;align-items:center}
+.hub-hero h1{font-size:52px;letter-spacing:-.045em;line-height:1.02;font-weight:700}
+.hub-hero h1 span{color:var(--cn-primary)}
+.hub-hero .lede{font-size:18px;margin-top:14px;max-width:48ch}
+.nextstep{background:#fff;border:1px solid var(--cn-border);border-radius:22px;padding:24px;box-shadow:var(--lift)}
+.nextstep .k{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--cn-primary-text)}
+.nextstep h2{font-size:22px;margin-top:6px;letter-spacing:-.02em}
+.nextstep p{font-size:14px;margin-top:6px}
+.nextstep .btn{margin-top:16px}
+.nextstep .done{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.nextstep .done span{font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--cn-page);color:var(--cn-body)}
+.grp{padding:36px 0 0}
+.grp h2{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--cn-muted);margin-bottom:14px}
+.how{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:48px 0 0;padding:28px;border-radius:22px;background:var(--cn-page)}
+.how div{display:flex;gap:12px}
+.how .n{width:32px;height:32px;border-radius:50%;background:var(--cn-ink);color:#fff;display:grid;place-items:center;font-weight:700;font-size:14px;flex:none}
+.how b{display:block;color:var(--cn-ink)}
+.how p{font-size:14px;margin-top:2px}
+@media (max-width:900px){.hub-hero .wrap{grid-template-columns:1fr}.hub-hero h1{font-size:40px}.how{grid-template-columns:1fr}}
+@media (max-width:600px){.hub-hero{padding:28px 0}.hub-hero h1{font-size:34px}.hub-hero .lede{font-size:16px}}
+</style>
+</head>
+<body>
+{{SPRITE}}
+{{HEADER}}
+<div class="tripbar" id="tripbar"></div>
+<section class="hub-hero">
+  <div class="wrap">
+    <div>
+      <nav class="tcrumbs" aria-label="Breadcrumb"><a href="homepage.html">Home</a><svg class="i"><use href="#i-chev"/></svg><span aria-current="page">Trip tools</span></nav>
+      <h1 style="margin-top:14px">Plan Sri Lanka <span>properly.</span></h1>
+      <p class="lede">Free tools that share one trip. Your answers carry from one to the next, so you never type the same thing twice. No account needed.</p>
+    </div>
+    <div class="nextstep" id="nextstep"></div>
+  </div>
+</section>
+<main class="wrap">
+  <div id="groups"></div>
+  <section class="how" aria-label="How the tools work">
+    <div><span class="n">1</span><span><b>Set your trip once</b><p>Dates, travellers and the places you’re thinking of. Change them any time from the bar at the top.</p></span></div>
+    <div><span class="n">2</span><span><b>Every tool uses it</b><p>Best time to go checks your dates, the budget counts your days, the packing list knows your route.</p></span></div>
+    <div><span class="n">3</span><span><b>Book when you’re ready</b><p>Each tool links to tours and activities that fit, with free cancellation on most.</p></span></div>
+  </section>
+  <div class="bookcta"><span><h3>Know what you want to do?</h3><p>Browse tours and activities run by local hosts across Sri Lanka.</p></span><a class="btn primary" href="category.html">Browse tours</a></div>
+</main>
+{{FOOTER}}
+<script>
+{{BASE_JS}}
+{{TOOLS_JS}}
+/* ================= Tools hub ================= */
+const G=['Decide','Plan','Get ready','On the ground'];
+$('#groups').innerHTML=G.map(g=>`<section class="grp" aria-labelledby="g-${g.replace(/\W/g,'')}"><h2 id="g-${g.replace(/\W/g,'')}">${g}</h2><div class="tgrid">${TOOLS.filter(t=>t[0]===g).map(toolCard).join('')}</div></section>`).join('');
+/* the suggested next step depends on what the traveller has already set */
+function renderNext(){
+  let used=[];try{used=JSON.parse(localStorage.getItem('cn-tools-used')||'[]')}catch(e){}
+  const step=!TRIP.style||!used.includes('tool-quiz')?['tool-quiz','Not sure where to start?','Take the traveller quiz. Five questions, and you’ll get a route that suits you.','Open the traveller quiz']
+    :!TRIP.start?['tool-best-time','Pick your dates','See which coast is dry and what’s on while you’re there.','Open best time to go']
+    :!used.includes('tool-budget')?['tool-budget','What will it cost?','A daily range for your style, for '+tDays()+' days.','Open the budget']
+    :['tool-packing-list','Nearly ready to go','Your packing list is built from your route and dates.','Open the packing list'];
+  $('#nextstep').innerHTML=`<p class="k">Your next step</p><h2>${step[1]}</h2><p>${step[2]}</p><a class="btn primary" href="${step[0]}.html">${step[3]}<svg class="i"><use href="#i-arrow"/></svg></a>${used.length?`<div class="done">${used.map(u=>`<span>✓ ${TOOLS.find(t=>t[1]===u)?.[2]||u}</span>`).join('')}</div>`:''}`;
+}
+window.onTrip=renderNext;renderNext();
+</script>
+</body>
+</html>

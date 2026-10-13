@@ -1,0 +1,102 @@
+<!--TOOL
+title: Traveller quiz
+h1: What kind of Sri Lanka trip suits you?
+icon: spark
+lede: Five quick questions. You’ll get a travel style, a route that fits it and the tours to match.
+desc: Take the free Sri Lanka traveller quiz. Five questions to find your travel style, a route that suits you and tours to match.
+shares: Saves your style and route to your trip
+cta_h: Found your style?
+cta_p: Browse tours that fit it, run by local hosts.
+-->
+<style>
+.quiz{max-width:760px;margin:32px auto 56px}
+.qhead{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:14px;font-size:13px;color:var(--cn-muted)}
+.qdots{display:flex;gap:6px}
+.qdots i{width:28px;height:5px;border-radius:3px;background:var(--cn-border)}
+.qdots i.on{background:var(--cn-primary)}
+.qcard{border:1px solid var(--cn-border);border-radius:24px;padding:32px;background:#fff;box-shadow:var(--shadow)}
+.qcard h2{font-size:26px;letter-spacing:-.03em;line-height:1.15}
+.qcard .hint{font-size:14px;color:var(--cn-muted);margin-top:6px}
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px}
+.ans{display:flex;gap:14px;align-items:flex-start;text-align:left;padding:16px;border-radius:16px;border:1px solid var(--cn-border);background:#fff;font:inherit;color:inherit;cursor:pointer;transition:border-color .15s,background .15s}
+.ans:hover{border-color:var(--cn-input)}
+.ans[aria-pressed=true]{border-color:var(--cn-ink);box-shadow:inset 0 0 0 1px var(--cn-ink);background:#FCFCFC}
+.ans .ic{width:40px;height:40px;border-radius:12px;background:var(--cn-primary-tint);color:var(--cn-primary);display:grid;place-items:center;flex:none}
+.ans b{display:block;color:var(--cn-ink);font-size:15px}
+.ans small{display:block;font-size:13px;color:var(--cn-muted);margin-top:2px}
+.qnav{display:flex;justify-content:space-between;align-items:center;margin-top:24px}
+.qnav .back{border:0;background:none;font:600 14px var(--text);color:var(--cn-ink);text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:0}
+.qnav .back:disabled{visibility:hidden}
+.result .kick{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--cn-primary-text)}
+.result h2{font-size:34px;margin-top:6px}
+.result .why{font-size:16px;margin-top:10px}
+.traits{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.traits span{font-size:13px;font-weight:600;padding:6px 12px;border-radius:999px;background:var(--cn-page);color:var(--cn-ink)}
+.route{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:22px;padding:18px;border-radius:16px;background:var(--cn-primary-tint)}
+.route b{font-size:14px;color:var(--cn-ink);padding:6px 12px;background:#fff;border-radius:999px}
+.route small{font-size:12px;color:var(--cn-primary-text);font-weight:600}
+.route .i{width:16px;height:16px;color:var(--cn-primary)}
+.picks{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px}
+.pick{text-decoration:none;color:inherit}
+.pick img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:14px}
+.pick h3{font-size:14px;margin-top:8px;line-height:1.3}
+.pick p{font-size:12.5px;color:var(--cn-muted);margin-top:2px}
+.racts{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+@media (max-width:600px){.qcard{padding:20px}.qcard h2{font-size:22px}.answers{grid-template-columns:1fr}.picks{grid-template-columns:1fr 1fr}.result h2{font-size:28px}}
+</style>
+<main>
+  <section class="quiz" aria-live="polite" id="quiz"></section>
+</main>
+<script>
+const QS=[
+ {k:'pace',q:'How do you like to travel?',h:'Pick the one that sounds most like you.',a:[['slow','Slow and easy','Two or three bases, lots of downtime','sunrise'],['mix','A bit of everything','Move every two or three days','route'],['full','See as much as I can','Early starts, a new place most days','compass']]},
+ {k:'love',q:'What would make the trip for you?',h:'Choose one. You can still do the rest.',a:[['culture','Temples and ancient cities','Sigiriya, Kandy, Anuradhapura','temple'],['nature','Hills, tea and hiking','Ella, Nuwara Eliya, Adam’s Peak','hike'],['wild','Wildlife','Leopards, elephants, whales','paw'],['beach','Beaches and the sea','Surf, snorkel, swim','wave']]},
+ {k:'days',q:'How long will you be in Sri Lanka?',h:'A rough idea is fine.',a:[['short','Up to a week','5 to 7 days','clock'],['two','About two weeks','10 to 16 days','cal'],['long','Three weeks or more','Time to go north and east','route']]},
+ {k:'who',q:'Who’s coming?',h:'It changes the pace and the places we suggest.',a:[['solo','Just me','Solo','user'],['couple','Two of us','Couple or friends','users'],['family','Family with children','Shorter drives, more stops','users'],['group','A group','Five or more','users']]},
+ {k:'style',q:'How do you like to stay and spend?',h:'This sets your budget in the budget tool.',a:[['budget','Keep it simple','Guesthouses, local buses and trains','tag'],['mid','Comfortable','Boutique hotels, a driver some days','bed'],['lux','Treat ourselves','Villas, private drivers, the best guides','spark']]}];
+const ANS={}; let qi=0;
+try{Object.assign(ANS,JSON.parse(localStorage.getItem('cn-quiz')||'{}'))}catch(e){}
+const ROUTES={
+ culture:{name:'The Culture Seeker',why:'You want the stories behind the places. Sri Lanka has more than 2,000 years of them, and the Cultural Triangle is where most of them happened.',route:[['Negombo',1],['Sigiriya',3],['Kandy',2],['Ella',2],['Galle',2]],picks:[['kandy-temple.jpg','Kandy Cultural City Tour','Private · 6 to 8 hours'],['sigiriya.jpg','Sigiriya and Dambulla day trip','Private · 10 hours'],['anuradhapura.jpg','Anuradhapura by bicycle','Small group · 5 hours']]},
+ nature:{name:'The Hill Country Wanderer',why:'Cool air, tea estates and long walks with big views. You’ll want slow train rides and early mornings on the trails.',route:[['Colombo',1],['Kandy',2],['Nuwara Eliya',2],['Ella',3],['Mirissa',2]],picks:[['ella-nine-arch.jpg','Hill country train and tea estates','Private · 9 hours'],['adams-peak.jpg','Adam’s Peak night climb','Small group · 8 hours'],['pidurangala.jpg','Pidurangala sunrise hike','Small group · 3 hours']]},
+ wild:{name:'The Wildlife Chaser',why:'Leopards in Yala, elephant herds in Udawalawe and blue whales off the south coast. Timing matters, so check the best time tool next.',route:[['Negombo',1],['Sigiriya',2],['Ella',2],['Yala',2],['Mirissa',2]],picks:[['mirissa-whale.jpg','Blue whale watching','Boat trip · 5 hours'],['sigiriya.jpg','Minneriya elephant gathering','Jeep safari · 4 hours'],['pidurangala.jpg','Sigiriya sunrise cycling','Small group · 4 hours']]},
+ beach:{name:'The Coast Lover',why:'Warm water, surf breaks and fort towns. The best coast depends on the month, so pick your dates next.',route:[['Colombo',1],['Galle',2],['Mirissa',3],['Ella',2],['Arugam Bay',3]],picks:[['galle-fort.jpg','Galle Fort walking tour','Small group · 2 hours'],['mirissa-whale.jpg','Blue whale watching','Boat trip · 5 hours'],['trincomalee.jpg','Pigeon Island snorkelling','Boat trip · 4 hours']]}};
+function draw(){
+  const done=qi>=QS.length;
+  if(done)return result();
+  const Q=QS[qi];
+  $('#quiz').innerHTML=`<div class="qhead"><span>Question ${qi+1} of ${QS.length}</span><span class="qdots" aria-hidden="true">${QS.map((_,i)=>`<i class="${i<=qi?'on':''}"></i>`).join('')}</span></div>
+  <div class="qcard"><h2 id="qh" tabindex="-1">${Q.q}</h2><p class="hint">${Q.h}</p>
+  <div class="answers" role="group" aria-labelledby="qh">${Q.a.map(([v,b,s,ic])=>`<button class="ans" data-a="${v}" aria-pressed="${ANS[Q.k]===v}"><span class="ic"><svg class="i"><use href="#i-${ic}"/></svg></span><span><b>${b}</b><small>${s}</small></span></button>`).join('')}</div>
+  <div class="qnav"><button class="back" data-back ${qi?'':'disabled'}>Back</button><button class="btn primary" data-next ${ANS[Q.k]?'':'disabled'}>${qi===QS.length-1?'See my trip':'Next'}</button></div></div>`;
+}
+function result(){
+  const R=ROUTES[ANS.love||'culture'];
+  const scale={short:.6,two:1,long:1.5}[ANS.days||'two'], slow=ANS.pace==='slow';
+  let route=R.route.map(([p,n])=>[p,Math.max(1,Math.round(n*scale*(slow?1.15:ANS.pace==='full'?.85:1)))]);
+  if(ANS.days==='short')route=route.slice(0,3);
+  if(ANS.days==='long')route.push(['Trincomalee',3]);
+  const nights=route.reduce((a,[,n])=>a+n,0);
+  const traits=[{slow:'Slow pace',mix:'Balanced pace',full:'Fast pace'}[ANS.pace],{solo:'Solo',couple:'Two travellers',family:'Family friendly',group:'Group'}[ANS.who],{budget:'Simple stays',mid:'Comfortable stays',lux:'Luxury stays'}[ANS.style],`${nights} nights`].filter(Boolean);
+  $('#quiz').innerHTML=`<div class="qcard result"><p class="kick">Your travel style</p><h2 tabindex="-1" id="rh">${R.name}</h2><p class="why">${R.why}${ANS.who==='family'?' We’ve kept the drives under four hours a day.':''}</p>
+   <div class="traits">${traits.map(t=>`<span>${t}</span>`).join('')}</div>
+   <div class="route" aria-label="Suggested route">${route.map(([p,n],i)=>`${i?'<svg class="i"><use href="#i-arrow"/></svg>':''}<b>${p} <small>${n} night${n>1?'s':''}</small></b>`).join('')}</div>
+   <h3 style="margin-top:26px;font-size:16px">Tours that fit</h3>
+   <div class="picks">${R.picks.map(([f,t,s])=>`<a class="pick" href="listing.html"><img src="${pic(f)}" alt="" loading="lazy"><h3>${t}</h3><p>${s}</p></a>`).join('')}</div>
+   <div class="racts"><button class="btn primary" data-save-route>Save this route to my trip</button><a class="btn" href="tool-best-time.html">Check the best time to go</a><button class="btn" data-restart>Start again</button></div></div>`;
+  $('#rh').focus();
+  ROUTE=route.map(r=>r[0]);
+  TRIP.style=ANS.style||'mid';saveTrip();markUsed('tool-quiz');
+}
+let ROUTE=[];
+function save(){try{localStorage.setItem('cn-quiz',JSON.stringify(ANS))}catch(e){}}
+document.addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b||!b.closest('#quiz'))return;const x=b.dataset;
+  if(x.a){ANS[QS[qi].k]=x.a;save();draw();setTimeout(()=>{qi++;draw();$('#qh')?.focus()},220)}
+  if(x.next!==undefined){qi++;draw();$('#qh')?.focus()}
+  if(x.back!==undefined){qi--;draw();$('#qh')?.focus()}
+  if(x.restart!==undefined){Object.keys(ANS).forEach(k=>delete ANS[k]);save();qi=0;draw()}
+  if(x.saveRoute!==undefined){TRIP.stops=[...new Set(ROUTE)];saveTrip();toast('Route saved to your trip');b.textContent='Saved to your trip';b.disabled=true}
+});
+draw();
+</script>

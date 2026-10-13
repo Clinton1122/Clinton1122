@@ -1,7 +1,8 @@
 """Builds the Milestone 2 pages.
 
 Each file in src/pages/ is a page template. These placeholders are filled in:
-{{BASE_CSS}} {{SPRITE}} {{HEADER}} {{FOOTER}} {{BASE_JS}} {{BOOKING_CSS}} {{BOOKING_JS}} {{IMG}}
+{{BASE_CSS}} {{SPRITE}} {{HEADER}} {{FOOTER}} {{BASE_JS}} {{BOOKING_CSS}} {{BOOKING_JS}}
+{{TOOLS_CSS}} {{TOOLS_JS}} {{IMG}}
 
 Writes <name>.html (photos linked from ../ceylon-traveller-dashboard/img/)
 and Ceylon-<Name>.html (single file, photos embedded) next to this folder.
@@ -17,9 +18,65 @@ part = lambda n: open(os.path.join(SRC, n)).read()
 PAGES = [f[:-5] for f in sorted(os.listdir(os.path.join(SRC, 'pages')))] + ['homepage']
 standalone = lambda n: 'Ceylon-%s.html' % n.replace('-', ' ').title().replace(' ', '-')
 
+TOOL_SHELL = '''<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{title} | Ceylon Nooks trip tools</title>
+<meta name="description" content="{desc}">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+{{{{BASE_CSS}}}}
+{{{{TOOLS_CSS}}}}
+{css}
+</style>
+</head>
+<body>
+{{{{SPRITE}}}}
+{{{{HEADER}}}}
+<div class="tripbar" id="tripbar"></div>
+<section class="thero"><div class="wrap">
+  <nav class="tcrumbs" aria-label="Breadcrumb"><a href="homepage.html">Home</a><svg class="i"><use href="#i-chev"/></svg><a href="tools.html">Trip tools</a><svg class="i"><use href="#i-chev"/></svg><span aria-current="page">{title}</span></nav>
+  <span class="ic"><svg class="i"><use href="#i-{icon}"/></svg></span>
+  <h1>{h1}</h1>
+  <p class="lede">{lede}</p>
+  <span class="shares"><svg class="i"><use href="#i-route"/></svg>{shares}</span>
+</div></section>
+<main class="wrap">
+{body}
+  <section class="next-tools" aria-labelledby="nt-h"><h2 id="nt-h">Keep planning</h2><div class="tgrid" id="next-tools"></div>
+  <div class="bookcta"><span><h3>{cta_h}</h3><p>{cta_p}</p></span><a class="btn primary" href="category.html">Browse tours</a></div></section>
+</main>
+{{{{FOOTER}}}}
+<script>
+{{{{BASE_JS}}}}
+{{{{TOOLS_JS}}}}
+/* ================= {title} ================= */
+if('{slug}'!=='tool-quiz')markUsed('{slug}');nextTools('{slug}');
+{js}
+</script>
+</body>
+</html>
+'''
+
+def tool_page(src, name):
+    head, rest = src.split('-->', 1)
+    meta = dict(l.split(':', 1) for l in head.replace('<!--TOOL', '').strip().splitlines())
+    meta = {k.strip(): v.strip() for k, v in meta.items()}
+    grab = lambda tag: (re.search(r'<%s>(.*?)</%s>' % (tag, tag), rest, re.S) or [None, ''])[1]
+    meta.setdefault('h1', meta['title'])
+    meta.setdefault('shares', 'Uses your trip')
+    meta.setdefault('cta_h', 'Ready to book something?')
+    meta.setdefault('cta_p', 'Tours and activities run by local hosts, with free cancellation on most.')
+    return TOOL_SHELL.format(css=grab('style'), body=grab('main'), js=grab('script'), slug=name, **meta)
+
 def build(name):
     s = part(os.path.join('pages', name + '.html'))
-    for k, f in [('BOOKING_CSS', 'booking.css'), ('BOOKING_JS', 'booking.js'), ('BASE_CSS', 'base.css'), ('SPRITE', 'sprite.svg'), ('HEADER', 'header.html'), ('FOOTER', 'footer.html'), ('BASE_JS', 'base.js')]:
+    if s.startswith('<!--TOOL'):
+        s = tool_page(s, name)
+    for k, f in [('TOOLS_CSS', 'tools.css'), ('TOOLS_JS', 'tools.js'), ('BOOKING_CSS', 'booking.css'), ('BOOKING_JS', 'booking.js'), ('BASE_CSS', 'base.css'), ('SPRITE', 'sprite.svg'), ('HEADER', 'header.html'), ('FOOTER', 'footer.html'), ('BASE_JS', 'base.js')]:
         s = s.replace('{{%s}}' % k, part(f))
     s = s.replace('{{IMG}}', IMG)
     open(os.path.join(OUT, name + '.html'), 'w').write(s)
