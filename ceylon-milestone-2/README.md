@@ -8,13 +8,58 @@ Each page has two versions. Open the `Ceylon-…` file: it's a single file with 
 
 | Page | Open | What's in it |
 | --- | --- | --- |
-| Homepage | `Ceylon-Homepage.html` | Homepage v2, now with the real logo |
+| Homepage | `Ceylon-Homepage.html` | Homepage v3 (15 Oct): Akila's header, natural search, List your business band |
 | Listing | `Ceylon-Listing.html` | Kandy Cultural City Tour, with the booking widget, trust signals, gallery and host badges |
 | Checkout | `Ceylon-Checkout.html` | Opens from Reserve now on the listing |
 | Confirmation | `Ceylon-Confirmation.html` | Opens after Confirm and pay |
 | Category template | `Ceylon-Category.html` | Culture and heritage tours |
 | Tools hub | `Ceylon-Tools.html` | All 13 tools; the 7 agreed for this milestone are live, the rest say Soon |
 | Tools | `Ceylon-Tool-Quiz.html`, `-Best-Time`, `-Travel-Times`, `-Budget`, `-Visa`, `-First-24-Hours`, `-Packing-List` | One page per tool |
+
+## Akila's feedback, round 2 (15 Oct)
+
+From "Feedback - Homepage, tools and other pages designs". The category template needed no changes.
+
+**Header, on every page.** Akila's existing navigation: logo, flag with "ENG | USD", Service, Place to go, Thing to do, Itinerary, a "Search here.." pill, then Register and Login. When signed in, Register and Login become a heart and the avatar. Each menu item opens a dropdown: hover on desktop, click or keyboard too. In Figma these are N 01 to N 04. On phones the menu is a drawer with the same four sections as accordions.
+
+**Natural search.** The header search and the homepage search understand mixed queries such as "3 day safari near Yala": a trip length, an activity and a place. They show about 10 suggestions: a "Search for …" row, what was understood as chips, then experiences and places. On phones the search icon opens a full-screen search with a clear button.
+
+**Homepage v3.**
+- A quieter hero where the search is the focus.
+- Search tabs: Experiences, plus Stays and Transportation marked Coming soon.
+- Search fields:
+  - Explore: "Activity, experience, landmark or tour name…"
+  - Start date: "When do you want to go?", with flexible-date chips
+  - Travellers: "Add travellers"
+- One orange Search button.
+- The map stays but is quieter.
+- The page has more colour and photography: photo tiles for "Start with what you want to do", a dark "How booking works" band and traveller reviews.
+- The planning kit sign-up is gone.
+- "List your business" is now a full orange band with benefits and two buttons.
+- The homepage is now built from `src/pages/homepage.html` like the other pages.
+
+**Checkout v2.**
+- **Steps:** one step at a time with "Step x of 4":
+  1. Your details
+  2. Pickup
+  3. When to pay
+  4. Payment method
+
+  A finished step collapses to a summary with Edit.
+- **Your details:** prefilled from the account. A "booking for someone else" checkbox adds a separate lead traveller.
+- **Pickup:** includes the reassurance note.
+- **When to pay:** orange radio buttons, as in the existing design. The cancellation lines follow the choice.
+- **Payment method:** card, Google Pay, Apple Pay and Alipay.
+- **Summary card:**
+  - "Your trip", with a Change link that opens one sheet for the date, time and travellers.
+  - The cancellation line.
+  - The service fee, with a tooltip.
+  - A quiet "Apply promo code" link. To try the messages, use WELCOME10 (valid), EXPIRED20 (invalid or expired) and BIGDEAL (not valid for this service).
+- **Trust lines:** the secure wallet line ("We've got your back…"), No hidden fees, Secure payments, and Help when you need it (help.ceylonnooks.com). There is no call-support line.
+
+**Log in to book.** Reserve now on the listing asks the traveller to log in or register first (Google, Apple or email), then continues to checkout. The listing's prototype controls have an Account switch to try both states.
+
+**Confirmation.** No site header or footer, only the logo and a small © line.
 
 ## Listing page (13 Oct)
 
@@ -38,7 +83,7 @@ Built on Akila's Kandy Cultural City Tour design from the Previous design page i
 - **Trust badges:** "Registered with Sri Lanka Tourism" (SLTDA) and "Police clearance checked" sit on the host card, and as small badges. Each opens a sheet saying what was checked and when. Both are optional; the card adjusts when a host has one or none.
 - **Prototype controls** (bottom left) switch the date scenario, policy type, pay later and host credentials so every state can be reviewed.
 
-## Checkout and confirmation (13 Oct)
+## Checkout and confirmation (13 Oct, replaced by checkout v2 above)
 
 - **Checkout** has no site menu: the logo, "Secure checkout" and the booking only, like Airbnb's. Sections: your trip (date, time and travellers editable in place), choose when to pay, pickup, lead traveller, card, cancellation policy, then one confirm button.
 - **Choose when to pay:** "Pay now" or "Reserve now, pay later" (USD 0 today, the total on the charge date). Pay later is greyed out within 5 days of the tour. Changing the date shows which dates allow pay later, free cancellation or no refund.
@@ -71,7 +116,7 @@ All tools share one trip: dates, travellers, places and travel style, set from t
 
 Travel times, weather patterns and prices are typical figures for the prototype. Poya days are worked out from the full moon and can be a day out.
 
-## Homepage v2 (9 Oct)
+## Homepage v2 (9 Oct, replaced by homepage v3 above)
 
 Rebuilt on the structure of Akila's homepage demo (akilaliyanage.com/homepage), in the Ceylon Nooks brand: Inter, orange and neutral greys, no green. Decisions agreed with Clinton:
 
@@ -103,7 +148,7 @@ Rebuilt on the structure of Akila's homepage demo (akilaliyanage.com/homepage), 
 
 ## How the pages are built
 
-`src/` holds the shared parts (styles, icons, header, footer, currency switcher, booking rules, trip tools) and one template per page in `src/pages/`. Run `python3 src/build.py` to rebuild every page and its single-file copy. The homepage is still edited directly in `homepage.html`.
+`src/` holds the shared parts (styles, icons, header, footer, currency switcher, booking rules, trip tools) and one template per page in `src/pages/`. Run `python3 src/build.py` to rebuild every page and its single-file copy.
 
 ## Photo credits (new photos)
 

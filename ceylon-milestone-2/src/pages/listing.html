@@ -582,6 +582,7 @@ function renderProto(){
   <h4>Cancellation policy</h4><div class="seg">${[['site','Ceylon Nooks'],['custom','Host’s own'],['nonref','Non-refundable']].map(([k,l])=>`<button data-ppol="${k}" aria-pressed="${L.policy===k}">${l}</button>`).join('')}</div>
   <h4>Reserve now, pay later</h4><div class="seg">${[[1,'Offered'],[0,'Not offered']].map(([k,l])=>`<button data-pbnpl="${k}" aria-pressed="${+L.bnpl===k}">${l}</button>`).join('')}</div>
   <h4>Host credentials</h4><div class="seg">${[['both','Both'],['sltda','SLTDA only'],['none','None']].map(([k,l])=>`<button data-pcred="${k}" aria-pressed="${(L.creds.sltda&&L.creds.police?'both':L.creds.sltda?'sltda':'none')===k}">${l}</button>`).join('')}</div>
+  <h4>Account</h4><div class="seg">${[[1,'Signed in'],[0,'Signed out']].map(([k,l])=>`<button data-pauth="${k}" aria-pressed="${+SIGNED===k}">${l}</button>`).join('')}</div>
   <p>Showing scenario ${sc} of the trust-link spec. Prototype clock: Tue 13 Oct 2026, 10:00 AM in Colombo.</p>`;
 }
 
@@ -605,7 +606,7 @@ document.addEventListener('click',e=>{
   if(x.day){S.date=x.day;closePops();renderAll();if(innerWidth>900)$('#reserve').focus();return}
   if(x.g){S[x.g]+=+x.d;renderGst();renderWidget();return}
   if(x.time){S.time=x.time;closePops();renderAll();return}
-  if(b.id==='reserve'){if(!S.date){togglePop('date');return}location.href='checkout.html#'+new URLSearchParams({d:S.date,t:S.time,a:S.adults,c:S.children,p:L.policy,b:+L.bnpl,cur}).toString()}
+  if(b.id==='reserve'){if(!S.date){togglePop('date');return}const go=()=>{location.href='checkout.html#'+new URLSearchParams({d:S.date,t:S.time,a:S.adults,c:S.children,p:L.policy,b:+L.bnpl,cur}).toString()};$('#bw').classList.remove('open');$('#mscrim').classList.remove('open');requireAuth(go,'login','Log in to book this tour')}
   if(x.pop==='cancel')popCancel();
   if(x.pop==='bnpl')popBnpl();
   if(x.cred)popCred(x.cred);
@@ -619,6 +620,7 @@ document.addEventListener('click',e=>{
   if(x.pdate){S.date=x.pdate==='none'?null:PRESET[x.pdate];renderAll()}
   if(x.ppol){L.policy=x.ppol;renderAll()}
   if(x.pbnpl){L.bnpl=!!+x.pbnpl;renderAll()}
+  if(x.pauth){setSigned(!!+x.pauth);renderAll()}
   if(x.pcred){L.creds={sltda:x.pcred!=='none',police:x.pcred==='both'};renderAll()}
 });
 $('#mscrim').addEventListener('click',()=>{if($('#bw').classList.contains('open')){$('#bw').classList.remove('open');$('#mscrim').classList.remove('open')}});

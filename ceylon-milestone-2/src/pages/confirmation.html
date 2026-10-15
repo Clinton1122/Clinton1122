@@ -9,7 +9,13 @@
 <style>
 {{BASE_CSS}}
 {{BOOKING_CSS}}
-/* ================= Booking confirmation (Milestone 2) ================= */
+/* ================= Booking confirmation: no site header or footer (15 Oct) ================= */
+.ck-h{border-bottom:1px solid var(--cn-border);background:#fff}
+.ck-h .wrap{max-width:1040px;display:flex;align-items:center;justify-content:space-between;height:66px}
+.secure{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--cn-ink)}
+.secure .i{width:18px;height:18px;color:var(--cn-primary)}
+.mini-foot{border-top:1px solid var(--cn-border);padding:20px 0;font-size:13px;color:var(--cn-muted);background:#fff;margin-top:40px}
+.mini-foot .wrap{max-width:1040px}
 body{background:var(--cn-page)}
 .cf{max-width:1040px;margin:0 auto;padding:40px 24px 24px}
 .hero-ok{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center}
@@ -86,7 +92,7 @@ body{background:var(--cn-page)}
 </head>
 <body>
 {{SPRITE}}
-{{HEADER}}
+<header class="ck-h"><div class="wrap"><span class="logo" aria-label="Ceylon Nooks"><svg viewBox="0 0 97 30" width="97" height="30" aria-hidden="true"><use href="#logo"/></svg></span><span class="secure"><svg class="i"><use href="#i-check"/></svg><span>Booking confirmed</span></span></div></header>
 <main class="cf">
   <section class="hero-ok" aria-labelledby="ok-h">
     <span class="okic"><svg class="i"><use href="#i-check"/></svg></span>
@@ -145,7 +151,8 @@ body{background:var(--cn-page)}
     <div class="rel" id="rel"></div>
   </section>
 </main>
-{{FOOTER}}
+<footer class="mini-foot"><div class="wrap"><span>© 2026 Ceylon Nooks Pty Ltd</span></div></footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div class="mscrim" id="mscrim"></div>
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="m-title"></div>
 
@@ -157,7 +164,8 @@ const q=new URLSearchParams(location.hash.slice(1));
 S.date=q.get('d')||'2026-10-28';S.time=q.get('t')||'08:00';S.adults=+(q.get('a')||2);S.children=+(q.get('c')||0);S.disc=+(q.get('disc')||0);
 L.policy=q.get('p')||'site';L.bnpl=q.get('b')!=='0';
 const later=q.get('later')==='1', ref=q.get('ref')||'CNE71623408', name=q.get('fn')||'John', email=q.get('em')||'john.carter@example.com';
-const card=`${({VISA:'Visa',MASTERCARD:'Mastercard',AMEX:'Amex'})[q.get('brand')]||'Visa'} ending ${q.get('card')||'4242'}`;
+const WAL={gpay:'Google Pay',apay:'Apple Pay',alipay:'Alipay'};
+const card=WAL[q.get('brand')]||`${({VISA:'Visa',MASTERCARD:'Mastercard',AMEX:'Amex'})[q.get('brand')]||'Visa'} ending ${q.get('card')||'4242'}`;
 if(q.get('cur')&&CUR[q.get('cur')])setCur(q.get('cur'));
 $('#t-img').src=pic('kandy-temple.jpg');
 

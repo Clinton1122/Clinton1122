@@ -8,14 +8,14 @@ Writes <name>.html (photos linked from ../ceylon-traveller-dashboard/img/)
 and Ceylon-<Name>.html (single file, photos embedded) next to this folder.
 Run: python3 src/build.py
 """
-import base64, os, re, sys
+import base64, os, re, shutil, subprocess, sys, tempfile
 SRC = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.dirname(SRC)
 IMGDIR = os.path.join(OUT, '..', 'ceylon-traveller-dashboard', 'img')
 IMG = '../ceylon-traveller-dashboard/img/'
 part = lambda n: open(os.path.join(SRC, n)).read()
 
-PAGES = [f[:-5] for f in sorted(os.listdir(os.path.join(SRC, 'pages')))] + ['homepage']
+PAGES = [f[:-5] for f in sorted(os.listdir(os.path.join(SRC, 'pages')))]
 standalone = lambda n: 'Ceylon-%s.html' % n.replace('-', ' ').title().replace(' ', '-')
 
 TOOL_SHELL = '''<!doctype html>
@@ -72,6 +72,17 @@ def tool_page(src, name):
     meta.setdefault('cta_p', 'Tours and activities run by local hosts, with free cancellation on most.')
     return TOOL_SHELL.format(css=grab('style'), body=grab('main'), js=grab('script'), slug=name, **meta)
 
+def photo(u):
+    """Photo bytes for a standalone page: large photos are resized to 1200 px and recompressed
+    (ImageMagick, if installed) so that each single-file page stays small."""
+    src = os.path.join(IMGDIR, u + '.jpg')
+    if os.path.getsize(src) < 120000 or not shutil.which('convert'):
+        return open(src, 'rb').read()
+    out = os.path.join(tempfile.gettempdir(), 'cn-photo-' + u + '.jpg')
+    if not os.path.exists(out) or os.path.getmtime(out) < os.path.getmtime(src):
+        subprocess.run(['convert', src, '-resize', '1200x1200>', '-strip', '-quality', '70', out], check=True)
+    return open(out, 'rb').read()
+
 def build(name):
     s = part(os.path.join('pages', name + '.html'))
     if s.startswith('<!--TOOL'):
@@ -82,7 +93,7 @@ def build(name):
     open(os.path.join(OUT, name + '.html'), 'w').write(s)
     # standalone: inline every photo the page names
     used = sorted(set(re.findall(r"[a-z0-9\-]+(?=\.jpg)", s)))
-    imgs = {u: base64.b64encode(open(os.path.join(IMGDIR, u + '.jpg'), 'rb').read()).decode() for u in used if os.path.exists(os.path.join(IMGDIR, u + '.jpg'))}
+    imgs = {u: base64.b64encode(photo(u)).decode() for u in used if os.path.exists(os.path.join(IMGDIR, u + '.jpg'))}
     st = re.sub(re.escape(IMG) + r'([a-z0-9\-]+)\.jpg', lambda m: 'data:image/jpeg;base64,' + imgs[m.group(1)], s)
     # photos built in script (IMG + name + '.jpg') resolve through a lookup
     st = st.replace("const IMG='%s';" % IMG, "const IMG='';const IMGS=%s;" % ('{' + ','.join('"%s":"data:image/jpeg;base64,%s"' % (k, v) for k, v in imgs.items()) + '}'))
@@ -94,5 +105,5 @@ def build(name):
     open(os.path.join(OUT, standalone(name)), 'w').write(st)
     print(name, round(len(s) / 1e3), 'KB,', 'standalone', round(len(st) / 1e6, 1), 'MB')
 
-for n in (sys.argv[1:] or [p for p in PAGES if p != 'homepage']):
+for n in (sys.argv[1:] or PAGES):
     build(n)
