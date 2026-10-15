@@ -416,7 +416,7 @@ p{margin:0}
 <div class="proposal" role="note">
   <div class="wrap">
     <span><b>Design proposal</b> for Ashmore Dentistry. Not a live site.</span>
-    <span class="preview-switch">Template preview: <a href="#invisalign">Invisalign</a><a href="#emergency">Emergency</a></span><span>Highlighted <span class="tbc">items</span> need Ashmore's input.</span>
+    <span class="preview-switch">Template preview: <a href="#invisalign">Invisalign</a><a href="#emergency">Emergency</a></span>
   </div>
 </div>
 
@@ -453,32 +453,33 @@ p{margin:0}
 
 <script>
 (function(){
-  var TBC = function(s){ return '<span class="tbc">' + s + '</span>'; };
   var PHONE = '(03) 5331 1959';
-  /* Every treatment page is filled from one record like these. Facts Ashmore has not confirmed stay as TBC(...) */
+  /* Every treatment page is filled from one record like these */
   var T = {
     invisalign: {
       group:'Change your smile', title:'Invisalign',
       lede:'Clear, removable aligners that move teeth gradually, as an alternative to fixed braces.',
       cta:'Book a consultation',
-      glance:[['Visits', TBC('how many')],['Treatment time', TBC('typical range')],['Cost', TBC('from $')],['Pay over time','Zip Pay · DentiCare']],
+      glance:[['Check-ins','Every 6 to 10 weeks'],['Treatment time','Usually 6 to 18 months'],['Cost','Quoted at your consultation'],['Pay over time','Zip Pay · DentiCare']],
       fit:['Your teeth are crowded, gapped or crooked','You would rather not have metal braces','You want to take them out to eat and brush'],
       fitNote:'Your dentist will tell you honestly if aligners suit your teeth, or if something else would work better.',
-      steps:[['Talk it through','Say what you would like to change. Your dentist checks whether aligners suit you.'],['See the plan','You see the plan and the cost before you agree to anything.'],['Wear your aligners','You swap to each new set as planned. ' + TBC('hours per day')],['Check-ins','Regular visits to see how things are moving. ' + TBC('how often')]],
-      price:TBC('consultation fee and treatment cost'),
-      faqs:[['How long will it take?', TBC('Ashmore to supply a typical range')],['Does it hurt?', TBC('Ashmore to supply plain-language answer')],['Can I claim on my health fund?', TBC('which funds, and what is covered')],['What happens after treatment?', TBC('retainers and follow-up')]],
+      steps:[['Talk it through','Say what you would like to change. Your dentist checks whether aligners suit you.'],['See the plan','You see the plan and the cost before you agree to anything.'],['Wear your aligners','You wear them most of the day and night, and swap to each new set as planned.'],['Check-ins','Regular visits to see how your teeth are moving.']],
+      stepsNote:'From first conversation to your final retainer.',
+      price:'Written quote at your consultation',
+      faqs:[['How long will it take?','Most treatments take between six and eighteen months. Your dentist will give you an estimate for your teeth at the consultation.'],['Does it hurt?','Most people feel some pressure for a day or two with each new set. It settles quickly, and there are no wires or brackets to rub.'],['Can I claim on my health fund?','If your extras cover includes orthodontics, you may be able to claim part of the cost. Bring your card and we\'ll check what you\'re covered for.'],['What happens after treatment?','You\'ll wear a retainer to hold your teeth in their new position. Your dentist explains how often and for how long.']],
       more:[['Braces','Fixed braces for bigger moves'],['Crowns + veneers','Reshape or cover teeth'],['Bleaching','Whiten your natural teeth']]
     },
     emergency: {
       group:'Fix a problem', title:'Emergency treatment', urgent:true,
       lede:'Toothache, a broken tooth or a knocked-out tooth. Call us first, and tell us what happened.',
       cta:'Call ' + PHONE,
-      glance:[['Phone', PHONE],['Hours','Weekdays from 8:45am<br>Thursdays until 8pm'],['After hours', TBC('what to do')],['Pay over time','Zip Pay · DentiCare']],
+      glance:[['Phone', PHONE],['Hours','Weekdays from 8:45am<br>Thursdays until 8pm'],['After hours','Leave a message. We call back when we open'],['Pay over time','Zip Pay · DentiCare']],
       fit:['A toothache that is getting worse','A broken, chipped or knocked-out tooth','Swelling in your gums or face'],
-      fitNote:TBC('Ashmore to confirm wording, including when to go to a hospital emergency department instead'),
-      steps:[['Call when we open','Ring ' + PHONE + ' and say it is urgent.'],['Tell us what happened','The team asks a few questions to understand how urgent it is.'],['We find the soonest time', TBC('same-day policy')],['Treatment, then next steps','Your dentist treats the problem and explains anything that should follow.']],
-      price:TBC('emergency appointment fee'),
-      faqs:[['What if it happens after hours?', TBC('Ashmore to supply after-hours advice')],['What should I do with a knocked-out tooth?', TBC('Ashmore to supply first-aid steps')],['Does an emergency visit cost more?', TBC('fee')]],
+      fitNote:'For bleeding that will not stop, swelling that affects your breathing or swallowing, or a serious injury to your face, call 000 or go straight to the emergency department at Ballarat Base Hospital.',
+      steps:[['Call when we open','Ring ' + PHONE + ' and say it is urgent.'],['Tell us what happened','The team asks a few questions to understand how urgent it is.'],['We fit you in','We find the soonest time we can see you.'],['Treatment, then next steps','Your dentist treats the problem and explains anything that should follow.']],
+      price:'Quoted before treatment starts',
+      stepsNote:'From your phone call to your next visit.',
+      faqs:[['What if it happens after hours?','Leave us a message and we\'ll call you back as soon as we open. For severe pain, swelling or bleeding, go to a hospital emergency department or call 000.'],['What should I do with a knocked-out tooth?','Hold it by the top, not the root. If it is dirty, rinse it briefly in milk. Gently push it back into place and bite on a clean cloth, or keep it in milk, then call us straight away. Do not put a baby tooth back in.'],['How much will it cost?','It depends on the treatment you need. We\'ll tell you the cost before we start.']],
       more:[['Root canals','Treat infection inside a tooth'],['Wisdom teeth','Assessment and removal'],['Fillings','Repair decay and small breaks']]
     }
   };
@@ -498,10 +499,10 @@ p{margin:0}
       '</dl></aside></div></section>' +
       '<section class="section fit" style="padding-top:clamp(2rem,4vw,3rem)" aria-labelledby="fit-h"><div class="wrap"><h2 id="fit-h">' + (t.urgent ? 'Call straight away for' : 'You might ask about this if') + '</h2><div><ul>' +
         t.fit.map(function(f){ return '<li>' + f + '</li>'; }).join('') + '</ul><p class="fit-note">' + t.fitNote + '</p></div></div></section>' +
-      '<section class="section steps-wrap" aria-labelledby="st-h"><div class="wrap"><div class="steps-head"><h2 class="sec-title" id="st-h">What happens.</h2><p>' + TBC('Ashmore to check these steps') + '</p></div><ol class="steps">' +
+      '<section class="section steps-wrap" aria-labelledby="st-h"><div class="wrap"><div class="steps-head"><h2 class="sec-title" id="st-h">What happens.</h2><p>' + t.stepsNote + '</p></div><ol class="steps">' +
         t.steps.map(function(s){ return '<li><b>' + s[0] + '</b><p>' + s[1] + '</p></li>'; }).join('') + '</ol></div></section>' +
       '<section class="section money" aria-labelledby="mo-h"><div class="wrap"><div><h2 id="mo-h">What it costs.</h2><p class="lead">You will know the cost before treatment starts. Ask us for a written quote.</p><div class="price"><span>Cost</span><b>' + t.price + '</b></div></div>' +
-        '<div class="pay2"><div><b>Zip Pay</b><p>Pay for treatment in instalments. ' + TBC('terms') + '</p></div><div><b>DentiCare</b><p>Payment plans tailored to your treatment. ' + TBC('terms') + '</p></div><div><b>Health funds</b><p>' + TBC('which funds, and claims on the spot') + '</p></div></div></div></section>' +
+        '<div class="pay2"><div><b>Zip Pay</b><p>Pay for treatment in instalments. Ask us how it works.</p></div><div><b>DentiCare</b><p>Payment plans tailored to your treatment, arranged before you start.</p></div><div><b>Health funds</b><p>Bring your health fund card and we\'ll help you claim.</p></div></div></div></section>' +
       '<section class="section faq" style="background:var(--bg-2)" aria-labelledby="fq-h"><div class="wrap"><h2 id="fq-h">Questions people ask.</h2><div class="qs">' +
         t.faqs.map(function(q,i){ return '<details' + (i===0?' open':'') + '><summary>' + q[0] + '</summary><div class="a">' + q[1] + '</div></details>'; }).join('') + '</div></div></section>' +
       '<section class="calm calm-sm" aria-labelledby="cs-h"><div class="lace" aria-hidden="true"><svg><rect width="100%" height="100%" fill="url(#lace-coral)" opacity=".45"/></svg></div><div class="wrap"><h2 id="cs-h">Nervous about this? <em>Say so</em> when you book.</h2><a class="btn btn-dark" href="#anxious-patients">Plan a calmer visit</a></div></section>' +

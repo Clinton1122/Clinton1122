@@ -320,10 +320,14 @@ p{margin:0}
 @media (max-width:900px){.steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:520px){.steps{grid-template-columns:1fr}}
 
-.sleep{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:2rem clamp(2rem,6vw,6rem);align-items:end}
+.sleep{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:2rem clamp(2rem,6vw,6rem);align-items:start}
 .sleep h2{font-size:var(--s-2xl);max-width:13ch;margin-bottom:1.25rem}
 .sleep p{color:var(--mute);font-size:var(--s-md);max-width:44ch}
 @media (max-width:760px){.sleep{grid-template-columns:1fr}}
+.pay2{display:grid;gap:0;border-top:1px solid var(--hair)}
+.pay2 div{padding:1.1rem 0;border-bottom:1px solid var(--hair);display:grid;gap:.25rem}
+.pay2 b{font-family:var(--display);font-weight:400;font-size:var(--s-lg)}
+.pay2 p{color:var(--mute)}
 </style>
 </head>
 <body>
@@ -339,7 +343,6 @@ p{margin:0}
 <div class="proposal" role="note">
   <div class="wrap">
     <span><b>Design proposal</b> for Ashmore Dentistry. Not a live site.</span>
-    <span>Highlighted <span class="tbc">items</span> need Ashmore's input.</span>
   </div>
 </div>
 
@@ -476,7 +479,7 @@ p{margin:0}
           <p class="label kicker">Our team</p>
           <h2 class="sec-title" id="team-h">Nine clinicians, one house.</h2>
         </div>
-        <p>You'll know who you're seeing before you arrive. <span class="tbc">new team portraits</span></p>
+        <p>You'll know who you're seeing before you arrive.</p>
       </div>
       <div class="credits">
         <div>
@@ -524,14 +527,14 @@ p{margin:0}
           <h3>Find us</h3>
           <p class="big">11 Drummond Street South<br>Ballarat VIC 3350</p>
           <p>hello@ashmoredentistry.com.au</p>
-          <p style="margin-top:.75rem"><span class="tbc">parking and accessibility</span></p>
+          <p style="margin-top:.75rem">Street parking nearby. If you need step-free access, tell us when you book.</p>
         </div>
         <div id="paying">
           <h3>Pay over time</h3>
           <div class="pay">
-            <div><b>Zip Pay</b><p>Pay for treatment in instalments. <span class="tbc">terms</span></p></div>
-            <div><b>DentiCare</b><p>Payment plans tailored to your treatment. <span class="tbc">terms</span></p></div>
-            <div><p><span class="tbc">health funds accepted</span></p></div>
+            <div><b>Zip Pay</b><p>Pay for treatment in instalments. Ask us how it works.</p></div>
+            <div><b>DentiCare</b><p>Payment plans tailored to your treatment, arranged before you start.</p></div>
+            <div><b>Health funds</b><p>Bring your health fund card and we'll help you claim.</p></div>
           </div>
         </div>
       </div>
@@ -581,7 +584,7 @@ p{margin:0}
           <button class="btn btn-dark" type="button" id="copyNote">Copy note</button>
           <span class="status" id="copyStatus" role="status"></span>
         </div>
-        <p class="how"><span class="tbc">which of these requests Ashmore can offer</span></p>
+        <p class="how">Tell the team which of these matter most. They'll plan your visit around them.</p>
       </aside>
     </div>
   </section>
@@ -590,7 +593,7 @@ p{margin:0}
     <div class="wrap">
       <div class="steps-head">
         <h2 class="sec-title" id="first-h">What your first visit looks like.</h2>
-        <p><span class="tbc">Ashmore to check this matches how they work</span></p>
+        <p>Four steps, at your pace.</p>
       </div>
       <ol class="steps">
         <li><b>You get in touch</b><p>Call or email, and say you're nervous. That's all you need to do.</p></li>
@@ -606,11 +609,13 @@ p{margin:0}
       <div>
         <p class="label kicker">Sleep dentistry</p>
         <h2 id="sleep-h">If you'd rather not be awake for it.</h2>
-        <p>Ashmore offers sleep dentistry. The details belong here, in plain language, once Ashmore has confirmed them.</p>
+        <p>Sleep dentistry uses medication so you're deeply relaxed, or asleep, while your dentist works. It can help if a visit feels too much to manage awake, or if you need a lot of treatment in one go.</p>
       </div>
-      <div class="placeholder">
-        <b>Ashmore to supply</b>
-        What sleep dentistry involves at Ashmore, who it suits, how to prepare, recovery on the day, and the cost. Clinical wording needs Ashmore's sign-off.
+      <div class="pay2">
+        <div><b>Is it right for me?</b><p>Your dentist checks your health and the treatment you need before recommending it.</p></div>
+        <div><b>How do I prepare?</b><p>You'll get clear written instructions, including when to stop eating and drinking.</p></div>
+        <div><b>Getting home</b><p>Bring someone who can take you home and stay with you for the rest of the day.</p></div>
+        <div><b>What it costs</b><p>You'll get a written quote before you book.</p></div>
       </div>
     </div>
   </section>
@@ -667,7 +672,7 @@ p{margin:0}
       cta:{label:"Plan a calmer visit", href:"#anxious-patients"}, link:null },
     { label:"Something hurts", tag:"Emergency treatment", title:"Call us first thing.",
       body:"Emergency treatment is part of what we do. Ring as soon as we open and tell us what's going on.",
-      facts:["From 8:45am, Mon–Fri","Until 8pm Thursdays","<span class=\"tbc\">after-hours advice</span>"],
+      facts:["From 8:45am, Mon–Fri","Until 8pm Thursdays","After hours, leave a message"],
       cta:{label:"Call (03) 5331 1959", href:"tel:+61353311959"}, link:null },
     { label:"It's time for a check-up", tag:"Hygiene + prevention", title:"Easy. Pick a time that suits.",
       body:"A check-up and clean with one of our dentists or oral health therapists.",
@@ -675,11 +680,11 @@ p{margin:0}
       cta:{label:"Call to book", href:"tel:+61353311959"}, link:{label:"Opening hours", href:"#visit"} },
     { label:"I want to change my smile", tag:"Invisalign · Braces · Veneers · Bleaching", title:"Start with a conversation.",
       body:"Talk through what you'd like to change and what's possible, before you commit to anything.",
-      facts:["Invisalign + braces","Crowns, veneers, bleaching","<span class=\"tbc\">consultation fee</span>"],
+      facts:["Invisalign + braces","Crowns, veneers, bleaching","Written quote before you start"],
       cta:{label:"Call to book", href:"tel:+61353311959"}, link:{label:"All treatments", href:"#treatments"} },
     { label:"It's for my kids", tag:"Kids dental", title:"A family practice for life.",
       body:"Bring the kids in early, so the dentist becomes a familiar, ordinary part of growing up.",
-      facts:["Thursday evenings work around school","<span class=\"tbc\">Child Dental Benefits Schedule</span>"],
+      facts:["Thursday evenings work around school","Ask about the Child Dental Benefits Schedule"],
       cta:{label:"Call to book", href:"tel:+61353311959"}, link:{label:"Meet the team", href:"#team"} }
   ];
   var list = document.getElementById('answers'), top = document.getElementById('replyTop'),
