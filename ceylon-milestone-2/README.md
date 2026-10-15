@@ -57,7 +57,11 @@ From "Feedback - Homepage, tools and other pages designs". The category template
   - A quiet "Apply promo code" link. To try the messages, use WELCOME10 (valid), EXPIRED20 (invalid or expired) and BIGDEAL (not valid for this service).
 - **Trust lines:** the secure wallet line ("We've got your back…"), No hidden fees, Secure payments, and Help when you need it (help.ceylonnooks.com). There is no call-support line.
 
-**Log in to book.** Reserve now on the listing asks the traveller to log in or register first (Google, Apple or email), then continues to checkout. The listing's prototype controls have an Account switch to try both states.
+**Login in checkout step 1 (agreed with Akila, 15 Oct).** Reserve now goes straight to checkout. Login happens in step 1, never before checkout and never after payment.
+- Logged out: Continue with Google or Apple, or enter a name and email. The booking is saved to a new account for that email, and the step says so before payment. No password is needed now; the confirmation email has a link to set one, and the confirmation page says the account is ready.
+- If the email already has an account, an inline "Looks like you already have an account" box asks for the password, with "Email me a login link" and "Use a different email". Try john.carter@example.com.
+- Logged in: the account details are prefilled, with "Not you?" to switch.
+- The listing's prototype controls have an Account switch to try both states.
 
 **Confirmation.** No site header or footer, only the logo and a small © line.
 

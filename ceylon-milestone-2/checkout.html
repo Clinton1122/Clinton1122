@@ -304,12 +304,29 @@ body{background:#FAFAFA}
 .acct .av{width:40px;height:40px;border-radius:50%;background:#EADFD6;color:#7A4A2A;display:grid;place-items:center;font-weight:700;font-size:13px;flex:none}
 .acct b{display:block;color:var(--cn-ink);font-size:15px}
 .acct small{font-size:13px;color:var(--cn-muted)}
+.acct .out{margin-left:auto;font-size:13px;font-weight:600;color:var(--cn-ink);text-decoration:underline;text-underline-offset:3px;background:none;border:0;cursor:pointer;font-family:inherit}
+/* step 1 when signed out: log in, or continue with email (the account is created for you) */
+.sso2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sso2 .btn{justify-content:center;gap:10px;min-height:48px;width:100%}
+.sso2 .g{font-weight:700;color:#4285F4}
+.sso-k{font-size:14px;color:var(--cn-body);margin-bottom:12px}
+.or2{display:flex;align-items:center;gap:12px;margin:20px 0 4px;font-size:12.5px;color:var(--cn-muted)}
+.or2::before,.or2::after{content:"";flex:1;height:1px;background:var(--cn-border)}
+.exists{margin-top:14px;padding:16px;border:1px solid var(--cn-border);border-radius:14px;background:#FFFCFA}
+.exists b{display:block;color:var(--cn-ink);font-size:15px}
+.exists p{font-size:13.5px;margin-top:2px}
+.exists .row{display:flex;gap:10px;margin-top:12px;align-items:stretch}
+.exists .row input{flex:1}
+.exists .row .btn{min-height:46px;padding:0 20px}
+.exists .alt{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:10px;font-size:13px}
+.exists .alt button{background:none;border:0;padding:0;font:inherit;font-weight:600;color:var(--cn-ink);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+@media (max-width:600px){.sso2{grid-template-columns:1fr}.exists .row{flex-direction:column}}
 /* forms */
 .frm{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
 .frm .full{grid-column:1/-1}
 .lbl{display:block;font-size:13px;font-weight:600;color:var(--cn-ink);margin:16px 0 6px}
 .lbl small{font-weight:400;color:var(--cn-muted)}
-input[type=text],input[type=email],input[type=tel],select,textarea{width:100%;font:inherit;font-size:15px;padding:12px 14px;border:1px solid var(--cn-input);border-radius:12px;background:#fff;color:var(--cn-ink)}
+input[type=text],input[type=email],input[type=tel],input[type=password],select,textarea{width:100%;font:inherit;font-size:15px;padding:12px 14px;border:1px solid var(--cn-input);border-radius:12px;background:#fff;color:var(--cn-ink)}
 input:focus,select:focus,textarea:focus{outline:2px solid var(--cn-ink);outline-offset:-1px}
 [aria-invalid=true]{border-color:#B42318!important;background:#FFFBFA}
 .err{font-size:12.5px;color:#B42318;margin-top:5px}
@@ -547,10 +564,27 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--cn-ink);outline-
       <div class="stp-h"><span class="n">1</span><h2 id="h1">Your details</h2><button type="button" class="ed" data-edit-step="1">Edit</button></div>
       <p class="stp-sum" id="sum-1"></p>
       <div class="stp-b">
-        <div class="acct"><span class="av">JC</span><span><b>John Carter</b><small>john.carter@example.com · from your account</small></span></div>
+        <div id="who-in"><div class="acct"><span class="av" id="acct-av">JC</span><span><b id="acct-n">John Carter</b><small id="acct-e">john.carter@example.com · from your account</small></span><button type="button" class="out" data-signout>Not you?</button></div></div>
+        <div id="who-out">
+          <p class="sso-k">Log in for a faster checkout, or continue with your email below.</p>
+          <div class="sso2"><button type="button" class="btn" data-sso="Google"><span class="g">G</span>Continue with Google</button><button type="button" class="btn" data-sso="Apple"><svg class="i" viewBox="0 0 24 24"><path d="M16.5 3c.1 1.2-.4 2.4-1.1 3.2-.8.9-2 1.5-3.1 1.4-.1-1.2.4-2.4 1.1-3.2.8-.8 2-1.4 3.1-1.4zM20 17.2c-.5 1.2-.8 1.7-1.5 2.8-1 1.5-2.3 3.3-4 3.3-1.5 0-1.9-1-3.9-1s-2.5 1-3.9 1c-1.7 0-2.9-1.6-3.9-3.1C.1 16.1-.3 11.2 1.6 8.7 3 6.9 5 6 6.9 6c1.9 0 3.1 1 4.7 1 1.5 0 2.5-1 4.7-1 1.7 0 3.4.9 4.7 2.5-4.1 2.3-3.4 8.1 0 8.7z" fill="currentColor" stroke="none"/></svg>Continue with Apple</button></div>
+          <div class="or2">or continue with email</div>
+          <div class="frm">
+            <div><label class="lbl" for="gfn">First name</label><input type="text" id="gfn" autocomplete="given-name"></div>
+            <div><label class="lbl" for="gln">Last name</label><input type="text" id="gln" autocomplete="family-name"></div>
+            <div class="full"><label class="lbl" for="gem">Email <small>· your confirmation goes here</small></label><input type="email" id="gem" autocomplete="email" placeholder="you@example.com"></div>
+          </div>
+          <div class="exists" id="exists" hidden>
+            <b>Looks like you already have an account</b>
+            <p id="exists-p"></p>
+            <div class="row"><input type="password" id="gpw" autocomplete="current-password" placeholder="Password" aria-label="Password"><button type="button" class="btn primary" data-inline-login>Log in</button></div>
+            <div class="alt"><button type="button" data-magic>Email me a login link</button><button type="button" data-other-email>Use a different email</button></div>
+          </div>
+        </div>
         <label class="lbl" for="ph">Mobile number, WhatsApp works best</label>
         <input type="tel" id="ph" autocomplete="tel" placeholder="+44 7700 900123">
         <p class="hint">Your guide uses this to confirm pickup on the day. We’ll also save it to your profile.</p>
+        <p class="reassure" id="acct-note"><svg class="i"><use href="#i-user"/></svg><span>We’ll save this booking to a Ceylon Nooks account for <b id="acct-em">your email</b>, so you can manage, change or cancel it. No password needed now. We’ll email you a link to set one up.</span></p>
         <label class="cbx"><input type="checkbox" id="other">I’m booking for someone else</label>
         <div class="frm" id="lead" hidden>
           <div><label class="lbl" for="lfn">Lead traveller’s first name</label><input type="text" id="lfn" autocomplete="off"></div>
@@ -863,8 +897,17 @@ $('#assure-m').innerHTML=$('#assure').innerHTML;
 const SOLD=['2026-10-17','2026-10-25','2026-11-07'];
 const ymd=d=>fd(d,{year:'numeric'})+'-'+fd(d,{month:'2-digit'})+'-'+fd(d,{day:'2-digit'});
 
-/* checkout needs an account: if not signed in, ask first (details are then filled in) */
-if(!SIGNED)setTimeout(()=>requireAuth(()=>render(),'login','Log in to finish your booking'),300);
+/* Login happens here in step 1, never before checkout and never after payment.
+   Signed in: account card. Signed out: Google, Apple, or name and email; the booking is saved to a new account
+   for that email. An email that already has an account asks to log in inline (prototype: john.carter@example.com). */
+const KNOWN=['john.carter@example.com'];
+let who={fn:'John',ln:'Carter',em:'john.carter@example.com',via:'account'};
+function drawWho(){
+  $('#who-in').hidden=!SIGNED;$('#who-out').hidden=SIGNED;$('#acct-note').hidden=SIGNED;
+  if(SIGNED){$('#acct-av').textContent=(who.fn[0]+who.ln[0]).toUpperCase();$('#acct-n').textContent=who.fn+' '+who.ln;$('#acct-e').textContent=who.em+(who.via==='account'?' · from your account':' · from '+who.via)}
+  else{$('#acct-em').textContent=$('#gem').value.trim()||'your email';$('#acct-note').hidden=!$('#exists').hidden}}
+function signIn(via){who={fn:'John',ln:'Carter',em:'john.carter@example.com',via};setSigned(true);$('#exists').hidden=true;drawWho();toast(via==='account'?'Logged in. Your details are filled in.':'Signed in with '+via);$('#ph').focus()}
+function checkKnown(){const em=$('#gem').value.trim().toLowerCase(),k=KNOWN.includes(em);$('#exists').hidden=!k;$('#acct-note').hidden=k||SIGNED;if(k)$('#exists-p').textContent=`${em} is already registered. Log in to continue, and your details will be filled in.`;return k}
 
 function gstTxt(){return [`${S.adults} adult${S.adults>1?'s':''}`,S.children&&`${S.children} child${S.children>1?'ren':''}`].filter(Boolean).join(', ')}
 function polLines(later){const sc=scenario(),s=startAt();
@@ -883,8 +926,9 @@ function render(){
   $('#prog-d').innerHTML=[1,2,3,4].map(i=>`<i class="${i<=Math.max(step,doneUpTo)?'on':''}"></i>`).join('');
   [1,2,3,4].forEach(i=>{const e=$('#st-'+i);e.classList.toggle('open',i===step);e.classList.toggle('done',i<=doneUpTo&&i!==step);e.querySelector('.n').innerHTML=i<=doneUpTo&&i!==step?svg('check'):i});
   // step summaries
-  const ph=$('#ph').value.trim();
-  $('#sum-1').innerHTML=`<b>John Carter</b> · ${ph||'no phone'}${$('#other').checked?` · Lead traveller: <b>${$('#lfn').value} ${$('#lln').value}</b>`:''}`;
+  const ph=$('#ph').value.trim();drawWho();
+  const nm=SIGNED?who.fn+' '+who.ln:[$('#gfn').value.trim(),$('#gln').value.trim()].join(' ');
+  $('#sum-1').innerHTML=`<b>${nm}</b> · ${SIGNED?who.em:$('#gem').value.trim()} · ${ph||'no phone'}${$('#other').checked?` · Lead traveller: <b>${$('#lfn').value} ${$('#lln').value}</b>`:''}`;
   $('#sum-2').innerHTML=`<b>${$('#meet').checked?'Meet at the Queen’s Hotel entrance':$('#hotel').value||'—'}</b>${$('#notes').value?` · “${$('#notes').value.slice(0,60)}”`:''}`;
   $('#sum-3').innerHTML=payLater?`<b>Reserve now, pay later</b> · ${fmt(t)} on ${dLong(chargeOn())}`:`<b>Pay now</b> · ${fmt(t)}`;
   // when to pay, with the cancellation terms that follow from each choice
@@ -945,13 +989,17 @@ const brandOf=n=>/^4/.test(n)?'VISA':/^(5[1-5]|2[2-7])/.test(n)?'MASTERCARD':/^3
 $('#cn').oninput=e=>{const v=e.target.value.replace(/\D/g,'').slice(0,19);e.target.value=v.replace(/(.{4})/g,'$1 ').trim();$('#cb').textContent=brandOf(v)};
 $('#ce').oninput=e=>{const v=e.target.value.replace(/\D/g,'').slice(0,4);e.target.value=v.length>2?v.slice(0,2)+' / '+v.slice(2):v};
 $('#meet').onchange=e=>{$('#hotel').disabled=e.target.checked;$('#hotel').value=e.target.checked?'':$('#hotel').value;render()};
+$('#gem').addEventListener('change',()=>{checkKnown();drawWho()});
+$('#gem').addEventListener('input',()=>{$('#acct-em').textContent=$('#gem').value.trim()||'your email'});
 $('#other').onchange=e=>{$('#lead').hidden=!e.target.checked;if(e.target.checked)$('#lfn').focus()};
 
 /* validation, step by step */
 function clearErr(scope){$$('.err',scope).forEach(x=>x.remove());$$('[aria-invalid]',scope).forEach(x=>x.removeAttribute('aria-invalid'))}
 function err(id,m){const el=$('#'+id);el.setAttribute('aria-invalid','true');(el.closest('.cardf')||el).insertAdjacentHTML('afterend',`<p class="err">${m}</p>`);return el}
 function check(n){const sc=$('#st-'+n);clearErr(sc);const bad=[];
-  if(n===1){if($('#ph').value.replace(/\D/g,'').length<8)bad.push(err('ph','Enter a mobile number with the country code.'));
+  if(n===1){if(!SIGNED){if(!$('#gfn').value.trim())bad.push(err('gfn','Enter your first name.'));if(!$('#gln').value.trim())bad.push(err('gln','Enter your last name.'));
+      if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test($('#gem').value.trim()))bad.push(err('gem','Enter an email address, like you@example.com.'));else if(checkKnown())bad.push($('#gpw'))}
+    if($('#ph').value.replace(/\D/g,'').length<8)bad.push(err('ph','Enter a mobile number with the country code.'));
     if($('#other').checked){if(!$('#lfn').value.trim())bad.push(err('lfn','Enter their first name.'));if(!$('#lln').value.trim())bad.push(err('lln','Enter their last name.'));if($('#lph').value.replace(/\D/g,'').length<8)bad.push(err('lph','Enter their mobile number.'))}}
   if(n===2&&!$('#meet').checked&&!$('#hotel').value.trim())bad.push(err('hotel','Add your hotel or address so your guide can find you, or choose to meet at the Queen’s Hotel.'));
   if(n===4&&pm==='card'){const c=$('#cn').value.replace(/\D/g,''),[mm,yy]=$('#ce').value.split(' / ').map(Number),v=$('#cc').value.replace(/\D/g,'');
@@ -967,7 +1015,7 @@ $('#f').addEventListener('submit',e=>{
   const b=$('#go');b.disabled=true;b.innerHTML=`<span class="spin"></span>${payLater?'Checking your card…':pm==='card'?'Processing payment…':'Waiting for confirmation…'}`;
   const ref='CNE'+(71600000+Math.floor(Math.random()*90000));
   const c=$('#cn').value.replace(/\D/g,'');
-  setTimeout(()=>{location.href='confirmation.html#'+new URLSearchParams({ref,d:S.date,t:S.time,a:S.adults,c:S.children,p:L.policy,b:+L.bnpl,later:+payLater,disc:S.disc,fn:'John',em:'john.carter@example.com',card:pm==='card'?c.slice(-4):'',brand:pm==='card'?brandOf(c):pm,cur}).toString()},1400);
+  setTimeout(()=>{location.href='confirmation.html#'+new URLSearchParams({ref,d:S.date,t:S.time,a:S.adults,c:S.children,p:L.policy,b:+L.bnpl,later:+payLater,disc:S.disc,fn:SIGNED?who.fn:$('#gfn').value.trim(),em:SIGNED?who.em:$('#gem').value.trim(),acct:SIGNED?'':'new',card:pm==='card'?c.slice(-4):'',brand:pm==='card'?brandOf(c):pm,cur}).toString()},1400);
 });
 
 document.addEventListener('click',e=>{
@@ -975,6 +1023,11 @@ document.addEventListener('click',e=>{
   if(e.target.id==='mscrim')closeModal();
   if(x.next){const n=+x.next;if(!check(n))return;doneUpTo=Math.max(doneUpTo,n);goStep(n+1)}
   if(x.editStep){goStep(+x.editStep)}
+  if(x.sso)signIn(x.sso);
+  if(x.inlineLogin!==undefined){clearErr($('#exists'));if(!$('#gpw').value){err('gpw','Enter your password.');$('#gpw').focus()}else signIn('account')}
+  if(x.magic!==undefined)toast('Login link sent to '+$('#gem').value.trim()+'. Your booking stays here while you check.');
+  if(x.otherEmail!==undefined){$('#exists').hidden=true;$('#acct-note').hidden=false;$('#gem').value='';$('#gem').focus()}
+  if(x.signout!==undefined){setSigned(false);$('#ph').value='';render();$('#gfn').focus()}
   if(x.change!==undefined)changeModal();
   if(x.pick){S.date=x.pick;render();changeModal()}
   if(x.g){S[x.g]+=+x.d;render();changeModal()}

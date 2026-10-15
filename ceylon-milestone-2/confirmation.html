@@ -288,6 +288,9 @@ body{background:var(--cn-page)}
 .grid2{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:24px;margin-top:24px;align-items:start}
 .card{background:#fff;border:1px solid var(--cn-border);border-radius:20px;padding:24px}
 .card+.card{margin-top:16px}
+.newacct{display:flex;gap:12px;align-items:flex-start;margin-top:16px;padding:14px 18px;border-radius:16px;background:var(--cn-primary-tint);font-size:14.5px;color:var(--cn-ink)}
+.newacct .i{width:20px;height:20px;color:var(--cn-primary);flex:none;margin-top:1px}
+.newacct a{color:var(--cn-ink);font-weight:600}
 .card h2{font-size:19px;letter-spacing:-.02em;margin-bottom:14px}
 .trip{display:grid;grid-template-columns:160px 1fr;gap:18px}
 .trip img{width:160px;height:120px;border-radius:14px;object-fit:cover}
@@ -427,6 +430,8 @@ body{background:var(--cn-page)}
     <div><h1 id="ok-h"></h1><p id="ok-p"></p></div>
   </section>
   <div class="refbar"><span>Booking reference <b id="ref"></b></span><button class="copy" data-copy><svg class="i"><use href="#i-copy"/></svg>Copy</button><span style="color:var(--cn-muted)" id="ref-note"></span></div>
+
+  <div class="newacct" id="newacct" hidden><svg class="i"><use href="#i-user"/></svg><span><b>Your Ceylon Nooks account is ready.</b> We’ve saved this booking to it. Use the link we emailed to <b id="na-em"></b> to set a password, or <a href="#" data-act="setup">set it up now</a>. Then you can manage, change or cancel it any time.</span></div>
 
   <div class="grid2">
     <div>
@@ -713,6 +718,7 @@ function render(){
   $('#ok-h').textContent=later?`Your spot is reserved, ${name}`:`You’re booked, ${name}!`;
   $('#ok-p').innerHTML=`We’ve emailed your confirmation to <b>${email}</b>. ${later?`Nothing to pay today. ${card} is charged ${fmt(t)} on <b>${dLong(chargeOn())}</b>.`:`${card} was charged ${fmt(t)}.`}`;
   $('#ref').textContent=ref;
+  if(q.get('acct')==='new'){$('#newacct').hidden=false;$('#na-em').textContent=email}
   $('#ref-note').textContent='Show this at pickup, or use the QR code in your email';
   $('#t-dl').innerHTML=`<dt>Date</dt><dd>${dYear(s)}</dd><dt>Pickup</dt><dd>${ft(s)}, from your hotel</dd><dt>Travellers</dt><dd>${[`${S.adults} adult${S.adults>1?'s':''}`,S.children&&`${S.children} child${S.children>1?'ren':''}`].filter(Boolean).join(', ')}</dd><dt>Guide</dt><dd>Aravinda Perera</dd>`;
   const ev=[
@@ -747,7 +753,7 @@ document.addEventListener('click',e=>{
   if(x.pop==='bnpl')popBnpl();
   if(x.mclose!==undefined)closeModal();
   if(x.goto){e.preventDefault();closeModal();toast('Opens the policy on the listing')}
-  if(x.act){e.preventDefault();toast({msg:'Opens a chat with Aravinda',sitepol:'Opens the full cancellation policy',bnplpol:'Opens /help/pay-later-policy'}[x.act]||'Prototype')}
+  if(x.act){e.preventDefault();toast({msg:'Opens a chat with Aravinda',setup:'Opens Set a password for your account',sitepol:'Opens the full cancellation policy',bnplpol:'Opens /help/pay-later-policy'}[x.act]||'Prototype')}
 });
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();$('#calm').classList.remove('open')}});
 render();

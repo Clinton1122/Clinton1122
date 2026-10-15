@@ -1234,7 +1234,7 @@ document.addEventListener('click',e=>{
   if(x.day){S.date=x.day;closePops();renderAll();if(innerWidth>900)$('#reserve').focus();return}
   if(x.g){S[x.g]+=+x.d;renderGst();renderWidget();return}
   if(x.time){S.time=x.time;closePops();renderAll();return}
-  if(b.id==='reserve'){if(!S.date){togglePop('date');return}const go=()=>{location.href='checkout.html#'+new URLSearchParams({d:S.date,t:S.time,a:S.adults,c:S.children,p:L.policy,b:+L.bnpl,cur}).toString()};$('#bw').classList.remove('open');$('#mscrim').classList.remove('open');requireAuth(go,'login','Log in to book this tour')}
+  if(b.id==='reserve'){if(!S.date){togglePop('date');return}const go=()=>{location.href='checkout.html#'+new URLSearchParams({d:S.date,t:S.time,a:S.adults,c:S.children,p:L.policy,b:+L.bnpl,cur}).toString()};$('#bw').classList.remove('open');$('#mscrim').classList.remove('open');go()}
   if(x.pop==='cancel')popCancel();
   if(x.pop==='bnpl')popBnpl();
   if(x.cred)popCred(x.cred);
