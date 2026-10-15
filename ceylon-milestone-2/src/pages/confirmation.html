@@ -67,6 +67,18 @@ body{background:var(--cn-page)}
 .mbs span{display:inline-flex;align-items:center;gap:5px;height:26px;padding:0 10px;border-radius:999px;background:var(--cn-page);font-size:12px;font-weight:600;color:var(--cn-ink)}
 .mbs .i{width:14px;height:14px;color:var(--cn-primary)}
 .side .tsig{margin-top:0}
+.social{background:linear-gradient(135deg,#FFF4EC 0%,#FFFFFF 70%)}
+.social p.lead{font-size:14.5px;max-width:56ch}
+.handles{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.handle{display:flex;align-items:center;gap:10px;padding:10px 12px 10px 14px;border:1px solid var(--cn-border);border-radius:14px;background:#fff}
+.handle small{display:block;font-size:12px;color:var(--cn-muted)}
+.handle b{font-size:15px;color:var(--cn-ink)}
+.handle .copy{margin-left:6px;display:inline-flex;align-items:center;gap:6px;border:0;background:none;padding:0;font:600 13px var(--text);color:var(--cn-primary-text);cursor:pointer}
+.handle .copy .i{width:16px;height:16px}
+.soc-btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.soc-btns .btn{gap:8px}
+.soc-btns .btn.ink{background:var(--cn-ink);color:#fff;border-color:var(--cn-ink)}
+.soc-btns svg{width:18px;height:18px}
 .more{margin-top:40px}
 .more h2{font-size:22px;letter-spacing:-.02em;margin-bottom:14px}
 .rel{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
@@ -90,7 +102,7 @@ body{background:var(--cn-page)}
   .card{padding:18px}
   .acts .btn{flex:1 1 calc(50% - 8px)}
 }
-@media print{.site,.foot,.acts,.more,.toast{display:none!important}body{background:#fff}.card{break-inside:avoid}}
+@media print{.site,.foot,.acts,.more,.social,.toast{display:none!important}body{background:#fff}.card{break-inside:avoid}}
 </style>
 </head>
 <body>
@@ -135,6 +147,19 @@ body{background:var(--cn-page)}
         <div class="hostc"><span class="av">AP</span><span><b>Aravinda Perera</b><small>Licensed guide in Kandy · replies in about 1 hour</small></span></div>
         <div class="mbs"><span><svg class="i"><use href="#i-badge"/></svg>SLTDA registered</span><span><svg class="i"><use href="#i-shield"/></svg>Police clearance</span><span><svg class="i"><use href="#i-user"/></svg>ID verified</span></div>
         <p style="font-size:14px;margin-top:12px">Aravinda’s phone number appears here 24 hours before pickup. Until then, message Aravinda through Ceylon Nooks.</p>
+      </section>
+
+      <section class="card social" aria-labelledby="so-h">
+        <h2 id="so-h">Share your Sri Lanka with us</h2>
+        <p class="lead">Follow us for trip ideas before you go. When you post photos from your tour, tag us and Aravinda, and we may feature you.</p>
+        <div class="handles">
+          <span class="handle"><span><small>Tag us</small><b>@ceylonnooks</b></span><button class="copy" data-copy-text="@ceylonnooks" aria-label="Copy @ceylonnooks"><svg class="i"><use href="#i-copy"/></svg>Copy</button></span>
+          <span class="handle"><span><small>Use the hashtag</small><b>#SriLankaFoundProperly</b></span><button class="copy" data-copy-text="#SriLankaFoundProperly" aria-label="Copy the hashtag"><svg class="i"><use href="#i-copy"/></svg>Copy</button></span>
+        </div>
+        <div class="soc-btns">
+          <a class="btn ink" href="#" data-act="ig"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg>Follow on Instagram</a>
+          <a class="btn" href="#" data-act="fb"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6V21h3.1z"/></svg>Follow on Facebook</a>
+        </div>
       </section>
     </div>
 
@@ -208,13 +233,14 @@ document.addEventListener('click',e=>{
   if(!b)return;const x=b.dataset;
   if(x.cal!==undefined){$('#calm').innerHTML=calLinks();$('#calm').classList.toggle('open')}
   if(x.ics!==undefined){e.preventDefault();const s=startAt(),z=d=>d.toISOString().replace(/[-:]|\.\d{3}/g,'');const ics=`BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Ceylon Nooks//EN\r\nBEGIN:VEVENT\r\nUID:${ref}@ceylonnooks\r\nDTSTAMP:${z(NOW)}\r\nDTSTART:${z(s)}\r\nDTEND:${z(new Date(+s+8*HOUR))}\r\nSUMMARY:Kandy Cultural City Tour\r\nLOCATION:Kandy\r\nDESCRIPTION:Booking ${ref}\r\nEND:VEVENT\r\nEND:VCALENDAR`;const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([ics],{type:'text/calendar'}));a.download=`${ref}.ics`;a.click();$('#calm').classList.remove('open');toast('Calendar file downloaded')}
+  if(x.copyText){navigator.clipboard?.writeText(x.copyText).catch(()=>{});toast(x.copyText+' copied')}
   if(x.copy!==undefined){navigator.clipboard?.writeText(ref).catch(()=>{});toast('Booking reference copied')}
   if(x.print!==undefined)print();
   if(x.pop==='cancel')popCancel();
   if(x.pop==='bnpl')popBnpl();
   if(x.mclose!==undefined)closeModal();
   if(x.goto){e.preventDefault();closeModal();toast('Opens the policy on the listing')}
-  if(x.act){e.preventDefault();toast({msg:'Opens a chat with Aravinda',setup:'Opens Set a password for your account',sitepol:'Opens the full cancellation policy',bnplpol:'Opens /help/pay-later-policy'}[x.act]||'Prototype')}
+  if(x.act){e.preventDefault();toast({ig:'Opens instagram.com/ceylonnooks',fb:'Opens facebook.com/ceylonnooks',msg:'Opens a chat with Aravinda',setup:'Opens Set a password for your account',sitepol:'Opens the full cancellation policy',bnplpol:'Opens /help/pay-later-policy'}[x.act]||'Prototype')}
 });
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();$('#calm').classList.remove('open')}});
 render();

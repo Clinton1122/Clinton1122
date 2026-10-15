@@ -65,6 +65,8 @@ From "Feedback - Homepage, tools and other pages designs". The category template
 
 **Confirmation.** No site header or footer, only the logo and a small © line.
 
+**Social on the confirmation page (Akila, 15 Oct).** A "Share your Sri Lanka with us" card invites travellers to follow Ceylon Nooks on Instagram and Facebook, and to tag @ceylonnooks and #SriLankaFoundProperly (both with a Copy button) when they post photos from the tour. The social links are placeholders until the real accounts are confirmed.
+
 ## Listing page (13 Oct)
 
 Built on Akila's Kandy Cultural City Tour design from the Previous design page in Figma.
