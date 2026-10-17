@@ -250,7 +250,8 @@ p{margin:0}
 .card[hidden]{display:none}
 .card:hover{transform:translateY(-4px)}
 .portrait{position:relative;overflow:hidden;aspect-ratio:4/5;border-radius:calc(var(--r-lg) - 6px);background:var(--bg-2);display:grid;place-items:center}
-.portrait img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.portrait img{position:relative;width:78%;aspect-ratio:1;height:auto;object-fit:cover;border-radius:50%;outline:1px solid var(--hair);outline-offset:6px;transition:transform .35s cubic-bezier(.16,.84,.32,1)}
+.card:hover .portrait img{transform:scale(1.03)}
 .portrait .lace{color:var(--lace-dark);opacity:.9}
 .portrait b{position:relative;font-family:var(--display);font-style:italic;font-weight:300;font-size:clamp(3.4rem,2.6rem + 2vw,4.6rem);color:var(--coral);letter-spacing:-.02em}
 .card-body{display:grid;gap:.2rem;padding-inline:.35rem}
@@ -477,47 +478,47 @@ p{margin:0}
       </div>
       <ul class="cards" id="cards" aria-label="Clinicians">
           <li class="card" data-kind="d">
-            <div class="portrait" data-photo=""><div class="lace" aria-hidden="true"><svg><rect width="100%" height="100%" fill="url(#lace-dark)"/></svg></div><b aria-hidden="true">GA</b></div>
+            <div class="portrait"><div class="lace" aria-hidden="true"><svg><rect width="100%" height="100%" fill="url(#lace-dark)"/></svg></div><img src="img/team/george.jpg" alt="Dr George Abdemalek" loading="lazy" width="640" height="640"></div>
             <div class="card-body"><h3>Dr George Abdemalek</h3><p>Dentist</p></div>
             <div class="card-acts"><a class="tlink" href="#team">Learn more</a><a class="btn btn-light" href="tel:+61353311959" aria-label="Book now with Dr George Abdemalek">Book now</a></div>
           </li>
           <li class="card" data-kind="d">
-            <div class="portrait" data-photo=""><div class="lace" aria-hidden="true"><svg><rect width="100%" height="100%" fill="url(#lace-dark)"/></svg></div><b aria-hidden="true">AT</b></div>
+            <div class="portrait"><div class="lace" aria-hidden="true"><svg><rect width="100%" height="100%" fill="url(#lace-dark)"/></svg></div><img src="img/team/anna.jpg" alt="Dr Anna Taylor" loading="lazy" width="640" height="640"></div>
             <div class="card-body"><h3>Dr Anna Taylor</h3><p>Dentist</p></div>
             <div class="card-acts"><a class="tlink" href="#team">Learn more</a><a class="btn btn-light" href="tel:+61353311959" aria-label="Book now with Dr Anna Taylor">Book now</a></div>
           </li>
           <li class="card" data-kind="d">
-            <div class="portrait" data-photo=""><div class="lace" aria-hidden="true"><svg><rect width="100%" height="100%" fill="url(#lace-dark)"/></svg></div><b aria-hidden="true">AS</b></div>
+            <div class="portrait"><div class="lace" aria-hidden="true"><svg><rect width="100%" height="100%" fill="url(#lace-dark)"/></svg></div><img src="img/team/aba.jpg" alt="Dr Aba Saeed" loading="lazy" width="640" height="640"></div>
             <div class="card-body"><h3>Dr Aba Saeed</h3><p>Dentist</p></div>
             <div class="card-acts"><a class="tlink" href="#team">Learn more</a><a class="btn btn-light" href="tel:+61353311959" aria-label="Book now with Dr Aba Saeed">Book now</a></div>
           </li>
           <li class="card" data-kind="d">
-            <div class="portrait" data-photo=""><div class="lace" aria-hidden="true"><svg><rect width="100%" height="100%" fill="url(#lace-dark)"/></svg></div><b aria-hidden="true">PD</b></div>
+            <div class="portrait"><div class="lace" aria-hidden="true"><svg><rect width="100%" height="100%" fill="url(#lace-dark)"/></svg></div><img src="img/team/plutarch.jpg" alt="Dr Plutarch Deliyannis" loading="lazy" width="640" height="640"></div>
             <div class="card-body"><h3>Dr Plutarch Deliyannis</h3><p>Dentist</p></div>
             <div class="card-acts"><a class="tlink" href="#team">Learn more</a><a class="btn btn-light" href="tel:+61353311959" aria-label="Book now with Dr Plutarch Deliyannis">Book now</a></div>
           </li>
           <li class="card" data-kind="d">
-            <div class="portrait" data-photo=""><div class="lace" aria-hidden="true"><svg><rect width="100%" height="100%" fill="url(#lace-dark)"/></svg></div><b aria-hidden="true">SS</b></div>
+            <div class="portrait"><div class="lace" aria-hidden="true"><svg><rect width="100%" height="100%" fill="url(#lace-dark)"/></svg></div><img src="img/team/sam.jpg" alt="Dr Sam Saeed" loading="lazy" width="640" height="640"></div>
             <div class="card-body"><h3>Dr Sam Saeed</h3><p>Dentist</p></div>
             <div class="card-acts"><a class="tlink" href="#team">Learn more</a><a class="btn btn-light" href="tel:+61353311959" aria-label="Book now with Dr Sam Saeed">Book now</a></div>
           </li>
           <li class="card" data-kind="d">
-            <div class="portrait" data-photo=""><div class="lace" aria-hidden="true"><svg><rect width="100%" height="100%" fill="url(#lace-dark)"/></svg></div><b aria-hidden="true">DA</b></div>
+            <div class="portrait"><div class="lace" aria-hidden="true"><svg><rect width="100%" height="100%" fill="url(#lace-dark)"/></svg></div><img src="img/team/david.jpg" alt="Dr David Attia" loading="lazy" width="640" height="640"></div>
             <div class="card-body"><h3>Dr David Attia</h3><p>Dental surgeon</p></div>
             <div class="card-acts"><a class="tlink" href="#team">Learn more</a><a class="btn btn-light" href="tel:+61353311959" aria-label="Book now with Dr David Attia">Book now</a></div>
           </li>
           <li class="card" data-kind="t">
-            <div class="portrait" data-photo=""><div class="lace" aria-hidden="true"><svg><rect width="100%" height="100%" fill="url(#lace-dark)"/></svg></div><b aria-hidden="true">LR</b></div>
+            <div class="portrait"><div class="lace" aria-hidden="true"><svg><rect width="100%" height="100%" fill="url(#lace-dark)"/></svg></div><img src="img/team/lauren.jpg" alt="Lauren Rodda" loading="lazy" width="640" height="640"></div>
             <div class="card-body"><h3>Lauren Rodda</h3><p>Oral health therapist</p></div>
             <div class="card-acts"><a class="tlink" href="#team">Learn more</a><a class="btn btn-light" href="tel:+61353311959" aria-label="Book now with Lauren Rodda">Book now</a></div>
           </li>
           <li class="card" data-kind="t">
-            <div class="portrait" data-photo=""><div class="lace" aria-hidden="true"><svg><rect width="100%" height="100%" fill="url(#lace-dark)"/></svg></div><b aria-hidden="true">SN</b></div>
+            <div class="portrait"><div class="lace" aria-hidden="true"><svg><rect width="100%" height="100%" fill="url(#lace-dark)"/></svg></div><img src="img/team/sophie.jpg" alt="Sophie Norden" loading="lazy" width="640" height="640"></div>
             <div class="card-body"><h3>Sophie Norden</h3><p>Oral health therapist</p></div>
             <div class="card-acts"><a class="tlink" href="#team">Learn more</a><a class="btn btn-light" href="tel:+61353311959" aria-label="Book now with Sophie Norden">Book now</a></div>
           </li>
           <li class="card" data-kind="t">
-            <div class="portrait" data-photo=""><div class="lace" aria-hidden="true"><svg><rect width="100%" height="100%" fill="url(#lace-dark)"/></svg></div><b aria-hidden="true">SG</b></div>
+            <div class="portrait"><div class="lace" aria-hidden="true"><svg><rect width="100%" height="100%" fill="url(#lace-dark)"/></svg></div><img src="img/team/samantha.jpg" alt="Samantha Georgeallis" loading="lazy" width="640" height="640"></div>
             <div class="card-body"><h3>Samantha Georgeallis</h3><p>Oral health therapist</p></div>
             <div class="card-acts"><a class="tlink" href="#team">Learn more</a><a class="btn btn-light" href="tel:+61353311959" aria-label="Book now with Samantha Georgeallis">Book now</a></div>
           </li>
