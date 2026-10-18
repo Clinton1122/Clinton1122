@@ -31,6 +31,7 @@ body{background:var(--cn-page)}
 .grid2{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:24px;margin-top:24px;align-items:start}
 .card{background:#fff;border:1px solid var(--cn-border);border-radius:20px;padding:24px}
 .card+.card{margin-top:16px}
+.ln>span:last-child{white-space:nowrap}
 .newacct{display:flex;gap:12px;align-items:flex-start;margin-top:16px;padding:14px 18px;border-radius:16px;background:var(--cn-primary-tint);font-size:14.5px;color:var(--cn-ink)}
 .newacct .i{width:20px;height:20px;color:var(--cn-primary);flex:none;margin-top:1px}
 .newacct a{color:var(--cn-ink);font-weight:600}
@@ -192,7 +193,7 @@ body{background:var(--cn-page)}
 /* ================= Confirmation ================= */
 const q=new URLSearchParams(location.hash.slice(1));
 S.date=q.get('d')||'2026-10-28';S.time=q.get('t')||'08:00';S.adults=+(q.get('a')||2);S.children=+(q.get('c')||0);S.disc=+(q.get('disc')||0);
-L.policy=q.get('p')||'site';L.bnpl=q.get('b')!=='0';
+L.policy=q.get('p')||'site';L.bnpl=q.get('b')!=='0';L.vat=q.get('v')!=='0';
 const later=q.get('later')==='1', ref=q.get('ref')||'CNE71623408', name=q.get('fn')||'John', email=q.get('em')||'john.carter@example.com';
 const WAL={gpay:'Google Pay',apay:'Apple Pay',alipay:'Alipay'};
 const card=WAL[q.get('brand')]||`${({VISA:'Visa',MASTERCARD:'Mastercard',AMEX:'Amex'})[q.get('brand')]||'Visa'} ending ${q.get('card')||'4242'}`;
@@ -216,7 +217,7 @@ function render(){
   ];
   $('#next').innerHTML=ev.map(e=>`<li class="${e.c}"><span class="d"><svg class="i"><use href="#i-${e.ic}"/></svg></span><div><span class="w">${e.w}</span><b>${e.b}</b><p>${e.p}</p></div></li>`).join('');
   $('#rc').innerHTML=`<div class="ln"><span>${S.adults} adult${S.adults>1?'s':''} × ${fmt(RATE.adult)}</span><span>${fmt(l.a)}</span></div>`+(S.children?`<div class="ln"><span>${S.children} child${S.children>1?'ren':''} × ${fmt(RATE.child)}</span><span>${fmt(l.c)}</span></div>`:'')+
-    `<div class="ln"><span>Service fee</span><span>${fmt(l.fee)}</span></div>`+(S.disc?`<div class="ln disc"><span>Promo code</span><span>− ${fmt(S.disc)}</span></div>`:'')+
+    feeRows(l,true,(k,v)=>`<div class="ln">${k}<span>${v}</span></div>`)+(S.disc?`<div class="ln disc"><span>Promo code</span><span>− ${fmt(S.disc)}</span></div>`:'')+
     `<div class="ln tot"><span>Total (${cur})</span><span>${fmt(t)}</span></div><div class="paid">${later?`<b>Due ${dLong(chargeOn())}:</b> ${fmt(t)} to ${card}. <b>Paid today:</b> ${fmt(0)}`:`<b>Paid</b> with ${card} on ${dLong(NOW)}`}</div>`;
   const keep=L.bnpl;L.bnpl=false;$('#tsig').innerHTML=trustRows(sc);L.bnpl=keep;
   $('#rel').innerHTML=[['kandy-temple.jpg','Kandy cooking class with a family','Activity · 3 hours'],['pidurangala.jpg','Sigiriya and Dambulla day trip','Private tour · 10 hours'],['ella-nine-arch.jpg','Hill country train and tea estates','Private tour · 9 hours'],['adams-peak.jpg','Adam’s Peak night climb','Small group · 8 hours']]

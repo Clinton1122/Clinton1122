@@ -8,13 +8,46 @@ Each page has two versions. Open the `Ceylon-…` file: it's a single file with 
 
 | Page | Open | What's in it |
 | --- | --- | --- |
-| Homepage | `Ceylon-Homepage.html` | Homepage v3 (15 Oct): Akila's header, natural search, List your business band |
+| Homepage | `Ceylon-Homepage.html` | Homepage v4 (17 Oct): Experiences search, map with place card, dark trust bar, Akila's copy |
 | Listing | `Ceylon-Listing.html` | Kandy Cultural City Tour, with the booking widget, trust signals, gallery and host badges |
 | Checkout | `Ceylon-Checkout.html` | Opens from Reserve now on the listing |
 | Confirmation | `Ceylon-Confirmation.html` | Opens after Confirm and pay |
 | Category template | `Ceylon-Category.html` | Culture and heritage tours |
 | Tools hub | `Ceylon-Tools.html` | All 13 tools; the 7 agreed for this milestone are live, the rest say Soon |
 | Tools | `Ceylon-Tool-Quiz.html`, `-Best-Time`, `-Travel-Times`, `-Budget`, `-Visa`, `-First-24-Hours`, `-Packing-List` | One page per tool |
+
+## Akila's feedback, round 3 (17 Oct)
+
+**Homepage v4.**
+- **Search:** the search bar is Experiences only. Stays and Transportation return as tabs when they launch. Search suggestions, the date picker and the travellers picker sit above the rest of the page, on phones too. On phones, placeholders fit on one line.
+- **Hero:** the map is back, with a place card open on Kandy by default. Phones don't show the map. A dark trust bar now closes the hero, as a clear break before the rest of the page.
+- **Phones:** once the hero search scrolls away, a floating "Search experiences" button appears. Tapping it brings the search back.
+- **One search at a time:** on the homepage, the header search is hidden until the hero search scrolls away, and both searches show the same experience results.
+- **Copy:** Akila's refined copy is in, for:
+  - the hero and the trust bar
+  - Freshly Added Experiences
+  - Where to go and Popular sights
+  - No surprises at checkout (with a receipt mock-up)
+  - the founder quote (the photo slot is waiting for his photo)
+  - How Booking Works (the photo badge now says "100% vetted local hosts")
+  - the Budget tool card and the reviews section
+- **"How do you want to explore?":** this section moved to just above the hosts band. The Stays and Transport cards now have real photos.
+- **Hosts band:** new copy and four feature boxes, a "List your tours free" button, and a "Verified" badge in place of "SLTDA registered".
+
+**Listing.**
+- **Trust links:** back to the existing style: round coloured icons (orange for free cancellation, purple for pay later), an underlined title, grey text and no box. The icons and text for each scenario stay.
+- **Popup 4:** state A comes in two colours to choose from. Use the prototype controls: "Popup 4 colour", brand orange or soft green.
+- **Free date changes:** a line about changing dates at no cost, subject to the host's availability, is in popup 4 and in the cancellation policy section. The policy section also says that a host's own policy takes over when one is set.
+- **Fees:** the listing shows one line, "Service fee & VAT" when the host is VAT registered or "Service fee" when not. A tooltip shows the breakdown. Checkout and confirmation show "Service fee" and "VAT (18%), collected for the host" on separate lines. Use the prototype controls ("Host VAT registered") to switch.
+- **Host card:** borders and radius match the existing listing design (1px black at 5%, 16px card, 10px inner cards, a soft shadow). Languages show the first two plus "+1", with the rest in a tooltip. Badges sit side by side on phones.
+
+**Checkout.**
+- **Cards:** Visa, Mastercard and Amex marks are inline. As soon as the card number is recognised, the matching brand stays and the others fade.
+- **Wallets and logins:** Google Pay, Apple Pay and Alipay marks, and the real Google and Apple logos on the login buttons, including the login sheet.
+- **Security and consent:** "All transactions are secure and encrypted" sits above the payment methods. The terms are an unticked checkbox that must be ticked before paying. New accounts also get the "By creating an account, you agree to our Terms and Conditions…" notice.
+- **Phones:** the price breakdown collapses into a bar at the top that opens on tap.
+
+**Photos.** Photos added in this round live in `assets/img/`, so the dashboard folder is untouched.
 
 ## Akila's feedback, round 2 (15 Oct)
 
@@ -163,6 +196,8 @@ Rebuilt on the structure of Akila's homepage demo (akilaliyanage.com/homepage), 
 | `anuradhapura.jpg` | [Anuradhapura, Jetavanaramaya Dagoba](https://www.flickr.com/photos/67769030@N07/6501713131), Arian Zwegers | CC BY 2.0 |
 | `jaffna.jpg` | [Nallur Kandaswamy Kovil](https://www.flickr.com/photos/79721788@N00/44292459955), D-Stanley | CC BY 2.0 |
 | `colombo.jpg` | [Kite Flying on Galle Face Green](https://www.flickr.com/photos/58314390@N08/6330794507), Andrew from Sydney | CC BY 2.0 |
+| `assets/img/stays-lake-pool.jpg` | [Swimming Pool by Lake, Waterfront Hotel Tissamaharama](https://www.flickr.com/photos/84303558@N00/5245532936), jaliyaj | CC BY 2.0 |
+| `assets/img/transport-tuk-tuks.jpg` | [Tuk-tuks waiting for fares in Kandy](https://www.flickr.com/photos/56796376@N00/1685043688), McKay Savage | CC BY 2.0 |
 | `trincomalee.jpg` | [Trincomalee Beach, Sri Lanka](https://www.flickr.com/photos/43296902@N00/39842113), Dennis S. Hurd | CC0 |
 
 The other photos are credited in the dashboard README.

@@ -2,7 +2,7 @@
 
 Each file in src/pages/ is a page template. These placeholders are filled in:
 {{BASE_CSS}} {{SPRITE}} {{HEADER}} {{FOOTER}} {{BASE_JS}} {{BOOKING_CSS}} {{BOOKING_JS}}
-{{TOOLS_CSS}} {{TOOLS_JS}} {{IMG}}
+{{TOOLS_CSS}} {{TOOLS_JS}} {{IMG}} {{IMG2}}
 
 Writes <name>.html (photos linked from ../ceylon-traveller-dashboard/img/)
 and Ceylon-<Name>.html (single file, photos embedded) next to this folder.
@@ -13,6 +13,10 @@ SRC = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.dirname(SRC)
 IMGDIR = os.path.join(OUT, '..', 'ceylon-traveller-dashboard', 'img')
 IMG = '../ceylon-traveller-dashboard/img/'
+# photos added for Milestone 2 only live here, so the dashboard folder is left alone
+IMG2DIR = os.path.join(OUT, 'assets', 'img')
+IMG2 = 'assets/img/'
+srcof = lambda u: next((os.path.join(d, u + '.jpg') for d in (IMGDIR, IMG2DIR) if os.path.exists(os.path.join(d, u + '.jpg'))), None)
 part = lambda n: open(os.path.join(SRC, n)).read()
 
 PAGES = [f[:-5] for f in sorted(os.listdir(os.path.join(SRC, 'pages')))]
@@ -75,7 +79,7 @@ def tool_page(src, name):
 def photo(u):
     """Photo bytes for a standalone page: large photos are resized to 1200 px and recompressed
     (ImageMagick, if installed) so that each single-file page stays small."""
-    src = os.path.join(IMGDIR, u + '.jpg')
+    src = srcof(u)
     if os.path.getsize(src) < 120000 or not shutil.which('convert'):
         return open(src, 'rb').read()
     out = os.path.join(tempfile.gettempdir(), 'cn-photo-' + u + '.jpg')
@@ -89,12 +93,12 @@ def build(name):
         s = tool_page(s, name)
     for k, f in [('TOOLS_CSS', 'tools.css'), ('TOOLS_JS', 'tools.js'), ('BOOKING_CSS', 'booking.css'), ('BOOKING_JS', 'booking.js'), ('BASE_CSS', 'base.css'), ('SPRITE', 'sprite.svg'), ('HEADER', 'header.html'), ('FOOTER', 'footer.html'), ('BASE_JS', 'base.js')]:
         s = s.replace('{{%s}}' % k, part(f))
-    s = s.replace('{{IMG}}', IMG)
+    s = s.replace('{{IMG2}}', IMG2).replace('{{IMG}}', IMG)
     open(os.path.join(OUT, name + '.html'), 'w').write(s)
     # standalone: inline every photo the page names
     used = sorted(set(re.findall(r"[a-z0-9\-]+(?=\.jpg)", s)))
-    imgs = {u: base64.b64encode(photo(u)).decode() for u in used if os.path.exists(os.path.join(IMGDIR, u + '.jpg'))}
-    st = re.sub(re.escape(IMG) + r'([a-z0-9\-]+)\.jpg', lambda m: 'data:image/jpeg;base64,' + imgs[m.group(1)], s)
+    imgs = {u: base64.b64encode(photo(u)).decode() for u in used if srcof(u)}
+    st = re.sub('(?:' + re.escape(IMG) + '|' + re.escape(IMG2) + r')([a-z0-9\-]+)\.jpg', lambda m: 'data:image/jpeg;base64,' + imgs[m.group(1)], s)
     # photos built in script (IMG + name + '.jpg') resolve through a lookup
     st = st.replace("const IMG='%s';" % IMG, "const IMG='';const IMGS=%s;" % ('{' + ','.join('"%s":"data:image/jpeg;base64,%s"' % (k, v) for k, v in imgs.items()) + '}'))
     # standalone pages link to each other's standalone copies

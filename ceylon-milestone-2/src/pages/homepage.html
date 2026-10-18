@@ -9,15 +9,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 {{BASE_CSS}}
-/* ================= Homepage v3 (15 Oct) ================= */
+/* ================= Homepage v4 (18 Oct) ================= */
 /* ---------- hero: map stays, search is the star ---------- */
-.hero{position:relative;padding:28px 0 44px;background:radial-gradient(1100px 480px at 85% 0%,#FFE1CF 0%,rgba(255,225,207,0) 60%),linear-gradient(180deg,#FFF5EE 0%,#FFF9F5 70%,#fff 100%)}
+.hero{position:relative;z-index:3;padding:28px 0 64px;background:radial-gradient(1100px 480px at 85% 0%,#FFE1CF 0%,rgba(255,225,207,0) 60%),linear-gradient(180deg,#FFF5EE 0%,#FFF9F5 70%,#fff 100%)}
 .htop{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:24px;align-items:center}
 .hero h1{font-size:68px;line-height:.98;letter-spacing:-.045em;font-weight:700}
 .hero h1 span{color:var(--cn-primary)}
 .hero .lede{font-size:18px;line-height:1.55;margin-top:18px;max-width:42ch}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .search{position:relative;margin-top:8px;background:#fff;border:1px solid #EEEEEE;border-radius:24px;box-shadow:0 30px 60px -28px rgba(120,52,16,.35),0 2px 6px rgba(24,24,27,.05);padding:10px;z-index:5}
+.hhint{position:absolute;right:0;top:20px;width:220px;font-size:12px;color:var(--cn-muted);text-align:center}
 .stabs{display:flex;gap:4px;padding:4px 4px 10px;align-items:center;flex-wrap:wrap}
 .stab{display:inline-flex;align-items:center;gap:8px;border:0;background:none;padding:9px 16px;border-radius:999px;font:600 14px var(--text);color:var(--cn-muted);cursor:pointer;white-space:nowrap}
 .stab .i{width:18px;height:18px}
@@ -64,7 +65,7 @@
 .squick a:hover{border-color:var(--cn-input);color:var(--cn-ink)}
 /* hero map, quieter */
 .hmap{position:relative;height:470px}
-.hmap svg{position:absolute;right:120px;top:0;height:100%;width:auto}
+.hmap>svg{position:absolute;right:270px;top:0;height:100%;width:auto}
 .hmap .land{fill:#fff;stroke:#F2C9B3;stroke-width:1.2;filter:drop-shadow(0 18px 30px rgba(193,78,30,.16))}
 .pin{cursor:pointer}
 .pin circle{fill:#fff;stroke:var(--cn-primary);stroke-width:2.4;transition:r .15s}
@@ -72,8 +73,8 @@
 .pin text{font:600 9px var(--text);fill:var(--cn-ink);paint-order:stroke;stroke:#FFF7F2;stroke-width:3px}
 .pin:hover circle,.pin:focus-visible circle{r:7}
 .pin:focus{outline:none}.pin:focus-visible circle{stroke-width:4}
-.pcard{position:absolute;right:0;top:70px;width:220px;background:#fff;border-radius:18px;box-shadow:var(--lift);overflow:hidden;border:1px solid var(--cn-border)}
-.pcard .ph{height:120px;background:var(--cn-page)}
+.pcard{position:absolute;right:0;top:44px;width:236px;background:#fff;border-radius:18px;box-shadow:var(--lift);overflow:hidden;border:1px solid var(--cn-border)}
+.pcard .ph{height:150px;background:var(--cn-page)}
 .pcard .ph img{width:100%;height:100%;object-fit:cover}
 .pcard .bd{padding:12px 14px 14px}
 .pcard .rg{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--cn-muted)}
@@ -85,12 +86,12 @@
 .pcard .x{position:absolute;right:8px;top:8px;width:28px;height:28px;border-radius:50%;border:0;background:rgba(255,255,255,.92);display:grid;place-items:center;cursor:pointer}
 .pcard .x .i{width:14px;height:14px}
 
-/* trust bar */
-.trust{border-top:1px solid var(--cn-border);border-bottom:1px solid var(--cn-border);background:#fff}
-.trust .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;padding-top:22px;padding-bottom:22px}
-.tp{display:flex;gap:12px;align-items:flex-start;font-size:13px;line-height:1.45}
-.tp .ic{width:40px;height:40px;border-radius:12px;background:var(--cn-primary-tint);color:var(--cn-primary);display:grid;place-items:center;flex:none}
-.tp b{display:block;color:var(--cn-ink);font-size:14px;font-weight:600}
+/* trust bar: a distinct dark band that closes the hero */
+.trust{background:var(--cn-deep);color:#D9C6B9;position:relative;z-index:1}
+.trust .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;padding-top:30px;padding-bottom:30px}
+.tp{display:flex;gap:14px;align-items:flex-start;font-size:13.5px;line-height:1.5}
+.tp .ic{width:44px;height:44px;border-radius:50%;background:var(--cn-primary);color:#fff;display:grid;place-items:center;flex:none;box-shadow:0 0 0 6px rgba(241,86,35,.18)}
+.tp b{display:block;color:#fff;font-size:15px;font-weight:600;margin-bottom:2px}
 
 /* sections */
 .sec{padding:80px 0}
@@ -105,11 +106,12 @@
 .wtile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform .6s}
 .wtile.big:hover img{transform:scale(1.04)}
 .wtile::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(20,12,6,0) 25%,rgba(20,12,6,.82))}
-.wtile.soon img{filter:grayscale(.85) brightness(.9)}
-.wtile.soon::after{background:linear-gradient(180deg,rgba(24,24,27,.15),rgba(24,24,27,.85))}
+.wtile.soon img{filter:saturate(.9)}
+.wtile.soon::after{background:linear-gradient(180deg,rgba(24,24,27,.05) 30%,rgba(24,24,27,.85))}
 .wcap{position:absolute;left:24px;right:24px;bottom:22px;display:flex;flex-direction:column;gap:6px}
 .wcap .k{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#FDBA9B}
-.wtile.soon .wcap .k{color:#D4D4D8}
+.wtile.soon .wcap .k{color:#FDBA9B}
+.wtile.soon .wcap b{font-size:20px}
 .wcap b{font-size:24px;line-height:1.15;letter-spacing:-.02em}
 .wchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 .wchips span{font-size:12.5px;font-weight:500;padding:5px 11px;border-radius:999px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(4px)}
@@ -117,7 +119,7 @@
 .wgo .i{width:16px;height:16px}
 .wnote{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:#E4E4E7}
 .wnote .i{width:15px;height:15px}
-.wtile .ribbon{position:absolute;top:16px;left:16px;font:700 11px/1 var(--text);letter-spacing:.04em;text-transform:uppercase;background:#fff;color:var(--cn-ink);padding:6px 10px;border-radius:999px}
+.wtile .ribbon{position:absolute;top:16px;left:16px;font:700 11px/1 var(--text);letter-spacing:.06em;text-transform:uppercase;background:var(--cn-primary);color:#fff;padding:7px 11px;border-radius:999px}
 .dgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
 .dcard{position:relative;display:block;aspect-ratio:4/5;border-radius:18px;overflow:hidden;color:#fff;text-decoration:none;isolation:isolate;background:#333}
 .dcard img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform .5s}
@@ -152,6 +154,33 @@
 .card .price{margin-top:6px;font-size:14px;color:var(--cn-body)}
 .card .price b{color:var(--cn-ink);font-size:16px}
 
+/* every cost: a receipt mock-up, like the one on the confirmation page */
+.vch{background:#fff;border-radius:18px;color:var(--cn-body);font-size:13px;box-shadow:0 24px 40px -18px rgba(0,0,0,.5);overflow:hidden}
+.vch .vh{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--cn-border)}
+.vch .vst{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:#2F8F5B;background:#EAF6EE;padding:4px 10px;border-radius:999px}
+.vch .vst .i{width:13px;height:13px;stroke-width:2.6}
+.vch .vb{padding:16px 20px 6px}
+.vch .vt{font-weight:600;color:var(--cn-ink);font-size:15px}
+.vch .vs{color:var(--cn-muted);font-size:12px;margin-top:2px}
+.vch ul{list-style:none;margin:12px 0 0;padding:0}
+.vch li{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-top:1px solid var(--cn-border)}
+.vch li>span:last-child{white-space:nowrap}
+.vch li small{display:block;color:var(--cn-muted);font-size:11.5px}
+.vch li.tot{border-top:1.5px solid var(--cn-ink);font-weight:700;color:var(--cn-ink);font-size:16px;padding-top:12px}
+.vch .tear{position:relative;border-top:2px dashed var(--cn-border);margin:8px 0 0}
+.vch .tear::before,.vch .tear::after{content:"";position:absolute;top:-11px;width:20px;height:20px;border-radius:50%;background:var(--cn-ink)}
+.vch .tear::before{left:-10px}.vch .tear::after{right:-10px}
+.vch .vf{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 20px 16px;font-size:12px;color:var(--cn-muted)}
+.vch .bars{height:26px;width:110px;background:repeating-linear-gradient(90deg,var(--cn-ink) 0 2px,transparent 2px 4px,var(--cn-ink) 4px 5px,transparent 5px 8px,var(--cn-ink) 8px 11px,transparent 11px 12px)}
+.costp .also{font-size:14px;color:#fff;margin-top:14px;display:flex;align-items:center;gap:8px}
+.costp .also .i{width:18px;height:18px;color:var(--cn-primary)}
+.fphoto{width:64px;height:64px;border-radius:50%;flex:none;display:grid;place-items:center;font:700 18px var(--text);background:#EADFD6;color:#7A4A2A;box-shadow:0 0 0 3px #fff,0 0 0 5px var(--cn-primary-line)}
+/* floating search button on phones, shown once the hero search scrolls away */
+.fsearch{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom));transform:translate(-50%,calc(100% + 40px));opacity:0;pointer-events:none;z-index:70;display:none;align-items:center;gap:10px;height:52px;padding:0 22px;white-space:nowrap;border:0;border-radius:999px;background:var(--cn-primary);color:#fff;font:600 15px var(--text);box-shadow:0 14px 30px -10px rgba(193,60,16,.65);cursor:pointer;transition:transform .25s,opacity .2s}
+.fsearch .i{width:20px;height:20px}
+.fsearch.on{transform:translate(-50%,0);opacity:1;pointer-events:auto}
+/* on the homepage the header search waits until the hero search is out of view, so there is one search at a time */
+body.hs-vis .hbar .hsearch,body.hs-vis .hbar [data-open-search]{visibility:hidden}
 /* every cost */
 .cost{display:grid;grid-template-columns:1.55fr 1fr;gap:24px;align-items:stretch}
 .costp{background:var(--cn-ink);color:#D4D4D8;border-radius:22px;padding:40px;display:grid;grid-template-columns:.9fr 1.1fr;gap:32px;align-items:center}
@@ -251,7 +280,7 @@
 .hostband::before{content:"";position:absolute;right:-120px;top:-120px;width:420px;height:420px;border-radius:50%;background:rgba(255,255,255,.08)}
 .hostin{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:56px;align-items:center;position:relative}
 .hostband .k{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#FFD3BF}
-.hostband h2{color:#fff;font-size:42px;line-height:1.05;letter-spacing:-.04em;margin-top:10px;max-width:16ch}
+.hostband h2{color:#fff;font-size:40px;line-height:1.08;letter-spacing:-.035em;margin-top:10px;max-width:20ch}
 .hostband .lede{font-size:17px;margin-top:14px;max-width:46ch;color:#FFE9DE}
 .hben{list-style:none;padding:0;margin:26px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:16px 24px}
 .hben li{display:flex;gap:12px;align-items:flex-start;font-size:14px}
@@ -282,10 +311,11 @@
   
 }
 @media (max-width:900px){
+  .fsearch{display:inline-flex}.hhint{display:none}
   .hero{padding:32px 0 40px}
-  .htop{grid-template-columns:1fr;gap:8px}.hmap{height:360px}.hmap svg{right:auto;left:50%;transform:translateX(-50%)}.pcard{right:0}.search{margin-top:8px}.sfields{grid-template-columns:1fr 1fr}.sf:first-child{grid-column:1/-1;border-right:0;border-bottom:1px solid var(--cn-border);border-radius:18px 18px 0 0}.sf:nth-child(2){border-right:1px solid var(--cn-border)}.sgo{grid-column:1/-1;margin:8px}.howin,.hostin{grid-template-columns:1fr;gap:32px}.rgrid{grid-template-columns:1fr}.hostband h2{font-size:34px}.how h2{font-size:30px}
+  .htop{grid-template-columns:1fr;gap:8px}.hmap{height:360px}.hmap>svg{right:auto;left:50%;transform:translateX(-50%)}.pcard{right:0}.search{margin-top:8px}.sfields{grid-template-columns:1fr 1fr}.sf:first-child{grid-column:1/-1;border-right:0;border-bottom:1px solid var(--cn-border);border-radius:18px 18px 0 0}.sf:nth-child(2){border-right:1px solid var(--cn-border)}.sgo{grid-column:1/-1;margin:8px}.howin,.hostin{grid-template-columns:1fr;gap:32px}.rgrid{grid-template-columns:1fr}.hostband h2{font-size:34px}.how h2{font-size:30px}
   .hero h1{font-size:42px}
-  .trust .wrap{grid-template-columns:1fr 1fr}
+  .trust .wrap{grid-template-columns:1fr 1fr;gap:20px}
   .cost,.faqw,.seo{grid-template-columns:1fr}
   .costp{grid-template-columns:1fr;padding:28px}
   .steps{grid-template-columns:1fr;gap:20px}
@@ -314,7 +344,8 @@
   .sgo{min-height:54px}.sf input{font-size:14px}
   .want{grid-template-columns:1fr}.wtile{min-height:260px}.wcap b{font-size:20px}
   .hben{grid-template-columns:1fr}.hostband{padding:56px 0}
-  .trust .wrap{grid-template-columns:1fr}
+  .trust .wrap{grid-template-columns:1fr;gap:16px;padding-top:24px;padding-bottom:24px}
+  .sf input,.sfbtn{font-size:14.5px}.sf input::placeholder{font-size:14px}
   .want{grid-template-columns:1fr}
   .dgrid{grid-template-columns:1fr 1fr;gap:10px}.dcard{aspect-ratio:3/4}.dcard h3{font-size:18px}.dcard p{display:none}
   .cards{grid-template-columns:1fr 1fr;gap:14px}.card h3{font-size:14px}
@@ -334,20 +365,16 @@
   <div class="wrap htop">
     <div>
       <h1>Sri Lanka,<br><span>found properly.</span></h1>
-      <p class="lede">Tours and activities run by the Sri Lankans who know them best. Ask your host anything, then book in your own currency.</p>
+      <p class="lede">Book real Sri Lankan tours and private experiences directly from vetted local hosts. Message your host before you book. Transparent pricing, no hidden fees.</p>
     </div>
     <div class="hmap" id="hmap">
       <svg viewBox="-62 -4 312 410" role="group" aria-label="Map of Sri Lanka. Choose a place to explore it." id="hsvg"></svg>
+      <p class="hhint">Tap a place on the map to explore it</p>
       <div class="pcard" id="pcard" aria-live="polite" hidden></div>
     </div>
   </div>
   <div class="wrap">
     <form class="search" id="hero-search" role="search" autocomplete="off">
-      <div class="stabs" role="tablist" aria-label="What are you looking for">
-        <button type="button" class="stab" role="tab" aria-selected="true" data-kind="exp"><svg class="i"><use href="#i-compass"/></svg>Experiences</button>
-        <button type="button" class="stab" role="tab" aria-selected="false" aria-disabled="true" data-kind="stay"><svg class="i"><use href="#i-bed"/></svg>Stays<span class="soon-tag">Coming soon</span></button>
-        <button type="button" class="stab" role="tab" aria-selected="false" aria-disabled="true" data-kind="ride"><svg class="i"><use href="#i-car"/></svg>Transportation<span class="soon-tag">Coming soon</span></button>
-      </div>
       <div class="sfields">
         <div class="sf sf-q"><label for="s-q">Explore</label><input id="s-q" type="search" placeholder="Activity, experience, landmark or tour name…" aria-describedby="s-q-hint"><span class="sr" id="s-q-hint">Type a place, an activity or a trip length, like “3-day tour”</span><div class="sugg" id="s-q-sugg" role="listbox"></div></div>
         <div class="sf sf-pop"><label for="s-date">Start date</label><button type="button" class="sfbtn" id="s-date" aria-expanded="false" aria-controls="pop-sdate"><span id="s-date-v" class="ph">When do you want to go?</span></button><div class="spop" id="pop-sdate" role="dialog" aria-label="Choose a start date"></div></div>
@@ -361,35 +388,24 @@
 
 <section class="trust" aria-label="Why book with Ceylon Nooks">
   <div class="wrap">
-    <div class="tp"><span class="ic"><svg class="i"><use href="#i-shield"/></svg></span><div><b>Local hosts only</b>Every listing is run by a Sri Lankan person or business.</div></div>
-    <div class="tp"><span class="ic"><svg class="i"><use href="#i-chat"/></svg></span><div><b>Ask before you book</b>Message your host about pickups, food or kids first.</div></div>
-    <div class="tp"><span class="ic"><svg class="i"><use href="#i-globe"/></svg></span><div><b>Pay in your currency</b>USD, AUD, EUR, GBP or JPY.</div></div>
+    <div class="tp"><span class="ic"><svg class="i"><use href="#i-shield"/></svg></span><div><b>Verified local hosts</b>Every host is ID-checked and every listing reviewed before going live.</div></div>
+    <div class="tp"><span class="ic"><svg class="i"><use href="#i-chat"/></svg></span><div><b>Ask before you book</b>Message your host anytime about pickups, dietary needs, or custom requests.</div></div>
+    <div class="tp"><span class="ic"><svg class="i"><use href="#i-globe"/></svg></span><div><b>Pay in your preferred currency</b>Book easily in USD, AUD, EUR, GBP or JPY.</div></div>
     <div class="tp"><span class="ic"><svg class="i"><use href="#i-tag"/></svg></span><div><b>The price you see is the price</b>Fees and any VAT included. Nothing added at checkout.</div></div>
-  </div>
-</section>
-
-<section class="sec" id="do">
-  <div class="wrap">
-    <div class="sh"><div><h2>Start with what you want to do</h2><p>Book experiences with local hosts today. Stays and transport are on the way.</p></div><a class="link" href="category.html">All experiences<svg class="i"><use href="#i-arrow"/></svg></a></div>
-    <div class="want">
-      <a class="wtile big" href="category.html"><img src="{{IMG}}sigiriya.jpg" alt=""><span class="wcap"><span class="k">Experiences</span><b>Tours, activities and day trips</b><span class="wchips"><span>Culture and heritage</span><span>Wildlife and safaris</span><span>Hikes</span><span>Food and cooking</span><span>Surf and sea</span><span>Multi-day tours</span></span><span class="wgo">Explore experiences<svg class="i"><use href="#i-arrow"/></svg></span></span></a>
-      <div class="wtile soon" aria-disabled="true"><img src="{{IMG}}galle-fort.jpg" alt=""><span class="ribbon">Coming soon</span><span class="wcap"><span class="k">Stays</span><b>Homestays, villas and boutique hotels</b><span class="wnote"><svg class="i"><use href="#i-bell"/></svg>Hosts are joining now</span></span></div>
-      <div class="wtile soon" aria-disabled="true"><img src="{{IMG}}ella-nine-arch.jpg" alt=""><span class="ribbon">Coming soon</span><span class="wcap"><span class="k">Transport</span><b>Drivers, airport pickups and car hire</b><span class="wnote"><svg class="i"><use href="#i-bell"/></svg>Drivers are joining now</span></span></div>
-    </div>
   </div>
 </section>
 
 <section class="sec alt" id="where">
   <div class="wrap">
-    <div class="sh"><div><h2>Where to go in Sri Lanka</h2><p>Each guide covers what to see, when to go, how to get there and local hosts nearby.</p></div><a class="link" href="#where">All destinations<svg class="i"><use href="#i-arrow"/></svg></a></div>
+    <div class="sh"><div><h2>Where to go in Sri Lanka</h2><p>Ancient cities, tea country, whale-watching bays and Buddhist and Tamil temples, all within a day’s travel. Pick a place to see the best time to go, how to get there and local hosts nearby.</p></div><a class="link" href="#where">All destinations<svg class="i"><use href="#i-arrow"/></svg></a></div>
     <div class="dgrid" id="dgrid"></div>
-    <div class="attr"><b>Top attractions</b><a href="#">Sigiriya Rock Fortress</a><a href="#">Temple of the Tooth</a><a href="#">Galle Fort</a><a href="#">Nine Arches Bridge</a><a href="#">Dambulla Cave Temple</a><a href="#">Yala National Park</a><a href="#">Adam’s Peak</a><a href="#">Horton Plains</a><a href="#">Polonnaruwa</a><a href="#">Nallur Kandaswamy Kovil</a><a href="#" class="all">All attractions →</a></div>
+    <div class="attr"><b>Popular sights</b><a href="#">Sigiriya Rock Fortress</a><a href="#">Temple of the Tooth</a><a href="#">Galle Fort</a><a href="#">Nine Arches Bridge</a><a href="#">Dambulla Cave Temple</a><a href="#">Yala National Park</a><a href="#">Adam’s Peak</a><a href="#">Horton Plains</a><a href="#">Polonnaruwa</a><a href="#">Nallur Kandaswamy Kovil</a><a href="#" class="all">All sights →</a></div>
   </div>
 </section>
 
 <section class="sec">
   <div class="wrap">
-    <div class="sh"><div><h2>New on Ceylon Nooks</h2><p>Just joined, already checked. Prices include our service fee and any VAT.</p></div><a class="link" href="category.html">Browse everything<svg class="i"><use href="#i-arrow"/></svg></a></div>
+    <div class="sh"><div><h2>Freshly Added Experiences</h2><p>Local hosts who’ve just joined. Each listing is verified before going live. New hosts go the extra mile, so book early and be among their first guests.</p></div><a class="link" href="category.html">Browse everything<svg class="i"><use href="#i-arrow"/></svg></a></div>
     <div class="cards" id="cards"></div>
   </div>
 </section>
@@ -397,34 +413,38 @@
 <section class="sec alt" style="padding-top:72px">
   <div class="wrap cost">
     <div class="costp">
-      <div><h2>See every cost before you pay</h2><p>Your host sets their own price. We add one service fee, plus VAT if your host is registered for it. That’s everything, and it’s all on screen before you book.</p></div>
-      <div class="bill">
-        <p class="t">Village cooking class in Kandy</p><p class="s">2 adults, hosted by Spice Kitchen Kandy</p>
-        <ul class="num">
-          <li><span>Host’s price<small>2 × <span data-p="45">USD 45.00</span></small></span><span data-p="90">USD 90.00</span></li>
-          <li><span>Ceylon Nooks service fee</span><span data-p="8.10">USD 8.10</span></li>
-          <li><span>VAT<small>This host isn’t VAT registered</small></span><span data-p="0">USD 0.00</span></li>
-          <li class="tot"><span>You pay</span><span data-p="98.10">USD 98.10</span></li>
-        </ul>
-        <p class="alt" id="alt-cur">Or the same amount in AUD, EUR, GBP or JPY.</p>
+      <div><h2>No surprises at checkout</h2><p>Hosts set their own prices. We add one service fee, plus VAT if the host is registered for it. What you see on screen is exactly what you pay.</p><p class="also"><svg class="i"><use href="#i-globe"/></svg>You can also pay in AUD, EUR, GBP or JPY.</p></div>
+      <div class="vch" aria-label="Example receipt">
+        <div class="vh"><svg viewBox="0 0 97 30" width="78" height="24" aria-label="Ceylon Nooks"><use href="#logo"/></svg><span class="vst"><svg class="i"><use href="#i-check"/></svg>Paid</span></div>
+        <div class="vb">
+          <p class="vt">Village cooking class in Kandy</p><p class="vs">Sat, 14 Nov 2026 · 2 adults · Ref CNE71623408</p>
+          <ul class="num">
+            <li><span>Host’s price<small>2 × <span data-p="45">USD 45.00</span></small></span><span data-p="90">USD 90.00</span></li>
+            <li><span>Service fee</span><span data-p="7.11">USD 7.11</span></li>
+            <li><span>VAT (18%), collected for the host</span><span data-p="16.20">USD 16.20</span></li>
+            <li class="tot"><span>You paid</span><span data-p="113.31">USD 113.31</span></li>
+          </ul>
+        </div>
+        <div class="tear"></div>
+        <div class="vf"><span>Visa •••• 4242<br>Hosted by Spice Kitchen Kandy</span><span class="bars" aria-hidden="true"></span></div>
       </div>
     </div>
     <div class="quote">
-      <blockquote>I was born in Sri Lanka. The places and people I love most rarely show up on the big booking sites. I built Ceylon Nooks so travellers can finally find them.</blockquote>
-      <div class="who"><span class="av">AL</span><div><b>Akila Liyanage</b>Founder, Ceylon Nooks</div></div>
+      <blockquote>The places and people that make Sri Lanka special rarely show up on the big booking sites. I built Ceylon Nooks so you can find them. You get a trip shaped by people who know the island best, and they keep most of what you pay.</blockquote>
+      <div class="who"><span class="fphoto" title="Akila’s photo goes here">AL</span><div><b>Akila Liyanage</b>Founder, Ceylon Nooks</div></div>
     </div>
   </div>
 </section>
 
 <section class="sec how" aria-labelledby="how-h">
   <div class="wrap howin">
-    <div class="howimg"><img src="{{IMG}}kandy-temple.jpg" alt="The Temple of the Tooth in Kandy"><span class="hbadge"><b>4.9</b> average from 1,900 reviews</span></div>
+    <div class="howimg"><img src="{{IMG}}kandy-temple.jpg" alt="The Temple of the Tooth in Kandy"><span class="hbadge"><svg class="i" style="width:15px;height:15px;color:var(--cn-primary);vertical-align:-3px"><use href="#i-shield"/></svg> <b>100%</b> vetted local hosts</span></div>
     <div>
-      <h2 id="how-h">How booking works</h2>
+      <h2 id="how-h">How Booking Works</h2>
       <div class="steps">
-        <div class="step"><span class="n">1</span><div><h3>Find your host</h3><p>Search by place, by what you want to do or by how long you have. Every listing names the person or family behind it.</p></div></div>
-        <div class="step"><span class="n">2</span><div><h3>Ask them anything</h3><p>Message your host before you pay: pickup times, dietary needs, a slower pace for grandparents.</p></div></div>
-        <div class="step"><span class="n">3</span><div><h3>Book in your currency</h3><p>Pay now, or reserve now and pay later where your host offers it. Most bookings have free cancellation.</p></div></div>
+        <div class="step"><span class="n">1</span><div><h3>Find your host</h3><p>Search by location, activity or duration. Every listing introduces the local guide or business behind it.</p></div></div>
+        <div class="step"><span class="n">2</span><div><h3>Ask them anything</h3><p>Message your host before you pay. Sort out pickup times, dietary needs or a slower pace for grandparents.</p></div></div>
+        <div class="step"><span class="n">3</span><div><h3>Book with peace of mind</h3><p>Pay in your preferred currency, or reserve now and pay later where your host offers it. Every listing shows its cancellation policy before you book.</p></div></div>
       </div>
     </div>
   </div>
@@ -437,7 +457,7 @@
       <a class="tquiz" href="tool-quiz.html"><div><h3>What kind of Sri Lanka trip suits you?</h3><p>Answer five quick questions and get places and experiences matched to how you like to travel.</p></div>
         <div><div class="steps5"><i></i><i></i><i></i><i></i><i></i></div><span class="btn primary" style="margin-top:18px">Take the traveller quiz</span></div></a>
       <a class="tool" href="tool-best-time.html"><span class="ic"><svg class="i"><use href="#i-sun"/></svg></span><div><h3>Best time to go</h3><p>The island has two monsoons. See which coast is dry when you travel.</p></div></a>
-      <a class="tool" href="tool-budget.html"><span class="ic"><svg class="i"><use href="#i-tag"/></svg></span><div><h3>Budget</h3><p>A daily cost range for your travel style, in your currency.</p></div></a>
+      <a class="tool" href="tool-budget.html"><span class="ic"><svg class="i"><use href="#i-tag"/></svg></span><div><h3>Budget</h3><p>A daily cost range for your travel style, in your preferred currency.</p></div></a>
       <a class="tool" href="tool-visa.html"><span class="ic"><svg class="i"><use href="#i-passport"/></svg></span><div><h3>Visa and entry</h3><p>Find out if you need a visa, what it costs and how long you can stay.</p></div></a>
       <a class="tool" href="tool-travel-times.html"><span class="ic"><svg class="i"><use href="#i-clock"/></svg></span><div><h3>Travel times</h3><p>How long Kandy to Ella really takes by road or rail.</p></div></a>
     </div>
@@ -446,7 +466,7 @@
 
 <section class="sec revs" aria-labelledby="rv-h">
   <div class="wrap">
-    <div class="sh"><div><h2 id="rv-h">Travellers on their hosts</h2><p>From verified bookings.</p></div></div>
+    <div class="sh"><div><h2 id="rv-h">Hosted by locals, reviewed by travellers</h2><p>Unfiltered reviews from travellers who explored Sri Lanka with our hosts. Every one comes from a verified booking.</p></div></div>
     <div class="rgrid">
       <figure class="rv"><img src="{{IMG}}kandy-temple.jpg" alt=""><blockquote>“Aravinda got us into the temple just as the morning offering started. We’d never have managed the timing on our own.”</blockquote><figcaption><b>Sophie L.</b> · United Kingdom · Kandy Cultural City Tour</figcaption></figure>
       <figure class="rv"><img src="{{IMG}}mirissa-whale.jpg" alt=""><blockquote>“Three blue whales before breakfast. The crew knew exactly where to look, and the boat was never crowded.”</blockquote><figcaption><b>Daniel K.</b> · Australia · Blue whale watching</figcaption></figure>
@@ -481,30 +501,43 @@
   </div>
 </section>
 
+<section class="sec" id="do">
+  <div class="wrap">
+    <div class="sh"><div><h2>How do you want to explore?</h2><p>Book experiences with local hosts today. Stays and transport are on the way.</p></div></div>
+    <div class="want">
+      <a class="wtile big" href="category.html"><img src="{{IMG}}sigiriya.jpg" alt=""><span class="wcap"><span class="k">Experiences</span><b>Day trips, tours &amp; activities</b><span class="wchips"><span>Culture &amp; Heritage</span><span>Wildlife &amp; Safaris</span><span>Hikes &amp; Nature</span><span>Food &amp; Cooking</span><span>Surf &amp; Coast</span><span>Multi-Day Tours</span><span>Private Tours</span></span><span class="wgo">Explore experiences<svg class="i"><use href="#i-arrow"/></svg></span></span></a>
+      <div class="wtile soon" aria-disabled="true"><img src="{{IMG2}}stays-lake-pool.jpg" alt="A pool beside a lake at a small hotel in Tissamaharama"><span class="ribbon">Coming soon</span><span class="wcap"><span class="k">Stays</span><b>Boutique hotels, villas &amp; homestays</b><span class="wnote"><svg class="i"><use href="#i-bell"/></svg>Local hosts joining now</span></span></div>
+      <div class="wtile soon" aria-disabled="true"><img src="{{IMG2}}transport-tuk-tuks.jpg" alt="Tuk-tuks waiting for passengers in Kandy"><span class="ribbon">Coming soon</span><span class="wcap"><span class="k">Transport</span><b>Private drivers, airport transfers &amp; car hire</b><span class="wnote"><svg class="i"><use href="#i-bell"/></svg>Verified drivers joining now</span></span></div>
+    </div>
+  </div>
+</section>
+
 <section class="hostband" id="hosts" aria-labelledby="host-h">
   <div class="wrap hostin">
     <div>
-      <p class="k">For tour operators, guides and hosts</p>
-      <h2 id="host-h">Bring your tours to travellers from around the world</h2>
-      <p class="lede">Ceylon Nooks launches on 28 October. List your experiences now and be ready when the first travellers arrive.</p>
+      <p class="k">For local guides, experts, and hosts</p>
+      <h2 id="host-h">Share the Real Sri Lanka. Connect Directly with Global Travellers.</h2>
+      <p class="lede">Travellers are discovering Sri Lanka on Ceylon Nooks. Listing is free, and the guides who list first are the ones travellers see first.</p>
       <ul class="hben">
-        <li><svg class="i"><use href="#i-tag"/></svg><span><b>Your prices, your policies</b>Set your own rates, cancellation policy and pay-later option.</span></li>
-        <li><svg class="i"><use href="#i-chat"/></svg><span><b>Bookings and messages in one place</b>Chat with travellers before and after they book.</span></li>
-        <li><svg class="i"><use href="#i-badge"/></svg><span><b>Stand out with trust badges</b>Show your SLTDA registration and police clearance on your profile.</span></li>
-        <li><svg class="i"><use href="#i-globe"/></svg><span><b>Travellers pay in their currency</b>USD, AUD, EUR, GBP or JPY, with no extra work for you.</span></li>
+        <li><svg class="i"><use href="#i-tag"/></svg><span><b>You’re the Boss of Your Business</b>Set your own fair rates, control your cancellation policies, and choose to offer pay-later options on your terms.</span></li>
+        <li><svg class="i"><use href="#i-chat"/></svg><span><b>Direct Chats, Zero Confusion</b>Manage all bookings and message travellers directly in one place to customise their trip before they even arrive.</span></li>
+        <li><svg class="i"><use href="#i-badge"/></svg><span><b>Turn Your Badges into Bookings</b>Stand out instantly. Display your SLTDA registration and verified police clearance directly on your profile to build instant trust.</span></li>
+        <li><svg class="i"><use href="#i-card"/></svg><span><b>Twice a week, Direct to Your Bank</b>Travellers pay in their own currency. You’re paid once the tour starts, not after it ends.</span></li>
       </ul>
-      <div class="hcta"><a class="btn primary" href="#">List your business<svg class="i"><use href="#i-arrow"/></svg></a><a class="btn ghost" href="#">How hosting works</a></div>
+      <div class="hcta"><a class="btn primary" href="#">List your tours free<svg class="i"><use href="#i-arrow"/></svg></a><a class="btn ghost" href="#">How hosting works</a></div>
       <p class="hsoon">Stays and transport providers can join the waiting list.</p>
     </div>
-    <div class="hostimg"><img src="{{IMG}}galle-fort.jpg" alt="A quiet street in Galle Fort"><div class="hcard"><span class="av">NP</span><span><b>Nuwan Perera</b><small>Tea estate walks, Ella</small></span><span class="mb"><svg class="i"><use href="#i-badge"/></svg>SLTDA registered</span></div></div>
+    <div class="hostimg"><img src="{{IMG}}galle-fort.jpg" alt="A quiet street in Galle Fort"><div class="hcard"><span class="av">NP</span><span><b>Nuwan Perera</b><small>Tea estate walks, Ella</small></span><span class="mb"><svg class="i"><use href="#i-check"/></svg>Verified</span></div></div>
   </div>
 </section>
 </main>
+<button class="fsearch" id="fsearch" type="button" aria-label="Search experiences"><svg class="i"><use href="#i-search"/></svg>Search experiences</button>
 {{FOOTER}}
 <script>
 {{BASE_JS}}
 /* photos used on this page: kandy-temple.jpg ella-nine-arch.jpg sigiriya.jpg anuradhapura.jpg galle-fort.jpg mirissa-whale.jpg colombo.jpg jaffna.jpg trincomalee.jpg pidurangala.jpg */
-/* hero search: three tabs; only Experiences is live. Explore is natural search (places, activities, trip lengths). */
+/* hero search: Experiences only for now (Stays and Transportation return as tabs when they launch).
+   Explore is natural search (places, activities, trip lengths). */
 attachSearch($('#s-q'),$('#s-q-sugg'));
 const HS={date:null,adults:0,children:0,infants:0,month:new Date(2026,9,1)};
 const TODAY='2026-10-15';
@@ -524,7 +557,6 @@ $('#hero-search').addEventListener('click',e=>{const b=e.target.closest('button'
   if(x.hd){HS.date=x.hd;setVal('#s-date-v',new Date(x.hd+'T12:00:00').toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'}),'When do you want to go?');closeSPop()}
   if(x.hflex){HS.date=null;setVal('#s-date-v',x.hflex,'');closeSPop()}
   if(x.hg){HS[x.hg]=Math.max(0,HS[x.hg]+ +x.d);if(x.hg!=='adults'&&HS[x.hg]>0&&!HS.adults)HS.adults=1;drawWho();setVal('#s-who-v',whoTxt(),'Add travellers')}
-  if(b.classList.contains('stab')&&b.getAttribute('aria-disabled')==='true'){toast(b.dataset.kind==='stay'?'Stays are coming soon':'Transportation is coming soon')}
 });
 document.addEventListener('click',e=>{if(e.target.isConnected&&!e.target.closest('.sf-pop'))closeSPop()});
 $('#hero-search').addEventListener('submit',e=>{e.preventDefault();location.href=$('#s-q-sugg a')?.getAttribute('href')&&$('#s-q').value?'category.html':'category.html'});
@@ -544,9 +576,17 @@ const P=[
  {n:'Galle',la:6.026,lo:80.217,rg:'South coast',t:'A walled colonial fort town with beaches on both sides.',best:'December to March',img:'galle-fort',dx:-9},
  {n:'Mirissa',la:5.948,lo:80.456,rg:'South coast',t:'Whale watching, palm-lined coves and slow beach days.',best:'November to April',img:'mirissa-whale',dx:9}];
 $('#hsvg').innerHTML=`<path class="land" d="${ISLAND}"/>`+P.map((p,i)=>{const [x,y]=proj(p.la,p.lo);return `<g class="pin" tabindex="0" role="button" aria-label="${p.n}" data-pin="${i}"><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="5"/><text x="${(x+p.dx).toFixed(1)}" y="${(y+3.2).toFixed(1)}" text-anchor="${p.dx<0?'end':'start'}">${p.n}</text></g>`}).join('');
+/* placeholders fit on one line on phones */
+const mq=matchMedia('(max-width:600px)');const fitPh=()=>{$('#s-q').placeholder=mq.matches?'Activity, landmark or tour name…':'Activity, experience, landmark or tour name…'};fitPh();mq.addEventListener?.('change',fitPh);
+/* one search at a time: the header search and the floating phone button appear once the hero search scrolls away */
+new IntersectionObserver(([en])=>{document.body.classList.toggle('hs-vis',en.isIntersecting);$('#fsearch').classList.toggle('on',!en.isIntersecting)},{threshold:0}).observe($('#hero-search'));
+$('#fsearch').onclick=()=>{$('#hero-search').scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>$('#s-q').focus({preventScroll:true}),450)};
 function pick(i){const p=P[i];$$('.pin').forEach((g,j)=>g.classList.toggle('on',j==i));$('#pcard').hidden=false;
   $('#pcard').innerHTML=`<button class="x" data-pclose aria-label="Close">${svg('x')}</button><div class="ph">${p.img?`<img src="${pic(p.img+'.jpg')}" alt="${p.n}">`:''}</div><div class="bd"><p class="rg">${p.rg}</p><h3>${p.n}</h3><p>${p.t}</p><span class="best">${svg('sun')}Best: ${p.best}</span><br><a class="link" href="#">Explore ${p.n}${svg('arrow')}</a></div>`}
 
+
+/* the map opens on Kandy so the hero always shows a photo and what the pins do */
+if(!matchMedia('(max-width:900px)').matches)pick(4);
 
 /* destinations */
 const D=[['Kandy','Hill Country','The old royal capital, the Temple of the Tooth and the start of tea country.','kandy-temple'],['Ella','Hill Country','Tea estate walks, Nine Arches Bridge and the famous train ride.','ella-nine-arch'],['Sigiriya','Cultural Triangle','The rock fortress, cave temples and elephant safaris nearby.','sigiriya'],['Anuradhapura','Cultural Triangle','The first great capital, with stupas over 2,000 years old.','anuradhapura'],['Galle','South coast','A walled colonial fort town with beaches on both sides.','galle-fort'],['Mirissa','South coast','Whale watching, palm-lined coves and slow beach days.','mirissa-whale'],['Colombo','West coast','Street food, galleries and an easy first and last night.','colombo'],['Jaffna','The north','Tamil culture, Hindu temples and crab curry.','jaffna']];
