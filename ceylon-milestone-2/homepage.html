@@ -172,6 +172,10 @@ a.mm-card:hover{border-color:var(--cn-primary-line);background:var(--cn-primary-
 .foot h4{color:#fff;font-size:13px;margin-bottom:10px}
 .foot a{display:block;color:#A1A1AA;text-decoration:none;padding:3px 0;font-size:13.5px}
 .foot a:hover{color:#fff}
+.foot .fsoc{display:flex;gap:10px;margin-top:16px}
+.foot .fsoc a{width:38px;height:38px;border-radius:50%;border:1px solid #3F3F46;display:grid;place-items:center;padding:0;color:#D4D4D8}
+.foot .fsoc a:hover{border-color:#fff;color:#fff}
+.foot .fsoc svg{width:18px;height:18px}
 .fbot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:40px;padding-top:20px;border-top:1px solid #27272A;font-size:13px}
 .fbot a{display:inline;margin-left:16px}
 .credit{font-size:11.5px;color:#71717A;margin-top:10px;line-height:1.5}
@@ -351,7 +355,7 @@ a.mm-card:hover{border-color:var(--cn-primary-line);background:var(--cn-primary-
 .vch .bars{height:26px;width:110px;background:repeating-linear-gradient(90deg,var(--cn-ink) 0 2px,transparent 2px 4px,var(--cn-ink) 4px 5px,transparent 5px 8px,var(--cn-ink) 8px 11px,transparent 11px 12px)}
 .costp .also{font-size:14px;color:#fff;margin-top:14px;display:flex;align-items:center;gap:8px}
 .costp .also .i{width:18px;height:18px;color:var(--cn-primary)}
-.fphoto{width:64px;height:64px;border-radius:50%;flex:none;display:grid;place-items:center;font:700 18px var(--text);background:#EADFD6;color:#7A4A2A;box-shadow:0 0 0 3px #fff,0 0 0 5px var(--cn-primary-line)}
+.fphoto{width:64px;height:64px;border-radius:50%;flex:none;object-fit:cover;display:grid;place-items:center;font:700 18px var(--text);background:#EADFD6;color:#7A4A2A;box-shadow:0 0 0 3px #fff,0 0 0 5px var(--cn-primary-line)}
 /* floating search button on phones, shown once the hero search scrolls away */
 .fsearch{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom));transform:translate(-50%,calc(100% + 40px));opacity:0;pointer-events:none;z-index:70;display:none;align-items:center;gap:10px;height:52px;padding:0 22px;white-space:nowrap;border:0;border-radius:999px;background:var(--cn-primary);color:#fff;font:600 15px var(--text);box-shadow:0 14px 30px -10px rgba(193,60,16,.65);cursor:pointer;transition:transform .25s,opacity .2s}
 .fsearch .i{width:20px;height:20px}
@@ -753,14 +757,14 @@ body.hs-vis .hbar .hsearch,body.hs-vis .hbar [data-open-search]{visibility:hidde
     </div>
     <div class="quote">
       <blockquote>The places and people that make Sri Lanka special rarely show up on the big booking sites. I built Ceylon Nooks so you can find them. You get a trip shaped by people who know the island best, and they keep most of what you pay.</blockquote>
-      <div class="who"><span class="fphoto" title="Akila’s photo goes here">AL</span><div><b>Akila Liyanage</b>Founder, Ceylon Nooks</div></div>
+      <div class="who"><img class="fphoto" src="assets/img/akila-liyanage.jpg" alt="Akila Liyanage"><div><b>Akila Liyanage</b>Founder, Ceylon Nooks</div></div>
     </div>
   </div>
 </section>
 
 <section class="sec how" aria-labelledby="how-h">
   <div class="wrap howin">
-    <div class="howimg"><img src="../ceylon-traveller-dashboard/img/kandy-temple.jpg" alt="The Temple of the Tooth in Kandy"><span class="hbadge"><svg class="i" style="width:15px;height:15px;color:var(--cn-primary);vertical-align:-3px"><use href="#i-shield"/></svg> <b>100%</b> vetted local hosts</span></div>
+    <div class="howimg"><img src="assets/img/travellers-ella-tracks.jpg" alt="Two travellers walking along the railway line near Ella"><span class="hbadge"><svg class="i" style="width:15px;height:15px;color:var(--cn-primary);vertical-align:-3px"><use href="#i-shield"/></svg> <b>100%</b> vetted local hosts</span></div>
     <div>
       <h2 id="how-h">How Booking Works</h2>
       <div class="steps">
@@ -857,7 +861,7 @@ body.hs-vis .hbar .hsearch,body.hs-vis .hbar [data-open-search]{visibility:hidde
 <footer class="foot">
   <div class="wrap">
     <div class="fgrid">
-      <div><span class="logo"><svg viewBox="0 0 97 30" width="97" height="30" aria-hidden="true"><use href="#logo"/></svg></span><p style="margin-top:12px;max-width:30ch">A Sri Lanka-only marketplace for experiences run by local hosts. Stays and transport coming soon.</p></div>
+      <div><span class="logo"><svg viewBox="0 0 97 30" width="97" height="30" aria-hidden="true"><use href="#logo"/></svg></span><p style="margin-top:12px;max-width:30ch">A Sri Lanka-only marketplace for experiences run by local hosts. Stays and transport coming soon.</p><span class="fsoc"><a href="https://www.instagram.com/ceylonnooks" target="_blank" rel="noopener" aria-label="Ceylon Nooks on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg></a><a href="https://www.facebook.com/CeylonNooks/" target="_blank" rel="noopener" aria-label="Ceylon Nooks on Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6V21h3.1z"/></svg></a></span></div>
       <div><h4>Explore</h4><a href="category.html">Experiences</a><a href="#">Stays (coming soon)</a><a href="#">Transport (coming soon)</a><a href="homepage.html#where">Destinations</a></div>
       <div><h4>Destinations</h4><a href="#">Kandy</a><a href="#">Ella</a><a href="#">Sigiriya</a><a href="#">Galle</a><a href="#">Mirissa</a><a href="#">All destinations</a></div>
       <div><h4>Attractions</h4><a href="#">Sigiriya Rock Fortress</a><a href="#">Temple of the Tooth</a><a href="#">Galle Fort</a><a href="#">Nine Arches Bridge</a><a href="#">All attractions</a></div>
@@ -866,7 +870,7 @@ body.hs-vis .hbar .hsearch,body.hs-vis .hbar [data-open-search]{visibility:hidde
       <div><h4>Hosts</h4><a href="homepage.html#hosts">List your business</a><a href="#">Host help centre</a><a href="#">Service provider agreement</a></div>
     </div>
     <div class="fbot"><span>© 2026 Ceylon Nooks Pty Ltd</span><span><a href="#">Terms</a><a href="#">Privacy</a></span></div>
-    <p class="credit">Design draft. Listings, hosts and prices are sample content. Photos are Creative Commons stand-ins: Santhosh Janardhanan (CC BY-SA 2.0), Kenny Ross, travelourplanet.com, Nithi clicks, Gane, Arian Zwegers, D-Stanley, Andrew from Sydney, Lakpura LLC, jaliyaj, McKay Savage (CC BY 2.0), Dennis S. Hurd (CC0).</p>
+    <p class="credit">Design draft. Listings, hosts and prices are sample content. Photos are Creative Commons stand-ins: Santhosh Janardhanan, World of Travolution (CC BY-SA 2.0), Kenny Ross, travelourplanet.com, Nithi clicks, Gane, Arian Zwegers, D-Stanley, Andrew from Sydney, Lakpura LLC, jaliyaj, McKay Savage (CC BY 2.0), Dennis S. Hurd (CC0).</p>
   </div>
 </footer>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>

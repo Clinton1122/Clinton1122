@@ -28,15 +28,15 @@ Each page has two versions. Open the `Ceylon-…` file: it's a single file with 
   - Freshly Added Experiences
   - Where to go and Popular sights
   - No surprises at checkout (with a receipt mock-up)
-  - the founder quote (the photo slot is waiting for his photo)
-  - How Booking Works (the photo badge now says "100% vetted local hosts")
+  - the founder quote, with Akila's photo
+  - How Booking Works, with a natural photo of two travellers walking the railway line near Ella; the badge now says "100% vetted local hosts"
   - the Budget tool card and the reviews section
 - **"How do you want to explore?":** this section moved to just above the hosts band. The Stays and Transport cards now have real photos.
 - **Hosts band:** new copy and four feature boxes, a "List your tours free" button, and a "Verified" badge in place of "SLTDA registered".
 
 **Listing.**
 - **Trust links:** back to the existing style: round coloured icons (orange for free cancellation, purple for pay later), an underlined title, grey text and no box. The icons and text for each scenario stay.
-- **Popup 4:** state A comes in two colours to choose from. Use the prototype controls: "Popup 4 colour", brand orange or soft green.
+- **Popup 4:** state A stays in brand orange (Akila chose it on 19 Oct over a soft green variant).
 - **Free date changes:** a line about changing dates at no cost, subject to the host's availability, is in popup 4 and in the cancellation policy section. The policy section also says that a host's own policy takes over when one is set.
 - **Fees:** the listing shows one line, "Service fee & VAT" when the host is VAT registered or "Service fee" when not. A tooltip shows the breakdown. Checkout and confirmation show "Service fee" and "VAT (18%), collected for the host" on separate lines. Use the prototype controls ("Host VAT registered") to switch.
 - **Host card:** borders and radius match the existing listing design (1px black at 5%, 16px card, 10px inner cards, a soft shadow). Languages show the first two plus "+1", with the rest in a tooltip. Badges sit side by side on phones.
@@ -47,7 +47,9 @@ Each page has two versions. Open the `Ceylon-…` file: it's a single file with 
 - **Security and consent:** "All transactions are secure and encrypted" sits above the payment methods. The terms are an unticked checkbox that must be ticked before paying. New accounts also get the "By creating an account, you agree to our Terms and Conditions…" notice.
 - **Phones:** the price breakdown collapses into a bar at the top that opens on tap.
 
-**Photos.** Photos added in this round live in `assets/img/`, so the dashboard folder is untouched.
+**Social.** The confirmation page buttons and the new footer icons link to Ceylon Nooks on [Instagram](https://www.instagram.com/ceylonnooks) and [Facebook](https://www.facebook.com/CeylonNooks/).
+
+**Photos.** Photos added in this round live in `assets/img/`, so the dashboard folder is untouched. `akila-liyanage.jpg` is Akila's own photo, from akilaliyanage.com.
 
 ## Akila's feedback, round 2 (15 Oct)
 
@@ -198,6 +200,7 @@ Rebuilt on the structure of Akila's homepage demo (akilaliyanage.com/homepage), 
 | `colombo.jpg` | [Kite Flying on Galle Face Green](https://www.flickr.com/photos/58314390@N08/6330794507), Andrew from Sydney | CC BY 2.0 |
 | `assets/img/stays-lake-pool.jpg` | [Swimming Pool by Lake, Waterfront Hotel Tissamaharama](https://www.flickr.com/photos/84303558@N00/5245532936), jaliyaj | CC BY 2.0 |
 | `assets/img/transport-tuk-tuks.jpg` | [Tuk-tuks waiting for fares in Kandy](https://www.flickr.com/photos/56796376@N00/1685043688), McKay Savage | CC BY 2.0 |
+| `assets/img/travellers-ella-tracks.jpg` | [Walking the tracks, Ella](https://www.flickr.com/photos/168569883@N04/51877850305), World of Travolution (cropped to remove the watermark) | CC BY-SA 2.0 |
 | `trincomalee.jpg` | [Trincomalee Beach, Sri Lanka](https://www.flickr.com/photos/43296902@N00/39842113), Dennis S. Hurd | CC0 |
 
 The other photos are credited in the dashboard README.

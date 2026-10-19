@@ -594,7 +594,6 @@ function renderProto(){
   <h4>Reserve now, pay later</h4><div class="seg">${[[1,'Offered'],[0,'Not offered']].map(([k,l])=>`<button data-pbnpl="${k}" aria-pressed="${+L.bnpl===k}">${l}</button>`).join('')}</div>
   <h4>Host credentials</h4><div class="seg">${[['both','Both'],['sltda','SLTDA only'],['none','None']].map(([k,l])=>`<button data-pcred="${k}" aria-pressed="${(L.creds.sltda&&L.creds.police?'both':L.creds.sltda?'sltda':'none')===k}">${l}</button>`).join('')}</div>
   <h4>Host VAT registered</h4><div class="seg">${[[1,'Yes: Service fee & VAT'],[0,'No: Service fee']].map(([k,l])=>`<button data-pvat="${k}" aria-pressed="${+L.vat===k}">${l}</button>`).join('')}</div>
-  <h4>Popup 4 colour (state A)</h4><div class="seg">${[['brand','Brand orange'],['positive','Soft green']].map(([k,l])=>`<button data-pps="${k}" aria-pressed="${POPSTYLE===k}">${l}</button>`).join('')}</div>
   <h4>Account</h4><div class="seg">${[[1,'Signed in'],[0,'Signed out']].map(([k,l])=>`<button data-pauth="${k}" aria-pressed="${+SIGNED===k}">${l}</button>`).join('')}</div>
   <p>Showing scenario ${sc} of the trust-link spec. Prototype clock: Tue 13 Oct 2026, 10:00 AM in Colombo.</p>`;
 }
@@ -634,7 +633,6 @@ document.addEventListener('click',e=>{
   if(x.ppol){L.policy=x.ppol;renderAll()}
   if(x.pbnpl){L.bnpl=!!+x.pbnpl;renderAll()}
   if(x.pvat){L.vat=!!+x.pvat;renderAll()}
-  if(x.pps){POPSTYLE=x.pps;renderAll();popCancel()}
   if(x.pauth){setSigned(!!+x.pauth);renderAll()}
   if(x.pcred){L.creds={sltda:x.pcred!=='none',police:x.pcred==='both'};renderAll()}
 });
