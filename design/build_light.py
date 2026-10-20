@@ -48,7 +48,7 @@ assert 'color:#FBF1EC}' in s
 extra = """
 /* light theme: pink display text deep enough to read on white and soft pink */
 :root{--coral-display:#D6505C}
-.ap-hero h1 em,.t-row.calm-row h3,.t-row:hover h3,.steps li::before,.names li::after,.tx-group,.ask-row:has(input:checked) b{color:var(--coral-display)}
+.ap-hero h1 em,.book-copy h2 em,.t-row.calm-row h3,.t-row:hover h3,.steps li::before,.names li::after,.tx-group,.ask-row:has(input:checked) b{color:var(--coral-display)}
 .more-head h2 em{color:var(--coral-display)!important}
 .ask-row input:checked{background:var(--coral-display);border-color:var(--coral-display)}
 """
