@@ -23,6 +23,8 @@ body{background:var(--dk-paper,#fff)}
 .gal .all{position:absolute;right:16px;bottom:16px;z-index:2;display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 16px;border-radius:999px;border:1px solid var(--cn-ink);background:var(--dk-paper,#fff);font:600 14px var(--text);color:var(--cn-ink);cursor:pointer;box-shadow:var(--shadow)}
 .gal .all .i{width:18px;height:18px}
 .gal .count{display:none}
+.gtrack{display:contents}
+.gmore{display:none!important}
 
 /* layout */
 .lay{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:56px;align-items:start;margin-top:32px}
@@ -250,10 +252,11 @@ body{background:var(--dk-paper,#fff)}
 .vw-st .nav:disabled{opacity:.25;cursor:default}
 .vw-st .nav.l{left:24px}.vw-st .nav.l .i{transform:rotate(180deg)}.vw-st .nav.r{right:24px}
 .vw-cap{text-align:center;font-size:13px;color:#A1A1AA;padding:12px 20px 0;flex:none}
-.vw-th{display:flex;gap:6px;justify-content:center;padding:14px 20px 20px;overflow-x:auto;flex:none;scrollbar-width:none}
+.vw-th{display:flex;gap:6px;padding:14px 20px 20px;overflow-x:auto;flex:none;scrollbar-width:none}
 .vw-th button{width:64px;height:46px;flex:none;padding:0;border:2px solid transparent;border-radius:6px;overflow:hidden;opacity:.5;cursor:pointer;background:none}
 .vw-th button[aria-current=true]{border-color:#fff;opacity:1}
 .vw-th img{width:100%;height:100%;object-fit:cover}
+.vw-th>:first-child{margin-left:auto}.vw-th>:last-child{margin-right:auto}
 .swipe-hint{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);display:none;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.14);font-size:13px;font-weight:600;white-space:nowrap;transition:opacity .4s}
 
 /* prototype controls */
@@ -285,10 +288,20 @@ body{background:var(--dk-paper,#fff)}
 }
 @media (max-width:700px){
   .crumbs{padding:12px 0}
-  .gal{grid-template-columns:1fr;grid-template-rows:280px;margin:0 -16px;border-radius:0}
-  .gal button[data-photo]:not(:first-child){display:none}
-  .gal .count{display:block;position:absolute;right:12px;bottom:12px;z-index:2;background:rgba(24,24,27,.7);color:#fff;font-size:12px;font-weight:600;padding:5px 10px;border-radius:999px}
-  .gal .all{left:12px;right:auto;bottom:12px;height:34px;font-size:13px;padding:0 12px}
+  /* a swipe row: the next photo peeks past the screen edge, and only the last tile has padding after it */
+  .gal{display:block;margin:0 -16px;border-radius:0;overflow:visible}
+  .gtrack{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;scroll-snap-type:x mandatory;padding:0 16px;scroll-padding-inline:16px;overscroll-behavior-x:contain}
+  .gtrack::-webkit-scrollbar{display:none}
+  .gtrack>button{flex:0 0 86%;height:280px;border-radius:14px;scroll-snap-align:start}
+  .gtrack>button:first-child{grid-row:auto}
+  .gmore{display:block!important;position:relative}
+  .gmore img{filter:brightness(.45)}
+  .gmore span{position:absolute;inset:0;display:grid;place-content:center;gap:2px;text-align:center;color:#fff;font-size:14px;font-weight:500}
+  .gmore b{font-size:24px;font-weight:700}
+  .gal.on-more .count,.gal.on-more .all{opacity:0;pointer-events:none}
+  .gal .count,.gal .all{transition:opacity .2s}
+  .gal .count{display:block;position:absolute;right:calc(100% - 16px - .86 * (100% - 32px) + 12px);bottom:12px;z-index:2;background:rgba(24,24,27,.7);color:#fff;font-size:12px;font-weight:600;padding:5px 10px;border-radius:999px}
+  .gal .all{left:28px;right:auto;bottom:12px;height:34px;font-size:13px;padding:0 12px}
   .lay{margin-top:20px}
   .thead h1{font-size:26px}
   .tacts .btn span{display:none}
@@ -304,7 +317,6 @@ body{background:var(--dk-paper,#fff)}
   .vw-st img{max-width:100%}
   .vw-st .nav{display:none}
   .swipe-hint{display:inline-flex}
-  .vw-th{justify-content:flex-start}
 }
 </style>
 </head>
@@ -450,7 +462,7 @@ body{background:var(--dk-paper,#fff)}
 
   <section class="blk" aria-labelledby="rl-h" style="border-top:1px solid var(--cn-border);margin-top:24px">
     <h2 id="rl-h">More tours from Kandy</h2>
-    <div class="rel" id="rel"></div>
+    <div class="rel xcar" id="rel" style="--xw:70%"></div>
   </section>
 </main>
 {{FOOTER}}
@@ -470,7 +482,7 @@ body{background:var(--dk-paper,#fff)}
   <div class="vw-h"><button class="close" data-vw-close><svg class="i"><use href="#i-x"/></svg>Close</button><span class="ct" id="vw-ct"></span><span style="width:84px"></span></div>
   <div class="vw-st" id="vw-st"><button class="nav l" data-vw="-1" aria-label="Previous photo"><svg class="i"><use href="#i-chev"/></svg></button><img id="vw-img" alt="" hidden><button class="nav r" data-vw="1" aria-label="Next photo"><svg class="i"><use href="#i-chev"/></svg></button><span class="swipe-hint" id="swipe-hint">Swipe for the next photo</span></div>
   <p class="vw-cap" id="vw-cap"></p>
-  <div class="vw-th" id="vw-th"></div>
+  <div class="vw-th xs fade" id="vw-th"></div>
 </div>
 
 <div class="proto" id="proto"><div class="pp" id="pp"></div><button data-proto><svg class="i"><use href="#i-gear"/></svg>Prototype controls</button></div>
@@ -492,9 +504,13 @@ const PH=[
  ['pidurangala.jpg','Stand-in photo: Pidurangala'],
  ['trincomalee.jpg','Stand-in photo: Trincomalee'],
 ];
-$('#gal').innerHTML=PH.slice(0,5).map(([f,c],i)=>`<button data-photo="${i}" aria-label="Open photo ${i+1} of ${PH.length}: ${c}"><img src="${pic(f)}" alt="${c}" ${i?'loading="lazy"':''}></button>`).join('')+
+$('#gal').innerHTML='<div class="gtrack" id="gtrack">'+PH.slice(0,5).map(([f,c],i)=>`<button data-photo="${i}" aria-label="Open photo ${i+1} of ${PH.length}: ${c}"><img src="${pic(f)}" alt="${c}" ${i?'loading="lazy"':''}></button>`).join('')+
+  `<button class="gmore" data-gallery><img src="${pic(PH[5][0])}" alt="" loading="lazy"><span><b>+${PH.length-5} more</b>Show all ${PH.length} photos</span></button></div>`+
   `<button class="all" data-gallery><svg class="i"><use href="#i-grid"/></svg>Show all ${PH.length} photos</button><span class="count">1 / ${PH.length}</span>`;
 $('#gm-n').textContent=`${PH.length} photos`;
+/* phones: the counter follows the swipe; on the last tile the counter and button step aside */
+(()=>{const t=$('#gtrack'),g=$('#gal');t.addEventListener('scroll',()=>{const b=t.querySelector('button');const i=Math.round(t.scrollLeft/(b.offsetWidth+8));
+  g.querySelector('.count').textContent=`${Math.min(i,4)+1} / ${PH.length}`;g.classList.toggle('on-more',i>=5)},{passive:true})})();
 /* photo tour: one wide photo, then two side by side, repeated. No categories for tours and activities. */
 $('#gm-grid').innerHTML=PH.map(([f,c],i)=>`<button class="${i%3===0?'wide':''}" data-photo="${i}" aria-label="Open photo ${i+1}: ${c}"><img src="${pic(f)}" alt="${c}" loading="lazy"></button>`).join('')+`<p class="gm-cap">Photos are uploaded by the host. Tap any photo to see it full screen.</p>`;
 let vi=0;

@@ -32,12 +32,19 @@ Each page has two versions. Open the `Ceylon-…` file: it's a single file with 
   - **Look:** brand orange is unchanged and photos are dimmed slightly. Light mode looks exactly as before.
   - **How it's built:** hard-coded light colours are written as `var(--dk-name, light colour)`, and the dark values are defined once at the end of `src/base.css`. A small script in `<head>` sets the theme before the page paints, so there's no white flash.
   - **Figma:** section 08 has 13 dark frames: homepage, header dropdown, listing, popup 4, checkout steps 1 and 4, confirmation and the visa tool on desktop; homepage, menu, listing, checkout and packing list on phones.
+- **Edge scrolling on phones** (Akila's carousel point from the call):
+  - **The rule:** a row that continues runs off the screen edge, so the next card or photo is cut off square there. The normal padding only appears at the row's real start and end, so a row never looks finished while more is to come.
+  - **New swipe rows on phones:** Freshly Added Experiences, the reviews, More tours from Kandy, and the listing photos. The photos now swipe, with the next one peeking and a "+5 more" tile at the end that opens the photo tour. The counter follows the swipe.
+  - **Rows that already scrolled:** the category chips and the breadcrumb follow the same rule. Next to "Back to results", the breadcrumb fades into the button instead. Rows inside a box, like the best time table and the photo viewer thumbnails, fade on the side that continues.
+  - **Fixed along the way:** the viewer thumbnails were centred, so the first few couldn't be reached when they overflowed. They now start at the first photo.
+  - **Code:** classes `.xs`, `.bleed`, `.fade` and `.xcar` in `src/base.css`. `edgeRows()` in `src/base.js` tracks which side has more.
+  - **Desktop:** looks exactly as before.
+  - **Figma:** section 09 shows each row at its start and end. The phone frames for the homepage, listing, breadcrumb and category (and the dark homepage and listing) were replaced.
 - **Next, each with the go-ahead first:**
-  1. edge-scroll hints on carousels and scroll rows
-  2. visa tool selected states
-  3. homepage reviews linked to their host
-  4. auto layout in Figma
-  5. the phrase cards tool
+  1. visa tool selected states
+  2. homepage reviews linked to their host
+  3. auto layout in Figma
+  4. the phrase cards tool
 
 ## Akila's feedback, round 3 (17 Oct)
 

@@ -118,6 +118,17 @@ function setupCrumbs(){
   });
 }
 setupCrumbs();
+/* scroll rows: mark which side has more, for the cut-off edge or fade (see .xs in base.css).
+   Rows filled in later by a page script are picked up by the observer. */
+function edgeRow(el){
+  if(el._xs)return;el._xs=1;
+  const upd=()=>{const m=el.scrollWidth-el.clientWidth;el.classList.toggle('more-l',m>2&&el.scrollLeft>2);el.classList.toggle('more-r',m>2&&el.scrollLeft<m-2)};
+  upd();el.addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd);
+  try{new ResizeObserver(upd).observe(el)}catch(e){}
+  new MutationObserver(()=>requestAnimationFrame(upd)).observe(el,{childList:true});
+}
+function edgeRows(){$$('.xs,.xcar').forEach(edgeRow)}
+edgeRows();document.addEventListener('DOMContentLoaded',edgeRows);addEventListener('load',edgeRows);
 /* a listing opened from search results keeps that trail */
 if(FROM_SEARCH)document.addEventListener('click',e=>{const a=e.target.closest('a[href]');if(!a)return;const h=a.getAttribute('href');if(/^(listing\.html|Ceylon-Listing\.html)(#|$)/.test(h))a.setAttribute('href',h.replace(/(\.html)/,`$1?from=search&q=${encodeURIComponent(FROM_Q)}`))},true);$('#msearch-f')?.addEventListener('submit',e=>e.preventDefault());
 

@@ -202,9 +202,36 @@ a.mm-card:hover{border-color:var(--cn-primary-line);background:var(--cn-primary-
   .crumbrow>nav{flex-wrap:nowrap!important;overflow-x:auto;white-space:nowrap;scrollbar-width:none;-webkit-overflow-scrolling:touch}
   .crumbrow>nav::-webkit-scrollbar{display:none}
   .crumbrow>nav>*{flex:none}
-  .crumbrow>nav.more-l{-webkit-mask-image:linear-gradient(90deg,transparent,#000 32px);mask-image:linear-gradient(90deg,transparent,#000 32px)}
-  .crumbrow>nav.more-r{-webkit-mask-image:linear-gradient(270deg,transparent,#000 32px);mask-image:linear-gradient(270deg,transparent,#000 32px)}
-  .crumbrow>nav.more-l.more-r{-webkit-mask-image:linear-gradient(90deg,transparent,#000 32px,#000 calc(100% - 32px),transparent);mask-image:linear-gradient(90deg,transparent,#000 32px,#000 calc(100% - 32px),transparent)}
+  /* the trail runs to the screen edge, so a cut-off crumb shows there is more; padding only at its real ends */
+  .crumbrow>nav{margin-right:calc(-1 * var(--gut));padding-right:var(--gut)!important}
+  .crumbrow>nav:first-child{margin-left:calc(-1 * var(--gut));padding-left:var(--gut)!important}
+  /* beside "Back to results" the trail can't run off the left edge, so it fades into the button instead */
+  .crumb-back+nav.more-l{-webkit-mask-image:linear-gradient(90deg,transparent,#000 28px);mask-image:linear-gradient(90deg,transparent,#000 28px)}
+}
+
+/* ---------- scroll rows (22 Oct call). A row that continues is cut off square at the edge it continues past,
+   so it never looks finished; the normal padding shows only at its real start and end.
+   .xs   any sideways-scrolling row (base.js keeps .more-l / .more-r up to date)
+   .bleed  on phones the row runs to the screen edges instead of stopping at the page padding
+   .fade   rows that sit inside a card or box fade out on the side that has more, as they can't reach the screen edge
+   .xcar   on phones a card grid becomes a swipe row, with the next card peeking past the edge */
+:root{--gut:24px}
+.xs{overflow-x:auto;scrollbar-width:none;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+.xs::-webkit-scrollbar{display:none}
+.xs.fade.more-r{-webkit-mask-image:linear-gradient(270deg,transparent,#000 40px);mask-image:linear-gradient(270deg,transparent,#000 40px)}
+.xs.fade.more-l{-webkit-mask-image:linear-gradient(90deg,transparent,#000 40px);mask-image:linear-gradient(90deg,transparent,#000 40px)}
+.xs.fade.more-l.more-r{-webkit-mask-image:linear-gradient(90deg,transparent,#000 40px,#000 calc(100% - 40px),transparent);mask-image:linear-gradient(90deg,transparent,#000 40px,#000 calc(100% - 40px),transparent)}
+@media (max-width:760px){
+  .xs.bleed{margin-left:calc(-1 * var(--gut));margin-right:calc(-1 * var(--gut));padding-left:var(--gut);padding-right:var(--gut);scroll-padding-inline:var(--gut)}
+  .xs.bleed.fade{-webkit-mask-image:none;mask-image:none}
+}
+@media (max-width:600px){
+  :root{--gut:16px}
+  .xcar{display:flex!important;gap:12px!important;overflow-x:auto;scrollbar-width:none;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;
+    margin-left:calc(-1 * var(--gut));margin-right:calc(-1 * var(--gut));padding:0 var(--gut) 4px;scroll-padding-inline:var(--gut)}
+  .xcar::-webkit-scrollbar{display:none}
+  .xcar>*{flex:0 0 var(--xw,78%);min-width:0;scroll-snap-align:start}
+}
 }
 
 /* ---------- dark mode: html[data-theme=dark], set before paint by the script in <head> ----------
@@ -680,6 +707,17 @@ function setupCrumbs(){
   });
 }
 setupCrumbs();
+/* scroll rows: mark which side has more, for the cut-off edge or fade (see .xs in base.css).
+   Rows filled in later by a page script are picked up by the observer. */
+function edgeRow(el){
+  if(el._xs)return;el._xs=1;
+  const upd=()=>{const m=el.scrollWidth-el.clientWidth;el.classList.toggle('more-l',m>2&&el.scrollLeft>2);el.classList.toggle('more-r',m>2&&el.scrollLeft<m-2)};
+  upd();el.addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd);
+  try{new ResizeObserver(upd).observe(el)}catch(e){}
+  new MutationObserver(()=>requestAnimationFrame(upd)).observe(el,{childList:true});
+}
+function edgeRows(){$$('.xs,.xcar').forEach(edgeRow)}
+edgeRows();document.addEventListener('DOMContentLoaded',edgeRows);addEventListener('load',edgeRows);
 /* a listing opened from search results keeps that trail */
 if(FROM_SEARCH)document.addEventListener('click',e=>{const a=e.target.closest('a[href]');if(!a)return;const h=a.getAttribute('href');if(/^(listing\.html|Ceylon-Listing\.html)(#|$)/.test(h))a.setAttribute('href',h.replace(/(\.html)/,`$1?from=search&q=${encodeURIComponent(FROM_Q)}`))},true);$('#msearch-f')?.addEventListener('submit',e=>e.preventDefault());
 
