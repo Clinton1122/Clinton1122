@@ -87,6 +87,11 @@ def photo(u):
         subprocess.run(['convert', src, '-resize', '1200x1200>', '-strip', '-quality', '70', out], check=True)
     return open(out, 'rb').read()
 
+# runs before the page paints, so a dark-mode visitor never sees a white flash.
+# ?theme=dark or ?theme=light in the address overrides it (used for screenshots).
+THEME_HEAD = '''<meta name="color-scheme" content="light dark">
+<script>(function(){var t=null,q=/[?&]theme=(dark|light)/.exec(location.search);try{t=q?q[1]:localStorage.getItem('cn-theme')}catch(e){}if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)})()</script>'''
+
 def build(name):
     s = part(os.path.join('pages', name + '.html'))
     if s.startswith('<!--TOOL'):
@@ -94,6 +99,7 @@ def build(name):
     for k, f in [('TOOLS_CSS', 'tools.css'), ('TOOLS_JS', 'tools.js'), ('BOOKING_CSS', 'booking.css'), ('BOOKING_JS', 'booking.js'), ('BASE_CSS', 'base.css'), ('SPRITE', 'sprite.svg'), ('HEADER', 'header.html'), ('FOOTER', 'footer.html'), ('BASE_JS', 'base.js')]:
         s = s.replace('{{%s}}' % k, part(f))
     s = s.replace('{{IMG2}}', IMG2).replace('{{IMG}}', IMG)
+    s = s.replace('<head>', '<head>\n' + THEME_HEAD, 1)
     open(os.path.join(OUT, name + '.html'), 'w').write(s)
     # standalone: inline every photo the page names
     used = sorted(set(re.findall(r"[a-z0-9\-]+(?=\.jpg)", s)))

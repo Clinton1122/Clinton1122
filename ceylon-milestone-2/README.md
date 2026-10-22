@@ -26,13 +26,18 @@ Each page has two versions. Open the `Ceylon-…` file: it's a single file with 
 - **Mobile breadcrumb:** on phones the breadcrumb stays on one line and scrolls sideways. It opens scrolled to the current page, with a fade on whichever side has more. Short trails that nearly fit don't scroll.
 - **Back to results:** a search from the homepage or header opens the category page with the results. Any listing opened from there shows "Back to results" in front of the breadcrumb, which returns to the same search. A listing opened any other way has no back link.
 - **Figma:** all Milestone 2 frames were replaced with the tidied versions. M L 06 and M L 07 show the new breadcrumb, and the "Read me — round 4" frame summarises this round.
+- **Dark mode:**
+  - **Switch:** a sun and moon button in the header (desktop and checkout), and a "Dark mode" switch in the phone menu.
+  - **Default and memory:** it follows the device setting until the traveller picks one, then remembers the choice on every page. Add `?theme=dark` or `?theme=light` to any page address to force one.
+  - **Look:** brand orange is unchanged and photos are dimmed slightly. Light mode looks exactly as before.
+  - **How it's built:** hard-coded light colours are written as `var(--dk-name, light colour)`, and the dark values are defined once at the end of `src/base.css`. A small script in `<head>` sets the theme before the page paints, so there's no white flash.
+  - **Figma:** section 08 has 13 dark frames: homepage, header dropdown, listing, popup 4, checkout steps 1 and 4, confirmation and the visa tool on desktop; homepage, menu, listing, checkout and packing list on phones.
 - **Next, each with the go-ahead first:**
-  1. dark mode
-  2. edge-scroll hints on carousels and scroll rows
-  3. visa tool selected states
-  4. homepage reviews linked to their host
-  5. auto layout in Figma
-  6. the phrase cards tool
+  1. edge-scroll hints on carousels and scroll rows
+  2. visa tool selected states
+  3. homepage reviews linked to their host
+  4. auto layout in Figma
+  5. the phrase cards tool
 
 ## Akila's feedback, round 3 (17 Oct)
 

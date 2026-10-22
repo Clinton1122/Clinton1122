@@ -150,3 +150,11 @@ document.addEventListener('click',e=>{
   if(b.tagName==='A'&&b.getAttribute('href')==='#'&&!b.dataset.auth){e.preventDefault();toast('Opens the page (prototype)')}
 });
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeMM();$('#drawer')?.classList.remove('open');$('#scrim')?.classList.remove('open');$('#curmenu')?.classList.remove('open');if($('#msearch')&&!$('#msearch').hidden){$('#msearch').hidden=true;document.body.style.overflow=''}$('#auth')?.classList.remove('open');$('#auth-scrim')?.classList.remove('open')}});
+
+/* ---------- dark mode switch: the choice is remembered, otherwise the device setting is followed ---------- */
+const themeNow=()=>document.documentElement.getAttribute('data-theme')==='dark'?'dark':'light';
+function themeLabels(){const d=themeNow()==='dark';$$('[data-theme-toggle]').forEach(b=>{if(b.classList.contains('dtheme')){b.setAttribute('aria-pressed',d);}else{b.setAttribute('aria-label',d?'Switch to light mode':'Switch to dark mode');b.title=d?'Light mode':'Dark mode';}})}
+function setTheme(t,save){document.documentElement.setAttribute('data-theme',t);if(save)try{localStorage.setItem('cn-theme',t)}catch(e){}themeLabels();}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-theme-toggle]');if(b)setTheme(themeNow()==='dark'?'light':'dark',true)});
+try{matchMedia('(prefers-color-scheme: dark)').addEventListener('change',e=>{let s=null;try{s=localStorage.getItem('cn-theme')}catch(_){}if(!s)setTheme(e.matches?'dark':'light')})}catch(e){}
+themeLabels();

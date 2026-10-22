@@ -10,24 +10,24 @@ cta_p: Tours and activities in the regions that suit your dates.
 -->
 <style>
 .months{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
-.months button{height:40px;border-radius:10px;border:1px solid var(--cn-border);background:#fff;font:600 13px var(--text);color:var(--cn-ink);cursor:pointer}
-.months button[aria-pressed=true]{background:var(--cn-ink);border-color:var(--cn-ink);color:#fff}
+.months button{height:40px;border-radius:10px;border:1px solid var(--cn-border);background:var(--dk-paper,#fff);font:600 13px var(--text);color:var(--cn-ink);cursor:pointer}
+.months button[aria-pressed=true]{background:var(--cn-ink);border-color:var(--cn-ink);color:var(--dk-on-ink,#fff)}
 .verdicts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
 .vd{border-radius:16px;padding:14px 16px;border:1px solid var(--cn-border)}
 .vd b{display:block;font-size:15px;color:var(--cn-ink)}
 .vd small{display:block;font-size:12.5px;margin-top:3px}
 .vd .lv{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;margin-bottom:8px;padding:3px 9px;border-radius:999px}
 .lv.g{background:var(--cn-primary-tint);color:var(--cn-primary-text)}
-.lv.m{background:#F4F4F5;color:var(--cn-body)}
-.lv.w{background:#E4E4E7;color:#3F3F46}
+.lv.m{background:var(--dk-soft,#F4F4F5);color:var(--cn-body)}
+.lv.w{background:var(--dk-track,#E4E4E7);color:var(--dk-body,#3F3F46)}
 .vd.mine{border-color:var(--cn-primary);box-shadow:inset 0 0 0 1px var(--cn-primary)}
 .heat{width:100%;border-collapse:separate;border-spacing:3px;margin-top:14px;font-size:12px}
 .heat th{font-weight:600;color:var(--cn-muted);text-align:center;padding:4px 0}
 .heat th.rg{text-align:left;color:var(--cn-ink);font-size:13px;padding-right:8px;white-space:nowrap}
 .heat td{position:relative;height:34px;border-radius:8px;text-align:center;font-weight:600}
-.heat td.g{background:#FBD7C5;color:#8A2E0C}
-.heat td.m{background:#F1F1F3;color:#71717A}
-.heat td.w{background:#D4D4D8;color:#3F3F46}
+.heat td.g{background:var(--dk-peach,#FBD7C5);color:var(--dk-peach-ink,#8A2E0C)}
+.heat td.m{background:var(--dk-soft,#F1F1F3);color:var(--dk-muted,#71717A)}
+.heat td.w{background:var(--dk-track,#D4D4D8);color:var(--dk-body,#3F3F46)}
 .heat td.sel{outline:2px solid var(--cn-ink);outline-offset:-2px}
 .heat col.sel{background:none}
 .key{display:flex;flex-wrap:wrap;gap:14px;margin-top:10px;font-size:12.5px;color:var(--cn-muted)}
@@ -56,7 +56,7 @@ cta_p: Tours and activities in the regions that suit your dates.
   <div class="res">
     <section class="rcard" aria-labelledby="v-h"><h2 id="v-h"></h2><p id="v-p" style="margin-top:6px"></p><div class="verdicts" id="verdicts"></div></section>
     <section class="rcard" aria-labelledby="h-h"><h2 id="h-h">Month by month</h2><div class="scroll-x"><table class="heat" id="heat"></table></div>
-      <div class="key"><span><i style="background:#FBD7C5"></i>Dry and sunny</span><span><i style="background:#F1F1F3"></i>Mixed, some showers</span><span><i style="background:#D4D4D8"></i>Monsoon, often wet</span></div></section>
+      <div class="key"><span><i style="background:var(--dk-peach,#FBD7C5)"></i>Dry and sunny</span><span><i style="background:var(--dk-soft,#F1F1F3)"></i>Mixed, some showers</span><span><i style="background:var(--dk-track,#D4D4D8)"></i>Monsoon, often wet</span></div></section>
     <section class="rcard" aria-labelledby="e-h"><h2 id="e-h">What’s on</h2><ul class="evs" id="evs"></ul></section>
     <section class="rcard" aria-labelledby="p-h"><h2 id="p-h">Poya days</h2><p style="margin-top:6px;font-size:14px">Every full moon is a public holiday. Temples are busy and beautiful, and shops can’t sell alcohol. Some hotels serve it to guests.</p><div class="poyas" id="poyas"></div><p class="note">Dates are worked out from the full moon and can move by a day. We’ll use the official calendar in the live tool.</p></section>
   </div>
