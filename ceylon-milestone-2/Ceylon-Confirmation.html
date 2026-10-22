@@ -196,7 +196,9 @@ a.mm-card:hover{border-color:var(--cn-primary-line);background:var(--cn-primary-
 .trow .ic{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;flex:none;background:#FDE6D8;color:#D9541E}
 .trow.bnpl .ic{background:#EDE6FB;color:#7650D6}
 .trow .ic .i{width:17px;height:17px}
-.trow .tx{font-size:13.5px;line-height:1.5;color:var(--cn-muted);padding-top:5px}
+.trow .tx{font-size:13.5px;line-height:1.5;color:var(--cn-muted);padding-top:5px;display:flex;flex-direction:column;align-items:flex-start;gap:2px}
+.trow .td{display:block}
+.trow .tl.sm{font-size:13px;margin-top:2px}
 .trow .tl{display:inline;padding:0;border:0;background:none;font:500 14px var(--text);color:var(--cn-ink);text-decoration:underline;text-decoration-color:#B8B8BE;text-underline-offset:3px;cursor:pointer}
 .trow .tl:hover{text-decoration-color:currentColor}
 .trow .tl.plain{text-decoration:none;cursor:default}
@@ -294,7 +296,7 @@ body{background:var(--cn-page)}
 .hero-ok{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center}
 .okic{width:64px;height:64px;border-radius:50%;background:var(--cn-primary);color:#fff;display:grid;place-items:center;box-shadow:0 0 0 8px var(--cn-primary-tint)}
 .okic .i{width:32px;height:32px;stroke-width:2.6}
-.hero-ok h1{font-size:36px;letter-spacing:-.035em;font-weight:700;line-height:1.1}
+.hero-ok h1{font-size:36px;letter-spacing:-.02em;font-weight:700;line-height:1.1}
 .hero-ok p{margin-top:6px;font-size:16px}
 .hero-ok p b{color:var(--cn-ink)}
 .refbar{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center;margin-top:24px;padding:14px 18px;background:#fff;border:1px solid var(--cn-border);border-radius:16px;font-size:14px}
@@ -728,14 +730,14 @@ const chargeOn=()=>new Date(startAt()-BNPL_D*DAY);
 function trustRows(sc){
   const s=startAt(), fee='less a 5% payment processing fee';
   const icon=n=>`<span class="ic"><svg class="i"><use href="#i-${n}"/></svg></span>`;
-  if(sc===3) return `<div class="trow amber">${icon('alert')}<div class="tx"><button class="tl" data-pop="cancel">Non-refundable</button>, ${L.policy==='nonref'?'this listing doesn’t offer refunds. Check your date and group before you book.':'cancellations within 48 hours of your start time are not eligible for a refund.'}</div></div>`;
+  if(sc===3) return `<div class="trow amber">${icon('alert')}<div class="tx"><button class="tl" data-pop="cancel">Non-refundable</button><span class="td">${L.policy==='nonref'?'This listing doesn’t offer refunds. Check your date and group before you book.':'Cancellations within 48 hours of your start time are not eligible for a refund.'}</span></div></div>`;
   const cRow=L.policy==='custom'
-    ? `<div class="trow">${icon('doc')}<div class="tx"><b class="tl plain">${L.hostShort}’s cancellation policy</b>, ${L.customShort} <button class="tl" data-goto="cancellation-policy" style="font-size:13px">Read ${L.hostShort}’s full policy</button></div></div>`
-    : `<div class="trow">${icon('clockback')}<div class="tx"><button class="tl" data-pop="cancel">Free cancellation</button>, ${s?`cancel before ${dLong(cutoff())} · ${ft(cutoff())} for a full refund, ${fee}.`:`cancel up to 48 hours before your start time for a full refund, ${fee}.`}</div></div>`;
+    ? `<div class="trow">${icon('doc')}<div class="tx"><b class="tl plain">${L.hostShort}’s cancellation policy</b><span class="td">${L.customShort}</span><button class="tl sm" data-goto="cancellation-policy">Read ${L.hostShort}’s full policy</button></div></div>`
+    : `<div class="trow">${icon('clockback')}<div class="tx"><button class="tl" data-pop="cancel">Free cancellation</button><span class="td">${s?`Cancel before ${dLong(cutoff())} · ${ft(cutoff())} for a full refund, ${fee}.`:`Cancel up to 48 hours before your start time for a full refund, ${fee}.`}</span></div></div>`;
   if(!L.bnpl)return cRow;
   const bRow=sc===1
-    ? `<div class="trow bnpl">${icon('wallet')}<div class="tx"><button class="tl" data-pop="bnpl">Reserve now &amp; pay later</button>, secure your spot today. Your card is charged automatically 5 days before your experience${s?`, on ${dLong(chargeOn())}`:''}.</div></div>`
-    : `<div class="trow off">${icon('card')}<div class="tx"><b class="tl">Pay now required</b>, reserve now &amp; pay later isn’t available within 5 days of the service date.</div></div>`;
+    ? `<div class="trow bnpl">${icon('wallet')}<div class="tx"><button class="tl" data-pop="bnpl">Reserve now &amp; pay later</button><span class="td">Secure your spot today. Your card is charged automatically 5 days before your experience${s?`, on ${dLong(chargeOn())}`:''}.</span></div></div>`
+    : `<div class="trow off">${icon('card')}<div class="tx"><b class="tl">Pay now required</b><span class="td">Reserve now &amp; pay later isn’t available within 5 days of the service date.</span></div></div>`;
   return cRow+bRow;
 }
 /* ---------- popups 4 and 5 ---------- */

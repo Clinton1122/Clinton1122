@@ -56,14 +56,14 @@ const chargeOn=()=>new Date(startAt()-BNPL_D*DAY);
 function trustRows(sc){
   const s=startAt(), fee='less a 5% payment processing fee';
   const icon=n=>`<span class="ic"><svg class="i"><use href="#i-${n}"/></svg></span>`;
-  if(sc===3) return `<div class="trow amber">${icon('alert')}<div class="tx"><button class="tl" data-pop="cancel">Non-refundable</button>, ${L.policy==='nonref'?'this listing doesn’t offer refunds. Check your date and group before you book.':'cancellations within 48 hours of your start time are not eligible for a refund.'}</div></div>`;
+  if(sc===3) return `<div class="trow amber">${icon('alert')}<div class="tx"><button class="tl" data-pop="cancel">Non-refundable</button><span class="td">${L.policy==='nonref'?'This listing doesn’t offer refunds. Check your date and group before you book.':'Cancellations within 48 hours of your start time are not eligible for a refund.'}</span></div></div>`;
   const cRow=L.policy==='custom'
-    ? `<div class="trow">${icon('doc')}<div class="tx"><b class="tl plain">${L.hostShort}’s cancellation policy</b>, ${L.customShort} <button class="tl" data-goto="cancellation-policy" style="font-size:13px">Read ${L.hostShort}’s full policy</button></div></div>`
-    : `<div class="trow">${icon('clockback')}<div class="tx"><button class="tl" data-pop="cancel">Free cancellation</button>, ${s?`cancel before ${dLong(cutoff())} · ${ft(cutoff())} for a full refund, ${fee}.`:`cancel up to 48 hours before your start time for a full refund, ${fee}.`}</div></div>`;
+    ? `<div class="trow">${icon('doc')}<div class="tx"><b class="tl plain">${L.hostShort}’s cancellation policy</b><span class="td">${L.customShort}</span><button class="tl sm" data-goto="cancellation-policy">Read ${L.hostShort}’s full policy</button></div></div>`
+    : `<div class="trow">${icon('clockback')}<div class="tx"><button class="tl" data-pop="cancel">Free cancellation</button><span class="td">${s?`Cancel before ${dLong(cutoff())} · ${ft(cutoff())} for a full refund, ${fee}.`:`Cancel up to 48 hours before your start time for a full refund, ${fee}.`}</span></div></div>`;
   if(!L.bnpl)return cRow;
   const bRow=sc===1
-    ? `<div class="trow bnpl">${icon('wallet')}<div class="tx"><button class="tl" data-pop="bnpl">Reserve now &amp; pay later</button>, secure your spot today. Your card is charged automatically 5 days before your experience${s?`, on ${dLong(chargeOn())}`:''}.</div></div>`
-    : `<div class="trow off">${icon('card')}<div class="tx"><b class="tl">Pay now required</b>, reserve now &amp; pay later isn’t available within 5 days of the service date.</div></div>`;
+    ? `<div class="trow bnpl">${icon('wallet')}<div class="tx"><button class="tl" data-pop="bnpl">Reserve now &amp; pay later</button><span class="td">Secure your spot today. Your card is charged automatically 5 days before your experience${s?`, on ${dLong(chargeOn())}`:''}.</span></div></div>`
+    : `<div class="trow off">${icon('card')}<div class="tx"><b class="tl">Pay now required</b><span class="td">Reserve now &amp; pay later isn’t available within 5 days of the service date.</span></div></div>`;
   return cRow+bRow;
 }
 /* ---------- popups 4 and 5 ---------- */

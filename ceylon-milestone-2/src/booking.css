@@ -5,7 +5,9 @@
 .trow .ic{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;flex:none;background:#FDE6D8;color:#D9541E}
 .trow.bnpl .ic{background:#EDE6FB;color:#7650D6}
 .trow .ic .i{width:17px;height:17px}
-.trow .tx{font-size:13.5px;line-height:1.5;color:var(--cn-muted);padding-top:5px}
+.trow .tx{font-size:13.5px;line-height:1.5;color:var(--cn-muted);padding-top:5px;display:flex;flex-direction:column;align-items:flex-start;gap:2px}
+.trow .td{display:block}
+.trow .tl.sm{font-size:13px;margin-top:2px}
 .trow .tl{display:inline;padding:0;border:0;background:none;font:500 14px var(--text);color:var(--cn-ink);text-decoration:underline;text-decoration-color:#B8B8BE;text-underline-offset:3px;cursor:pointer}
 .trow .tl:hover{text-decoration-color:currentColor}
 .trow .tl.plain{text-decoration:none;cursor:default}

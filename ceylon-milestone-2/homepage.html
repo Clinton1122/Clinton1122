@@ -194,7 +194,7 @@ a.mm-card:hover{border-color:var(--cn-primary-line);background:var(--cn-primary-
 /* ---------- hero: map stays, search is the star ---------- */
 .hero{position:relative;z-index:3;padding:28px 0 64px;background:radial-gradient(1100px 480px at 85% 0%,#FFE1CF 0%,rgba(255,225,207,0) 60%),linear-gradient(180deg,#FFF5EE 0%,#FFF9F5 70%,#fff 100%)}
 .htop{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:24px;align-items:center}
-.hero h1{font-size:68px;line-height:.98;letter-spacing:-.045em;font-weight:700}
+.hero h1{font-size:68px;line-height:1.06;letter-spacing:-.02em;font-weight:700}
 .hero h1 span{color:var(--cn-primary)}
 .hero .lede{font-size:18px;line-height:1.55;margin-top:18px;max-width:42ch}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
@@ -278,7 +278,7 @@ a.mm-card:hover{border-color:var(--cn-primary-line);background:var(--cn-primary-
 .sec{padding:80px 0}
 .sec.alt{background:var(--cn-page)}
 .sh{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:28px}
-.sh h2{font-size:36px;line-height:1.08;letter-spacing:-.035em;font-weight:700}
+.sh h2{font-size:36px;line-height:1.12;letter-spacing:-.02em;font-weight:700}
 .sh p{margin-top:8px;max-width:60ch}
 
 /* start with what you want to do: photo tiles */
@@ -286,14 +286,14 @@ a.mm-card:hover{border-color:var(--cn-primary-line);background:var(--cn-primary-
 .wtile{position:relative;display:block;min-height:340px;border-radius:22px;overflow:hidden;color:#fff;text-decoration:none;isolation:isolate}
 .wtile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform .6s}
 .wtile.big:hover img{transform:scale(1.04)}
-.wtile::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(20,12,6,0) 25%,rgba(20,12,6,.82))}
+.wtile::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(20,12,6,0) 10%,rgba(20,12,6,.55) 45%,rgba(20,12,6,.9))}
 .wtile.soon img{filter:saturate(.9)}
 .wtile.soon::after{background:linear-gradient(180deg,rgba(24,24,27,.05) 30%,rgba(24,24,27,.85))}
 .wcap{position:absolute;left:24px;right:24px;bottom:22px;display:flex;flex-direction:column;gap:6px}
-.wcap .k{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#FDBA9B}
-.wtile.soon .wcap .k{color:#FDBA9B}
+.wcap .k{display:block;font-size:12px;line-height:16px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#FFD2BD}
+.wtile.soon .wcap .k{color:#FFD2BD}
 .wtile.soon .wcap b{font-size:20px}
-.wcap b{font-size:24px;line-height:1.15;letter-spacing:-.02em}
+.wcap b{display:block;font-size:24px;line-height:1.2;letter-spacing:-.02em}
 .wchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 .wchips span{font-size:12.5px;font-weight:500;padding:5px 11px;border-radius:999px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(4px)}
 .wgo{display:inline-flex;align-items:center;gap:8px;margin-top:10px;font-weight:600;font-size:14px;color:#fff}
@@ -352,7 +352,7 @@ a.mm-card:hover{border-color:var(--cn-primary-line);background:var(--cn-primary-
 .vch .tear::before,.vch .tear::after{content:"";position:absolute;top:-11px;width:20px;height:20px;border-radius:50%;background:var(--cn-ink)}
 .vch .tear::before{left:-10px}.vch .tear::after{right:-10px}
 .vch .vf{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 20px 16px;font-size:12px;color:var(--cn-muted)}
-.vch .bars{height:26px;width:110px;background:repeating-linear-gradient(90deg,var(--cn-ink) 0 2px,transparent 2px 4px,var(--cn-ink) 4px 5px,transparent 5px 8px,var(--cn-ink) 8px 11px,transparent 11px 12px)}
+.vch .bars{flex:none;color:var(--cn-ink)}
 .costp .also{font-size:14px;color:#fff;margin-top:14px;display:flex;align-items:center;gap:8px}
 .costp .also .i{width:18px;height:18px;color:var(--cn-primary)}
 .fphoto{width:64px;height:64px;border-radius:50%;flex:none;object-fit:cover;display:grid;place-items:center;font:700 18px var(--text);background:#EADFD6;color:#7A4A2A;box-shadow:0 0 0 3px #fff,0 0 0 5px var(--cn-primary-line)}
@@ -365,7 +365,7 @@ body.hs-vis .hbar .hsearch,body.hs-vis .hbar [data-open-search]{visibility:hidde
 /* every cost */
 .cost{display:grid;grid-template-columns:1.55fr 1fr;gap:24px;align-items:stretch}
 .costp{background:var(--cn-ink);color:#D4D4D8;border-radius:22px;padding:40px;display:grid;grid-template-columns:.9fr 1.1fr;gap:32px;align-items:center}
-.costp h2{color:#fff;font-size:32px;line-height:1.1;letter-spacing:-.03em}
+.costp h2{color:#fff;font-size:32px;line-height:1.1;letter-spacing:-.02em}
 .costp>div>p{margin-top:12px}
 .bill{background:#fff;border-radius:16px;padding:20px;color:var(--cn-body);font-size:13px}
 .bill .t{font-weight:600;color:var(--cn-ink);font-size:14px}
@@ -386,7 +386,7 @@ body.hs-vis .hbar .hsearch,body.hs-vis .hbar [data-open-search]{visibility:hidde
 
 /* how booking works */
 .how{background:var(--cn-deep);color:#E7D6CB}
-.how h2{color:#fff;font-size:36px;letter-spacing:-.035em}
+.how h2{color:#fff;font-size:36px;letter-spacing:-.02em}
 .howin{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:56px;align-items:center}
 .howimg{position:relative;border-radius:24px;overflow:hidden;aspect-ratio:4/3.4}
 .howimg img{width:100%;height:100%;object-fit:cover}
@@ -414,7 +414,7 @@ body.hs-vis .hbar .hsearch,body.hs-vis .hbar [data-open-search]{visibility:hidde
 
 /* faq */
 .faqw{display:grid;grid-template-columns:.8fr 1.2fr;gap:48px}
-.faqw h2{font-size:36px;letter-spacing:-.035em}
+.faqw h2{font-size:36px;letter-spacing:-.02em}
 .faqw .side p{margin-top:12px}
 .faq details{border-top:1px solid var(--cn-border)}
 .faq details:last-child{border-bottom:1px solid var(--cn-border)}
@@ -426,7 +426,7 @@ body.hs-vis .hbar .hsearch,body.hs-vis .hbar [data-open-search]{visibility:hidde
 
 /* seo */
 .seo{display:grid;grid-template-columns:.8fr 1.2fr;gap:48px}
-.seo h2{font-size:28px;letter-spacing:-.03em}
+.seo h2{font-size:28px;letter-spacing:-.02em}
 .seo p{font-size:14.5px;color:var(--cn-body)}
 .seo p+p{margin-top:10px}
 .seo a{color:var(--cn-primary-text);font-weight:600}
@@ -437,7 +437,7 @@ body.hs-vis .hbar .hsearch,body.hs-vis .hbar [data-open-search]{visibility:hidde
 
 /* planning kit */
 .kit{background:var(--cn-primary);color:#FFF1EA;border-radius:22px;padding:44px;display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center;position:relative;overflow:hidden}
-.kit h2{color:#fff;font-size:32px;line-height:1.1;letter-spacing:-.03em}
+.kit h2{color:#fff;font-size:32px;line-height:1.1;letter-spacing:-.02em}
 .kit p{margin-top:10px}
 .kit form{display:flex;gap:8px;background:#fff;border-radius:999px;padding:6px}
 .kit input{flex:1;min-width:0;border:0;outline:0;padding:0 16px;font:400 15px var(--text);background:none}
@@ -461,11 +461,12 @@ body.hs-vis .hbar .hsearch,body.hs-vis .hbar [data-open-search]{visibility:hidde
 .hostband::before{content:"";position:absolute;right:-120px;top:-120px;width:420px;height:420px;border-radius:50%;background:rgba(255,255,255,.08)}
 .hostin{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:56px;align-items:center;position:relative}
 .hostband .k{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#FFD3BF}
-.hostband h2{color:#fff;font-size:40px;line-height:1.08;letter-spacing:-.035em;margin-top:10px;max-width:20ch}
+.hostband h2{color:#fff;font-size:40px;line-height:1.12;letter-spacing:-.02em;margin-top:10px;max-width:20ch}
 .hostband .lede{font-size:17px;margin-top:14px;max-width:46ch;color:#FFE9DE}
 .hben{list-style:none;padding:0;margin:26px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:16px 24px}
 .hben li{display:flex;gap:12px;align-items:flex-start;font-size:14px}
-.hben .i{width:36px;height:36px;padding:8px;border-radius:12px;background:rgba(255,255,255,.16);color:#fff;flex:none}
+.hben .hic{width:36px;height:36px;border-radius:12px;background:rgba(255,255,255,.16);color:#fff;flex:none;display:grid;place-items:center}
+.hben .hic .i{width:20px;height:20px}
 .hben b{display:block;color:#fff;font-size:15px}
 .hcta{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}
 .hostband .btn.primary{background:#fff;border-color:#fff;color:var(--cn-primary-text);min-height:52px;padding:0 26px;font-size:15px}
@@ -752,7 +753,7 @@ body.hs-vis .hbar .hsearch,body.hs-vis .hbar [data-open-search]{visibility:hidde
           </ul>
         </div>
         <div class="tear"></div>
-        <div class="vf"><span>Visa •••• 4242<br>Hosted by Spice Kitchen Kandy</span><span class="bars" aria-hidden="true"></span></div>
+        <div class="vf"><span>Visa •••• 4242<br>Spice Kitchen Kandy</span><svg class="bars" viewBox="0 0 110 26" width="110" height="26" aria-hidden="true" fill="currentColor"><rect x="0" y="0" width="2" height="26"/><rect x="4" y="0" width="1" height="26"/><rect x="7" y="0" width="3" height="26"/><rect x="12" y="0" width="1" height="26"/><rect x="15" y="0" width="2" height="26"/><rect x="19" y="0" width="1" height="26"/><rect x="22" y="0" width="3" height="26"/><rect x="27" y="0" width="2" height="26"/><rect x="31" y="0" width="1" height="26"/><rect x="34" y="0" width="2" height="26"/><rect x="38" y="0" width="3" height="26"/><rect x="43" y="0" width="1" height="26"/><rect x="46" y="0" width="2" height="26"/><rect x="50" y="0" width="1" height="26"/><rect x="53" y="0" width="3" height="26"/><rect x="58" y="0" width="1" height="26"/><rect x="61" y="0" width="2" height="26"/><rect x="65" y="0" width="3" height="26"/><rect x="70" y="0" width="1" height="26"/><rect x="73" y="0" width="2" height="26"/><rect x="77" y="0" width="1" height="26"/><rect x="80" y="0" width="3" height="26"/><rect x="85" y="0" width="2" height="26"/><rect x="89" y="0" width="1" height="26"/><rect x="92" y="0" width="2" height="26"/><rect x="96" y="0" width="3" height="26"/><rect x="101" y="0" width="1" height="26"/><rect x="104" y="0" width="2" height="26"/><rect x="108" y="0" width="2" height="26"/></svg></div>
       </div>
     </div>
     <div class="quote">
@@ -845,10 +846,10 @@ body.hs-vis .hbar .hsearch,body.hs-vis .hbar [data-open-search]{visibility:hidde
       <h2 id="host-h">Share the Real Sri Lanka. Connect Directly with Global Travellers.</h2>
       <p class="lede">Travellers are discovering Sri Lanka on Ceylon Nooks. Listing is free, and the guides who list first are the ones travellers see first.</p>
       <ul class="hben">
-        <li><svg class="i"><use href="#i-tag"/></svg><span><b>You’re the Boss of Your Business</b>Set your own fair rates, control your cancellation policies, and choose to offer pay-later options on your terms.</span></li>
-        <li><svg class="i"><use href="#i-chat"/></svg><span><b>Direct Chats, Zero Confusion</b>Manage all bookings and message travellers directly in one place to customise their trip before they even arrive.</span></li>
-        <li><svg class="i"><use href="#i-badge"/></svg><span><b>Turn Your Badges into Bookings</b>Stand out instantly. Display your SLTDA registration and verified police clearance directly on your profile to build instant trust.</span></li>
-        <li><svg class="i"><use href="#i-card"/></svg><span><b>Twice a week, Direct to Your Bank</b>Travellers pay in their own currency. You’re paid once the tour starts, not after it ends.</span></li>
+        <li><span class="hic"><svg class="i"><use href="#i-tag"/></svg></span><span><b>You’re the Boss of Your Business</b>Set your own fair rates, control your cancellation policies, and choose to offer pay-later options on your terms.</span></li>
+        <li><span class="hic"><svg class="i"><use href="#i-chat"/></svg></span><span><b>Direct Chats, Zero Confusion</b>Manage all bookings and message travellers directly in one place to customise their trip before they even arrive.</span></li>
+        <li><span class="hic"><svg class="i"><use href="#i-badge"/></svg></span><span><b>Turn Your Badges into Bookings</b>Stand out instantly. Display your SLTDA registration and verified police clearance directly on your profile to build instant trust.</span></li>
+        <li><span class="hic"><svg class="i"><use href="#i-card"/></svg></span><span><b>Twice a week, Direct to Your Bank</b>Travellers pay in their own currency. You’re paid once the tour starts, not after it ends.</span></li>
       </ul>
       <div class="hcta"><a class="btn primary" href="#">List your tours free<svg class="i"><use href="#i-arrow"/></svg></a><a class="btn ghost" href="#">How hosting works</a></div>
       <p class="hsoon">Stays and transport providers can join the waiting list.</p>
