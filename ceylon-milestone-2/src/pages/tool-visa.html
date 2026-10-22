@@ -29,22 +29,44 @@ cta_p: Book your first day: airport pickup and an easy Colombo or Negombo tour.
 .steps p{font-size:14px;margin-top:2px}
 .steps .when{display:inline-block;margin-top:6px;font-size:12px;font-weight:600;color:var(--cn-primary-text);background:var(--cn-primary-tint);padding:3px 8px;border-radius:999px}
 .src{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:16px;padding-top:16px;border-top:1px solid var(--cn-border);font-size:13px;color:var(--cn-muted)}
+/* answered / not answered (22 Oct call): each question shows its state, and the result waits for all three */
+.q>label,.q>.ql{display:flex;align-items:center;gap:8px}
+.q .qs{margin-left:auto;display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;color:var(--cn-muted)}
+.q .qs .i{width:14px;height:14px}
+.q.done .qs{color:var(--cn-primary-text)}
+.q select.empty{color:var(--cn-muted)}
+.q.done select{border-color:var(--cn-primary);box-shadow:inset 0 0 0 1px var(--cn-primary)}
+.pill[aria-pressed=true] .i{color:inherit}
+.prog3{display:flex;align-items:center;gap:10px;margin-top:6px;font-size:13px;color:var(--cn-muted)}
+.prog3 .bar{display:flex;gap:4px}.prog3 .bar i{width:22px;height:5px;border-radius:3px;background:var(--dk-track,#E4E4E7)}.prog3 .bar i.on{background:var(--cn-primary)}
+.reset{margin-top:18px;padding:0;border:0;background:none;font:600 13px var(--text);color:var(--cn-primary-text);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.verdict.empty .ic{background:var(--cn-page);color:var(--cn-muted);border:1px dashed var(--cn-input)}
+.facts.empty b{color:var(--dk-faint,#A1A1AA)}
+.todo{list-style:none;margin:18px 0 0;padding:0;display:grid;gap:8px}
+.todo li{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--cn-ink)}
+.todo li .i{width:18px;height:18px;flex:none}
+.todo li.done{color:var(--cn-muted);text-decoration:line-through}.todo li.done .i{color:var(--cn-primary)}
+.todo li:not(.done) .i{color:var(--dk-faint,#A1A1AA)}
+.todo button{padding:0;border:0;background:none;font:inherit;color:inherit;text-decoration:underline;text-decoration-color:var(--cn-input);text-underline-offset:3px;cursor:pointer}
+.waiting{opacity:.5}
 @media (max-width:600px){.facts{grid-template-columns:1fr}.verdict{flex-direction:column}}
 </style>
 <main>
 <div class="tl2">
   <aside class="panel sticky">
     <h2>About your trip</h2>
-    <div class="q"><label for="pp">Passport</label><select id="pp"></select></div>
-    <div class="q"><span class="ql">Why are you going?</span><div class="pills" id="why"></div></div>
-    <div class="q"><span class="ql">How long will you stay?</span><div class="pills" id="len"></div></div>
-    <div class="q"><label for="arr">Arrival date</label><input type="date" id="arr" min="2026-10-13"></div>
+    <div class="prog3" id="prog3"></div>
+    <div class="q" id="q-pp"><label for="pp">Passport<span class="qs"></span></label><select id="pp"></select></div>
+    <div class="q" id="q-why"><span class="ql">Why are you going?<span class="qs"></span></span><div class="pills" id="why" role="group" aria-label="Why are you going?"></div></div>
+    <div class="q" id="q-len"><span class="ql">How long will you stay?<span class="qs"></span></span><div class="pills" id="len" role="group" aria-label="How long will you stay?"></div></div>
+    <div class="q"><label for="arr">Arrival date <span style="font-weight:400;color:var(--cn-muted)">(optional)</span></label><input type="date" id="arr" min="2026-10-13"></div>
+    <button class="reset" id="reset" hidden>Start again</button>
   </aside>
   <div class="res">
     <section class="rcard" aria-live="polite"><div id="verdict"></div><div class="facts" id="facts"></div><div id="callout"></div>
       <div class="src"><span>Sample rules for the prototype. Ceylon Nooks will check these against the Department of Immigration and Emigration before launch.</span><a class="btn" href="https://www.eta.gov.lk" target="_blank" rel="noopener" style="min-height:38px">Official ETA site<svg class="i"><use href="#i-arrow"/></svg></a></div></section>
-    <section class="rcard" aria-labelledby="h-steps"><h2 id="h-steps">How to apply</h2><ol class="steps" id="steps"></ol></section>
-    <section class="rcard" aria-labelledby="h-bring"><h2 id="h-bring">Have these ready at the airport</h2><ul class="chk" id="bring"></ul><p class="note">Tick them off as you go. We’ll remember them in this browser.</p></section>
+    <section class="rcard" id="c-steps" aria-labelledby="h-steps"><h2 id="h-steps">How to apply</h2><ol class="steps" id="steps"></ol></section>
+    <section class="rcard" id="c-bring" aria-labelledby="h-bring"><h2 id="h-bring">Have these ready at the airport</h2><ul class="chk" id="bring"></ul><p class="note">Tick them off as you go. We’ll remember them in this browser.</p></section>
   </div>
 </div>
 </main>
@@ -52,13 +74,29 @@ cta_p: Book your first day: airport pickup and an easy Colombo or Negombo tour.
 /* SAMPLE RULES for the prototype. Groups: free (no visa needed), saarc (lower fee), eta (standard fee). */
 const PP=[['Australia','eta'],['Canada','eta'],['China','eta'],['France','eta'],['Germany','eta'],['India','saarc'],['Italy','eta'],['Japan','eta'],['Maldives','free'],['Netherlands','eta'],['New Zealand','eta'],['Nigeria','eta'],['Pakistan','saarc'],['Bangladesh','saarc'],['Nepal','saarc'],['Russia','eta'],['Singapore','free'],['South Africa','eta'],['Spain','eta'],['Sweden','eta'],['Switzerland','eta'],['United Arab Emirates','eta'],['United Kingdom','eta'],['United States','eta']];
 const FEE={saarc:20,eta:50};
-const V={pp:'United Kingdom',why:'tour',len:'short',arr:TRIP.start||''};
+const V={pp:'',why:'',len:'',arr:TRIP.start||''};
+try{Object.assign(V,JSON.parse(localStorage.getItem('cn-visa')||'{}'))}catch(e){}
+const save=()=>{try{localStorage.setItem('cn-visa',JSON.stringify({pp:V.pp,why:V.why,len:V.len}))}catch(e){}};
 let ticks={};try{ticks=JSON.parse(localStorage.getItem('cn-visa-ticks')||'{}')}catch(e){}
-$('#pp').innerHTML=PP.map(([c])=>`<option>${c}</option>`).join('');
+$('#pp').innerHTML='<option value="" disabled>Choose your passport</option>'+PP.map(([c])=>`<option>${c}</option>`).join('');
+const pill=(k,l,on,a)=>`<button class="pill" data-${a}="${k}" aria-pressed="${on}">${on?svg('check'):''}${l}</button>`;
+const QS=[['pp','Choose your passport','#pp'],['why','Say why you’re going','#why .pill'],['len','Say how long you’ll stay','#len .pill']];
 function render(){
-  $('#pp').value=V.pp;$('#arr').value=V.arr;
-  $('#why').innerHTML=[['tour','Holiday'],['biz','Business'],['transit','Transit']].map(([k,l])=>`<button class="pill" data-why="${k}" aria-pressed="${V.why===k}">${l}</button>`).join('');
-  $('#len').innerHTML=[['short','Up to 30 days'],['mid','31 to 90 days'],['long','Over 90 days']].map(([k,l])=>`<button class="pill" data-len="${k}" aria-pressed="${V.len===k}">${l}</button>`).join('');
+  $('#pp').value=V.pp;$('#pp').classList.toggle('empty',!V.pp);$('#arr').value=V.arr;
+  $('#why').innerHTML=[['tour','Holiday'],['biz','Business'],['transit','Transit']].map(([k,l])=>pill(k,l,V.why===k,'why')).join('');
+  $('#len').innerHTML=[['short','Up to 30 days'],['mid','31 to 90 days'],['long','Over 90 days']].map(([k,l])=>pill(k,l,V.len===k,'len')).join('');
+  const n=QS.filter(([k])=>V[k]).length;
+  QS.forEach(([k])=>{const q=$('#q-'+k);q.classList.toggle('done',!!V[k]);q.querySelector('.qs').innerHTML=V[k]?svg('check')+'Done':'Not answered'});
+  $('#prog3').innerHTML=`<span class="bar">${[0,1,2].map(i=>`<i class="${i<n?'on':''}"></i>`).join('')}</span>${n} of 3 answered`;
+  $('#reset').hidden=!n;
+  $('#c-steps').hidden=$('#c-bring').hidden=n<3;
+  if(n<3){
+    $('#verdict').innerHTML=`<div class="verdict empty"><span class="ic"><svg class="i"><use href="#i-passport"/></svg></span><div><h2>${n?'Nearly there':'Answer three questions to see your result'}</h2><p>We’ll tell you if you need a visa, what it costs, how long you can stay and what to have ready at the airport.</p></div></div>`;
+    $('#facts').className='facts empty';$('#facts').innerHTML='<div><small>Cost</small><b>—</b></div><div><small>You can stay</small><b>—</b></div><div><small>Apply by</small><b>—</b></div>';
+    $('#callout').innerHTML=`<ul class="todo">${QS.map(([k,l,sel])=>`<li class="${V[k]?'done':''}">${svg(V[k]?'check':'clock')}${V[k]?l:`<button data-goq="${sel}">${l}</button>`}</li>`).join('')}</ul>`;
+    return;
+  }
+  $('#facts').className='facts';
   const g=PP.find(p=>p[0]===V.pp)[1];
   const arr=V.arr?new Date(V.arr+'T12:00:00'):null, applyBy=arr?new Date(+arr-3*864e5):null, f=d=>d.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});
   let cls='',ic='passport',h,p;
@@ -83,9 +121,11 @@ function render(){
 }
 window.onTrip=()=>{V.arr=TRIP.start||V.arr;render()};
 window.onCur=(f=>()=>{f&&f();render()})(window.onCur);
-$('#pp').onchange=e=>{V.pp=e.target.value;render()};
+$('#pp').onchange=e=>{V.pp=e.target.value;save();render()};
 $('#arr').onchange=e=>{V.arr=e.target.value;render()};
-document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.why){V.why=b.dataset.why;render()}if(b.dataset.len){V.len=b.dataset.len;render()}});
+document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.why){V.why=b.dataset.why;save();render()}if(b.dataset.len){V.len=b.dataset.len;save();render()}
+  if(b.dataset.goq){const t=$(b.dataset.goq);t.scrollIntoView({block:'center',behavior:'smooth'});t.focus()}
+  if(b.id==='reset'){V.pp=V.why=V.len='';save();render();$('#pp').focus()}});
 document.addEventListener('change',e=>{const k=e.target.dataset.tick;if(k){ticks[k]=e.target.checked;try{localStorage.setItem('cn-visa-ticks',JSON.stringify(ticks))}catch(_){}e.target.closest('li').classList.toggle('on',e.target.checked)}});
 render();
 </script>

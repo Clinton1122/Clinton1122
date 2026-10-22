@@ -220,7 +220,6 @@ a.mm-card:hover{border-color:var(--cn-primary-line);background:var(--cn-primary-
   .xcar::-webkit-scrollbar{display:none}
   .xcar>*{flex:0 0 var(--xw,78%);min-width:0;scroll-snap-align:start}
 }
-}
 
 /* ---------- dark mode: html[data-theme=dark], set before paint by the script in <head> ----------
    Hard-coded light colours are written as var(--dk-name, light value), so light mode is unchanged

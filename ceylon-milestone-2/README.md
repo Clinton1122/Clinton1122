@@ -40,11 +40,17 @@ Each page has two versions. Open the `Ceylon-…` file: it's a single file with 
   - **Code:** classes `.xs`, `.bleed`, `.fade` and `.xcar` in `src/base.css`. `edgeRows()` in `src/base.js` tracks which side has more.
   - **Desktop:** looks exactly as before.
   - **Figma:** section 09 shows each row at its start and end. The phone frames for the homepage, listing, breadcrumb and category (and the dark homepage and listing) were replaced.
+- **Visa tool states** (Akila: it didn't show what happens with no selection and with one):
+  - **Before anything is chosen:** the tool opens with nothing chosen. The result card says "Answer three questions to see your result". The cost, length of stay and apply-by boxes show dashes, and a short to-do list links to each question.
+  - **While answering:** each question says "Not answered", then "Done" with a tick. A bar counts "x of 3 answered". The chosen passport gets an orange outline, and the chosen answers are filled with a tick.
+  - **When all three are answered:** the full result, How to apply and the airport checklist appear.
+  - **Memory:** answers are remembered, and "Start again" clears them. Arrival date is marked optional.
+  - **Figma:** T 06a (nothing chosen), T 06b (1 of 3 answered), T 06 (result), M T 06a and M T 06 on phones, and DK T 06 in dark.
+- **Fix:** a stray brace from the edge-scroll change stopped the header from hiding the sun icon in light mode, so both icons showed. Fixed, and every stylesheet has been checked for balance.
 - **Next, each with the go-ahead first:**
-  1. visa tool selected states
-  2. homepage reviews linked to their host
-  3. auto layout in Figma
-  4. the phrase cards tool
+  1. homepage reviews linked to their host
+  2. auto layout in Figma
+  3. the phrase cards tool
 
 ## Akila's feedback, round 3 (17 Oct)
 
