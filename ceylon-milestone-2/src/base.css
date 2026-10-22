@@ -179,3 +179,18 @@ a.mm-card:hover{border-color:var(--cn-primary-line);background:var(--cn-primary-
 @media (max-width:760px){.hright .hsearch:not(.big),.hreg,.in-only .hicon:not([data-open-search]){display:none}.only-sm{display:inline-grid}}
 @media (max-width:600px){.wrap{padding:0 16px}.hbar{gap:8px;height:60px}.logo svg{height:26px}.cur>button #cur-lab{display:none}.auth{left:0;right:0;top:auto;bottom:0;transform:none;width:100%;border-radius:24px 24px 0 0}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;scroll-behavior:auto!important}}
+
+/* breadcrumbs: one sliding line on phones; "Back to results" only after a search */
+.crumbrow{display:flex;align-items:center;gap:12px;min-width:0}
+.crumbrow>nav{min-width:0;flex:1}
+.crumb-back{display:inline-flex;align-items:center;gap:4px;flex:none;height:30px;padding:0 12px 0 8px;border-radius:999px;background:var(--cn-page);border:1px solid var(--cn-border);font-size:13px;font-weight:600;color:var(--cn-ink);text-decoration:none;white-space:nowrap}
+.crumb-back .i{width:15px;height:15px;transform:rotate(180deg)}
+.crumb-back:hover{border-color:var(--cn-input)}
+@media (max-width:760px){
+  .crumbrow>nav{flex-wrap:nowrap!important;overflow-x:auto;white-space:nowrap;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .crumbrow>nav::-webkit-scrollbar{display:none}
+  .crumbrow>nav>*{flex:none}
+  .crumbrow>nav.more-l{-webkit-mask-image:linear-gradient(90deg,transparent,#000 32px);mask-image:linear-gradient(90deg,transparent,#000 32px)}
+  .crumbrow>nav.more-r{-webkit-mask-image:linear-gradient(270deg,transparent,#000 32px);mask-image:linear-gradient(270deg,transparent,#000 32px)}
+  .crumbrow>nav.more-l.more-r{-webkit-mask-image:linear-gradient(90deg,transparent,#000 32px,#000 calc(100% - 32px),transparent);mask-image:linear-gradient(90deg,transparent,#000 32px,#000 calc(100% - 32px),transparent)}
+}

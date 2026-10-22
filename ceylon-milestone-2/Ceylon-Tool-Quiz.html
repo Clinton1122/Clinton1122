@@ -190,6 +190,21 @@ a.mm-card:hover{border-color:var(--cn-primary-line);background:var(--cn-primary-
 @media (max-width:600px){.wrap{padding:0 16px}.hbar{gap:8px;height:60px}.logo svg{height:26px}.cur>button #cur-lab{display:none}.auth{left:0;right:0;top:auto;bottom:0;transform:none;width:100%;border-radius:24px 24px 0 0}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;scroll-behavior:auto!important}}
 
+/* breadcrumbs: one sliding line on phones; "Back to results" only after a search */
+.crumbrow{display:flex;align-items:center;gap:12px;min-width:0}
+.crumbrow>nav{min-width:0;flex:1}
+.crumb-back{display:inline-flex;align-items:center;gap:4px;flex:none;height:30px;padding:0 12px 0 8px;border-radius:999px;background:var(--cn-page);border:1px solid var(--cn-border);font-size:13px;font-weight:600;color:var(--cn-ink);text-decoration:none;white-space:nowrap}
+.crumb-back .i{width:15px;height:15px;transform:rotate(180deg)}
+.crumb-back:hover{border-color:var(--cn-input)}
+@media (max-width:760px){
+  .crumbrow>nav{flex-wrap:nowrap!important;overflow-x:auto;white-space:nowrap;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .crumbrow>nav::-webkit-scrollbar{display:none}
+  .crumbrow>nav>*{flex:none}
+  .crumbrow>nav.more-l{-webkit-mask-image:linear-gradient(90deg,transparent,#000 32px);mask-image:linear-gradient(90deg,transparent,#000 32px)}
+  .crumbrow>nav.more-r{-webkit-mask-image:linear-gradient(270deg,transparent,#000 32px);mask-image:linear-gradient(270deg,transparent,#000 32px)}
+  .crumbrow>nav.more-l.more-r{-webkit-mask-image:linear-gradient(90deg,transparent,#000 32px,#000 calc(100% - 32px),transparent);mask-image:linear-gradient(90deg,transparent,#000 32px,#000 calc(100% - 32px),transparent)}
+}
+
 /* ================= Trip tools: shared layout (Milestone 2) ================= */
 body{background:#fff}
 .tripbar{background:var(--cn-ink);color:#E4E4E7;font-size:13px}
@@ -586,17 +601,18 @@ function parseIntent(q){const t=q.toLowerCase(),out=[];
 const hl=(s,q)=>{if(!q)return s;const i=s.toLowerCase().indexOf(q.toLowerCase());return i<0?s:s.slice(0,i)+'<mark>'+s.slice(i,i+q.length)+'</mark>'+s.slice(i+q.length)};
 function suggestHTML(q){
   q=q.trim();
-  if(!q)return `<h5>Popular searches</h5>`+[['Sigiriya','pin'],['Whale watching','wave'],['Ella train and tea walks','route'],['3-day tours','cal'],['Yala safari','paw'],['Kandy cooking class','pot']].map(([t,ic])=>`<a href="Ceylon-Category.html" role="option"><span class="si">${svg(ic)}</span>${t}</a>`).join('')+
-    `<h5>By trip length</h5>`+['Day trips','2 to 3 days','1 week','2 weeks'].map(t=>`<a href="Ceylon-Category.html" role="option"><span class="si">${svg('clock')}</span>${t}</a>`).join('');
+  const qs=t=>`?from=search&q=${encodeURIComponent(t)}`;
+  if(!q)return `<h5>Popular searches</h5>`+[['Sigiriya','pin'],['Whale watching','wave'],['Ella train and tea walks','route'],['3-day tours','cal'],['Yala safari','paw'],['Kandy cooking class','pot']].map(([t,ic])=>`<a href="Ceylon-Category.html${qs(t)}" role="option"><span class="si">${svg(ic)}</span>${t}</a>`).join('')+
+    `<h5>By trip length</h5>`+['Day trips','2 to 3 days','1 week','2 weeks'].map(t=>`<a href="Ceylon-Category.html${qs(t)}" role="option"><span class="si">${svg('clock')}</span>${t}</a>`).join('');
   const t=q.toLowerCase(),words=t.split(/\s+/).filter(w=>w.length>1&&!/^\d+$/.test(w)&&!['day','days','week','weeks','tour','tours','trip','trips','in','to','the','and'].includes(w));
   const score=x=>words.reduce((a,w)=>a+(x[0].toLowerCase().includes(w)||x[3].some(k=>k.includes(w)||w.includes(k))?1:0),0)+(t.match(/\d+\s*-?\s*day/)&&x[0].match(/\d-day/)?1:0)+(t.includes('week')&&x[0].includes('week')?2:0);
   const exp=S_EXP.map(x=>[x,score(x)]).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]).map(x=>x[0]);
   const pl=S_PLACE.filter(([p,r])=>words.some(w=>p.toLowerCase().includes(w)||r.toLowerCase().includes(w)));
   const it=parseIntent(q);
-  let rows=[`<a href="Ceylon-Category.html" role="option" aria-selected="true"><span class="si">${svg('search')}</span><span>Search for “${q.replace(/</g,'&lt;')}”<small>All matching experiences</small></span></a>`];
+  let rows=[`<a href="Ceylon-Category.html${qs(q)}" role="option" aria-selected="true"><span class="si">${svg('search')}</span><span>Search for “${q.replace(/</g,'&lt;')}”<small>All matching experiences</small></span></a>`];
   if(it.length)rows.push(`<div class="intent">${it.map(([k,v])=>`<span>${k}: ${v}</span>`).join('')}</div>`);
-  const ex=exp.slice(0,5).map(x=>`<a href="Ceylon-Listing.html" role="option"><span class="si"><img src="${pic(x[2])}" alt=""></span><span>${hl(x[0],words[0]||'')}<small>${x[1]}</small></span></a>`);
-  const pls=pl.slice(0,Math.max(1,9-1-ex.length)).map(([p,r])=>`<a href="Ceylon-Category.html" role="option"><span class="si">${svg('pin')}</span><span>${hl(p,words.find(w=>p.toLowerCase().includes(w))||'')}<small>${r}</small></span></a>`);
+  const ex=exp.slice(0,5).map(x=>`<a href="Ceylon-Listing.html${qs(q)}" role="option"><span class="si"><img src="${pic(x[2])}" alt=""></span><span>${hl(x[0],words[0]||'')}<small>${x[1]}</small></span></a>`);
+  const pls=pl.slice(0,Math.max(1,9-1-ex.length)).map(([p,r])=>`<a href="Ceylon-Category.html${qs(q)}" role="option"><span class="si">${svg('pin')}</span><span>${hl(p,words.find(w=>p.toLowerCase().includes(w))||'')}<small>${r}</small></span></a>`);
   if(ex.length)rows.push('<h5>Experiences</h5>',...ex);
   if(pls.length)rows.push('<h5>Places</h5>',...pls);
   if(!ex.length&&!pls.length)rows.push(`<p style="font-size:13px;color:var(--cn-muted);padding:6px 10px 10px">No exact matches yet. Search anyway and we’ll show the closest experiences.</p>`);
@@ -615,7 +631,23 @@ function attachSearch(input,box,opts={}){
 }
 attachSearch($('#hs-in'),$('#hs-sugg'));
 attachSearch($('#ms-in'),$('#ms-sugg'));
-$('#hsearch')?.addEventListener('submit',e=>e.preventDefault());$('#msearch-f')?.addEventListener('submit',e=>e.preventDefault());
+$('#hsearch')?.addEventListener('submit',e=>e.preventDefault());
+/* ---------- breadcrumbs: one sliding line on phones, with "Back to results" only after a search ---------- */
+const FROM=new URLSearchParams(location.search),FROM_SEARCH=FROM.get('from')==='search',FROM_Q=FROM.get('q')||'';
+function setupCrumbs(){
+  $$('nav.crumbs,nav.tcrumbs').forEach(nav=>{
+    const row=document.createElement('div');row.className='crumbrow';nav.before(row);
+    const cs=getComputedStyle(nav);row.style.padding=cs.padding;nav.style.padding='0';
+    if(FROM_SEARCH&&!/category/i.test(location.pathname))row.insertAdjacentHTML('beforeend',`<a class="crumb-back" href="Ceylon-Category.html?from=search&q=${encodeURIComponent(FROM_Q)}">${svg('chev')}<span>Back to results</span></a>`);
+    row.appendChild(nav);
+    /* the fade shows only on a side that has more to see, like the photo rows */
+    const upd=()=>{nav.classList.toggle('more-l',nav.scrollLeft>2);nav.classList.toggle('more-r',nav.scrollLeft+nav.clientWidth<nav.scrollWidth-2)};
+    if(nav.scrollWidth-nav.clientWidth>6)nav.scrollLeft=nav.scrollWidth;upd();nav.addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd);
+  });
+}
+setupCrumbs();
+/* a listing opened from search results keeps that trail */
+if(FROM_SEARCH)document.addEventListener('click',e=>{const a=e.target.closest('a[href]');if(!a)return;const h=a.getAttribute('href');if(/^(listing\.html|Ceylon-Listing\.html)(#|$)/.test(h))a.setAttribute('href',h.replace(/(\.html)/,`$1?from=search&q=${encodeURIComponent(FROM_Q)}`))},true);$('#msearch-f')?.addEventListener('submit',e=>e.preventDefault());
 
 /* ---------- dropdown menus: open on hover with a short delay, or on click and keyboard ---------- */
 let mmTimer=null;

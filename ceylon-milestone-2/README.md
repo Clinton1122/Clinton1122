@@ -16,6 +16,24 @@ Each page has two versions. Open the `Ceylon-…` file: it's a single file with 
 | Tools hub | `Ceylon-Tools.html` | All 13 tools; the 7 agreed for this milestone are live, the rest say Soon |
 | Tools | `Ceylon-Tool-Quiz.html`, `-Best-Time`, `-Travel-Times`, `-Budget`, `-Visa`, `-First-24-Hours`, `-Packing-List` | One page per tool |
 
+## Call with Akila, round 4 (22 Oct)
+
+- **Tidiness pass:** every page and every Figma frame was checked for text running together and shifted layout.
+  - Trust-link titles and their text now sit on separate lines on the listing, checkout and confirmation. "Details" on the checkout cancellation line sits on its own line too.
+  - The hosts band icons sit centred in their circles, and the receipt barcode is drawn as real bars.
+  - The explore tile captions have stronger contrast.
+  - Headings have slightly looser letter spacing and line height.
+- **Mobile breadcrumb:** on phones the breadcrumb stays on one line and scrolls sideways. It opens scrolled to the current page, with a fade on whichever side has more. Short trails that nearly fit don't scroll.
+- **Back to results:** a search from the homepage or header opens the category page with the results. Any listing opened from there shows "Back to results" in front of the breadcrumb, which returns to the same search. A listing opened any other way has no back link.
+- **Figma:** all Milestone 2 frames were replaced with the tidied versions. M L 06 and M L 07 show the new breadcrumb, and the "Read me — round 4" frame summarises this round.
+- **Next, each with the go-ahead first:**
+  1. dark mode
+  2. edge-scroll hints on carousels and scroll rows
+  3. visa tool selected states
+  4. homepage reviews linked to their host
+  5. auto layout in Figma
+  6. the phrase cards tool
+
 ## Akila's feedback, round 3 (17 Oct)
 
 **Homepage v4.**
