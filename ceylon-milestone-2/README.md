@@ -47,10 +47,14 @@ Each page has two versions. Open the `Ceylon-…` file: it's a single file with 
   - **Memory:** answers are remembered, and "Start again" clears them. Arrival date is marked optional.
   - **Figma:** T 06a (nothing chosen), T 06b (1 of 3 answered), T 06 (result), M T 06a and M T 06 on phones, and DK T 06 in dark.
 - **Fix:** a stray brace from the edge-scroll change stopped the header from hiding the sun icon in light mode, so both icons showed. Fixed, and every stylesheet has been checked for balance.
+- **Homepage reviews** (Akila: "replicate reviews from the listing... it needs to be linked to the service provider, with additional information"):
+  - **Style:** each card uses the listing's review style: initials, name, country and month, five stars, "Verified booking", then the review.
+  - **Host link:** every card ends with the tour it is about. That's the tour photo and name, the host with a verified badge, and what they do and where (for example "Licensed guide · Kandy"). Tapping it opens the listing.
+  - **Phones:** the cards are a swipe row, as in the edge-scroll change.
+  - **Figma:** H 05 and M H 04, plus updated H 01, M H 01 and the two dark homepage frames.
 - **Next, each with the go-ahead first:**
-  1. homepage reviews linked to their host
-  2. auto layout in Figma
-  3. the phrase cards tool
+  1. auto layout in Figma
+  2. the phrase cards tool
 
 ## Akila's feedback, round 3 (17 Oct)
 

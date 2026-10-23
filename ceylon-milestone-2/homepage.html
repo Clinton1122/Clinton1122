@@ -521,11 +521,25 @@ body.hs-vis .hbar .hsearch,body.hs-vis .hbar [data-open-search]{visibility:hidde
 
 /* traveller reviews */
 .rgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.rv{margin:0;border:1px solid var(--cn-border);border-radius:20px;overflow:hidden;background:var(--dk-paper,#fff);display:flex;flex-direction:column}
-.rv img{width:100%;height:150px;object-fit:cover}
-.rv blockquote{margin:0;padding:18px 20px 8px;font-size:15.5px;line-height:1.55;color:var(--cn-ink)}
-.rv figcaption{padding:0 20px 18px;font-size:13px;color:var(--cn-muted)}
-.rv figcaption b{color:var(--cn-ink)}
+/* reviews: the listing's review style, each linked to the host and tour it is about (22 Oct call) */
+.rv{margin:0;border:1px solid var(--cn-border);border-radius:20px;background:var(--dk-paper,#fff);display:flex;flex-direction:column;padding:20px;gap:12px}
+.rv .who{display:flex;gap:10px;align-items:center}
+.rv .ini{width:36px;height:36px;border-radius:50%;background:var(--cn-page);display:grid;place-items:center;font-size:13px;font-weight:700;color:var(--cn-ink);flex:none}
+.rv .who b{display:block;font-size:14px;color:var(--cn-ink)}
+.rv .who small{display:block;font-size:12px;color:var(--cn-muted)}
+.rv .rmeta{display:flex;align-items:center;gap:10px;margin-bottom:-4px}.rv .vb{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;color:var(--cn-muted)}.rv .vb .i{width:13px;height:13px;color:var(--dk-ok,#2F8F5B)}
+.rv .stars{display:flex;gap:1px;flex:none}.rv .stars .i{width:14px;height:14px;color:var(--cn-primary);fill:var(--cn-primary)}
+.rv blockquote{margin:0;font-size:15px;line-height:1.55;color:var(--cn-ink);flex:1}
+.rvp{display:flex;align-items:center;gap:12px;padding:10px;margin:0 -6px -6px;border-radius:14px;background:var(--cn-page);text-decoration:none;color:inherit}
+.rvp:hover{background:var(--cn-primary-tint)}
+.rvp img{width:52px;height:52px;border-radius:10px;object-fit:cover;flex:none}
+.rvp>span{min-width:0;flex:1}
+.rvp b{display:block;font-size:13.5px;color:var(--cn-ink);line-height:1.3}
+.rvp small{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--cn-body);margin-top:3px}
+.rvp small.hr{color:var(--cn-muted);margin-top:1px;padding-left:28px}
+.rvp .hav{width:22px;height:22px;border-radius:50%;background:var(--dk-sand,#EADFD6);color:var(--dk-brown,#7A4A2A);display:grid;place-items:center;font-size:9px;font-weight:700;flex:none}
+.rvp .vf{width:14px;height:14px;color:var(--cn-primary)}
+.rvp .go{width:16px;height:16px;color:var(--cn-muted);flex:none}
 /* list your business: stands out */
 .hostband{background:linear-gradient(120deg,#F15623 0%,#E04A1A 55%,#C43D12 100%);color:#FFE9DE;padding:80px 0;margin-top:0;position:relative;overflow:hidden}
 .hostband::before{content:"";position:absolute;right:-120px;top:-120px;width:420px;height:420px;border-radius:50%;background:rgba(255,255,255,.08)}
@@ -602,6 +616,7 @@ body.hs-vis .hbar .hsearch,body.hs-vis .hbar [data-open-search]{visibility:hidde
   .dgrid{grid-template-columns:1fr 1fr;gap:10px}.dcard{aspect-ratio:3/4}.dcard h3{font-size:18px}.dcard p{display:none}
   .cards{grid-template-columns:1fr 1fr;gap:14px}.card h3{font-size:14px}
   .tools{grid-template-columns:1fr}
+  .rv{padding:18px}.rvp{gap:10px}.rvp img{width:44px;height:44px}.rvp .go{display:none}.rvp small.hr{padding-left:0}
   .quote{padding:28px 22px}.quote blockquote{font-size:19px}
   
 }
@@ -873,9 +888,24 @@ body.hs-vis .hbar .hsearch,body.hs-vis .hbar [data-open-search]{visibility:hidde
   <div class="wrap">
     <div class="sh"><div><h2 id="rv-h">Hosted by locals, reviewed by travellers</h2><p>Unfiltered reviews from travellers who explored Sri Lanka with our hosts. Every one comes from a verified booking.</p></div></div>
     <div class="rgrid xcar" style="--xw:84%">
-      <figure class="rv"><img src="../ceylon-traveller-dashboard/img/kandy-temple.jpg" alt=""><blockquote>“Aravinda got us into the temple just as the morning offering started. We’d never have managed the timing on our own.”</blockquote><figcaption><b>Sophie L.</b> · United Kingdom · Kandy Cultural City Tour</figcaption></figure>
-      <figure class="rv"><img src="../ceylon-traveller-dashboard/img/mirissa-whale.jpg" alt=""><blockquote>“Three blue whales before breakfast. The crew knew exactly where to look, and the boat was never crowded.”</blockquote><figcaption><b>Daniel K.</b> · Australia · Blue whale watching</figcaption></figure>
-      <figure class="rv"><img src="../ceylon-traveller-dashboard/img/ella-nine-arch.jpg" alt=""><blockquote>“Nuwan timed the walk so we reached the bridge as the train came through. Then tea with his aunt on the estate.”</blockquote><figcaption><b>Mei T.</b> · Japan · Tea estate walk</figcaption></figure>
+      <figure class="rv">
+        <div class="who"><span class="ini">SL</span><span><b>Sophie L.</b><small>United Kingdom · September 2026</small></span></div>
+        <div class="rmeta"><span class="stars" role="img" aria-label="Rated 5 out of 5"><svg class="i"><use href="#i-star"/></svg><svg class="i"><use href="#i-star"/></svg><svg class="i"><use href="#i-star"/></svg><svg class="i"><use href="#i-star"/></svg><svg class="i"><use href="#i-star"/></svg></span><span class="vb"><svg class="i"><use href="#i-check"/></svg>Verified booking</span></div>
+        <blockquote>“Aravinda got us into the temple just as the morning offering started. We’d never have managed the timing on our own.”</blockquote>
+        <a class="rvp" href="listing.html"><img src="../ceylon-traveller-dashboard/img/kandy-temple.jpg" alt=""><span><b>Kandy Cultural City Tour</b><small><span class="hav">AP</span>Hosted by Aravinda Perera<svg class="i vf"><use href="#i-shield"/></svg></small><small class="hr">Licensed guide · Kandy</small></span><svg class="i go"><use href="#i-chev"/></svg></a>
+      </figure>
+      <figure class="rv">
+        <div class="who"><span class="ini">DK</span><span><b>Daniel K.</b><small>Australia · August 2026</small></span></div>
+        <div class="rmeta"><span class="stars" role="img" aria-label="Rated 5 out of 5"><svg class="i"><use href="#i-star"/></svg><svg class="i"><use href="#i-star"/></svg><svg class="i"><use href="#i-star"/></svg><svg class="i"><use href="#i-star"/></svg><svg class="i"><use href="#i-star"/></svg></span><span class="vb"><svg class="i"><use href="#i-check"/></svg>Verified booking</span></div>
+        <blockquote>“Three blue whales before breakfast. The crew knew exactly where to look, and the boat was never crowded.”</blockquote>
+        <a class="rvp" href="listing.html"><img src="../ceylon-traveller-dashboard/img/mirissa-whale.jpg" alt=""><span><b>Blue whale watching with breakfast</b><small><span class="hav">MO</span>Hosted by Mirissa Ocean Co.<svg class="i vf"><use href="#i-shield"/></svg></small><small class="hr">Boat operator · Mirissa</small></span><svg class="i go"><use href="#i-chev"/></svg></a>
+      </figure>
+      <figure class="rv">
+        <div class="who"><span class="ini">MT</span><span><b>Mei T.</b><small>Japan · July 2026</small></span></div>
+        <div class="rmeta"><span class="stars" role="img" aria-label="Rated 5 out of 5"><svg class="i"><use href="#i-star"/></svg><svg class="i"><use href="#i-star"/></svg><svg class="i"><use href="#i-star"/></svg><svg class="i"><use href="#i-star"/></svg><svg class="i"><use href="#i-star"/></svg></span><span class="vb"><svg class="i"><use href="#i-check"/></svg>Verified booking</span></div>
+        <blockquote>“Nuwan timed the walk so we reached the bridge as the train came through. Then tea with his aunt on the estate.”</blockquote>
+        <a class="rvp" href="listing.html"><img src="../ceylon-traveller-dashboard/img/ella-nine-arch.jpg" alt=""><span><b>Tea estate walk and Nine Arches Bridge</b><small><span class="hav">NP</span>Hosted by Nuwan Perera<svg class="i vf"><use href="#i-shield"/></svg></small><small class="hr">Local guide · Ella</small></span><svg class="i go"><use href="#i-chev"/></svg></a>
+      </figure>
     </div>
   </div>
 </section>
