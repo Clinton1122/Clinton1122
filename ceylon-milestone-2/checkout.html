@@ -25,7 +25,8 @@ html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
 body{margin:0;background:var(--dk-paper,#fff);color:var(--cn-body);font:400 15px/1.55 var(--text);-webkit-font-smoothing:antialiased}
 [hidden]{display:none!important}
 h1,h2,h3,h4,p{margin:0}
-h1,h2,h3,h4{color:var(--cn-ink);font-weight:600;letter-spacing:-.01em}
+h1,h2,h3,h4{color:var(--cn-ink);font-weight:600;letter-spacing:-.01em;text-wrap:balance}
+p,li,blockquote,small{text-wrap:pretty}
 a{color:inherit}
 img{display:block;max-width:100%}
 button{font-family:inherit}
@@ -550,7 +551,8 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--cn-ink);outline-
   .sum{position:static;grid-row:2;margin-bottom:16px;padding:0;overflow:hidden}
   .sumbar{display:flex;width:100%;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border:0;background:none;font:500 14.5px var(--text);color:var(--cn-ink);cursor:pointer}
   .sumbar>span{display:flex;align-items:center;gap:8px}.sumbar .i{width:18px;height:18px}.sumbar .chev{width:16px;height:16px;transition:transform .2s}
-  .sumbar b{font-size:16px}
+  .sumbar b{font-size:16px;white-space:nowrap}
+  .sumbar>span{min-width:0}
   .sum.open .sumbar .chev{transform:rotate(180deg)}
   #sumbody{display:none;padding:2px 18px 18px;border-top:1px solid var(--cn-border)}
   .sum.open #sumbody{display:block}
