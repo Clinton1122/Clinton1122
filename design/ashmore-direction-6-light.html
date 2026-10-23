@@ -229,6 +229,17 @@ p{margin:0}
 .window img{width:100%;height:100%;object-fit:cover;display:block}
 .window-cap{margin-top:.75rem;font-size:var(--s-xs);color:var(--mute)}
 @media (max-width:760px){.house .wrap{grid-template-columns:1fr}.window{max-width:22rem;aspect-ratio:4/5}}
+.house .wrap.inside{display:block;margin-top:clamp(3.5rem,7vw,6rem)}
+.inside-h{font-size:var(--s-xl);margin-bottom:clamp(1.5rem,3vw,2.5rem);max-width:none}
+.inside-h em{font-style:italic;color:var(--coral)}
+.inside-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(.75rem,1.6vw,1.25rem);list-style:none;margin:0;padding:0}
+.inside-row figure{margin:0}
+.inside-pic{aspect-ratio:4/5;overflow:hidden;border-radius:var(--r-lg);background:var(--bg-2)}
+.inside-pic img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.inside-row li:hover .inside-pic img{transform:scale(1.03)}
+.inside-row figcaption{margin-top:.7rem;font-size:var(--s-xs);color:var(--mute)}
+@media (max-width:900px){.inside-row{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (prefers-reduced-motion: reduce){.inside-pic img{transition:none}}
 
 /* Team: profile cards in a scroll-snap row (George: cards with Learn more / Book now) */
 .team{background:var(--bg-2)}
@@ -386,7 +397,7 @@ p{margin:0}
 
 /* light theme: pink display text deep enough to read on white and soft pink */
 :root{--coral-display:#D6505C}
-.ap-hero h1 em,.book-copy h2 em,.t-row.calm-row h3,.t-row:hover h3,.steps li::before,.names li::after,.tx-group,.ask-row:has(input:checked) b{color:var(--coral-display)}
+.ap-hero h1 em,.book-copy h2 em,.inside-h em,.t-row.calm-row h3,.t-row:hover h3,.steps li::before,.names li::after,.tx-group,.ask-row:has(input:checked) b{color:var(--coral-display)}
 .more-head h2 em{color:var(--coral-display)!important}
 .ask-row input:checked{background:var(--coral-display);border-color:var(--coral-display)}
 </style>
@@ -602,6 +613,15 @@ p{margin:0}
         <figcaption class="window-cap">The front gate, 11 Drummond Street South.</figcaption>
       </figure>
     </div>
+    <div class="wrap inside">
+      <h3 class="inside-h">Heritage outside. <em>Modern dentistry inside.</em></h3>
+      <ul class="inside-row">
+        <li><figure><div class="inside-pic"><img src="img/inside-hall.jpg" loading="lazy" alt="The front hall of Ashmore House: a white arch, pendant lights, stained glass around the front door and a sign pointing to reception."></div><figcaption>The front hall, with reception just ahead.</figcaption></figure></li>
+        <li><figure><div class="inside-pic"><img src="img/inside-sign.jpg" loading="lazy" alt="The pink Ashmore Dentistry sign on a sunlit wall beside a white door with stained-glass panels."></div><figcaption>Stained glass on the way in.</figcaption></figure></li>
+        <li><figure><div class="inside-pic"><img src="img/inside-surgery.jpg" loading="lazy" alt="A dentist wearing magnifying loupes and a dental assistant, both in sterile blue gowns, treating a patient under a surgical light."></div><figcaption>Surgical treatment in a fully sterile room.</figcaption></figure></li>
+        <li><figure><div class="inside-pic"><img src="img/inside-xray.jpg" loading="lazy" alt="The practice's Dentsply Sirona Axeos X-ray unit, its screen set to a panoramic scan."></div><figcaption>Panoramic and 3D X-rays, taken on site.</figcaption></figure></li>
+      </ul>
+    </div>
   </section>
 
   <section class="section visit" id="visit" aria-labelledby="visit-h">
@@ -754,7 +774,7 @@ p{margin:0}
         <h1 id="rh-h">Resource Hub. <em>Good to know.</em></h1>
         <p class="lede">Guides, videos and forms from the Ashmore team. Read up before a treatment, look after your teeth afterwards, or fill in your paperwork before you arrive.</p>
       </div>
-      <figure class="ap-photo"><img src="img/front-gate.jpg" loading="lazy" alt="The front gate at number 11, with the stone path leading up to Ashmore House's front door."></figure>
+      <figure class="ap-photo"><img src="img/inside-sign.jpg" loading="lazy" alt="The pink Ashmore Dentistry sign on a sunlit wall beside a white door with stained-glass panels."></figure>
     </div>
   </section>
 
@@ -768,7 +788,7 @@ p{margin:0}
         <p>Short films from inside Ashmore House, so the place and the people feel familiar.</p>
       </div>
       <ul class="vids">
-        <li class="vid"><a href="#resources"><span class="vid-pic"><img src="img/verandah-view-sm.jpg" loading="lazy" alt=""><span class="play" aria-hidden="true"></span></span><span class="vid-t">Welcome to Ashmore House</span><span class="vid-m">A walk from the front gate to the chair</span></a></li>
+        <li class="vid"><a href="#resources"><span class="vid-pic"><img src="img/inside-hall.jpg" loading="lazy" alt=""><span class="play" aria-hidden="true"></span></span><span class="vid-t">Welcome to Ashmore House</span><span class="vid-m">A walk from the front gate to the chair</span></a></li>
         <li class="vid"><a href="#resources"><span class="vid-pic"><img src="img/verandah-corner.jpg" loading="lazy" alt=""><span class="play" aria-hidden="true"></span></span><span class="vid-t">What happens at a check-up</span><span class="vid-m">Step by step, with one of our oral health therapists</span></a></li>
         <li class="vid"><a href="#resources"><span class="vid-pic"><img src="img/team/george.jpg" loading="lazy" alt="" style="object-position:50% 25%"><span class="play" aria-hidden="true"></span></span><span class="vid-t">Meet Dr George Abdemalek</span><span class="vid-m">Why he looks after Ballarat's teeth</span></a></li>
       </ul>
