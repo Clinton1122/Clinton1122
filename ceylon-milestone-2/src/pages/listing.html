@@ -337,7 +337,7 @@ body{background:var(--dk-paper,#fff)}
           <div class="tmeta">
             <span class="rate"><svg class="i"><use href="#i-star"/></svg>4.9</span><a href="#reviews">128 reviews</a>
             <span><svg class="i"><use href="#i-pin"/></svg>Kandy, Central Province</span>
-            <span><svg class="i"><use href="#i-badge"/></svg>Hosted by Aravinda</span>
+            <span><svg class="i"><use href="#i-badge"/></svg><a href="host-profile.html">Hosted by Aravinda</a></span>
           </div>
         </div>
         <div class="tacts"><button class="btn" data-act="share"><svg class="i"><use href="#i-share"/></svg><span>Share</span></button><button class="btn" data-act="save"><svg class="i"><use href="#i-heart"/></svg><span>Save</span></button></div>
@@ -578,12 +578,6 @@ function renderPolicy(){
   box.innerHTML=`<div class="pt"><span class="ic"><svg class="i"><use href="#i-shield"/></svg></span><div><p class="src">Ceylon Nooks policy</p><h3>Free cancellation up to 48 hours before</h3></div></div><ul><li>Cancel at least 48 hours before your start time: full refund, less the 5% payment processing fee (minimum USD 1).</li><li>Less than 48 hours before: no refund.</li><li>No-show without cancelling: no refund.</li>${L.bnpl?'<li>Reserve now, pay later is available for dates more than 5 days away.</li>':''}<li>Plans changed? Change your date as often as you like at no cost, as long as your host has availability.</li></ul><p class="prec"><svg class="i"><use href="#i-info"/></svg>This is the Ceylon Nooks standard policy. When a host sets their own policy, it’s shown here instead and that policy applies to your booking.</p><div class="links"><button class="link" data-pop="cancel" style="border:0;background:none;padding:0;cursor:pointer">How cancellation works<svg class="i"><use href="#i-arrow"/></svg></button>${L.bnpl?`<button class="link" data-pop="bnpl" style="border:0;background:none;padding:0;cursor:pointer">How pay later works<svg class="i"><use href="#i-arrow"/></svg></button>`:''}</div>`;
 }
 
-function popCred(k){
-  const C={sltda:['badge','Registered with Sri Lanka Tourism','Aravinda is registered with the Sri Lanka Tourism Development Authority (SLTDA) as a national tourist guide. Registered guides have passed the SLTDA training and exam, and are licensed to guide visitors anywhere in Sri Lanka.',[['Licence type','National tourist guide'],['Registration no.','SLTDA/NG/2041'],['Valid until','March 2027'],['Checked by Ceylon Nooks','2 October 2026']]],
-           police:['shield','Police clearance checked','Aravinda gave us a police clearance report issued by the Sri Lanka Police. It confirms there are no criminal records.',[['Issued by','Sri Lanka Police, Kandy'],['Issued','14 August 2026'],['Checked by Ceylon Nooks','2 October 2026']]]};
-  const [ic,t,p,dl]=C[k];
-  openModal(`${mhead(t)}<div class="mb-body credm"><span class="ic"><svg class="i"><use href="#i-${ic}"/></svg></span><p>${p}</p><dl>${dl.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join('')}</dl><p style="font-size:12.5px;color:var(--cn-muted);margin-top:16px">Hosts share these documents with us by choice. We check them before the badge appears, and again when they expire. We don’t show the documents themselves.</p></div>`);
-}
 /* ---------- host ---------- */
 function renderHost(){
   const c=L.creds,n=(c.sltda?1:0)+(c.police?1:0);
@@ -593,7 +587,7 @@ function renderHost(){
     ${n?`<div class="mini-badges">${c.sltda?`<span class="mb"><svg class="i"><use href="#i-badge"/></svg>SLTDA registered</span>`:''}${c.police?`<span class="mb"><svg class="i"><use href="#i-shield"/></svg>Police clearance</span>`:''}<span class="mb"><svg class="i"><use href="#i-user"/></svg>ID verified</span></div>`:`<div class="mini-badges"><span class="mb"><svg class="i"><use href="#i-user"/></svg>ID verified</span></div>`}
    </div>
    ${n?`<div class="creds">${c.sltda?`<button class="cred" data-cred="sltda"><span class="ic"><svg class="i"><use href="#i-badge"/></svg></span><span><b>Registered with Sri Lanka Tourism</b><small>SLTDA national tourist guide licence</small><span class="chk"><svg class="i"><use href="#i-check"/></svg>Checked by Ceylon Nooks, Oct 2026</span></span></button>`:''}${c.police?`<button class="cred" data-cred="police"><span class="ic"><svg class="i"><use href="#i-shield"/></svg></span><span><b>Police clearance checked</b><small>Sri Lanka Police report, no records</small><span class="chk"><svg class="i"><use href="#i-check"/></svg>Checked by Ceylon Nooks, Oct 2026</span></span></button>`:''}</div>`:''}
-   <div class="acts"><a class="btn" href="#" data-act="ask"><svg class="i"><use href="#i-chat"/></svg>Message ${L.hostShort}</a><a class="btn" href="#" data-act="profile">View profile</a></div>
+   <div class="acts"><a class="btn" href="#" data-act="ask"><svg class="i"><use href="#i-chat"/></svg>Message ${L.hostShort}</a><a class="btn" href="host-profile.html?c=${c.sltda&&c.police?'both':c.sltda?'sltda':'none'}">View profile</a></div>
    <p class="note">To protect your payment, always pay and message through Ceylon Nooks.</p>`;
 }
 

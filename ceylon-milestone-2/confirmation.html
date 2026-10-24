@@ -880,6 +880,14 @@ function popBnpl(){
    <div class="r fee"><svg class="i"><use href="#i-card"/></svg><span><b style="color:var(--cn-ink)">After the charge</b>: a 5% payment processing fee is taken off. It covers the gateway’s cost of reversing the payment and isn’t kept by Ceylon Nooks. For this booking: ${fmt(t)} × 5% = ${fmt(f)} fee, so ${fmt(t-f)} comes back to you.</span></div></div>
   <a class="mlink" href="#" data-act="bnplpol">View full Reserve now &amp; pay later policy<svg class="i"><use href="#i-arrow"/></svg></a></div>`);
 }
+/* a host credential: what it means and what we checked. Shared by the listing and the host profile. */
+const CRED={sltda:['badge','Registered with Sri Lanka Tourism','Aravinda is registered with the Sri Lanka Tourism Development Authority (SLTDA) as a national tourist guide. Registered guides have passed the SLTDA training and exam, and are licensed to guide visitors anywhere in Sri Lanka.',[['Licence type','National tourist guide'],['Registration no.','SLTDA/NG/2041'],['Valid until','March 2027'],['Checked by Ceylon Nooks','2 October 2026']]],
+           police:['shield','Police clearance checked','Aravinda gave us a police clearance report issued by the Sri Lanka Police. It confirms there are no criminal records.',[['Issued by','Sri Lanka Police, Kandy'],['Issued','14 August 2026'],['Checked by Ceylon Nooks','2 October 2026']]],
+           id:['user','ID verified','Aravinda’s name and photo were matched to a government ID (national identity card) when the account was set up.',[['Document','Sri Lankan national identity card'],['Checked by Ceylon Nooks','11 March 2019']]]};
+function popCred(k){
+  const [ic,t,p,dl]=CRED[k];
+  openModal(`${mhead(t)}<div class="mb-body credm"><span class="ic"><svg class="i"><use href="#i-${ic}"/></svg></span><p>${p}</p><dl>${dl.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join('')}</dl><p style="font-size:12.5px;color:var(--cn-muted);margin-top:16px">${k==='id'?'Every host verifies their ID before they can take bookings. We don’t show the document itself.':'Hosts share these documents with us by choice. We check them before the badge appears, and again when they expire. We don’t show the documents themselves.'}</p></div>`);
+}
 let lastFocus=null;
 function openModal(h){lastFocus=document.activeElement;$('#modal').innerHTML=h;$('#modal').classList.add('open');$('#mscrim').classList.add('open');setTimeout(()=>$('#modal [data-mclose]').focus(),60)}
 function closeModal(){$('#modal').classList.remove('open');$('#mscrim').classList.remove('open');lastFocus?.focus?.()}

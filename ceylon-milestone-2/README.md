@@ -10,11 +10,30 @@ Each page has two versions. Open the `Ceylon-…` file: it's a single file with 
 | --- | --- | --- |
 | Homepage | `Ceylon-Homepage.html` | Homepage v4 (17 Oct): Experiences search, map with place card, dark trust bar, Akila's copy |
 | Listing | `Ceylon-Listing.html` | Kandy Cultural City Tour, with the booking widget, trust signals, gallery and host badges |
+| Host profile | `Ceylon-Host-Profile.html` | Aravinda's public profile, opened from "View profile" or "Hosted by Aravinda" on the listing |
 | Checkout | `Ceylon-Checkout.html` | Opens from Reserve now on the listing |
 | Confirmation | `Ceylon-Confirmation.html` | Opens after Confirm and pay |
 | Category template | `Ceylon-Category.html` | Culture and heritage tours |
 | Tools hub | `Ceylon-Tools.html` | All 13 tools; 8 are live (the 7 agreed for this milestone plus Phrase cards), the rest say Soon |
 | Tools | `Ceylon-Tool-Quiz.html`, `-Best-Time`, `-Travel-Times`, `-Budget`, `-Visa`, `-First-24-Hours`, `-Packing-List`, `-Phrase-Cards` | One page per tool |
+
+## Akila's feedback, round 6 (24 Oct): host profile page
+
+Akila was happy with everything but couldn't see where the host's details and badges go after "View profile". That page is now designed: `Ceylon-Host-Profile.html` (`src/pages/host-profile.html`).
+
+- **Opens from the listing:** "View profile" in the Your host card, and "Hosted by Aravinda" under the title. The listing's prototype setting for host credentials carries over (`?c=both`, `sltda` or `none`), so both pages show the same badges.
+- **Host card** (left, stays in view on desktop; at the top on phones): photo or initials with the verified tick, name, "Licensed guide in Kandy", the badges, rating, reviews, years hosting, usual reply time, Message and Share, and the "always pay and message through Ceylon Nooks" note. On phones, Message also sits in a bar at the bottom.
+- **About:** the host's own words, where they live, languages, guiding since, and their vehicle.
+- **Checked by Ceylon Nooks:** one row per check, with what was checked and the date:
+  - ID verified (every host, required to take bookings)
+  - Sri Lanka Tourism (SLTDA) registration: licence type, registration number, valid until
+  - Police clearance: issued by and issue date
+  
+  "Details" opens the same popup as the listing's badges. A credential the host hasn't shared stays on the list, greyed out with "Not shared", so travellers can see it's optional rather than missing. "How we check hosts" explains the rules: optional documents, checked with the issuer, re-checked on expiry, documents never shown.
+- **Tours by Aravinda:** all their tours as cards (a swipe row on phones). The Kandy tour links back to the listing.
+- **Reviews:** 412 across all their tours, in the same style as the homepage reviews, each naming the tour it was for, with host replies.
+- **Prototype controls:** Host credentials (Both, SLTDA only, None).
+- Light and dark, desktop and phone. The credential popup now lives in `src/booking.js` (`CRED`, `popCred`) so the listing and the profile share it.
 
 ## Call with Akila, round 4 (22 Oct)
 

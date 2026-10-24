@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Aravinda Perera, licensed guide in Kandy | Ceylon Nooks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+{{BASE_CSS}}
+{{BOOKING_CSS}}
+/* ================= Host profile (Milestone 2) ================= */
+/* what a traveller sees after "View profile" on a listing: who the host is, what Ceylon Nooks has checked, their tours and reviews */
+body{background:var(--dk-paper,#fff)}
+.crumbs{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--cn-muted);padding:20px 0 16px;flex-wrap:wrap}
+.crumbs a{color:var(--cn-muted);text-decoration:none}.crumbs a:hover{color:var(--cn-ink)}
+.crumbs .i{width:14px;height:14px}
+
+.hp{display:grid;grid-template-columns:340px minmax(0,1fr);gap:56px;align-items:start;margin-top:12px;padding-bottom:64px}
+
+/* left: the host card, same borders as the card on the listing */
+.hcard{position:sticky;top:92px;border:1px solid rgba(0,0,0,.05);border-radius:16px;box-shadow:0 1px 2px rgba(0,0,0,.07),0 12px 32px -16px rgba(24,24,27,.14);padding:28px 24px 24px;background:var(--dk-paper,#fff);text-align:center}
+.av{width:112px;height:112px;margin:0 auto;border-radius:50%;background:var(--dk-sand,#EADFD6);color:var(--dk-brown,#7A4A2A);display:grid;place-items:center;font-weight:700;font-size:36px;position:relative}
+.av .vf{position:absolute;right:2px;bottom:2px;width:32px;height:32px;border-radius:50%;background:var(--cn-primary);color:#fff;display:grid;place-items:center;border:3px solid var(--dk-paper,#fff)}
+.av .vf .i{width:16px;height:16px;stroke-width:2.6}
+.hcard h1{font-size:26px;letter-spacing:-.02em;margin-top:16px;line-height:1.15}
+.hcard .role{font-size:14px;color:var(--cn-muted);margin-top:4px}
+.mini-badges{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:14px}
+.mb{display:inline-flex;align-items:center;gap:5px;height:26px;padding:0 10px;border-radius:999px;background:var(--cn-page);font-size:12px;font-weight:600;color:var(--cn-ink);border:0;font-family:var(--text);cursor:pointer}
+.mb:hover{background:var(--cn-primary-tint)}
+.mb .i{width:14px;height:14px;color:var(--cn-primary)}
+.hst{display:grid;grid-template-columns:1fr 1fr;margin-top:20px;border-top:1px solid var(--cn-border);text-align:left}
+.hst>div{padding:14px 0 12px;border-bottom:1px solid var(--cn-border)}
+.hst>div:nth-child(odd){padding-right:12px;border-right:1px solid var(--cn-border)}
+.hst>div:nth-child(even){padding-left:16px}
+.hst b{display:flex;align-items:center;gap:4px;font-size:20px;letter-spacing:-.01em;color:var(--cn-ink);line-height:1.2}
+.hst b .i{width:16px;height:16px;color:var(--cn-primary);fill:var(--cn-primary)}
+.hst small{display:block;font-size:12.5px;color:var(--cn-muted);margin-top:2px}
+.hcard .acts{display:flex;flex-direction:column;gap:8px;margin-top:20px}
+.hcard .acts .btn{width:100%;justify-content:center}
+.hcard .note{font-size:12.5px;color:var(--cn-muted);margin-top:14px;line-height:1.45}
+
+/* right column */
+.sec{padding:0 0 36px;margin-bottom:36px;border-bottom:1px solid var(--cn-border)}
+.sec:last-child{border-bottom:0;margin-bottom:0}
+.sec h2{font-size:22px;letter-spacing:-.02em;margin-bottom:6px}
+.sec .sub{font-size:14px;color:var(--cn-muted);margin-bottom:18px}
+.bio p{font-size:15px;line-height:1.65;max-width:66ch}
+.bio p+p{margin-top:12px}
+.hfacts{list-style:none;padding:0;margin:20px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:12px 24px}
+.hfacts li{display:flex;gap:10px;font-size:14px;color:var(--cn-body)}
+.hfacts .i{width:18px;height:18px;color:var(--cn-muted);flex:none;margin-top:1px}
+.hfacts b{color:var(--cn-ink);font-weight:600}
+
+/* checked by Ceylon Nooks: one row per check, with what was checked and when */
+.vlist{border:1px solid rgba(0,0,0,.05);border-radius:16px;box-shadow:0 1px 2px rgba(0,0,0,.07);background:var(--dk-paper,#fff);overflow:hidden}
+.vrow{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:16px;align-items:start;padding:18px 20px}
+.vrow+.vrow{border-top:1px solid var(--cn-border)}
+.vrow .ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--cn-primary-tint);color:var(--cn-primary)}
+.vrow .ic .i{width:22px;height:22px}
+.vrow h3{font-size:15.5px;line-height:1.3}
+.vrow p{font-size:13.5px;color:var(--cn-muted);margin-top:2px;line-height:1.45}
+.vrow dl{display:flex;flex-wrap:wrap;gap:4px 18px;margin:8px 0 0;font-size:13px}
+.vrow dl div{display:flex;gap:6px}
+.vrow dt{color:var(--cn-muted)}
+.vrow dd{margin:0;color:var(--cn-ink);font-weight:500}
+.vrow .chk{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;color:var(--cn-primary-text);margin-top:8px}
+.vrow .chk .i{width:13px;height:13px;stroke-width:2.4}
+.vrow .more{align-self:center;border:0;background:none;padding:6px 0;font:600 13.5px var(--text);color:var(--cn-ink);text-decoration:underline;text-underline-offset:3px;cursor:pointer;white-space:nowrap}
+.vrow.off .ic{background:var(--cn-page);color:var(--cn-muted)}
+.vrow.off h3{color:var(--cn-body)}
+.vrow .tagn{display:inline-flex;align-items:center;height:22px;padding:0 8px;border-radius:999px;background:var(--cn-page);font-size:11.5px;font-weight:600;color:var(--cn-muted);margin-left:6px;vertical-align:2px}
+.howchk{margin-top:14px;border-radius:14px;background:var(--cn-page);padding:0 18px}
+.howchk summary{list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 0;font-size:14px;font-weight:600;color:var(--cn-ink);cursor:pointer}
+.howchk summary::-webkit-details-marker{display:none}
+.howchk summary .i{width:18px;height:18px;color:var(--cn-muted);transition:transform .2s}
+.howchk[open] summary .i{transform:rotate(45deg)}
+.howchk ul{margin:0;padding:0 0 16px 18px;font-size:13.5px;display:flex;flex-direction:column;gap:6px;color:var(--cn-body)}
+
+/* tours */
+.tours{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.tc{text-decoration:none;color:inherit;display:flex;flex-direction:column}
+.tc .ph{aspect-ratio:4/3;border-radius:16px;overflow:hidden;background:var(--cn-page)}
+.tc img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.tc:hover img{transform:scale(1.03)}
+.tc .row1{display:flex;flex-wrap:wrap;justify-content:space-between;gap:2px 8px;margin-top:10px;font-size:12.5px;color:var(--cn-muted)}
+.tc .r{display:inline-flex;align-items:center;gap:3px;color:var(--cn-ink);font-weight:600}
+.tc .r .i{width:13px;height:13px;color:var(--cn-primary);fill:var(--cn-primary)}
+.tc h3{font-size:15px;line-height:1.3;margin-top:4px}
+.tc .pol{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:600;color:var(--cn-primary-text);margin-top:6px}
+.tc .pol .i{width:14px;height:14px}
+.tc .pr{font-size:14px;color:var(--cn-ink);margin-top:4px}.tc .pr b{font-weight:700}.tc .pr small{color:var(--cn-muted);font-size:12.5px}
+
+/* reviews, in the same style as the homepage and the listing */
+.rsum{display:flex;align-items:center;gap:28px;flex-wrap:wrap;margin-bottom:22px}
+.rbig{font-size:44px;font-weight:700;letter-spacing:-.02em;color:var(--cn-ink);line-height:1}
+.rbig small{font-size:15px;color:var(--cn-muted);font-weight:500;letter-spacing:0}
+.stars{display:flex;gap:2px;margin-top:6px}.stars .i{width:15px;height:15px;color:var(--cn-primary);fill:var(--cn-primary)}
+.rcats{display:flex;gap:10px;flex-wrap:wrap}
+.rcat{background:var(--cn-page);border-radius:12px;padding:10px 14px;font-size:12.5px;color:var(--cn-muted)}
+.rcat b{display:block;font-size:16px;color:var(--cn-ink)}
+.rgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.rv{margin:0;border:1px solid var(--cn-border);border-radius:20px;background:var(--dk-paper,#fff);display:flex;flex-direction:column;padding:20px;gap:12px}
+.rv .who{display:flex;gap:10px;align-items:center}
+.rv .ini{width:36px;height:36px;border-radius:50%;background:var(--cn-page);display:grid;place-items:center;font-size:13px;font-weight:700;color:var(--cn-ink);flex:none}
+.rv .who b{display:block;font-size:14px;color:var(--cn-ink)}
+.rv .who small{display:block;font-size:12px;color:var(--cn-muted)}
+.rv .rmeta{display:flex;align-items:center;gap:10px;margin-bottom:-4px}
+.rv .vb{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;color:var(--cn-muted)}.rv .vb .i{width:13px;height:13px;color:var(--dk-ok,#2F8F5B)}
+.rv .stars{margin:0;gap:1px}.rv .stars .i{width:14px;height:14px}
+.rv blockquote{margin:0;font-size:14.5px;line-height:1.55;color:var(--cn-ink);flex:1}
+.rv .reply{padding:12px 14px;background:var(--cn-page);border-radius:12px;font-size:13px}
+.rv .on{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--cn-body);text-decoration:none}
+.rv .on:hover{color:var(--cn-ink);text-decoration:underline}
+.rv .on .i{width:14px;height:14px;color:var(--cn-muted)}
+.sec .btn.all{margin-top:20px}
+.report{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--cn-muted);text-decoration:underline;text-underline-offset:3px}
+.report .i{width:14px;height:14px}
+
+/* phones: Message stays in reach at the bottom */
+.mbar{display:none}
+
+/* prototype controls, as on the listing */
+.proto{position:fixed;left:16px;bottom:16px;z-index:70}
+.proto>button{display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 14px;border-radius:999px;border:1px dashed var(--cn-input);background:var(--dk-paper,#fff);font:600 13px var(--text);color:var(--cn-muted);cursor:pointer;box-shadow:var(--shadow)}
+.proto>button .i{width:16px;height:16px}
+.proto .pp{position:absolute;left:0;bottom:46px;width:280px;background:var(--dk-paper,#fff);border:1px solid var(--cn-border);border-radius:16px;box-shadow:var(--lift);padding:16px;display:none}
+.proto.open .pp{display:block}
+.proto h4{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--cn-muted);margin:0 0 6px}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{height:30px;padding:0 10px;border-radius:999px;border:1px solid var(--cn-border);background:var(--dk-paper,#fff);font:500 12.5px var(--text);color:var(--cn-ink);cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--cn-ink);border-color:var(--cn-ink);color:var(--dk-on-ink,#fff)}
+.proto p{font-size:12px;color:var(--cn-muted);margin-top:10px}
+
+html[data-theme=dark] .hcard,html[data-theme=dark] .vlist{border-color:var(--cn-border);box-shadow:none}
+
+@media (max-width:1100px){.hp{grid-template-columns:300px minmax(0,1fr);gap:36px}.tours{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:900px){
+  .hp{grid-template-columns:minmax(0,1fr);gap:32px}
+  .hcard{position:static;text-align:left;display:grid;grid-template-columns:auto minmax(0,1fr);gap:0 18px;align-items:center;padding:22px}
+  .hcard .av{width:84px;height:84px;font-size:28px;margin:0;grid-row:span 2}
+  .hcard .av .vf{width:28px;height:28px;right:0;bottom:0}
+  .hcard h1{margin-top:0;font-size:24px;align-self:end}
+  .hcard .role{align-self:start}
+  .hcard .mini-badges,.hcard .hst,.hcard .acts,.hcard .note{grid-column:1/-1}
+  .hcard .mini-badges{justify-content:flex-start}
+  .hcard .acts{flex-direction:row}
+  .hst{grid-template-columns:repeat(4,1fr)}
+  .hst>div:nth-child(n){padding:14px 12px 12px;border-right:1px solid var(--cn-border)}
+  .hst>div:first-child{padding-left:0}.hst>div:last-child{border-right:0}
+  .mbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:60;background:var(--dk-paper,#fff);border-top:1px solid var(--cn-border);padding:12px 16px calc(12px + env(safe-area-inset-bottom));align-items:center;justify-content:space-between;gap:12px}
+  .mbar b{display:block;font-size:15px;color:var(--cn-ink)}.mbar small{display:block;font-size:12px;color:var(--cn-muted)}
+  .foot{padding-bottom:84px}
+  .proto{bottom:84px}
+  .proto>button{width:38px;padding:0;justify-content:center;font-size:0;gap:0}
+}
+@media (max-width:600px){
+  .crumbs{padding:12px 0}
+  .hcard .acts{flex-direction:column}
+  .hcard .acts .share{display:none}
+  .hst{grid-template-columns:1fr 1fr}
+  .hst>div:nth-child(n){padding:12px 12px 10px 0;border-right:0}
+  .hst>div:nth-child(odd){border-right:1px solid var(--cn-border)}
+  .hst>div:nth-child(even){padding-left:14px}
+  .hst b{font-size:18px}
+  .hfacts,.rgrid{grid-template-columns:minmax(0,1fr)}
+  .vrow{grid-template-columns:40px minmax(0,1fr);gap:12px;padding:16px}
+  .vrow .ic{width:40px;height:40px}
+  .vrow .more{grid-column:2;justify-self:start;padding:0}
+  .tours{display:flex;gap:12px;overflow-x:auto;scrollbar-width:none;scroll-snap-type:x mandatory;margin:0 calc(-1 * var(--gut));padding:0 var(--gut);scroll-padding-inline:var(--gut)}
+  .tours::-webkit-scrollbar{display:none}
+  .tc{flex:0 0 74%;scroll-snap-align:start}
+  .rv{padding:18px}
+  .rsum{gap:16px}
+}
+</style>
+</head>
+<body>
+{{SPRITE}}
+
+{{HEADER}}
+<main class="wrap">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="homepage.html">Home</a><svg class="i"><use href="#i-chev"/></svg><a href="#">Kandy</a><svg class="i"><use href="#i-chev"/></svg><a href="listing.html">Kandy Cultural City Tour</a><svg class="i"><use href="#i-chev"/></svg><span aria-current="page">Aravinda Perera</span></nav>
+
+  <div class="hp">
+    <aside class="hcard" aria-label="About the host">
+      <span class="av">AP<span class="vf" title="ID verified"><svg class="i"><use href="#i-check"/></svg></span></span>
+      <h1>Aravinda Perera</h1>
+      <p class="role">Licensed guide in Kandy</p>
+      <div class="mini-badges" id="badges"></div>
+      <div class="hst">
+        <div><b>4.9<svg class="i"><use href="#i-star"/></svg></b><small>Rating</small></div>
+        <div><b>412</b><small>Reviews</small></div>
+        <div><b>7 years</b><small>Hosting</small></div>
+        <div><b>1 hour</b><small>Usual reply time</small></div>
+      </div>
+      <div class="acts"><a class="btn primary" href="#" data-act="ask"><svg class="i"><use href="#i-chat"/></svg>Message Aravinda</a><button class="btn share" data-act="share"><svg class="i"><use href="#i-share"/></svg>Share profile</button></div>
+      <p class="note">To protect your payment, always pay and message through Ceylon Nooks.</p>
+    </aside>
+
+    <div>
+      <section class="sec bio" aria-labelledby="ab-h">
+        <h2 id="ab-h">About Aravinda</h2>
+        <p style="margin-top:10px">Ayubowan! I was born in Kandy and have guided here for over 12 years. I studied history at the University of Peradeniya, so expect plenty of stories about the kings, the temple and the old city.</p>
+        <p>I keep my tours private and unhurried. Families, first-timers and photographers are all welcome. Tell me what you enjoy and I’ll shape the day around it.</p>
+        <ul class="hfacts">
+          <li><svg class="i"><use href="#i-pin"/></svg><span>Lives in <b>Kandy, Central Province</b></span></li>
+          <li><svg class="i"><use href="#i-lang"/></svg><span>Speaks <b>English, Sinhala and Tamil</b></span></li>
+          <li><svg class="i"><use href="#i-clock"/></svg><span>Guiding since <b>2012</b>, on Ceylon Nooks since <b>March 2019</b></span></li>
+          <li><svg class="i"><use href="#i-car"/></svg><span>Drives an <b>air-conditioned car or van</b> for up to 12</span></li>
+        </ul>
+      </section>
+
+      <section class="sec" id="verified" aria-labelledby="vf-h">
+        <h2 id="vf-h">Checked by Ceylon Nooks</h2>
+        <p class="sub">What we’ve checked for Aravinda, and when. We check again whenever a document expires.</p>
+        <div class="vlist" id="vlist"></div>
+        <details class="howchk"><summary>How we check hosts<svg class="i"><use href="#i-plus"/></svg></summary>
+          <ul>
+            <li>Every host verifies their ID before they can take bookings.</li>
+            <li>Licences and police clearance are optional. A badge only appears once we’ve checked the original document with the issuer.</li>
+            <li>We check again when a document expires. If it lapses, the badge comes off until it’s renewed.</li>
+            <li>We never show the documents themselves, only what we checked and when.</li>
+          </ul>
+        </details>
+      </section>
+
+      <section class="sec" aria-labelledby="tr-h">
+        <h2 id="tr-h">Tours by Aravinda</h2>
+        <p class="sub">3 tours, all private, with hotel pickup in Kandy.</p>
+        <div class="tours" id="tours"></div>
+      </section>
+
+      <section class="sec" id="reviews" aria-labelledby="rv-h">
+        <h2 id="rv-h">Reviews</h2>
+        <p class="sub">From travellers who booked one of Aravinda’s tours.</p>
+        <div class="rsum">
+          <div><div class="rbig">4.9 <small>out of 5</small></div><div class="stars"><svg class="i"><use href="#i-star"/></svg><svg class="i"><use href="#i-star"/></svg><svg class="i"><use href="#i-star"/></svg><svg class="i"><use href="#i-star"/></svg><svg class="i"><use href="#i-star"/></svg></div><p style="font-size:13px;margin-top:6px">412 reviews across 3 tours</p></div>
+          <div class="rcats"><div class="rcat"><b>4.9</b>Guide knowledge</div><div class="rcat"><b>4.9</b>Communication</div><div class="rcat"><b>5.0</b>Organisation</div></div>
+        </div>
+        <div class="rgrid" id="rgrid"></div>
+        <button class="btn all" data-act="reviews">Show all 412 reviews</button>
+      </section>
+
+      <a class="report" href="#" data-act="report"><svg class="i"><use href="#i-flag"/></svg>Report this profile</a>
+    </div>
+  </div>
+</main>
+{{FOOTER}}
+
+<div class="mbar"><span><b>Aravinda Perera</b><small>Usually replies in about 1 hour</small></span><a class="btn primary" href="#" data-act="ask"><svg class="i"><use href="#i-chat"/></svg>Message</a></div>
+
+<div class="mscrim" id="mscrim"></div>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="m-title"></div>
+
+<div class="proto" id="proto"><div class="pp" id="pp"></div><button data-proto><svg class="i"><use href="#i-gear"/></svg>Prototype controls</button></div>
+
+<script>
+{{BASE_JS}}
+/* ================= Host profile ================= */
+{{BOOKING_JS}}
+/* the listing passes which credentials the host has (?c=both|sltda|none), so both pages match */
+const CQ=new URLSearchParams(location.search).get('c');
+if(CQ)L.creds={sltda:CQ!=='none',police:CQ==='both'};
+
+function renderBadges(){const c=L.creds;
+  $('#badges').innerHTML=(c.sltda?`<button class="mb" data-cred="sltda"><svg class="i"><use href="#i-badge"/></svg>SLTDA registered</button>`:'')+(c.police?`<button class="mb" data-cred="police"><svg class="i"><use href="#i-shield"/></svg>Police clearance</button>`:'')+`<button class="mb" data-cred="id"><svg class="i"><use href="#i-user"/></svg>ID verified</button>`}
+
+/* one row per check. A check the host hasn't shared stays on the list, greyed, so travellers can see it's optional rather than missing. */
+function renderChecks(){const c=L.creds;
+  const row=(k,on,sub,off)=>{const [ic,t,,dl]=CRED[k],when=dl[dl.length-1][1].replace(/^\d+ (\w{3})\w*/,'$1');
+    return on?`<div class="vrow"><span class="ic"><svg class="i"><use href="#i-${ic}"/></svg></span><div><h3>${t}</h3><p>${sub}</p><dl>${dl.slice(0,-1).map(([a,b])=>`<div><dt>${a}</dt><dd>${b}</dd></div>`).join('')}</dl><span class="chk"><svg class="i"><use href="#i-check"/></svg>Checked by Ceylon Nooks, ${when}</span></div><button class="more" data-cred="${k}" aria-label="More about: ${t}">Details</button></div>`
+      :`<div class="vrow off"><span class="ic"><svg class="i"><use href="#i-${ic}"/></svg></span><div><h3>${off}<span class="tagn">Not shared</span></h3><p>Optional. Aravinda hasn’t shared this yet.</p></div></div>`};
+  $('#vlist').innerHTML=row('id',true,'Name and photo matched to a government ID')+
+    row('sltda',c.sltda,'Sri Lanka Tourism Development Authority licence','Sri Lanka Tourism registration')+
+    row('police',c.police,'Sri Lanka Police report, no criminal records','Police clearance');
+}
+
+const TOURS=[['kandy-temple.jpg','Kandy Cultural City Tour','Private tour · 6 to 8 hours',4.9,128,100,'listing.html'],['sigiriya.jpg','Sigiriya and Dambulla day trip from Kandy','Private tour · 10 hours',4.9,186,120,'#'],['ella-nine-arch.jpg','Hill country train and tea estates','Private tour · 9 hours',4.8,98,140,'#']];
+$('#tours').innerHTML=TOURS.map(([f,t,s,r,n,p,h])=>`<a class="tc" href="${h}"${h==='#'?' data-act="tour"':''}><div class="ph"><img src="${pic(f)}" alt="" loading="lazy"></div><div class="row1"><span>${s}</span><span class="r"><svg class="i"><use href="#i-star"/></svg>${r} (${n})</span></div><h3>${t}</h3><span class="pol"><svg class="i"><use href="#i-check"/></svg>Free cancellation</span><p class="pr">From <b data-p0="${p}">${fmt0(p)}</b> <small>per adult</small></p></a>`).join('');
+
+const REVS=[['SL','Sophie L.','United Kingdom · September 2026','Aravinda got us into the temple just as the morning offering started. We’d never have managed the timing on our own. The lunch spot was the best food of our trip.',0],
+ ['DK','David K.','Canada · September 2026','Up at 4 for Sigiriya and it was worth it. Aravinda knew exactly where to stand for the sunrise and kept us ahead of the tour buses all day.',1],
+ ['KT','Kenji T.','Japan · August 2026','Very relaxed pace with two children. The van was spotless and cool, and Aravinda changed the order of stops when it started to rain.',0],
+ ['PR','Priya R.','India · August 2026','He’d booked our train seats on the right side for the views and met us at Ella with the car. Felt looked after the whole way.',2],
+ ['MR','Marcus R.','Australia · August 2026','Great guide, but the market was very crowded on a Saturday. Go on a weekday if you can.',0,'Thanks Marcus. Good tip, we now suggest the market last on weekends.'],
+ ['AN','Anna N.','Germany · July 2026','Booked the day before and Aravinda still sorted everything. Loved the Bahirawakanda view at the end.',0]];
+const star5=`<span class="stars" aria-label="5 stars">${svg('star').repeat(5)}</span>`;
+$('#rgrid').innerHTML=REVS.map(([i,n,w,q,t,rep])=>`<figure class="rv"><div class="rmeta">${star5}<span class="vb"><svg class="i"><use href="#i-check"/></svg>Verified booking</span></div><blockquote>${q}</blockquote>${rep?`<div class="reply"><b>Aravinda replied:</b> ${rep}</div>`:''}<a class="on" href="${TOURS[t][6]}"${TOURS[t][6]==='#'?' data-act="tour"':''}><svg class="i"><use href="#i-compass"/></svg>${TOURS[t][1]}</a><figcaption class="who"><span class="ini">${i}</span><span><b>${n}</b><small>${w}</small></span></figcaption></figure>`).join('');
+
+function renderProto(){const k=L.creds.sltda&&L.creds.police?'both':L.creds.sltda?'sltda':'none';
+  $('#pp').innerHTML=`<h4>Host credentials</h4><div class="seg">${[['both','Both'],['sltda','SLTDA only'],['none','None']].map(([v,l])=>`<button data-pcred="${v}" aria-pressed="${k===v}">${l}</button>`).join('')}</div><p>Matches the setting on the listing. ID is always verified.</p>`}
+function renderAll(){renderBadges();renderChecks();renderProto()}
+window.onCur=()=>$$('[data-p0]').forEach(b=>b.textContent=fmt0(+b.dataset.p0));
+
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.proto'))$('#proto').classList.remove('open');
+  if(e.target.id==='mscrim'){closeModal();return}
+  const b=e.target.closest('button,a');if(!b)return;const x=b.dataset;
+  if(x.cred)popCred(x.cred);
+  if(x.mclose!==undefined)closeModal();
+  if(x.proto!==undefined)$('#proto').classList.toggle('open');
+  if(x.pcred){L.creds={sltda:x.pcred!=='none',police:x.pcred==='both'};renderAll()}
+  if(x.act){e.preventDefault();toast({share:'Link copied',ask:'Opens a chat with Aravinda',reviews:'Opens all reviews',report:'Opens the report form',tour:'Opens the tour'}[x.act]||'Prototype')}
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#modal').classList.contains('open'))closeModal()});
+renderAll();
+</script>
+</body>
+</html>
