@@ -294,7 +294,7 @@ function renderAll(){renderBadges();renderChecks();renderProto()}
 window.onCur=()=>$$('[data-p0]').forEach(b=>b.textContent=fmt0(+b.dataset.p0));
 
 document.addEventListener('click',e=>{
-  if(!e.target.closest('.proto'))$('#proto').classList.remove('open');
+  if(!e.target.closest('.proto'))$('#proto')?.classList.remove('open');
   if(e.target.id==='mscrim'){closeModal();return}
   const b=e.target.closest('button,a');if(!b)return;const x=b.dataset;
   if(x.cred)popCred(x.cred);

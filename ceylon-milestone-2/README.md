@@ -33,6 +33,7 @@ Akila was happy with everything but couldn't see where the host's details and ba
 - **Tours by Aravinda:** all their tours as cards (a swipe row on phones). The Kandy tour links back to the listing.
 - **Reviews:** 412 across all their tours, in the same style as the homepage reviews, each naming the tour it was for, with host replies.
 - **Prototype controls:** Host credentials (Both, SLTDA only, None).
+- **Figma:** L 09 to L 09b in section 02 (desktop: full page, SLTDA details, police clearance not shared), M L 09 to M L 09b in section 03 (phone: first screen with the Message bar, full page, police clearance details), and DK L 09 and DK M L 09 in section 08 (dark).
 - Light and dark, desktop and phone. The credential popup now lives in `src/booking.js` (`CRED`, `popCred`) so the listing and the profile share it.
 
 ## Call with Akila, round 4 (22 Oct)
