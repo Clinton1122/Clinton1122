@@ -1,0 +1,127 @@
+<!--TOOL
+title: Phrase cards
+h1: Phrase cards for Sri Lanka
+icon: chat
+lede: Everyday Sinhala and Tamil with how to say it, and an allergy card to show at every meal. Tap Show to hand your phone to someone.
+desc: Sinhala and Tamil phrases for travellers in Sri Lanka, with pronunciation, plus a food allergy card in both languages to show at restaurants.
+shares: Saves your phrases and allergy card
+cta_h: Want someone to talk for you?
+cta_p: Every tour is run by a local host who speaks English and the local language.
+-->
+<style>
+{{SCRIPT_FONTS}}
+.si{font-family:"Noto Sans Sinhala",var(--text)}.ta{font-family:"Noto Sans Tamil",var(--text)}
+.langs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.langs button{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:12px 14px;border-radius:14px;border:1px solid var(--cn-border);background:var(--dk-paper,#fff);font:600 15px var(--text);color:var(--cn-ink);cursor:pointer;text-align:left}
+.langs button small{font-weight:400;font-size:12px;color:var(--cn-muted)}
+.langs button .sc{font-size:17px;font-weight:600}
+.langs button[aria-pressed=true]{border-color:var(--cn-primary);box-shadow:inset 0 0 0 1px var(--cn-primary);background:var(--cn-primary-tint)}
+.where{margin-top:10px;font-size:12.5px;color:var(--cn-muted);line-height:1.5}
+.pgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:16px}
+.ph{border:1px solid var(--cn-border);border-radius:16px;padding:16px;background:var(--dk-paper,#fff);display:flex;flex-direction:column;gap:6px}
+.ph .en{font-size:14px;font-weight:600;color:var(--cn-ink)}
+.ph .sc{font-size:22px;line-height:1.4;color:var(--cn-ink);margin-top:2px}
+.ph .say{font-size:13.5px;color:var(--cn-muted);font-style:italic}
+.ph .acts{display:flex;gap:8px;margin-top:6px}
+.ph .acts button{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 12px;border-radius:999px;border:1px solid var(--cn-border);background:var(--dk-paper,#fff);font:600 13px var(--text);color:var(--cn-ink);cursor:pointer}
+.ph .acts button .i{width:15px;height:15px}
+.ph .acts .sv[aria-pressed=true]{border-color:var(--cn-primary);color:var(--cn-primary-text);background:var(--cn-primary-tint)}
+.ph .acts .sv[aria-pressed=true] .i{fill:var(--cn-primary);color:var(--cn-primary)}
+.empty{padding:28px;text-align:center;color:var(--cn-muted);border:1px dashed var(--cn-input);border-radius:16px;margin-top:16px;font-size:14px}
+.algs{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.acard{margin-top:18px;border-radius:18px;border:2px solid var(--cn-primary);padding:20px;background:var(--cn-primary-tint)}
+.acard .k{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--cn-primary-text)}
+.acard .sc{font-size:21px;line-height:1.5;color:var(--cn-ink);margin-top:8px}
+.acard .en{font-size:14px;color:var(--cn-body);margin-top:10px;padding-top:10px;border-top:1px solid var(--cn-primary-line)}
+.acard.off{border-style:dashed;border-color:var(--cn-input);background:var(--cn-page)}
+.acard.off p{color:var(--cn-muted);font-size:14px}
+.arow{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+/* full screen card to hand to someone */
+.pshow{position:fixed;inset:0;z-index:90;background:var(--dk-paper,#fff);display:none;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;text-align:center}
+.pshow.open{display:flex}
+.pshow .sc{font-size:clamp(34px,7vw,64px);line-height:1.35;color:var(--cn-ink);max-width:18ch}
+.pshow .en{font-size:18px;color:var(--cn-muted);margin-top:20px;max-width:40ch}
+.pshow .x{position:absolute;top:16px;right:16px}
+.pshow .hint{position:absolute;bottom:20px;font-size:13px;color:var(--cn-muted)}
+.pshow.al .sc{font-size:clamp(24px,4.4vw,40px);max-width:24ch}
+@media (max-width:600px){.pgrid{grid-template-columns:1fr}.ph .sc{font-size:21px}}
+</style>
+<main>
+<div class="tl2">
+  <aside class="panel sticky">
+    <h2>Phrases</h2>
+    <div class="q"><span class="ql">Language</span><div class="langs" id="langs" role="group" aria-label="Language"></div><p class="where" id="where"></p></div>
+    <div class="q"><span class="ql">Topic</span><div class="pills" id="topics" role="group" aria-label="Topic"></div></div>
+    <div class="q"><span class="ql">Saved phrases</span><div class="pills"><button class="pill" id="onlysaved" aria-pressed="false"></button></div></div>
+  </aside>
+  <div class="res">
+    <section class="rcard" aria-labelledby="ph-h"><div class="arow"><h2 id="ph-h"></h2><span class="note" style="margin:0" id="ph-n"></span></div><div id="plist"></div>
+      <p class="note">Sample phrases for the prototype. A Sinhala and a Tamil speaker check every phrase before launch.</p></section>
+    <section class="rcard" aria-labelledby="al-h"><h2 id="al-h">Allergy card</h2><p style="margin-top:4px;font-size:14px">Choose what you can’t eat. Show the card when you order; it asks the cook to check.</p>
+      <div class="algs" id="algs" role="group" aria-label="What you can’t eat"></div>
+      <div id="acard"></div></section>
+  </div>
+</div>
+<div class="pshow" id="pshow" role="dialog" aria-modal="true" aria-label="Phrase, shown large"><button class="icon-btn x" data-pclose aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button><div class="sc" id="ps-sc"></div><div class="en" id="ps-en"></div><p class="hint">Tap anywhere to close</p></div>
+</main>
+<script>
+/* SAMPLE PHRASES for the prototype: [topic, English, Sinhala, how to say it, Tamil, how to say it] */
+const PH=[
+ ['greet','Hello','ආයුබෝවන්','Ayubowan','வணக்கம்','Vanakkam'],
+ ['greet','Thank you','ස්තූතියි','Sthuthiyi','நன்றி','Nandri'],
+ ['greet','Yes / No','ඔව් / නැහැ','Ow / Naha','ஆம் / இல்லை','Aam / Illai'],
+ ['greet','Sorry, excuse me','සමාවෙන්න','Samawenna','மன்னிக்கவும்','Mannikkavum'],
+ ['greet','How are you?','කොහොමද?','Kohomada?','எப்படி இருக்கிறீர்கள்?','Eppadi irukkireergal?'],
+ ['greet','I don’t understand','මට තේරෙන්නේ නැහැ','Mata therenne naha','எனக்குப் புரியவில்லை','Enakku puriyavillai'],
+ ['go','Stop here, please','කරුණාකර මෙතන නවත්වන්න','Karunakara methana nawaththanna','தயவுசெய்து இங்கே நிறுத்துங்கள்','Thayavuseythu inge niruththungal'],
+ ['go','Go straight','කෙළින්ම යන්න','Kelinma yanna','நேராகப் போங்கள்','Neraga pongal'],
+ ['go','Where is the toilet?','වැසිකිළිය කොහෙද?','Wasikiliya koheda?','கழிப்பறை எங்கே?','Kazhipparai enge?'],
+ ['go','How far is it?','කොච්චර දුරද?','Kochchara durada?','எவ்வளவு தூரம்?','Evvalavu thooram?'],
+ ['eat','Not too spicy, please','සැර අඩුවෙන් දෙන්න','Sara aduwen denna','காரம் குறைவாக, தயவுசெய்து','Kaaram kuraivaaga, thayavuseythu'],
+ ['eat','Water, please','වතුර ටිකක් දෙන්න','Wathura tikak denna','தண்ணீர் தாருங்கள்','Thanneer thaarungal'],
+ ['eat','Delicious!','රසයි!','Rasai!','ருசியாக இருக்கிறது!','Rusiyaaga irukkiradhu!'],
+ ['eat','The bill, please','බිල දෙන්න','Bila denna','பில் தாருங்கள்','Bil thaarungal'],
+ ['shop','How much is this?','මේක කීයද?','Meka keeyada?','இது எவ்வளவு?','Idhu evvalavu?'],
+ ['shop','That’s too expensive','ගණන් වැඩියි','Ganan wadiyi','விலை அதிகம்','Vilai adhigam'],
+ ['help','Help!','උදව් කරන්න!','Udaw karanna!','உதவி!','Udhavi!'],
+ ['help','I need a doctor','මට දොස්තර කෙනෙක් ඕනේ','Mata dosthara kenek one','எனக்கு ஒரு மருத்துவர் வேண்டும்','Enakku oru maruththuvar vendum']];
+const TOP=[['all','All'],['greet','Greetings'],['go','Getting around'],['eat','Eating out'],['shop','Shopping'],['help','Help']];
+/* allergy card: [key, English, Sinhala, Tamil] */
+const AL=[['peanut','peanuts','රටකජු','வேர்க்கடலை'],['cashew','cashews','කජු','முந்திரி'],['fish','fish','මාළු','மீன்'],['prawn','prawns and shellfish','ඉස්සන් සහ බෙල්ලන්','இறால் மற்றும் சிப்பி வகைகள்'],['milk','milk','කිරි','பால்'],['egg','eggs','බිත්තර','முட்டை'],['wheat','wheat (gluten)','තිරිඟු','கோதுமை']];
+const P={lang:'si',top:'all',saved:false};let SV={},ALG={};
+try{Object.assign(P,JSON.parse(localStorage.getItem('cn-phr')||'{}'));SV=JSON.parse(localStorage.getItem('cn-phr-saved')||'{}');ALG=JSON.parse(localStorage.getItem('cn-phr-alg')||'{}')}catch(e){}
+const save=()=>{try{localStorage.setItem('cn-phr',JSON.stringify(P));localStorage.setItem('cn-phr-saved',JSON.stringify(SV));localStorage.setItem('cn-phr-alg',JSON.stringify(ALG))}catch(e){}};
+const L=()=>P.lang==='si'?{name:'Sinhala',cls:'si',i:2}:{name:'Tamil',cls:'ta',i:4};
+const pill=(attr,k,l,on)=>`<button class="pill" ${attr}="${k}" aria-pressed="${on}">${on?svg('check'):''}${l}</button>`;
+const list=(sel)=>sel.map(a=>a[1]).reduce((s,x,i,arr)=>s+(i?(i===arr.length-1?' and ':', '):'')+x,'');
+function render(){
+  const l=L();
+  $('#langs').innerHTML=[['si','Sinhala','සිංහල','si'],['ta','Tamil','தமிழ்','ta']].map(([k,n,sc,c])=>`<button data-lang="${k}" aria-pressed="${P.lang===k}"><span class="sc ${c}">${sc}</span>${n}<small>${k==='si'?'Most of the island':'North, east and hill country'}</small></button>`).join('');
+  $('#where').textContent=P.lang==='si'?'Sinhala is spoken by most people in the south, west and centre. English works in most hotels and tourist shops.':'Tamil is spoken in Jaffna, the east coast and the tea country. Many people speak some English too.';
+  $('#topics').innerHTML=TOP.map(([k,t])=>pill('data-top',k,t,P.top===k)).join('');
+  const nsv=Object.values(SV).filter(Boolean).length;
+  $('#onlysaved').setAttribute('aria-pressed',P.saved);$('#onlysaved').innerHTML=(P.saved?svg('check'):svg('star'))+`Only saved (${nsv})`;
+  const rows=PH.map((p,i)=>[p,i]).filter(([p,i])=>(P.top==='all'||p[0]===P.top)&&(!P.saved||SV[i]));
+  $('#ph-h').textContent=`${l.name} phrases`;$('#ph-n').textContent=`${rows.length} of ${PH.length}`;
+  $('#plist').innerHTML=rows.length?`<div class="pgrid">${rows.map(([p,i])=>`<div class="ph"><span class="en">${p[1]}</span><span class="sc ${l.cls}" lang="${P.lang}">${p[l.i]}</span><span class="say">Say: ${p[l.i+1]}</span><div class="acts"><button data-show="${i}">${svg('expand')}Show</button><button class="sv" data-save="${i}" aria-pressed="${!!SV[i]}" aria-label="${SV[i]?'Saved':'Save'} “${p[1]}”">${svg('star')}${SV[i]?'Saved':'Save'}</button></div></div>`).join('')}</div>`
+    :`<div class="empty">${P.saved?'No saved phrases yet. Tap Save on a phrase to keep it here.':'No phrases in this topic.'}</div>`;
+  $('#algs').innerHTML=AL.map(([k,en])=>pill('data-alg',k,en[0].toUpperCase()+en.slice(1),!!ALG[k])).join('');
+  const sel=AL.filter(a=>ALG[a[0]]);
+  if(!sel.length){$('#acard').innerHTML=`<div class="acard off"><p>Choose at least one food to make your card.</p></div>`;return}
+  $('#acard').innerHTML=`<div class="acard"><span class="k">Show this to the cook</span><p class="sc ${l.cls}" lang="${P.lang}">${alText(sel)}</p><p class="en">${alEn(sel)}</p></div><button class="btn primary" style="margin-top:12px" data-show="al">${svg('expand')}Show full screen</button>`;
+}
+const alEn=sel=>`I have a serious food allergy. I can’t eat ${list(sel)}, or food cooked with ${sel.length>1?'them':'it'}. Please check with the cook. Thank you.`;
+function alText(sel){const w=sel.map(a=>P.lang==='si'?a[2]:a[3]).join(', ');
+  return P.lang==='si'?`මට බරපතල ආහාර අසාත්මිකතාවයක් තියෙනවා. මට ${w} කන්න බැහැ. කරුණාකර කෝකියාගෙන් අහන්න. ස්තූතියි.`
+                      :`எனக்கு கடுமையான உணவு ஒவ்வாமை உள்ளது. என்னால் ${w} சாப்பிட முடியாது. தயவுசெய்து சமையல்காரரிடம் கேளுங்கள். நன்றி.`}
+function show(k){const l=L(),sh=$('#pshow');sh.classList.toggle('al',k==='al');
+  if(k==='al'){const sel=AL.filter(a=>ALG[a[0]]);$('#ps-sc').innerHTML=alText(sel);$('#ps-en').textContent=alEn(sel)}else{const p=PH[k];$('#ps-sc').innerHTML=p[l.i];$('#ps-en').textContent=p[1]+' · '+p[l.i+1]}
+  $('#ps-sc').className='sc '+l.cls;$('#ps-sc').setAttribute('lang',P.lang);sh.classList.add('open');document.body.style.overflow='hidden';$('#pshow .x').focus()}
+function hide(){$('#pshow').classList.remove('open');document.body.style.overflow=''}
+document.addEventListener('click',e=>{if($('#pshow').classList.contains('open')){hide();return}
+  const b=e.target.closest('button');if(!b)return;const d=b.dataset;
+  if(d.lang){P.lang=d.lang}else if(d.top){P.top=d.top}else if(b.id==='onlysaved'){P.saved=!P.saved}else if(d.save!==undefined){SV[d.save]=!SV[d.save]}else if(d.alg){ALG[d.alg]=!ALG[d.alg]}else if(d.show!==undefined){show(d.show==='al'?'al':+d.show);return}else return;
+  save();render()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')hide()});
+render();
+</script>

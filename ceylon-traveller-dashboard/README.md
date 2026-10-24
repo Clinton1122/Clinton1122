@@ -107,3 +107,13 @@ Still open in the brief:
 | `img/trincomalee.jpg` | [Trincomalee Beach, Sri Lanka](https://www.flickr.com/photos/43296902@N00/39842113), Dennis S. Hurd | CC0 |
 
 Island outline: Natural Earth 1:10m, public domain.
+
+
+## v5: dark mode and tidy-up (23 Oct)
+
+| Change | What changed |
+| --- | --- |
+| Dark mode | A sun and moon switch in the header, and a Dark mode switch in the phone menu. It follows the device setting until the traveller chooses, and the choice is shared with the Milestone 2 pages. Light mode is pixel-identical to v4. Add `?theme=dark` or `?theme=light` to the address to force one. |
+| Account tabs on phones | The tab strip now runs to the screen edge, so a cut-off tab shows there is more, with padding only at the real start and end (from the 22 Oct call). Swiping replaces the arrow buttons on phones. |
+| Map labels | Place names on the "Your Sri Lanka" map used to start inside their numbered pins. A style rule centred all pin text, overriding the labels' alignment. Names now sit clear of the pins. |
+| Figma | The 00 v4 frames were recaptured on both pages, and each page has a new "00b Dark mode" section. |

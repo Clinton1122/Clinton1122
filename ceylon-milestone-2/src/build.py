@@ -2,7 +2,7 @@
 
 Each file in src/pages/ is a page template. These placeholders are filled in:
 {{BASE_CSS}} {{SPRITE}} {{HEADER}} {{FOOTER}} {{BASE_JS}} {{BOOKING_CSS}} {{BOOKING_JS}}
-{{TOOLS_CSS}} {{TOOLS_JS}} {{IMG}} {{IMG2}}
+{{TOOLS_CSS}} {{TOOLS_JS}} {{IMG}} {{IMG2}} {{SCRIPT_FONTS}}
 
 Writes <name>.html (photos linked from ../ceylon-traveller-dashboard/img/)
 and Ceylon-<Name>.html (single file, photos embedded) next to this folder.
@@ -87,6 +87,10 @@ def photo(u):
         subprocess.run(['convert', src, '-resize', '1200x1200>', '-strip', '-quality', '70', out], check=True)
     return open(out, 'rb').read()
 
+# Sinhala and Tamil type for the phrase cards, embedded so it renders offline and in the single file (SIL Open Font License)
+FONTDIR = os.path.join(OUT, 'assets', 'fonts')
+SCRIPT_FONTS = ''.join("@font-face{font-family:'%s';font-weight:400 700;font-display:swap;src:url(data:font/woff2;base64,%s) format('woff2');unicode-range:%s}\n" % (fam, base64.b64encode(open(os.path.join(FONTDIR, f), 'rb').read()).decode(), ur) for fam, f, ur in [('Noto Sans Sinhala', 'NotoSansSinhala.woff2', 'U+0964-0965,U+0D81-0DF4,U+1CF2,U+200C-200D,U+25CC,U+111E1-111F4'), ('Noto Sans Tamil', 'NotoSansTamil.woff2', 'U+0964-0965,U+0B82-0BFA,U+200C-200D,U+20B9,U+25CC')])
+
 # runs before the page paints, so a dark-mode visitor never sees a white flash.
 # ?theme=dark or ?theme=light in the address overrides it (used for screenshots).
 THEME_HEAD = '''<meta name="color-scheme" content="light dark">
@@ -99,6 +103,7 @@ def build(name):
     for k, f in [('TOOLS_CSS', 'tools.css'), ('TOOLS_JS', 'tools.js'), ('BOOKING_CSS', 'booking.css'), ('BOOKING_JS', 'booking.js'), ('BASE_CSS', 'base.css'), ('SPRITE', 'sprite.svg'), ('HEADER', 'header.html'), ('FOOTER', 'footer.html'), ('BASE_JS', 'base.js')]:
         s = s.replace('{{%s}}' % k, part(f))
     s = s.replace('{{IMG2}}', IMG2).replace('{{IMG}}', IMG)
+    s = s.replace('{{SCRIPT_FONTS}}', SCRIPT_FONTS)
     s = s.replace('<head>', '<head>\n' + THEME_HEAD, 1)
     open(os.path.join(OUT, name + '.html'), 'w').write(s)
     # standalone: inline every photo the page names

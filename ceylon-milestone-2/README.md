@@ -13,8 +13,8 @@ Each page has two versions. Open the `Ceylon-…` file: it's a single file with 
 | Checkout | `Ceylon-Checkout.html` | Opens from Reserve now on the listing |
 | Confirmation | `Ceylon-Confirmation.html` | Opens after Confirm and pay |
 | Category template | `Ceylon-Category.html` | Culture and heritage tours |
-| Tools hub | `Ceylon-Tools.html` | All 13 tools; the 7 agreed for this milestone are live, the rest say Soon |
-| Tools | `Ceylon-Tool-Quiz.html`, `-Best-Time`, `-Travel-Times`, `-Budget`, `-Visa`, `-First-24-Hours`, `-Packing-List` | One page per tool |
+| Tools hub | `Ceylon-Tools.html` | All 13 tools; 8 are live (the 7 agreed for this milestone plus Phrase cards), the rest say Soon |
+| Tools | `Ceylon-Tool-Quiz.html`, `-Best-Time`, `-Travel-Times`, `-Budget`, `-Visa`, `-First-24-Hours`, `-Packing-List`, `-Phrase-Cards` | One page per tool |
 
 ## Call with Akila, round 4 (22 Oct)
 
@@ -52,9 +52,30 @@ Each page has two versions. Open the `Ceylon-…` file: it's a single file with 
   - **Host link:** every card ends with the tour it is about. That's the tour photo and name, the host with a verified badge, and what they do and where (for example "Licensed guide · Kandy"). Tapping it opens the listing.
   - **Phones:** the cards are a swipe row, as in the edge-scroll change.
   - **Figma:** H 05 and M H 04, plus updated H 01, M H 01 and the two dark homepage frames.
-- **Next, each with the go-ahead first:**
-  1. auto layout in Figma
-  2. the phrase cards tool
+
+## Full tidy-up, round 5 (23 Oct)
+
+- **Homepage hero:**
+  - Between 900 and 1180 px wide (tablets and small laptops), the map used to run into the headline and intro. The map and place card now shrink in steps, so the text always has clear space.
+  - The map hint is shorter, so it no longer gets cut off.
+  - Placeholders that don't fit end in "…".
+  - The travellers picker starts at 2 adults, like the listing.
+- **Search flows in Figma:**
+  - The suggestions, date picker and travellers picker looked distorted in Figma. The "Popular" chips sat on top of the suggestions, a chip covered the calendar heading, and the phone suggestion list spilled past the screen edge.
+  - The cause was the Figma import, which stacks layers in page order and can't size elements against the screen width. The capture now gives every open pop-up its exact size and position and puts it on top, and anything hidden on screen stays hidden in the frame.
+  - While a search pop-up is open, the "Popular" row also steps aside, so nothing peeks out beside it.
+- **Every page:** headings now balance their line breaks, and paragraphs avoid a lone last word.
+- **Layout check:** every page was checked automatically for overlapping text, clipped text, squashed images and anything spilling past the page edge. That covered 320, 360, 390, 600, 768, 1024, 1280 and 1440 px, in light and dark, with every popup, sheet and step open.
+  - The confirmation page was 7 px too wide at 360 px. Fixed.
+  - At 320 px, the category grid, the checkout total bar and the confirmation hashtag row spilled over. Fixed.
+- **Phrase cards (new tool, T 09):**
+  - Sinhala and Tamil phrases for greetings, getting around, eating out, shopping and help. Each one shows the English, the script and how to say it.
+  - "Show" opens a phrase full screen to hand someone your phone, and "Save" keeps a phrase for later.
+  - The allergy card builder covers peanuts, cashews, fish, prawns and shellfish, milk, eggs and wheat. It writes a card in English plus Sinhala or Tamil asking the cook to check, with a full-screen view.
+  - Sinhala and Tamil type is embedded (Noto Sans Sinhala and Noto Sans Tamil, SIL Open Font License), so it shows properly offline.
+  - The phrases are samples. A Sinhala and a Tamil speaker should check every one before launch, and Akila may want to review them.
+- **Figma:** every frame was recaptured with the fixed capture: 92 light Milestone 2 frames, 14 dark, and 25 for the dashboard. New frames: T 09, T 09a, T 09b, M T 09, M T 09a, DK T 09, M H 05 and M H 06.
+- **Next, with the go-ahead first:** auto layout components in Figma.
 
 ## Akila's feedback, round 3 (17 Oct)
 

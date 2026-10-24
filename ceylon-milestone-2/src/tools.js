@@ -47,7 +47,7 @@ const TOOLS=[
  ['Get ready','tool-visa','Visa and entry','Find out if you need a visa, what it costs and how long you can stay.','passport',1],
  ['Get ready','tool-first-24-hours','First 24 hours','Visa, SIM, cash and getting out of the airport, as a checklist.','clock',1],
  ['Get ready','tool-packing-list','Packing list','Built from your route and dates: temples, hills, beaches and monsoon.','bag',1],
- ['Get ready','','Phrase cards','Sinhala and Tamil, with allergy cards you can show at every meal.','chat',0],
+ ['Get ready','tool-phrase-cards','Phrase cards','Sinhala and Tamil, with allergy cards you can show at every meal.','chat',1],
  ['On the ground','','Food decoder','What hoppers, kottu and lamprais are, and how spicy they get.','pot',0],
  ['On the ground','','Fair prices','What a tuk-tuk, a coconut or a train ticket should cost.','tag',0]];
 /* page links; the single-file build points them at the Ceylon-… copies */
