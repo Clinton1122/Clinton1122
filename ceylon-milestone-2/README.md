@@ -72,10 +72,14 @@ Each page has two versions. Open the `Ceylon-…` file: it's a single file with 
   - Sinhala and Tamil phrases for greetings, getting around, eating out, shopping and help. Each one shows the English, the script and how to say it.
   - "Show" opens a phrase full screen to hand someone your phone, and "Save" keeps a phrase for later.
   - The allergy card builder covers peanuts, cashews, fish, prawns and shellfish, milk, eggs and wheat. It writes a card in English plus Sinhala or Tamil asking the cook to check, with a full-screen view.
-  - Sinhala and Tamil type is embedded (Noto Sans Sinhala and Noto Sans Tamil, SIL Open Font License), so it shows properly offline.
+  - Sinhala and Tamil type is embedded (Yaldevi and Noto Sans Tamil, SIL Open Font License), so it shows properly offline. Both are in Figma’s font library, so the Figma frames use the same faces.
   - The phrases are samples. A Sinhala and a Tamil speaker should check every one before launch, and Akila may want to review them.
 - **Figma:** every frame was recaptured with the fixed capture: 92 light Milestone 2 frames, 14 dark, and 25 for the dashboard. New frames: T 09, T 09a, T 09b, M T 09, M T 09a, DK T 09, M H 05 and M H 06.
-- **Next, with the go-ahead first:** auto layout components in Figma.
+- **Auto layout (Figma page "Components — auto layout (23 Oct)"):**
+  - These are built from scratch as auto-layout components: the price card (listing booking widget), the checkout price summary, the tour card, the review card linked to its host, buttons (Primary, Secondary, Dark) and chips (Default, Selected).
+  - Every colour is bound to the "Ceylon colours" variables, which have Light and Dark modes, so setting a frame to Dark switches it. The page shows all of them in both modes.
+  - Labels, prices, titles and review text are component properties, so the layout reflows when the content changes.
+  - The page frames themselves are imported from the prototype, so they stay fixed layers for reference. The components are what developers should read spacing and structure from.
 
 ## Akila's feedback, round 3 (17 Oct)
 

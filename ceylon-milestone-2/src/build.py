@@ -87,9 +87,9 @@ def photo(u):
         subprocess.run(['convert', src, '-resize', '1200x1200>', '-strip', '-quality', '70', out], check=True)
     return open(out, 'rb').read()
 
-# Sinhala and Tamil type for the phrase cards, embedded so it renders offline and in the single file (SIL Open Font License)
+# Sinhala (Yaldevi) and Tamil (Noto Sans Tamil) type for the phrase cards; both are also in Figma's font library, embedded so it renders offline and in the single file (SIL Open Font License)
 FONTDIR = os.path.join(OUT, 'assets', 'fonts')
-SCRIPT_FONTS = ''.join("@font-face{font-family:'%s';font-weight:400 700;font-display:swap;src:url(data:font/woff2;base64,%s) format('woff2');unicode-range:%s}\n" % (fam, base64.b64encode(open(os.path.join(FONTDIR, f), 'rb').read()).decode(), ur) for fam, f, ur in [('Noto Sans Sinhala', 'NotoSansSinhala.woff2', 'U+0964-0965,U+0D81-0DF4,U+1CF2,U+200C-200D,U+25CC,U+111E1-111F4'), ('Noto Sans Tamil', 'NotoSansTamil.woff2', 'U+0964-0965,U+0B82-0BFA,U+200C-200D,U+20B9,U+25CC')])
+SCRIPT_FONTS = ''.join("@font-face{font-family:'%s';font-weight:400 700;font-display:swap;src:url(data:font/woff2;base64,%s) format('woff2');unicode-range:%s}\n" % (fam, base64.b64encode(open(os.path.join(FONTDIR, f), 'rb').read()).decode(), ur) for fam, f, ur in [('Yaldevi', 'Yaldevi.woff2', 'U+0964-0965,U+0D81-0DF4,U+1CF2,U+200C-200D,U+25CC,U+111E1-111F4'), ('Noto Sans Tamil', 'NotoSansTamil.woff2', 'U+0964-0965,U+0B82-0BFA,U+200C-200D,U+20B9,U+25CC')])
 
 # runs before the page paints, so a dark-mode visitor never sees a white flash.
 # ?theme=dark or ?theme=light in the address overrides it (used for screenshots).
