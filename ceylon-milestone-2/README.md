@@ -21,6 +21,7 @@ Each page has two versions. Open the `Ceylon-…` file: it's a single file with 
 
 - **Input fields in dark mode** were hard to tell apart from their cards. Every field now has its own lighter fill (`--dk-field`) and a border at 3:1 contrast (`--cn-input` is now #6B6B73 in dark). Fields drawn as a box rather than a bare input (the header search, the homepage search bar, the booking widget's date and travellers box, the checkout card number box) get the same treatment. Light mode is unchanged. The rules are at the end of the dark block in `src/base.css`.
 - **Figma:** all 13 frames in section 08 (dark mode) were recaptured with the new fields.
+- **Host card border in dark mode** (Akila's Figma comment "Border missing"): the Your host card and its two credential cards on the listing used a 5% black border, which disappears on a dark background. They now use the dark border colour, like the other cards. Figma frames DK L 01, DK L 03 and DK M L 01 are updated.
 - **Payment status on the traveller dashboard:** see "v6" in `ceylon-traveller-dashboard/README.md`.
 
 ## Akila's feedback, round 6 (24 Oct): host profile page
