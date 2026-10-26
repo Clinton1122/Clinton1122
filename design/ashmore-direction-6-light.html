@@ -232,13 +232,13 @@ p{margin:0}
 .house .wrap.inside{display:block;margin-top:clamp(3.5rem,7vw,6rem)}
 .inside-h{font-size:var(--s-xl);margin-bottom:clamp(1.5rem,3vw,2.5rem);max-width:none}
 .inside-h em{font-style:italic;color:var(--coral)}
-.inside-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(.75rem,1.6vw,1.25rem);list-style:none;margin:0;padding:0}
+.inside-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(.75rem,1.6vw,1.25rem);list-style:none;margin:0;padding:0}
 .inside-row figure{margin:0}
 .inside-pic{aspect-ratio:4/5;overflow:hidden;border-radius:var(--r-lg);background:var(--bg-2)}
 .inside-pic img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
 .inside-row li:hover .inside-pic img{transform:scale(1.03)}
 .inside-row figcaption{margin-top:.7rem;font-size:var(--s-xs);color:var(--mute)}
-@media (max-width:900px){.inside-row{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:600px){.inside-row{grid-template-columns:1fr}}
 @media (prefers-reduced-motion: reduce){.inside-pic img{transition:none}}
 
 /* Team: profile cards in a scroll-snap row (George: cards with Learn more / Book now) */
@@ -394,10 +394,146 @@ p{margin:0}
 .forms p{color:var(--mute);max-width:34ch}
 @media (max-width:900px){.vids{grid-template-columns:1fr 1fr}.guides{grid-template-columns:1fr 1fr}.forms{grid-template-columns:1fr}}
 @media (max-width:600px){.vids,.guides{grid-template-columns:1fr}}
+/* ================= TREATMENT TEMPLATE ================= */
+/* One layout for all 13 treatments: crumb + title + at-a-glance panel, "you might ask about this if",
+   what happens (sequence), cost and paying, questions, nervous band, more in this group, book. */
+.urgent{background:var(--coral);color:var(--on-coral)}
+.urgent .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem 2rem;padding-block:1.1rem}
+.urgent p{font-size:var(--s-md);font-weight:500}
+.urgent b{font-family:var(--display);font-weight:300;font-size:var(--s-xl);line-height:1;font-variant-numeric:tabular-nums;margin-left:.4rem}
+.urgent .status{display:inline-flex;align-items:center;gap:.5rem;font-size:var(--s-sm);font-weight:600}
+.urgent .status i{width:.55rem;height:.55rem;border-radius:50%;background:var(--on-coral);opacity:.45}
+.urgent .status.is-open i{opacity:1;background:#1E6B33}
+
+.tx-hero .wrap{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:2.5rem clamp(2rem,5vw,5rem);align-items:end;padding-block:clamp(1.75rem,4vw,3.5rem) clamp(3rem,6vw,5rem)}
+.tx-copy{display:grid;gap:clamp(1rem,2vw,1.5rem);min-width:0}
+.tx-group{font-family:var(--display);font-style:italic;font-size:var(--s-lg);color:var(--coral);line-height:1.1}
+.tx-hero h1{font-size:clamp(3rem,1.3rem + 5.6vw,7.4rem);line-height:.95;letter-spacing:-.03em}
+.tx-lede{font-size:var(--s-md);color:var(--mute);max-width:44ch}
+.tx-cta{display:flex;flex-wrap:wrap;gap:.75rem 1.5rem;align-items:center;margin-top:.5rem}
+.glance{background:var(--bg-2);border-radius:var(--r-lg);padding:clamp(1.25rem,2.5vw,2rem);display:grid;gap:0;min-width:0}
+.glance h2{font-family:var(--ui);font-size:var(--s-xs);font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin-bottom:.75rem}
+.glance dl{margin:0;display:grid}
+.glance .g-row{display:grid;grid-template-columns:minmax(0,9rem) minmax(0,1fr);gap:1rem;padding:.85rem 0;border-top:1px solid var(--hair);align-items:baseline}
+.glance dt{color:var(--mute);font-size:var(--s-sm)}
+.glance dd{margin:0;font-family:var(--display);font-size:clamp(1.2rem,1rem + .6vw,1.6rem);line-height:1.2;font-variant-numeric:tabular-nums}
+.glance dd .tbc{font-size:.55em;vertical-align:middle}
+
+.fit .wrap{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:2rem clamp(2rem,6vw,6rem);align-items:start}
+.fit h2{font-size:var(--s-2xl);max-width:12ch}
+.fit ul{list-style:none;margin:0;padding:0;border-top:1px solid var(--hair)}
+.fit li{display:grid;grid-template-columns:auto 1fr;gap:1.1rem;align-items:baseline;padding:1.1rem 0;border-bottom:1px solid var(--hair);font-family:var(--display);font-weight:300;font-size:var(--s-lg);line-height:1.2}
+.fit li::before{content:"";width:.7rem;height:.7rem;border-radius:50%;background:var(--coral);transform:translateY(-.1em)}
+.fit .fit-note{margin-top:1.25rem;color:var(--mute);max-width:52ch}
+@media (max-width:860px){.fit .wrap{grid-template-columns:1fr}}
+
+.money .wrap{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:2.5rem clamp(2rem,6vw,6rem);align-items:start}
+.money h2{font-size:var(--s-2xl);max-width:12ch;margin-bottom:1.25rem}
+.money .lead{color:var(--mute);font-size:var(--s-md);max-width:44ch}
+.money .price{margin-top:2rem;padding-top:1.25rem;border-top:1px solid var(--hair);display:grid;gap:.4rem}
+.money .price span{color:var(--mute);font-size:var(--s-sm)}
+.money .price b{font-family:var(--display);font-weight:300;font-size:var(--s-xl);line-height:1.1}
+.pay2{display:grid;gap:0;border-top:1px solid var(--hair)}
+.pay2 div{padding:1.1rem 0;border-bottom:1px solid var(--hair);display:grid;gap:.25rem}
+.pay2 b{font-family:var(--display);font-weight:400;font-size:var(--s-lg)}
+.pay2 p{color:var(--mute)}
+@media (max-width:860px){.money .wrap{grid-template-columns:1fr}}
+
+.faq .wrap{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:2rem clamp(2rem,6vw,6rem);align-items:start}
+.faq h2{font-size:var(--s-2xl);max-width:10ch}
+.qs{border-top:1px solid var(--hair)}
+.qs details{border-bottom:1px solid var(--hair)}
+.qs summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:1fr auto;gap:1.5rem;align-items:center;padding:1.15rem 0;font-family:var(--display);font-weight:300;font-size:var(--s-lg);line-height:1.2;transition:color .15s ease-out}
+.qs summary::-webkit-details-marker{display:none}
+.qs summary::after{content:"+";font-family:var(--ui);font-weight:400;font-size:1.6rem;color:var(--coral);transition:transform .2s ease-out}
+.qs details[open] summary::after{transform:rotate(45deg)}
+.qs summary:hover{color:var(--coral-text)}
+.qs .a{padding:0 0 1.25rem;color:var(--mute);max-width:60ch}
+@media (max-width:860px){.faq .wrap{grid-template-columns:1fr}}
+@media (prefers-reduced-motion: reduce){.qs summary::after,.qs summary{transition:none}}
+
+.calm-sm .wrap{position:relative;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1.5rem 3rem;padding-block:clamp(2.5rem,5vw,4rem)}
+.calm-sm h2{font-size:var(--s-xl);max-width:20ch}
+.calm-sm h2 em{font-style:italic}
+.calm-sm .btn-dark{padding:1rem 1.3rem}
+
+.more-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:1rem 2rem;margin-bottom:clamp(1.5rem,3vw,2.5rem)}
+.more-head h2{font-size:var(--s-xl)}
+.more-list{border-top:1px solid var(--hair)}
+.more-list a{display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:baseline;padding:1.25rem 0;border-bottom:1px solid var(--hair);text-decoration:none;transition:color .15s ease-out}
+.more-list b{font-family:var(--display);font-weight:300;font-size:var(--s-xl);line-height:1.1}
+.more-list span{color:var(--mute);font-size:var(--s-sm);transition:transform .15s ease-out,color .15s ease-out}
+.more-list a:hover{color:var(--coral-text)}
+.more-list a:hover span{color:var(--coral-text);transform:translateX(4px)}
+
+.tx-book .wrap{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:2rem clamp(2rem,6vw,6rem);align-items:end;padding-block:clamp(4rem,8vw,7rem)}
+.tx-book h2{font-size:var(--s-2xl);max-width:12ch}
+.tx-book .num{display:block;font-family:var(--display);font-weight:300;font-size:var(--s-xl);font-variant-numeric:tabular-nums;text-decoration:none;line-height:1}
+.tx-book .num:hover{color:var(--coral)}
+.tx-book .side{display:grid;gap:1rem;color:var(--mute)}
+@media (max-width:860px){.tx-hero .wrap,.tx-book .wrap{grid-template-columns:1fr}}
+
+.tx-book .side .btn{justify-self:start}
+.tx-media .wrap{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(.75rem,1.6vw,1.25rem)}
+.tx-media figure{margin:0}
+.tx-media .pic{aspect-ratio:4/3;overflow:hidden;border-radius:var(--r-lg);background:var(--bg-2)}
+.tx-media img{width:100%;height:100%;object-fit:cover;display:block}
+.tx-media figcaption{margin-top:.7rem;font-size:var(--s-xs);color:var(--mute)}
+@media (max-width:600px){.tx-media .wrap{grid-template-columns:1fr}}
+.who .wrap{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:2rem clamp(2rem,6vw,6rem);align-items:center}
+.who h2{font-size:var(--s-2xl);max-width:12ch}
+.who-card{display:grid;grid-template-columns:minmax(0,10rem) minmax(0,1fr);gap:1.5rem;align-items:center;padding:clamp(1rem,2vw,1.5rem);border:1px solid var(--hair);border-radius:var(--r-lg)}
+.who-card .pic{aspect-ratio:4/5;overflow:hidden;border-radius:var(--r-sm)}
+.who-card img{width:100%;height:100%;object-fit:cover;object-position:50% 30%;display:block}
+.who-card h3{font-size:var(--s-lg);margin-bottom:.35rem}
+.who-card p{color:var(--mute)}
+.who-card .acts{display:flex;flex-wrap:wrap;gap:.75rem 1.25rem;align-items:center;margin-top:1rem}
+@media (max-width:860px){.who .wrap{grid-template-columns:1fr}}
+@media (max-width:480px){.who-card{grid-template-columns:1fr}.who-card .pic{max-width:10rem}}
+
+/* Treatments overview */
+.ov-side{background:var(--bg-2);border-radius:var(--r-lg);padding:clamp(1.25rem,2.5vw,2rem);display:grid;gap:1rem;align-content:start}
+.ov-side h2{font-size:var(--s-lg)}
+.ov-side p{color:var(--mute)}
+.ov-side .acts{display:flex;flex-wrap:wrap;gap:.75rem 1.25rem;align-items:center}
+.tgroup{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:1.5rem clamp(2rem,5vw,5rem);padding-block:clamp(2rem,4vw,3rem);border-top:1px solid var(--hair)}
+.tgroup h2{font-size:var(--s-xl);font-style:italic}
+.tgroup.calm-group h2{color:var(--coral)}
+.tgroup > div > p{color:var(--mute);margin-top:.6rem;max-width:30ch}
+.tcards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(.6rem,1.2vw,1rem);list-style:none;margin:0;padding:0}
+.tcard{display:grid;gap:.35rem;height:100%;padding:clamp(1rem,2vw,1.4rem);border:1px solid var(--hair);border-radius:var(--r-lg);text-decoration:none;background:var(--bg);transition:border-color .15s ease-out,background-color .15s ease-out}
+.tcard b{font-family:var(--display);font-weight:400;font-size:var(--s-lg);line-height:1.15;display:flex;justify-content:space-between;gap:1rem}
+.tcard b span{color:var(--mute);font-family:var(--ui);font-size:var(--s-md);transition:transform .15s ease-out,color .15s ease-out}
+.tcard p{color:var(--mute)}
+.tcard:hover{border-color:var(--mute)}
+.tcard:hover b span{transform:translateX(3px);color:var(--coral-text)}
+@media (max-width:860px){.tgroup{grid-template-columns:1fr}}
+@media (max-width:520px){.tcards{grid-template-columns:1fr}}
+
+/* Our team page */
+.jump{display:flex;flex-wrap:wrap;gap:.5rem;list-style:none;margin:0;padding:0}
+.jump a{display:inline-block;padding:.55rem .95rem;border:1px solid var(--hair);border-radius:999px;text-decoration:none;font-weight:500;color:var(--mute);transition:color .15s ease-out,border-color .15s ease-out}
+.jump a:hover{color:var(--ink);border-color:var(--mute)}
+.pf-group-h{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:1rem 3rem;margin-bottom:clamp(2rem,4vw,3rem)}
+.pf-group-h p{color:var(--mute);font-size:var(--s-md);max-width:36ch}
+.profiles{display:grid;gap:clamp(2.5rem,5vw,4.5rem)}
+.profile{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:1.5rem clamp(2rem,5vw,5rem);align-items:start;scroll-margin-top:6.5rem}
+.pf-pic{aspect-ratio:4/5;overflow:hidden;border-radius:var(--r-lg);background:var(--bg-2);max-width:26rem}
+.pf-pic img{width:100%;height:100%;object-fit:cover;object-position:50% 30%;display:block}
+.pf-body{display:grid;gap:1rem;padding-top:clamp(0rem,1vw,1rem)}
+.pf-body h3{font-size:var(--s-2xl);line-height:1}
+.pf-body > p:not(.label){color:var(--mute);font-size:var(--s-md);max-width:52ch}
+.pf-tags{display:flex;flex-wrap:wrap;gap:.45rem;list-style:none;margin:.25rem 0 0;padding:0}
+.pf-tags li{font-size:var(--s-xs);font-weight:500;padding:.35rem .75rem;border-radius:999px;background:var(--bg-2);color:var(--ink)}
+.pf-tags a{color:inherit;text-decoration:underline;text-underline-offset:.2em}
+.pf-body .acts{display:flex;flex-wrap:wrap;gap:.75rem 1.25rem;align-items:center;margin-top:.5rem}
+.pf-ohts{background:var(--bg-2)}
+.pf-ohts .pf-tags li{background:var(--bg)}
+@media (max-width:760px){.profile{grid-template-columns:1fr}.pf-pic{max-width:20rem}}
 
 /* light theme: pink display text deep enough to read on white and soft pink */
 :root{--coral-display:#D6505C}
-.ap-hero h1 em,.book-copy h2 em,.inside-h em,.t-row.calm-row h3,.t-row:hover h3,.steps li::before,.names li::after,.tx-group,.ask-row:has(input:checked) b{color:var(--coral-display)}
+.ap-hero h1 em,.book-copy h2 em,.inside-h em,.tgroup.calm-group h2,.t-row.calm-row h3,.t-row:hover h3,.steps li::before,.names li::after,.tx-group,.ask-row:has(input:checked) b{color:var(--coral-display)}
 .more-head h2 em{color:var(--coral-display)!important}
 .ask-row input:checked{background:var(--coral-display);border-color:var(--coral-display)}
 </style>
@@ -484,7 +620,7 @@ p{margin:0}
     </div>
   </section>
 
-  <section class="section" id="treatments" aria-labelledby="treat-h">
+  <section class="section" id="home-treatments" aria-labelledby="treat-h">
     <div class="wrap">
       <div class="t-head">
         <div>
@@ -499,12 +635,12 @@ p{margin:0}
           <li><a href="#treatments">Fillings <span>→</span></a></li>
           <li><a href="#treatments">Kids dental <span>→</span></a></li></ul></div>
         <div class="t-row"><h3>Fix a problem</h3><ul>
-          <li><a href="#treatments">Emergency treatment <span>→</span></a></li>
+          <li><a href="#emergency">Emergency treatment <span>→</span></a></li>
           <li><a href="#treatments">Root canals <span>→</span></a></li>
           <li><a href="#treatments">Wisdom teeth <span>→</span></a></li>
-          <li><a href="#treatments">Implants <span>→</span></a></li></ul></div>
+          <li><a href="#implants">Implants <span>→</span></a></li></ul></div>
         <div class="t-row"><h3>Change your smile</h3><ul>
-          <li><a href="#treatments">Invisalign <span>→</span></a></li>
+          <li><a href="#invisalign">Invisalign <span>→</span></a></li>
           <li><a href="#treatments">Braces <span>→</span></a></li>
           <li><a href="#treatments">Crowns + veneers <span>→</span></a></li>
           <li><a href="#treatments">Bleaching <span>→</span></a></li></ul></div>
@@ -515,7 +651,7 @@ p{margin:0}
     </div>
   </section>
 
-  <section class="section team" id="team" aria-labelledby="team-h">
+  <section class="section team" id="home-team" aria-labelledby="team-h">
     <div class="wrap">
       <div class="team-head">
         <div>
@@ -536,47 +672,47 @@ p{margin:0}
           <li class="card" data-kind="d">
             <div class="portrait"><img src="img/team/george.jpg" alt="Dr George Abdemalek" loading="lazy" width="800" height="1000"></div>
             <div class="card-body"><h3>Dr George Abdemalek</h3><p>Dentist</p></div>
-            <div class="card-acts"><a class="tlink" href="#team">Learn more</a><a class="btn btn-light" href="#book" aria-label="Book now with Dr George Abdemalek">Book now</a></div>
+            <div class="card-acts"><a class="tlink" href="#team-george">Learn more</a><a class="btn btn-light" href="#book" aria-label="Book now with Dr George Abdemalek">Book now</a></div>
           </li>
           <li class="card" data-kind="d">
             <div class="portrait"><img src="img/team/anna.jpg" alt="Dr Anna Taylor" loading="lazy" width="800" height="1000"></div>
             <div class="card-body"><h3>Dr Anna Taylor</h3><p>Dentist</p></div>
-            <div class="card-acts"><a class="tlink" href="#team">Learn more</a><a class="btn btn-light" href="#book" aria-label="Book now with Dr Anna Taylor">Book now</a></div>
+            <div class="card-acts"><a class="tlink" href="#team-anna">Learn more</a><a class="btn btn-light" href="#book" aria-label="Book now with Dr Anna Taylor">Book now</a></div>
           </li>
           <li class="card" data-kind="d">
             <div class="portrait"><img src="img/team/aba.jpg" alt="Dr Aba Saeed" loading="lazy" width="800" height="1000"></div>
             <div class="card-body"><h3>Dr Aba Saeed</h3><p>Dentist</p></div>
-            <div class="card-acts"><a class="tlink" href="#team">Learn more</a><a class="btn btn-light" href="#book" aria-label="Book now with Dr Aba Saeed">Book now</a></div>
+            <div class="card-acts"><a class="tlink" href="#team-aba">Learn more</a><a class="btn btn-light" href="#book" aria-label="Book now with Dr Aba Saeed">Book now</a></div>
           </li>
           <li class="card" data-kind="d">
             <div class="portrait"><img src="img/team/plutarch.jpg" alt="Dr Plutarch Deliyannis" loading="lazy" width="800" height="1000"></div>
             <div class="card-body"><h3>Dr Plutarch Deliyannis</h3><p>Dentist</p></div>
-            <div class="card-acts"><a class="tlink" href="#team">Learn more</a><a class="btn btn-light" href="#book" aria-label="Book now with Dr Plutarch Deliyannis">Book now</a></div>
+            <div class="card-acts"><a class="tlink" href="#team-plutarch">Learn more</a><a class="btn btn-light" href="#book" aria-label="Book now with Dr Plutarch Deliyannis">Book now</a></div>
           </li>
           <li class="card" data-kind="d">
             <div class="portrait"><img src="img/team/sam.jpg" alt="Dr Sam Saeed" loading="lazy" width="800" height="1000"></div>
             <div class="card-body"><h3>Dr Sam Saeed</h3><p>Dentist</p></div>
-            <div class="card-acts"><a class="tlink" href="#team">Learn more</a><a class="btn btn-light" href="#book" aria-label="Book now with Dr Sam Saeed">Book now</a></div>
+            <div class="card-acts"><a class="tlink" href="#team-sam">Learn more</a><a class="btn btn-light" href="#book" aria-label="Book now with Dr Sam Saeed">Book now</a></div>
           </li>
           <li class="card" data-kind="d">
             <div class="portrait"><img src="img/team/david.jpg" alt="Dr David Attia" loading="lazy" width="800" height="1000"></div>
             <div class="card-body"><h3>Dr David Attia</h3><p>Dental surgeon</p></div>
-            <div class="card-acts"><a class="tlink" href="#team">Learn more</a><a class="btn btn-light" href="#book" aria-label="Book now with Dr David Attia">Book now</a></div>
+            <div class="card-acts"><a class="tlink" href="#team-david">Learn more</a><a class="btn btn-light" href="#book" aria-label="Book now with Dr David Attia">Book now</a></div>
           </li>
           <li class="card" data-kind="t">
             <div class="portrait"><img src="img/team/lauren.jpg" alt="Lauren Rodda" loading="lazy" width="800" height="1000"></div>
             <div class="card-body"><h3>Lauren Rodda</h3><p>Oral health therapist</p></div>
-            <div class="card-acts"><a class="tlink" href="#team">Learn more</a><a class="btn btn-light" href="#book" aria-label="Book now with Lauren Rodda">Book now</a></div>
+            <div class="card-acts"><a class="tlink" href="#team-lauren">Learn more</a><a class="btn btn-light" href="#book" aria-label="Book now with Lauren Rodda">Book now</a></div>
           </li>
           <li class="card" data-kind="t">
             <div class="portrait"><img src="img/team/sophie.jpg" alt="Sophie Norden" loading="lazy" width="800" height="1000"></div>
             <div class="card-body"><h3>Sophie Norden</h3><p>Oral health therapist</p></div>
-            <div class="card-acts"><a class="tlink" href="#team">Learn more</a><a class="btn btn-light" href="#book" aria-label="Book now with Sophie Norden">Book now</a></div>
+            <div class="card-acts"><a class="tlink" href="#team-sophie">Learn more</a><a class="btn btn-light" href="#book" aria-label="Book now with Sophie Norden">Book now</a></div>
           </li>
           <li class="card" data-kind="t">
             <div class="portrait"><img src="img/team/samantha.jpg" alt="Samantha Georgeallis" loading="lazy" width="800" height="1000"></div>
             <div class="card-body"><h3>Samantha Georgeallis</h3><p>Oral health therapist</p></div>
-            <div class="card-acts"><a class="tlink" href="#team">Learn more</a><a class="btn btn-light" href="#book" aria-label="Book now with Samantha Georgeallis">Book now</a></div>
+            <div class="card-acts"><a class="tlink" href="#team-samantha">Learn more</a><a class="btn btn-light" href="#book" aria-label="Book now with Samantha Georgeallis">Book now</a></div>
           </li>
       </ul>
     </div>
@@ -618,7 +754,6 @@ p{margin:0}
       <ul class="inside-row">
         <li><figure><div class="inside-pic"><img src="img/inside-hall.jpg" loading="lazy" alt="The front hall of Ashmore House: a white arch, pendant lights, stained glass around the front door and a sign pointing to reception."></div><figcaption>The front hall, with reception just ahead.</figcaption></figure></li>
         <li><figure><div class="inside-pic"><img src="img/inside-sign.jpg" loading="lazy" alt="The pink Ashmore Dentistry sign on a sunlit wall beside a white door with stained-glass panels."></div><figcaption>Stained glass on the way in.</figcaption></figure></li>
-        <li><figure><div class="inside-pic"><img src="img/inside-surgery.jpg" loading="lazy" alt="A dentist wearing magnifying loupes and a dental assistant, both in sterile blue gowns, treating a patient under a surgical light."></div><figcaption>Surgical treatment in a fully sterile room.</figcaption></figure></li>
         <li><figure><div class="inside-pic"><img src="img/inside-xray.jpg" loading="lazy" alt="The practice's Dentsply Sirona Axeos X-ray unit, its screen set to a panoramic scan."></div><figcaption>Panoramic and 3D X-rays, taken on site.</figcaption></figure></li>
       </ul>
     </div>
@@ -859,6 +994,93 @@ p{margin:0}
   </section>
 </main>
 
+<!-- ======================= TREATMENTS (overview) ======================= -->
+<main id="view-treatments" data-view="treatments" hidden>
+  <section class="tx-hero" aria-labelledby="ov-h">
+    <div class="wrap">
+      <div class="tx-copy">
+        <p class="crumb"><a href="#home">Home</a> / Treatments</p>
+        <h1 id="ov-h">Treatments. <em style="font-style:italic">Sorted by what you need.</em></h1>
+        <p class="tx-lede">Thirteen treatments, grouped by the reason you'd come in. Every one starts with a conversation, and you'll know the cost before anything begins.</p>
+      </div>
+      <aside class="ov-side" aria-labelledby="ov-side-h">
+        <h2 id="ov-side-h">Not sure which one you need?</h2>
+        <p>Book a check-up, or call and describe what's going on. We'll work it out together.</p>
+        <div class="acts"><a class="btn btn-light" href="#book">Book online</a><a class="tlink" href="tel:+61353311959">(03) 5331 1959</a></div>
+      </aside>
+    </div>
+  </section>
+  <section class="section" style="padding-top:0" aria-label="All treatments">
+    <div class="wrap">
+      <div class="tgroup">
+        <div><h2>Keep teeth healthy</h2><p>Regular care for the whole family.</p></div>
+        <ul class="tcards">
+          <li><a class="tcard" href="#treatments"><b>Hygiene + prevention <span>→</span></b><p>Check-ups, cleans and advice to stop problems early.</p></a></li>
+          <li><a class="tcard" href="#treatments"><b>Fillings <span>→</span></b><p>Repair decay and small breaks.</p></a></li>
+          <li><a class="tcard" href="#treatments"><b>Kids dental <span>→</span></b><p>Gentle first visits and check-ups for children.</p></a></li>
+        </ul>
+      </div>
+      <div class="tgroup">
+        <div><h2>Fix a problem</h2><p>When something hurts, breaks or is missing.</p></div>
+        <ul class="tcards">
+          <li><a class="tcard" href="#emergency"><b>Emergency treatment <span>→</span></b><p>Toothache, or a broken or knocked-out tooth.</p></a></li>
+          <li><a class="tcard" href="#treatments"><b>Root canals <span>→</span></b><p>Treat infection inside a tooth and save it.</p></a></li>
+          <li><a class="tcard" href="#treatments"><b>Wisdom teeth <span>→</span></b><p>Assessment and removal.</p></a></li>
+          <li><a class="tcard" href="#implants"><b>Implants <span>→</span></b><p>Replace a missing tooth with one fixed in place.</p></a></li>
+        </ul>
+      </div>
+      <div class="tgroup">
+        <div><h2>Change your smile</h2><p>Straighten, repair or brighten your teeth.</p></div>
+        <ul class="tcards">
+          <li><a class="tcard" href="#invisalign"><b>Invisalign <span>→</span></b><p>Clear, removable aligners.</p></a></li>
+          <li><a class="tcard" href="#treatments"><b>Braces <span>→</span></b><p>Fixed braces for bigger moves.</p></a></li>
+          <li><a class="tcard" href="#treatments"><b>Crowns + veneers <span>→</span></b><p>Repair, reshape or cover teeth.</p></a></li>
+          <li><a class="tcard" href="#treatments"><b>Bleaching <span>→</span></b><p>Whiten your natural teeth.</p></a></li>
+        </ul>
+      </div>
+      <div class="tgroup calm-group">
+        <div><h2>Feel calmer</h2><p>If the dentist makes you anxious.</p></div>
+        <ul class="tcards">
+          <li><a class="tcard" href="#anxious-patients"><b>Anxious patients <span>→</span></b><p>Plan a calmer visit, at your pace.</p></a></li>
+          <li><a class="tcard" href="#anxious-patients"><b>Sleep dentistry <span>→</span></b><p>Be deeply relaxed, or asleep, for treatment.</p></a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <section class="calm calm-sm" aria-labelledby="ov-calm-h"><div class="lace" aria-hidden="true"><svg><rect width="100%" height="100%" fill="url(#lace-coral)" opacity=".45"/></svg></div><div class="wrap"><h2 id="ov-calm-h">Nervous about any of this? <em>Say so</em> when you book.</h2><a class="btn btn-dark" href="#anxious-patients">Plan a calmer visit</a></div></section>
+</main>
+
+<!-- ======================= TREATMENT PAGE (one template, filled per treatment) ======================= -->
+<main id="view-tx" data-view="tx" hidden></main>
+
+<!-- ======================= OUR TEAM ======================= -->
+<main id="view-team" data-view="team" hidden>
+  <section class="ap-hero" aria-labelledby="tm-h">
+    <div class="wrap">
+      <div class="ap-copy">
+        <p class="crumb"><a href="#home">Home</a> / Our team</p>
+        <h1 id="tm-h">Our team. <em>Nine clinicians, one house.</em></h1>
+        <p class="lede">Six dentists and three oral health therapists. Choose who you'd like to see, or book with whoever is free first.</p>
+        <ul class="jump" id="jump" aria-label="Jump to a clinician"></ul>
+      </div>
+      <figure class="ap-photo"><img src="img/inside-hall.jpg" loading="lazy" alt="The front hall of Ashmore House: a white arch, pendant lights, stained glass around the front door and a sign pointing to reception."></figure>
+    </div>
+  </section>
+  <section class="section" style="padding-top:clamp(1rem,2vw,2rem)" aria-labelledby="pf-d-h">
+    <div class="wrap">
+      <div class="pf-group-h"><h2 class="sec-title" id="pf-d-h">Dentists.</h2><p>Check-ups, fillings, root canals, implants, orthodontics and more.</p></div>
+      <div class="profiles" id="pfDentists"></div>
+    </div>
+  </section>
+  <section class="section pf-ohts" aria-labelledby="pf-t-h">
+    <div class="wrap">
+      <div class="pf-group-h"><h2 class="sec-title" id="pf-t-h">Oral health therapists.</h2><p>Cleans, prevention and check-ups for adults and children.</p></div>
+      <div class="profiles" id="pfOhts"></div>
+    </div>
+  </section>
+  <section class="calm calm-sm" aria-labelledby="tm-calm-h"><div class="lace" aria-hidden="true"><svg><rect width="100%" height="100%" fill="url(#lace-coral)" opacity=".45"/></svg></div><div class="wrap"><h2 id="tm-calm-h">Not sure who to see? <em>Book with whoever is free first.</em></h2><a class="btn btn-dark" href="#book">Book online</a></div></section>
+</main>
+
 <footer class="foot">
   <div class="wrap">
     <span>Ashmore Dentistry · 11 Drummond Street South, Ballarat VIC 3350 · (03) 5331 1959</span>
@@ -897,7 +1119,7 @@ p{margin:0}
     { label:"Something hurts", tag:"Emergency treatment", title:"Call us first thing.",
       body:"Emergency treatment is part of what we do. Ring as soon as we open and tell us what's going on.",
       facts:["From 8:45am, Mon–Fri","Until 8pm Thursdays","After hours, leave a message"],
-      cta:{label:"Call (03) 5331 1959", href:"tel:+61353311959"}, link:null },
+      cta:{label:"Call (03) 5331 1959", href:"tel:+61353311959"}, link:{label:"What to do", href:"#emergency"} },
     { label:"It's time for a check-up", tag:"Hygiene + prevention", title:"Easy. Pick a time that suits.",
       body:"A check-up and clean with one of our dentists or oral health therapists.",
       facts:["Late appointments Thursdays","Zip Pay + DentiCare"],
@@ -909,7 +1131,7 @@ p{margin:0}
     { label:"Replace missing teeth", tag:"Implants · Crowns", title:"Let's talk about the gap.",
       body:"One tooth or several, your dentist will look at what's there and walk you through the ways to replace it.",
       facts:["Implants + crowns","Written quote before you start","Zip Pay + DentiCare"],
-      cta:{label:"Book online", href:"#book"}, link:{label:"All treatments", href:"#treatments"} },
+      cta:{label:"Book online", href:"#book"}, link:{label:"About implants", href:"#implants"} },
     { label:"It's for my kids", tag:"Kids dental", title:"A family practice for life.",
       body:"Bring the kids in early, so the dentist becomes a familiar, ordinary part of growing up.",
       facts:["Thursday evenings work around school","Ask about the Child Dental Benefits Schedule"],
@@ -994,16 +1216,141 @@ p{margin:0}
   var nav = document.getElementById('nav');
   window.addEventListener('scroll', function(){ nav.classList.toggle('scrolled', window.scrollY > 8); }, { passive:true });
 
-  /* ---------- Two views, one file ---------- */
-  var views = document.querySelectorAll('[data-view]');
+
+  /* ---------- Clinicians (bios from Ashmore's current site, lightly edited) ---------- */
+  var TEAM = [
+    { slug:'george', img:'img/team/george.jpg', kind:'d', name:'Dr George Abdemalek', first:'Dr George', role:'Dentist',
+      bio:['George is a nice guy who happens to know a lot about teeth, and loves helping patients reach their dental goals.','He has a very calming nature, and takes the time to provide high quality treatment in a pain and stress free environment.'],
+      tags:['Calm, unhurried care','General dentistry'] },
+    { slug:'anna', img:'img/team/anna.jpg', kind:'d', name:'Dr Anna Taylor', first:'Dr Anna', role:'Dentist',
+      bio:['Anna graduated from the University of Melbourne in 1992, and has lived and practised dentistry in Ballarat ever since. Restorative and general dentistry are her main areas of interest and further study.','She is committed to building relationships with patients, and working with them to create and keep healthy smiles for the long term.'],
+      tags:['Restorative dentistry','General dentistry','In Ballarat since 1992'] },
+    { slug:'aba', img:'img/team/aba.jpg', kind:'d', name:'Dr Aba Saeed', first:'Dr Aba', role:'Dentist',
+      bio:['Aba has a strong interest in early orthodontics, braces and aligners (Invisalign), as well as general dentistry, with several diplomas and further training in these areas.','His patients know him as friendly and calming, with an eye for precision. Children and families enjoy their visits with him.'],
+      tags:['Early orthodontics','Braces',['Invisalign','#invisalign'],'Kids + families'] },
+    { slug:'plutarch', img:'img/team/plutarch.jpg', kind:'d', name:'Dr Plutarch Deliyannis', first:'Dr Plutarch', role:'Dentist',
+      bio:['Plutarch enjoys all aspects of clinical dentistry, and also teaches dental undergraduate students at La Trobe University.','He is approachable and easy to talk to, and aims to make every patient feel more comfortable about coming to the dentist.'],
+      tags:['All-round dentistry','Teaches at La Trobe'] },
+    { slug:'sam', img:'img/team/sam.jpg', kind:'d', name:'Dr Sam Saeed', first:'Dr Sam', role:'Dentist',
+      bio:['Sam uses his communication skills to make every visit a good experience, with a warm and kind approach to all of his patients.','He has a special interest in high quality family dentistry, and looks forward to building lifelong relationships with Ballarat families.'],
+      tags:['Family dentistry','General dentistry'] },
+    { slug:'david', img:'img/team/david.jpg', kind:'d', name:'Dr David Attia', first:'Dr David', role:'Dental surgeon',
+      bio:['David has a key interest in oral surgery, wisdom teeth removal, dental implants and gum surgery.','He enjoys working across disciplines with the rest of the team, to give patients complete, predictable and long-lasting treatment.'],
+      tags:['Oral surgery','Wisdom teeth',['Implants','#implants'],'Gum surgery'] },
+    { slug:'lauren', img:'img/team/lauren.jpg', kind:'t', name:'Lauren Rodda', first:'Lauren', role:'Oral health therapist',
+      bio:['Lauren started in dentistry as a dental assistant in 2005, then completed a Diploma in Dental Technology in 2010.','She went on to complete a Bachelor of Oral Health at Charles Sturt University in Wagga Wagga in 2014.'],
+      tags:['In dentistry since 2005','Cleans + prevention'] },
+    { slug:'sophie', img:'img/team/sophie.jpg', kind:'t', name:'Sophie Norden', first:'Sophie', role:'Oral health therapist',
+      bio:['Sophie has been an oral health therapist since graduating from the University of Melbourne in 2008.','She has a particular interest in treating gum disease, preventive care, orthodontics and teeth whitening, and in making treatment as comfortable as possible.'],
+      tags:['Gum disease','Prevention','Orthodontics','Teeth whitening'] },
+    { slug:'samantha', img:'img/team/samantha.jpg', kind:'t', name:'Samantha Georgeallis', first:'Samantha', role:'Oral health therapist',
+      bio:['Samantha graduated from La Trobe University in 2015 with a degree in Oral Health Therapy, and has a strong passion for orthodontics.','Known for her warm, friendly approach, she focuses on genuine connections with patients and a comfortable experience at every visit.'],
+      tags:['Orthodontics','Cleans + prevention'] }
+  ];
+  var BY = {}; TEAM.forEach(function(c){ BY[c.slug] = c; });
+  (function(){
+    var tag = function(t){ return '<li>' + (typeof t === 'string' ? t : '<a href="' + t[1] + '">' + t[0] + '</a>') + '</li>'; };
+    var card = function(c){ return '<article class="profile" id="team-' + c.slug + '" aria-labelledby="pf-' + c.slug + '">' +
+      '<div class="pf-pic"><img src="' + c.img + '" alt="' + c.name + '" loading="lazy" width="800" height="1000"></div>' +
+      '<div class="pf-body"><p class="label">' + c.role + '</p><h3 id="pf-' + c.slug + '">' + c.name + '</h3>' + c.bio.map(function(b){ return '<p>' + b + '</p>'; }).join('') +
+      '<ul class="pf-tags">' + c.tags.map(tag).join('') + '</ul>' +
+      '<div class="acts"><a class="btn btn-light" href="#book">Book with ' + c.first + '</a></div></div></article>'; };
+    var d = document.getElementById('pfDentists'), t = document.getElementById('pfOhts'), j = document.getElementById('jump');
+    d.innerHTML = TEAM.filter(function(c){ return c.kind === 'd'; }).map(card).join('');
+    t.innerHTML = TEAM.filter(function(c){ return c.kind === 't'; }).map(card).join('');
+    j.innerHTML = TEAM.map(function(c){ return '<li><a href="#team-' + c.slug + '">' + c.name.replace(/^Dr /, 'Dr ') + '</a></li>'; }).join('');
+  })();
+
+  /* ---------- Treatment pages: every treatment is filled from one record like these ---------- */
+  var PHONE = '(03) 5331 1959';
+  var TX = {
+    implants: {
+      group:'Fix a problem', title:'Implants',
+      lede:'A replacement tooth fixed to a small post in your jaw bone, so it stays in place like a natural tooth.',
+      cta:'Book a consultation',
+      glance:[['First visit','An exam and X-rays, often with a 3D scan'],['Treatment time','Usually a few months, in stages'],['Cost','Quoted at your consultation'],['Pay over time','Zip Pay · DentiCare']],
+      fit:['A tooth is missing, or needs to come out','You would rather not wear a removable denture','A gap is making it harder to chew or smile'],
+      fitNote:'Implants need healthy gums and enough bone to hold them. Your dentist checks this first, and talks you through the other ways to fill a gap if an implant isn\'t the best fit.',
+      media:[['img/inside-xray.jpg','The practice\'s Dentsply Sirona Axeos X-ray unit, its screen set to a panoramic scan.','Planned with panoramic and 3D X-rays, taken on site.'],['img/inside-surgery.jpg','A dentist wearing magnifying loupes and a dental assistant, both in sterile blue gowns, treating a patient under a surgical light.','Placed in a fully sterile room.']],
+      who:'david', whoNote:'Dr David Attia has a key interest in oral surgery and dental implants.',
+      steps:[['Talk it through','Your dentist examines the area and takes X-rays, often with a 3D scan, to plan where the implant will go.'],['See the plan','You see the plan, the timeline and the cost before you agree to anything.'],['Placing the implant','The post is placed with the area numbed, then left to heal and join with the bone.'],['Your new tooth','Once it has healed, a crown is made to match your other teeth and fitted on top.']],
+      stepsNote:'From first conversation to your finished tooth.',
+      price:'Written quote at your consultation',
+      faqs:[['Does it hurt?','The area is numbed for the procedure. Most people feel some tenderness for a few days afterwards, and everyday pain relief usually manages it. If you\'re nervous, ask about sleep dentistry.'],['How long does it take?','Usually a few months from start to finish, because the implant needs time to heal before the crown goes on. Your dentist will give you a timeline for your mouth.'],['How do I look after it?','Brush and floss around it like a natural tooth, and keep up your regular check-ups and cleans.'],['Can I claim on my health fund?','Some extras policies cover part of the cost. Bring your card and we\'ll check what you\'re covered for.']],
+      more:[['Crowns + veneers','Repair or cover damaged teeth'],['Wisdom teeth','Assessment and removal'],['Root canals','Treat infection and save a tooth']]
+    },
+    invisalign: {
+      group:'Change your smile', title:'Invisalign',
+      lede:'Clear, removable aligners that move teeth gradually, as an alternative to fixed braces.',
+      cta:'Book a consultation',
+      glance:[['Check-ins','Every 6 to 10 weeks'],['Treatment time','Usually 6 to 18 months'],['Cost','Quoted at your consultation'],['Pay over time','Zip Pay · DentiCare']],
+      fit:['Your teeth are crowded, gapped or crooked','You would rather not have metal braces','You want to take them out to eat and brush'],
+      fitNote:'Your dentist will tell you honestly if aligners suit your teeth, or if something else would work better.',
+      who:'aba', whoNote:'Dr Aba Saeed has a strong interest in braces and aligners, with further training in orthodontics.',
+      steps:[['Talk it through','Say what you would like to change. Your dentist checks whether aligners suit you.'],['See the plan','You see the plan and the cost before you agree to anything.'],['Wear your aligners','You wear them most of the day and night, and swap to each new set as planned.'],['Check-ins','Regular visits to see how your teeth are moving.']],
+      stepsNote:'From first conversation to your final retainer.',
+      price:'Written quote at your consultation',
+      faqs:[['How long will it take?','Most treatments take between six and eighteen months. Your dentist will give you an estimate for your teeth at the consultation.'],['Does it hurt?','Most people feel some pressure for a day or two with each new set. It settles quickly, and there are no wires or brackets to rub.'],['Can I claim on my health fund?','If your extras cover includes orthodontics, you may be able to claim part of the cost. Bring your card and we\'ll check what you\'re covered for.'],['What happens after treatment?','You\'ll wear a retainer to hold your teeth in their new position. Your dentist explains how often and for how long.']],
+      more:[['Braces','Fixed braces for bigger moves'],['Crowns + veneers','Reshape or cover teeth'],['Bleaching','Whiten your natural teeth']]
+    },
+    emergency: {
+      group:'Fix a problem', title:'Emergency treatment', urgent:true,
+      lede:'Toothache, a broken tooth or a knocked-out tooth. Call us first, and tell us what happened.',
+      cta:'Call ' + PHONE,
+      glance:[['Phone', PHONE],['Hours','Weekdays from 8:45am<br>Thursdays until 8pm'],['After hours','Leave a message. We call back when we open'],['Pay over time','Zip Pay · DentiCare']],
+      fit:['A toothache that is getting worse','A broken, chipped or knocked-out tooth','Swelling in your gums or face'],
+      fitNote:'For bleeding that will not stop, swelling that affects your breathing or swallowing, or a serious injury to your face, call 000 or go straight to the emergency department at Ballarat Base Hospital.',
+      steps:[['Call when we open','Ring ' + PHONE + ' and say it is urgent.'],['Tell us what happened','The team asks a few questions to understand how urgent it is.'],['We fit you in','We find the soonest time we can see you.'],['Treatment, then next steps','Your dentist treats the problem and explains anything that should follow.']],
+      price:'Quoted before treatment starts',
+      stepsNote:'From your phone call to your next visit.',
+      faqs:[['What if it happens after hours?','Leave us a message and we\'ll call you back as soon as we open. For severe pain, swelling or bleeding, go to a hospital emergency department or call 000.'],['What should I do with a knocked-out tooth?','Hold it by the top, not the root. If it is dirty, rinse it briefly in milk. Gently push it back into place and bite on a clean cloth, or keep it in milk, then call us straight away. Do not put a baby tooth back in.'],['How much will it cost?','It depends on the treatment you need. We\'ll tell you the cost before we start.']],
+      more:[['Root canals','Treat infection inside a tooth'],['Wisdom teeth','Assessment and removal'],['Fillings','Repair decay and small breaks']]
+    }
+  };
+  var SLUG = {'Implants':'implants','Invisalign':'invisalign','Emergency treatment':'emergency'};
+  var txMain = document.getElementById('view-tx');
+  function renderTx(key){
+    var t = TX[key], tel = 'tel:+61353311959', w = t.who ? BY[t.who] : null;
+    var book = t.urgent ? tel : '#book';
+    txMain.innerHTML =
+      (t.urgent ? '<section class="urgent" aria-label="Urgent"><div class="wrap"><p>In pain now? Call us<b>' + PHONE + '</b></p><span class="status" id="txOpen"><i aria-hidden="true"></i><span>Mon–Fri from 8:45am</span></span></div></section>' : '') +
+      '<section class="tx-hero" aria-labelledby="tx-h"><div class="wrap"><div class="tx-copy">' +
+        '<p class="crumb"><a href="#home">Home</a> / <a href="#treatments">Treatments</a> / ' + t.group + '</p>' +
+        '<p class="tx-group">' + t.group + '</p><h1 id="tx-h">' + t.title + '</h1><p class="tx-lede">' + t.lede + '</p>' +
+        '<div class="tx-cta"><a class="btn btn-light" href="' + book + '">' + t.cta + '</a>' + (t.urgent ? '' : '<span class="phone" style="color:var(--mute)">or call ' + PHONE + '</span>') + '</div>' +
+      '</div><aside class="glance" aria-labelledby="gl-h"><h2 id="gl-h">At a glance</h2><dl>' +
+        t.glance.map(function(g){ return '<div class="g-row"><dt>' + g[0] + '</dt><dd>' + g[1] + '</dd></div>'; }).join('') +
+      '</dl></aside></div></section>' +
+      '<section class="section fit" style="padding-top:clamp(2rem,4vw,3rem)" aria-labelledby="fit-h"><div class="wrap"><h2 id="fit-h">' + (t.urgent ? 'Call straight away for' : 'You might ask about this if') + '</h2><div><ul>' +
+        t.fit.map(function(f){ return '<li>' + f + '</li>'; }).join('') + '</ul><p class="fit-note">' + t.fitNote + '</p></div></div></section>' +
+      (t.media ? '<section class="tx-media" style="padding-bottom:clamp(4rem,9vw,8rem)" aria-label="Photos"><div class="wrap">' + t.media.map(function(m){ return '<figure><div class="pic"><img src="' + m[0] + '" alt="' + m[1] + '"></div><figcaption>' + m[2] + '</figcaption></figure>'; }).join('') + '</div></section>' : '') +
+      '<section class="section steps-wrap" aria-labelledby="st-h"><div class="wrap"><div class="steps-head"><h2 class="sec-title" id="st-h">What happens.</h2><p>' + t.stepsNote + '</p></div><ol class="steps">' +
+        t.steps.map(function(s){ return '<li><b>' + s[0] + '</b><p>' + s[1] + '</p></li>'; }).join('') + '</ol></div></section>' +
+      (w ? '<section class="section who" aria-labelledby="who-h"><div class="wrap"><h2 id="who-h">Who you can see.</h2><div class="who-card"><div class="pic"><img src="' + w.img + '" alt="' + w.name + '"></div><div><p class="label" style="margin-bottom:.4rem">' + w.role + '</p><h3>' + w.name + '</h3><p>' + t.whoNote + '</p><div class="acts"><a class="btn btn-light" href="#book">Book with ' + w.first + '</a><a class="tlink" href="#team-' + w.slug + '">Read profile</a></div></div></div></div></section>' : '') +
+      '<section class="section money" style="border-top:1px solid var(--hair)" aria-labelledby="mo-h"><div class="wrap"><div><h2 id="mo-h">What it costs.</h2><p class="lead">You will know the cost before treatment starts. Ask us for a written quote.</p><div class="price"><span>Cost</span><b>' + t.price + '</b></div></div>' +
+        '<div class="pay2"><div><b>Zip Pay</b><p>Pay for treatment in instalments. Ask us how it works.</p></div><div><b>DentiCare</b><p>Payment plans tailored to your treatment, arranged before you start.</p></div><div><b>Health funds</b><p>Bring your health fund card and we\'ll help you claim.</p></div></div></div></section>' +
+      '<section class="section faq" style="background:var(--bg-2)" aria-labelledby="fq-h"><div class="wrap"><h2 id="fq-h">Questions people ask.</h2><div class="qs">' +
+        t.faqs.map(function(q,i){ return '<details' + (i===0?' open':'') + '><summary>' + q[0] + '</summary><div class="a">' + q[1] + '</div></details>'; }).join('') + '</div></div></section>' +
+      '<section class="calm calm-sm" aria-labelledby="cs-h"><div class="lace" aria-hidden="true"><svg><rect width="100%" height="100%" fill="url(#lace-coral)" opacity=".45"/></svg></div><div class="wrap"><h2 id="cs-h">Nervous about this? <em>Say so</em> when you book.</h2><a class="btn btn-dark" href="#anxious-patients">Plan a calmer visit</a></div></section>' +
+      '<section class="section" aria-labelledby="mr-h"><div class="wrap"><div class="more-head"><h2 id="mr-h">More in <em style="color:var(--coral)">' + t.group + '</em></h2><a class="tlink" href="#treatments">All treatments</a></div><div class="more-list">' +
+        t.more.map(function(m){ return '<a href="#' + (SLUG[m[0]] || 'treatments') + '"><b>' + m[0] + '</b><span>' + m[1] + ' →</span></a>'; }).join('') + '</div></div></section>' +
+      '<section class="tx-book" style="border-top:1px solid var(--hair)" aria-labelledby="bk-h"><div class="wrap"><h2 id="bk-h">' + (t.urgent ? 'Call first. We will take it from there.' : 'Start with a conversation.') + '</h2><div class="side">' + (t.urgent ? '' : '<a class="btn btn-light" href="#book">Book online</a>') + '<a class="num" href="' + tel + '">' + PHONE + '</a><p>Monday to Friday from 8:45am. Thursdays until 8pm.</p><p>11 Drummond Street South, Ballarat</p></div></div></section>';
+    var el = document.getElementById('txOpen'), src = document.getElementById('openNow');
+    if (el && src){ el.querySelector('span').textContent = src.querySelector('span').textContent; if (src.classList.contains('is-open')) el.classList.add('is-open'); }
+  }
+
+  /* ---------- Views, one file ---------- */
+  var views = document.querySelectorAll('[data-view]'), TITLE = document.title;
   function route(){
     var h = (location.hash || '#home').slice(1);
-    var target = (h === 'anxious-patients' || h === 'resources') ? h : 'home';
+    var target = TX[h] ? 'tx' : h.indexOf('team-') === 0 ? 'team' : ['anxious-patients','resources','treatments','team'].indexOf(h) > -1 ? h : 'home';
+    if (target === 'tx') { renderTx(h); document.title = TX[h].title + ' · Ashmore Dentistry'; } else document.title = TITLE;
     views.forEach(function(v){ v.hidden = v.getAttribute('data-view') !== target; });
-    document.querySelectorAll('.links a').forEach(function(a){ if (a.getAttribute('href') === '#' + h) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
+    var cur = target === 'tx' ? 'treatments' : target === 'home' ? h : target;
+    document.querySelectorAll('.links a').forEach(function(a){ if (a.getAttribute('href') === '#' + cur) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
     var menu = document.querySelector('.menu'); if (menu) menu.open = false;
     onHome = target === 'home';
-    var el = onHome && h !== 'home' ? document.getElementById(h) : null;
+    var el = (onHome && h !== 'home') || target === 'team' ? document.getElementById(h) : null;
     if (el) el.scrollIntoView(); else window.scrollTo(0, 0);
     onHome ? start() : stop();
   }
