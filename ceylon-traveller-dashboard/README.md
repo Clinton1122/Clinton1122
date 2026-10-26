@@ -35,6 +35,8 @@ Akila asked where travellers see how a booking is paid and where that stands. It
 - **Settings and payments → Payments:** every booking with its card, status and amount, refunds included.
 - **Prototype:** the footer has "Preview the Mirissa payment" to switch between the four states. Add `?pay=later`, `pending`, `failed` or `paid` to the address to open in one.
 
+- **Figma:** new section "00c Payment status — 26 Oct (latest)" at the top of both dashboard pages: D 09.0 to D 09.6 and DK D 09.1, DK D 09.4 on Desktop 1440; M 06.1 to M 06.3 and DK M 06.1 on Mobile 390. Every v4 and dark-mode frame was recaptured so the booking lists show the new payment lines.
+
 Also in this round: in dark mode every input field has a lighter fill than its card and a stronger border, so search, the booking widget and checkout fields read clearly as places to type.
 
 ## v3: changes from the 7 Oct feedback call
