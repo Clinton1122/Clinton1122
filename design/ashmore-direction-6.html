@@ -530,6 +530,54 @@ p{margin:0}
 .pf-ohts{background:var(--bg-2)}
 .pf-ohts .pf-tags li{background:var(--bg)}
 @media (max-width:760px){.profile{grid-template-columns:1fr}.pf-pic{max-width:20rem}}
+
+/* Home: visit teaser */
+.hv{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:2rem clamp(2rem,6vw,6rem);align-items:end}
+.hv h2 em{font-style:italic;color:var(--coral)}
+.hv-side{display:grid;gap:1rem}
+.hv-side .big{font-family:var(--display);font-size:var(--s-lg);line-height:1.25}
+.hv-side .num{font-family:var(--display);font-weight:300;font-size:var(--s-xl);line-height:1;text-decoration:none;font-variant-numeric:tabular-nums}
+.hv-side .num:hover{color:var(--coral-text)}
+.hv-side .acts{display:flex;flex-wrap:wrap;gap:.75rem 1.25rem;align-items:center;margin-top:.5rem}
+.home-visit{border-top:1px solid var(--hair)}
+@media (max-width:860px){.hv{grid-template-columns:1fr}}
+.status-line{display:inline-flex;align-items:center;gap:.55rem;font-weight:500}
+.status-line i{width:.55rem;height:.55rem;border-radius:50%;background:var(--mute)}
+.status-line.is-open i{background:#2F9E55}
+.visit-grid > div > p a.tlink{white-space:nowrap}
+
+/* Ashmore House */
+.about-hero .wrap{padding-block:clamp(1.75rem,4vw,3.5rem) clamp(2rem,4vw,3rem)}
+.ab-head{display:grid;grid-template-columns:minmax(0,8fr) minmax(0,4fr);gap:1.5rem clamp(2rem,5vw,5rem);align-items:end;margin-top:clamp(1.25rem,2.5vw,2rem)}
+.ab-head h1{font-size:clamp(3rem,1.3rem + 5.4vw,7rem);line-height:.95;letter-spacing:-.03em}
+.ab-head h1 em{color:var(--coral)}
+.ab-head .lede{font-size:var(--s-md);color:var(--mute);max-width:36ch}
+.ab-banner{margin:0;aspect-ratio:21/8;overflow:hidden;background:var(--bg-2)}
+.ab-banner img{width:100%;height:100%;object-fit:cover;object-position:50% 20%;display:block}
+@media (max-width:860px){.ab-head{grid-template-columns:1fr}.ab-banner{aspect-ratio:4/3}}
+.story{border-top:1px solid var(--hair)}
+.story-row{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:.75rem clamp(2rem,5vw,5rem);padding-block:clamp(1.5rem,3vw,2.25rem);border-bottom:1px solid var(--hair);align-items:baseline}
+.story-row > b{font-family:var(--display);font-weight:300;font-style:italic;font-size:var(--s-xl);line-height:1;color:var(--coral)}
+.story-row h3{font-size:var(--s-lg);margin-bottom:.5rem}
+.story-row p{color:var(--mute);font-size:var(--s-md);max-width:52ch}
+@media (max-width:760px){.story-row{grid-template-columns:1fr}}
+.gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(.75rem,1.6vw,1.25rem);list-style:none;margin:0;padding:0}
+.gallery figure{margin:0}
+.g-pic{aspect-ratio:4/5;overflow:hidden;border-radius:var(--r-lg);background:var(--bg)}
+.g-pic img{width:100%;height:100%;object-fit:cover;display:block}
+.gallery figcaption{margin-top:.7rem;font-size:var(--s-xs);color:var(--mute)}
+@media (max-width:760px){.gallery{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.pillars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2rem}
+.pillars > div{border-top:1px solid var(--mute);padding-top:1.1rem;display:grid;gap:.6rem;align-content:start}
+.pillars h3{font-size:var(--s-lg);line-height:1.2}
+.pillars p{color:var(--mute)}
+@media (max-width:860px){.pillars{grid-template-columns:1fr}}
+
+/* Footer links */
+.foot-nav{padding-top:2rem}
+.foot-links{display:flex;flex-wrap:wrap;gap:.5rem 1.75rem;list-style:none;margin:0;padding:0}
+.foot-links a{text-decoration:none;font-weight:500;color:var(--ink)}
+.foot-links a:hover{color:var(--coral-text)}
 </style>
 
 <!-- Lacework pattern drawn after Ashmore House's cast-iron verandah lace; one per surface colour -->
@@ -737,6 +785,7 @@ p{margin:0}
         <h2 id="house-h">Built in the gold rush. Still looking after Ballarat.</h2>
         <p>Ashmore House went up at the height of Ballarat's gold rush in the late 1800s: brickwork, decorative cornices and cast-iron lace on the verandah. The practice inside has been part of town for 35 years, and became Ashmore Dentistry in 2019.</p>
         <p class="addr">11 Drummond Street South, Ballarat VIC 3350</p>
+        <p><a class="tlink" href="#about">The story of Ashmore House</a></p>
       </div>
       <figure style="margin:0">
         <div class="window"><img src="img/front-gate.jpg" loading="lazy" alt="The front gate at number 11, with the stone path leading up to Ashmore House's front door."></div>
@@ -753,49 +802,17 @@ p{margin:0}
     </div>
   </section>
 
-  <section class="section visit" id="visit" aria-labelledby="visit-h">
-    <div class="wrap">
-      <p class="label kicker">Visit us</p>
-      <div class="book" id="book">
-        <div class="book-copy">
-          <h2 class="sec-title" id="visit-h">Book <em>online.</em></h2>
-          <p>Choose who you'd like to see and pick a time that suits. Nervous, or not sure what you need? Say so in the notes and the team will be ready.</p>
-          <p class="or">Rather talk to someone?</p>
-          <a class="num" href="tel:+61353311959">(03) 5331 1959</a>
-        </div>
-        <div class="book-frame">
-          <iframe id="zavy-online-booking" title="Book an appointment online" src="https://bookings.zavy360.com/booking/sandboxpractice/" loading="lazy" scrolling="no" width="100%"></iframe>
-          <p class="book-alt">Booking not showing? <a class="tlink" href="https://bookings.zavy360.com/booking/sandboxpractice/" target="_blank" rel="noopener">Open it in a new tab</a></p>
-        </div>
+  <section class="section home-visit" id="home-visit" aria-labelledby="hv-h">
+    <div class="wrap hv">
+      <div>
+        <p class="label kicker">Visit us</p>
+        <h2 class="sec-title" id="hv-h">Book online, <em>any time.</em></h2>
       </div>
-      <div class="visit-grid">
-        <div>
-          <h3>Hours</h3>
-          <table class="hours" id="hours">
-            <caption class="sr">Opening hours</caption>
-            <tbody>
-              <tr data-d="1"><th scope="row">Monday</th><td>8:45am – 6:00pm</td></tr>
-              <tr data-d="2"><th scope="row">Tuesday</th><td>8:45am – 6:00pm</td></tr>
-              <tr data-d="3"><th scope="row">Wednesday</th><td>8:45am – 6:00pm</td></tr>
-              <tr data-d="4" class="late"><th scope="row">Thursday</th><td>8:45am – 8:00pm</td></tr>
-              <tr data-d="5"><th scope="row">Friday</th><td>8:45am – 6:00pm</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <div>
-          <h3>Find us</h3>
-          <p class="big">11 Drummond Street South<br>Ballarat VIC 3350</p>
-          <p>hello@ashmoredentistry.com.au</p>
-          <p style="margin-top:.75rem">Street parking nearby. If you need step-free access, tell us when you book.</p>
-        </div>
-        <div id="paying">
-          <h3>Pay over time</h3>
-          <div class="pay">
-            <div><b>Zip Pay</b><p>Pay for treatment in instalments. Ask us how it works.</p></div>
-            <div><b>DentiCare</b><p>Payment plans tailored to your treatment, arranged before you start.</p></div>
-            <div><b>Health funds</b><p>Bring your health fund card and we'll help you claim.</p></div>
-          </div>
-        </div>
+      <div class="hv-side">
+        <p class="status-line" id="hvOpen"><i aria-hidden="true"></i><span>Mon–Fri from 8:45am</span></p>
+        <p class="big">11 Drummond Street South, Ballarat</p>
+        <a class="num" href="tel:+61353311959">(03) 5331 1959</a>
+        <div class="acts"><a class="btn btn-light" href="#book">Book online</a><a class="tlink" href="#visit">Hours, parking and paying</a></div>
       </div>
     </div>
   </section>
@@ -1075,7 +1092,167 @@ p{margin:0}
   <section class="calm calm-sm" aria-labelledby="tm-calm-h"><div class="lace" aria-hidden="true"><svg><rect width="100%" height="100%" fill="url(#lace-coral)" opacity=".45"/></svg></div><div class="wrap"><h2 id="tm-calm-h">Not sure who to see? <em>Book with whoever is free first.</em></h2><a class="btn btn-dark" href="#book">Book online</a></div></section>
 </main>
 
+<!-- ======================= VISIT US ======================= -->
+<main id="view-visit" data-view="visit" hidden>
+  <section class="ap-hero" aria-labelledby="vi-h">
+    <div class="wrap">
+      <div class="ap-copy">
+        <p class="crumb"><a href="#home">Home</a> / Visit us</p>
+        <h1 id="vi-h">Visit us. <em>We're at number 11.</em></h1>
+        <p class="lede">Book online or call, then find your way to Ashmore House on Drummond Street South. Everything you need before your visit is on this page.</p>
+        <p class="status-line" id="vOpen"><i aria-hidden="true"></i><span>Mon–Fri from 8:45am</span></p>
+        <ul class="jump" aria-label="On this page">
+          <li><a href="#book">Book online</a></li><li><a href="#v-hours">Hours + finding us</a></li><li><a href="#v-first">Your first visit</a></li><li><a href="#paying">Paying</a></li>
+        </ul>
+      </div>
+      <figure class="ap-photo"><img src="img/front-gate.jpg" loading="lazy" alt="The front gate at number 11, with the stone path leading up to Ashmore House's front door."></figure>
+    </div>
+  </section>
+
+  <section class="section visit" style="padding-top:clamp(1rem,2vw,2rem)" aria-labelledby="visit-h">
+    <div class="wrap">
+      <div class="book" id="book">
+        <div class="book-copy">
+          <h2 class="sec-title" id="visit-h">Book <em>online.</em></h2>
+          <p>Choose who you'd like to see and pick a time that suits. Nervous, or not sure what you need? Say so in the notes and the team will be ready.</p>
+          <p class="or">Rather talk to someone?</p>
+          <a class="num" href="tel:+61353311959">(03) 5331 1959</a>
+        </div>
+        <div class="book-frame">
+          <iframe id="zavy-online-booking" title="Book an appointment online" src="https://bookings.zavy360.com/booking/sandboxpractice/" loading="lazy" scrolling="no" width="100%"></iframe>
+          <p class="book-alt">Booking not showing? <a class="tlink" href="https://bookings.zavy360.com/booking/sandboxpractice/" target="_blank" rel="noopener">Open it in a new tab</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section visit" id="v-hours" style="padding-top:0" aria-label="Hours and finding us">
+    <div class="wrap">
+      <div class="visit-grid">
+        <div>
+          <h3>Hours</h3>
+          <table class="hours" id="hours">
+            <caption class="sr">Opening hours</caption>
+            <tbody>
+              <tr data-d="1"><th scope="row">Monday</th><td>8:45am – 6:00pm</td></tr>
+              <tr data-d="2"><th scope="row">Tuesday</th><td>8:45am – 6:00pm</td></tr>
+              <tr data-d="3"><th scope="row">Wednesday</th><td>8:45am – 6:00pm</td></tr>
+              <tr data-d="4" class="late"><th scope="row">Thursday</th><td>8:45am – 8:00pm</td></tr>
+              <tr data-d="5"><th scope="row">Friday</th><td>8:45am – 6:00pm</td></tr>
+            </tbody>
+          </table>
+          <p style="margin-top:1rem">Closed weekends and public holidays. In pain? See <a class="tlink" href="#emergency">emergency treatment</a>.</p>
+        </div>
+        <div>
+          <h3>Find us</h3>
+          <p class="big">11 Drummond Street South<br>Ballarat VIC 3350</p>
+          <p>(03) 5331 1959<br>hello@ashmoredentistry.com.au</p>
+          <p style="margin-top:1rem"><a class="tlink" href="https://maps.google.com/?q=11+Drummond+Street+South+Ballarat+VIC+3350" target="_blank" rel="noopener">Open in Google Maps</a></p>
+        </div>
+        <div>
+          <h3>Getting here</h3>
+          <div class="pay">
+            <div><b>Parking</b><p>Street parking nearby on Drummond Street South.</p></div>
+            <div><b>Access</b><p>If you need step-free access, tell us when you book and we'll plan for it.</p></div>
+            <div><b>Arriving</b><p>Come up the path to the front door. Reception is straight down the hall.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section steps-wrap" id="v-first" aria-labelledby="vf-h">
+    <div class="wrap">
+      <div class="steps-head">
+        <h2 class="sec-title" id="vf-h">Your first visit.</h2>
+        <p>Four things, and you're ready.</p>
+      </div>
+      <ol class="steps">
+        <li><b>Book a time</b><p>Online, any time, or call us. Say if you're nervous, and the team will plan around it.</p></li>
+        <li><b>Do the forms at home</b><p>The new patient and medical history forms are in the <a class="tlink" href="#resources">Resource Hub</a>.</p></li>
+        <li><b>Bring your cards</b><p>Your health fund card, Medicare card, and a list of any medicines you take.</p></li>
+        <li><b>Arrive a little early</b><p>A few minutes is plenty. Reception is straight down the hall.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section money" id="paying" aria-labelledby="vp-h">
+    <div class="wrap">
+      <div>
+        <h2 id="vp-h">Paying.</h2>
+        <p class="lead">You'll know the cost before treatment starts. Ask for a written quote for anything beyond a check-up.</p>
+      </div>
+      <div class="pay2">
+        <div><b>Health funds</b><p>Bring your health fund card and we'll help you claim on the day.</p></div>
+        <div><b>Zip Pay</b><p>Pay for treatment in instalments. Ask us how it works.</p></div>
+        <div><b>DentiCare</b><p>Payment plans tailored to your treatment, arranged before you start.</p></div>
+        <div><b>Child Dental Benefits Schedule</b><p>Ask us whether your child is eligible before you book.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="calm calm-sm" aria-labelledby="vi-calm-h"><div class="lace" aria-hidden="true"><svg><rect width="100%" height="100%" fill="url(#lace-coral)" opacity=".45"/></svg></div><div class="wrap"><h2 id="vi-calm-h">Nervous about coming in? <em>Say so</em> when you book.</h2><a class="btn btn-dark" href="#anxious-patients">Plan a calmer visit</a></div></section>
+</main>
+
+<!-- ======================= ASHMORE HOUSE ======================= -->
+<main id="view-about" data-view="about" hidden>
+  <section class="about-hero" aria-labelledby="ab-h">
+    <div class="wrap">
+      <p class="crumb"><a href="#home">Home</a> / Ashmore House</p>
+      <div class="ab-head">
+        <h1 id="ab-h">Ashmore House. <em>Built in the gold rush.</em></h1>
+        <p class="lede">A heritage house on Drummond Street South, and a dental practice that has been part of Ballarat for 35 years.</p>
+      </div>
+    </div>
+    <figure class="ab-banner"><img src="img/verandah-view.jpg" alt="The view from Ashmore House's front door on a frosty morning: cast-iron verandah lace framing the front path down to Drummond Street South."></figure>
+  </section>
+
+  <section class="section" aria-labelledby="st-h2">
+    <div class="wrap">
+      <h2 class="sec-title" id="st-h2" style="margin-bottom:clamp(2rem,4vw,3rem)">Our story.</h2>
+      <div class="story">
+        <div class="story-row"><b>Late 1800s</b><div><h3>Built in the gold rush</h3><p>Ashmore House went up at the height of Ballarat's gold rush: brickwork, decorative cornices and cast-iron lace on the verandah.</p></div></div>
+        <div class="story-row"><b>35 years</b><div><h3>A practice for the town</h3><p>The dental practice inside has looked after Ballarat families for 35 years, many of them across several generations.</p></div></div>
+        <div class="story-row"><b>2019</b><div><h3>Ashmore Dentistry</h3><p>The practice took the name of the house it lives in, and a new look to go with it.</p></div></div>
+        <div class="story-row"><b>Today</b><div><h3>Nine clinicians, one house</h3><p>Six dentists and three oral health therapists, with modern equipment behind the original doors. <a class="tlink" href="#team">Meet the team</a></p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background:var(--bg-2)" aria-labelledby="gal-h">
+    <div class="wrap">
+      <div class="steps-head"><h2 class="sec-title" id="gal-h">Inside the house.</h2><p>Heritage outside. Modern dentistry inside.</p></div>
+      <ul class="gallery">
+        <li><figure><div class="g-pic"><img src="img/inside-hall.jpg" loading="lazy" alt="The front hall of Ashmore House: a white arch, pendant lights, stained glass around the front door and a sign pointing to reception."></div><figcaption>The front hall, with reception just ahead.</figcaption></figure></li>
+        <li><figure><div class="g-pic"><img src="img/inside-sign.jpg" loading="lazy" alt="The pink Ashmore Dentistry sign on a sunlit wall beside a white door with stained-glass panels."></div><figcaption>Stained glass on the way in.</figcaption></figure></li>
+        <li><figure><div class="g-pic"><img src="img/inside-xray.jpg" loading="lazy" alt="The practice's Dentsply Sirona Axeos X-ray unit, its screen set to a panoramic scan."></div><figcaption>Panoramic and 3D X-rays, taken on site.</figcaption></figure></li>
+        <li><figure><div class="g-pic"><img src="img/verandah-corner.jpg" loading="lazy" alt="A quiet corner of Ashmore House's verandah, looking out over the frosty front garden."></div><figcaption>The verandah on a frosty Ballarat morning.</figcaption></figure></li>
+        <li><figure><div class="g-pic"><img src="img/front-gate.jpg" loading="lazy" alt="The front gate at number 11, with the stone path leading up to Ashmore House's front door."></div><figcaption>The front gate, 11 Drummond Street South.</figcaption></figure></li>
+        <li><figure><div class="g-pic"><img src="img/verandah-view-sm.jpg" loading="lazy" alt="Cast-iron verandah lace framing the front path down to the street."></div><figcaption>Cast-iron lace on the verandah.</figcaption></figure></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="pl-h">
+    <div class="wrap">
+      <h2 class="sec-title" id="pl-h" style="margin-bottom:clamp(2rem,4vw,3rem)">What it means for you.</h2>
+      <div class="pillars">
+        <div><h3>Modern care in a heritage home</h3><p>Panoramic and 3D X-rays are taken here in the house, so there's no trip across town.</p></div>
+        <div><h3>Familiar faces</h3><p>A settled team who get to know you. Dr Anna Taylor has practised in Ballarat since 1992.</p></div>
+        <div><h3>A family practice</h3><p>From a toddler's first check-up to implants, under one roof, with late appointments on Thursdays.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="calm calm-sm" aria-labelledby="ab-calm-h"><div class="lace" aria-hidden="true"><svg><rect width="100%" height="100%" fill="url(#lace-coral)" opacity=".45"/></svg></div><div class="wrap"><h2 id="ab-calm-h">Come and see it <em>for yourself.</em></h2><a class="btn btn-dark" href="#visit">Plan your visit</a></div></section>
+</main>
+
 <footer class="foot">
+  <div class="wrap foot-nav">
+    <ul class="foot-links" aria-label="Site">
+      <li><a href="#treatments">Treatments</a></li><li><a href="#anxious-patients">Nervous patients</a></li><li><a href="#team">Our team</a></li><li><a href="#resources">Resource Hub</a></li><li><a href="#about">Ashmore House</a></li><li><a href="#visit">Visit us</a></li>
+    </ul>
+  </div>
   <div class="wrap">
     <span>Ashmore Dentistry · 11 Drummond Street South, Ballarat VIC 3350 · (03) 5331 1959</span>
     <span class="by">Design by <b>Clintontheuiuxguy</b></span>
@@ -1103,6 +1280,9 @@ p{margin:0}
     else { var n = d; do { n = (n + 1) % 7; } while (!HOURS[n]); msg = 'Closed now · opens ' + (n === (d+1)%7 ? 'tomorrow' : DAYS[n]) + ' ' + fmt(HOURS[n][0]); }
     if (d >= 0 && !isNaN(now)) txt.textContent = msg;
   } catch(e) {}
+
+  ['hvOpen','vOpen'].forEach(function(id){ var el = document.getElementById(id), src = document.getElementById('openNow'); if (!el || !src) return;
+    el.querySelector('span').textContent = src.querySelector('span').textContent; if (src.classList.contains('is-open')) el.classList.add('is-open'); });
 
   /* ---------- Hero conversation ---------- */
   var A = [
@@ -1334,17 +1514,18 @@ p{margin:0}
   }
 
   /* ---------- Views, one file ---------- */
-  var views = document.querySelectorAll('[data-view]'), TITLE = document.title;
+  var views = document.querySelectorAll('[data-view]'), TITLE = document.title, NAMES = [].map.call(views, function(v){ return v.getAttribute('data-view'); });
   function route(){
     var h = (location.hash || '#home').slice(1);
-    var target = TX[h] ? 'tx' : h.indexOf('team-') === 0 ? 'team' : ['anxious-patients','resources','treatments','team'].indexOf(h) > -1 ? h : 'home';
+    var el0 = document.getElementById(h), v0 = el0 && el0.closest('[data-view]');
+    var target = TX[h] ? 'tx' : NAMES.indexOf(h) > -1 ? h : v0 ? v0.getAttribute('data-view') : 'home';
     if (target === 'tx') { renderTx(h); document.title = TX[h].title + ' · Ashmore Dentistry'; } else document.title = TITLE;
     views.forEach(function(v){ v.hidden = v.getAttribute('data-view') !== target; });
-    var cur = target === 'tx' ? 'treatments' : target === 'home' ? h : target;
+    var cur = target === 'tx' ? 'treatments' : target;
     document.querySelectorAll('.links a').forEach(function(a){ if (a.getAttribute('href') === '#' + cur) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
     var menu = document.querySelector('.menu'); if (menu) menu.open = false;
     onHome = target === 'home';
-    var el = (onHome && h !== 'home') || target === 'team' ? document.getElementById(h) : null;
+    var el = NAMES.indexOf(h) < 0 && !TX[h] ? el0 : null;
     if (el) el.scrollIntoView(); else window.scrollTo(0, 0);
     onHome ? start() : stop();
   }
