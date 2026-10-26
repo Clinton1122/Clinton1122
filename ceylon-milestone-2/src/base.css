@@ -235,13 +235,20 @@ a.mm-card:hover{border-color:var(--cn-primary-line);background:var(--cn-primary-
 .ckr{display:inline-flex;align-items:center;gap:14px}
 html[data-theme=dark]{color-scheme:dark;
   --cn-primary-text:#FF8E62; --cn-primary-hover:#FF6A38; --cn-primary-tint:#2A1A12; --cn-primary-line:#56311E; --cn-deep:#24160D;
-  --cn-ink:#F4F4F5; --cn-body:#D4D4D8; --cn-muted:#A1A1AA; --cn-border:#2C2C31; --cn-input:#46464D; --cn-page:#0E0E10; --cn-paper:#17171A;
+  --cn-ink:#F4F4F5; --cn-body:#D4D4D8; --cn-muted:#A1A1AA; --cn-border:#2C2C31; --cn-input:#6B6B73; --cn-page:#0E0E10; --cn-paper:#17171A;
   --warn:#F5C66B; --warn-bg:#2E2410; --land:#1E1E22; --land-edge:#36363C;
   --shadow:0 1px 2px rgba(0,0,0,.5),0 1px 3px rgba(0,0,0,.4); --lift:0 24px 48px -20px rgba(0,0,0,.8);
   --dk-paper:#17171A; --dk-on-ink:#18181B; --dk-ink:#F4F4F5; --dk-body:#D4D4D8; --dk-muted:#A1A1AA; --dk-faint:#74747C;
-  --dk-border:#2C2C31; --dk-input:#46464D; --dk-soft:#212125; --dk-track:#33333A; --dk-warm:#1E1814; --dk-glass:rgba(23,23,26,.9);
+  --dk-border:#2C2C31; --dk-input:#6B6B73; --dk-soft:#212125; --dk-track:#33333A; --dk-warm:#1E1814; --dk-glass:rgba(23,23,26,.9);
   --dk-sand:#3A2B20; --dk-brown:#EBC6A8; --dk-peach:#5C2F1B; --dk-peach-soft:#3A2116; --dk-peach-ink:#FFD2BD; --dk-primary-line:#56311E;
   --dk-ok:#5CCB8D; --dk-ok-bg:#12281B; --dk-err:#F97066; --dk-err-ink:#FDA29B; --dk-err-bg:#2D1514; --dk-violet:#B9A3F5; --dk-violet-bg:#2A2140; --dk-amber-bg:#3A2D0F}
+/* dark mode fields: a lighter fill than the card and an edge at 3:1, so every place to type reads as a field */
+html[data-theme=dark]{--dk-field:#232328}
+html[data-theme=dark] :is(input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=hidden]),select,textarea){background-color:var(--dk-field)}
+html[data-theme=dark] :is(input,textarea)::placeholder{color:#8E8E96}
+/* fields drawn by their box, not the input inside it */
+html[data-theme=dark] :is(.hsearch,.sfields,.fields,.cardf){background-color:var(--dk-field);border-color:var(--cn-input)}
+html[data-theme=dark] :is(.hsearch,.sf,.cardf,.kit) input{background-color:transparent}
 [data-theme=dark] body{background:var(--cn-paper)}
 [data-theme=dark] img{filter:brightness(.88)}
 [data-theme=dark] .foot{background:#0B0B0D;border-top:1px solid var(--cn-border)}

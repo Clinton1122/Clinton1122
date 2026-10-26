@@ -613,14 +613,52 @@ input.dt{width:auto;padding:7px 12px;border-radius:999px;font-size:13px;min-heig
 .dtheme .sw i{position:absolute;left:3px;top:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 1px 2px rgba(0,0,0,.25)}
 [data-theme=dark] .dtheme .sw{background:var(--cn-primary)}[data-theme=dark] .dtheme .sw i{transform:translateX(16px)}
 @media (max-width:760px){.hbar .themebtn{display:none}}
+/* ---------- payment status (Akila, 26 Oct): every booking says how it's paid and where that stands ---------- */
+.states{display:flex;flex-wrap:wrap;align-items:center;gap:0 16px}
+.pay{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-size:13px;font-weight:600;color:var(--cn-body)}
+.pay .i{width:15px;height:15px;flex:none}
+.pay.ok .i{color:var(--ok)} .pay.info .i{color:var(--info)} .pay.warn{color:var(--warn)} .pay.bad{color:var(--bad)}
+.amt-k.due{color:var(--info)} .amt-k.unpaid{color:var(--bad)}
+.pstat{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 10px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+.panel .head .pstat{font-size:12px}
+.pstat.ok{background:var(--ok-bg);color:var(--ok)!important} .pstat.info{background:var(--info-bg);color:var(--info)!important} .pstat.warn{background:var(--warn-bg);color:var(--warn)!important} .pstat.bad{background:var(--bad-bg);color:var(--bad)!important}
+.brandmk{width:44px;height:30px;border-radius:6px;display:grid;place-items:center;font:700 10px var(--text);color:var(--dk-on-ink,#fff);background:var(--cn-ink);flex:none}
+.pm{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--cn-border);border-radius:var(--r-md);margin-bottom:14px}
+.pm .t{flex:1;min-width:0}.pm b{display:block;font-size:14px;color:var(--cn-ink)}.pm small{display:block;font-size:12.5px;color:var(--cn-muted);line-height:1.4}
+.paysteps{list-style:none;margin:0 0 14px;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.paysteps li{padding:10px 12px;border-radius:var(--r-md);background:var(--cn-page);font-size:12.5px;color:var(--cn-muted);line-height:1.4}
+.paysteps li b{display:flex;align-items:center;gap:5px;font-size:13px;color:var(--cn-ink)}
+.paysteps li b .i{width:14px;height:14px;color:var(--cn-muted)}.paysteps li.done b .i{color:var(--ok)}
+.pacts{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 16px}
+.note.bad{background:var(--bad-bg);color:var(--bad)}
+.payalert{display:flex;align-items:center;gap:12px 16px;flex-wrap:wrap;margin-bottom:16px;padding:14px 16px 14px 18px;border-radius:var(--r-card);border:1px solid var(--cn-border);background:var(--cn-paper);box-shadow:var(--shadow)}
+.payalert .msg{display:flex;gap:12px;align-items:flex-start;flex:1;min-width:240px;font-size:14px}
+.payalert .msg .i{width:20px;height:20px;flex:none;margin-top:1px}
+.payalert.warn .msg .i{color:var(--warn)} .payalert.bad .msg .i{color:var(--bad)}
+.payalert b{color:var(--cn-ink)}
+.payhist{display:flex;flex-direction:column}
+.ph-row{display:grid;grid-template-columns:minmax(0,1fr) 120px 128px 104px;gap:6px 16px;align-items:center;padding:12px 0;border-top:1px solid var(--cn-border);font-size:13.5px}
+.ph-row.h{border-top:0;padding-top:0;font-size:11.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--cn-muted)}
+.ph-row b{display:block;color:var(--cn-ink);font-size:14px}.ph-row small{display:block;color:var(--cn-muted);font-size:12.5px}
+.ph-row .amt{text-align:right;font-weight:700;color:var(--cn-ink)}.ph-row.h .amt{font-size:11.5px;font-weight:700;color:var(--cn-muted)}.ph-row .amt small{font-weight:400}
+.ph-row .m{display:flex;align-items:center;gap:8px;color:var(--cn-body)}.ph-row .m .brandmk{width:34px;height:23px;font-size:8.5px;border-radius:5px}
+.paydemo{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--cn-muted)}
+.paydemo select{width:auto;padding:4px 28px 4px 10px;font-size:13px}
+@media (max-width:600px){.paysteps{grid-template-columns:minmax(0,1fr)}.ph-row{grid-template-columns:minmax(0,1fr) auto}.ph-row.h{display:none}.ph-row .m{grid-column:1}.ph-row .amt{grid-row:1;grid-column:2}.ph-row .st{grid-column:2;justify-self:end}}
 html[data-theme=dark]{color-scheme:dark;
   --cn-primary-text:#FF8E62; --cn-primary-hover:#FF6A38; --cn-primary-tint:#2A1A12; --cn-primary-line:#56311E; --cn-deep:#24160D;
-  --cn-ink:#F4F4F5; --cn-body:#D4D4D8; --cn-muted:#A1A1AA; --cn-border:#2C2C31; --cn-input:#46464D; --cn-page:#0E0E10; --cn-paper:#17171A;
+  --cn-ink:#F4F4F5; --cn-body:#D4D4D8; --cn-muted:#A1A1AA; --cn-border:#2C2C31; --cn-input:#6B6B73; --cn-page:#0E0E10; --cn-paper:#17171A;
   --ok:#5CCB8D; --ok-bg:#12281B; --warn:#F5C66B; --warn-bg:#2E2410; --bad:#F97066; --bad-bg:#2D1514; --info:#8DB4EC; --info-bg:#152238;
   --land:#1E1E22; --land-edge:#36363C;
   --shadow:0 1px 2px rgba(0,0,0,.5),0 1px 3px rgba(0,0,0,.4);
   --dk-paper:#17171A; --dk-on-ink:#18181B; --dk-soft:#212125; --dk-track:#33333A; --dk-sand:#3A2B20; --dk-glass:rgba(23,23,26,.85);
   --dk-faint:#74747C; --dk-err:#F97066; --dk-okline:#1F4A31; --dk-badline:#5A2420}
+/* fields: a lighter fill than the card and an edge at 3:1, so every place to type reads as a field */
+html[data-theme=dark]{--dk-field:#232328}
+html[data-theme=dark] :is(input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=hidden]),select,textarea){background-color:var(--dk-field)}
+html[data-theme=dark] :is(input,textarea)::placeholder{color:#8E8E96}
+html[data-theme=dark] .search{background-color:var(--dk-field);border-color:var(--cn-input)}
+html[data-theme=dark] .search input[type=text]{background-color:transparent}
 [data-theme=dark] body{background:var(--cn-page)}
 [data-theme=dark] img{filter:brightness(.88)}
 </style>
@@ -655,7 +693,9 @@ html[data-theme=dark]{color-scheme:dark;
   <symbol id="i-clip" viewBox="0 0 24 24"><path d="M20 11.5l-8 8a5 5 0 0 1-7-7l8.5-8.5a3.3 3.3 0 0 1 4.7 4.7L9.7 17.2a1.7 1.7 0 0 1-2.4-2.4L15 7.2"/></symbol>
   <symbol id="i-userplus" viewBox="0 0 24 24"><circle cx="10" cy="8.5" r="3.8"/><path d="M2.5 20a7.5 7.5 0 0 1 15 0M19 8v6M16 11h6"/></symbol>
   <symbol id="i-send" viewBox="0 0 24 24"><path d="M21 3L10 14M21 3l-7 18-4-7-7-4z"/></symbol>
-  <symbol id="i-life" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><path d="M5.6 5.6l3.9 3.9M14.5 14.5l3.9 3.9M18.4 5.6l-3.9 3.9M9.5 14.5l-3.9 3.9"/></symbol>
+  <symbol id="i-card" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h3"/></symbol>
+<symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 4l9 16H3z"/><path d="M12 10v4.5M12 17.2v.1"/></symbol>
+<symbol id="i-life" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><path d="M5.6 5.6l3.9 3.9M14.5 14.5l3.9 3.9M18.4 5.6l-3.9 3.9M9.5 14.5l-3.9 3.9"/></symbol>
 </svg>
 
 <header class="site">
@@ -710,6 +750,7 @@ html[data-theme=dark]{color-scheme:dark;
 <main class="wrap">
   <!-- ============ MY BOOKINGS ============ -->
   <div id="pane-bookings">
+    <div class="payalert" id="payalert" role="status" hidden></div>
     <section class="next" id="next" aria-labelledby="next-title"></section>
     <div class="strip" id="strip"></div>
 
@@ -807,6 +848,11 @@ html[data-theme=dark]{color-scheme:dark;
         <p style="font-size:12px;color:var(--cn-muted);margin-top:10px">Refunds always go back to the card you paid with.</p>
       </aside>
     </div>
+    <section class="cardish" style="margin-top:20px" aria-labelledby="ph-title">
+      <h3 id="ph-title" style="font-size:16px">Payments</h3>
+      <p style="font-size:13px;color:var(--cn-muted);margin:2px 0 14px">Every booking, how it’s paid and where that stands.</p>
+      <div class="payhist" id="payhist"></div>
+    </section>
   </div>
 
   <!-- ============ HELP ============ -->
@@ -823,7 +869,7 @@ html[data-theme=dark]{color-scheme:dark;
   </div>
 </main>
 
-<footer class="foot"><div class="wrap" style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap"><span>Trip photos are Creative Commons images from Flickr, credited in the README.</span><a href="#" id="demo-toggle" style="color:var(--cn-muted)">Preview as a new traveller (empty states)</a></div></footer>
+<footer class="foot"><div class="wrap" style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap"><span>Trip photos are Creative Commons images from Flickr, credited in the README.</span><span style="display:flex;gap:16px;flex-wrap:wrap;align-items:center"><label class="paydemo">Preview the Mirissa payment <select id="paydemo"><option value="later">Pay later</option><option value="pending">Payment pending</option><option value="failed">Payment failed</option><option value="paid">Paid in full</option></select></label><a href="#" id="demo-toggle" style="color:var(--cn-muted)">Preview as a new traveller (empty states)</a></span></div></footer>
 
 <div class="scrim" id="scrim"></div>
 <aside class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sh-title">
@@ -890,7 +936,7 @@ const trips = [
     credit:'Santhosh Janardhanan, CC BY-SA 2.0',
     title:'Sigiriya Rock sunrise climb and Pidurangala', place:'Sigiriya', lat:7.957, lon:80.760,
     host:'Arkam Sahdi', hostShort:'Arkam', init:'AS', phone:'+94 77 123 4567', ref:'CNE71230415',
-    start:'2026-09-25T04:30:00+05:30', booked:'2026-09-11T09:12:00+05:30', policy:'free', hours:6, party:'2 adults',
+    start:'2026-09-25T04:30:00+05:30', booked:'2026-09-11T09:12:00+05:30', policy:'free', pay:{kind:'paid',brand:'Visa',last:'4242',on:'2026-09-11T09:12:00+05:30'}, hours:6, party:'2 adults',
     meet:'Your hotel lobby, Dambulla', meetLat:7.8597, meetLon:80.6517,
     lines:[['Experience price','2 adults at $180.00',360]], addons:[['Breakfast pack','2 at $12.00',24]], fee:22.40, vat:true,
     pack:['Water, 1 litre each','Sturdy shoes','Head torch for the dark start','Light layer for the summit','Shoulders and knees covered for the temple'],
@@ -907,7 +953,7 @@ const trips = [
     credit:'Kenny Ross, CC BY 2.0',
     title:'Blue whale watching in Mirissa', place:'Mirissa', lat:5.948, lon:80.456,
     host:'Mirissa Ocean Co.', hostShort:'the crew', init:'MO', phone:'+94 76 555 0192', ref:'CNE71544082',
-    start:'2026-10-08T06:00:00+05:30', booked:'2026-09-14T18:30:00+05:30', policy:'custom', policyText:'Free cancellation up to 48 hours before departure. If the crew cancels for bad weather, you get a full refund or a free new date.', hours:5, party:'2 adults',
+    start:'2026-10-08T06:00:00+05:30', booked:'2026-09-14T18:30:00+05:30', policy:'custom', pay:{kind:'later',brand:'Visa',last:'4242'}, policyText:'Free cancellation up to 48 hours before departure. If the crew cancels for bad weather, you get a full refund or a free new date.', hours:5, party:'2 adults',
     meet:'Mirissa harbour, jetty 3', meetLat:5.9445, meetLon:80.4590,
     lines:[['Experience price','2 adults at $95.00',190]], addons:[['Breakfast on board','2 at $13.00',26]], fee:12.60, vat:true, coupon:{code:'SUMMER26',amount:20},
     pack:['Sunscreen and a hat','Motion-sickness tablets, taken the night before','Binoculars if you have them','Cash for crew tips'],
@@ -956,6 +1002,42 @@ const total=t=>r2(sub(t)+vat(t)+t.fee-disc(t));
 const GATEWAY=0.05;
 const gwFee=t=>r2(Math.max(1,total(t)*GATEWAY)); /* 5%, minimum USD 1 (trust-link spec, 8 Oct) */
 const refundable=t=>r2(total(t)-gwFee(t));
+
+/* Payment (Akila, 26 Oct). Four states, matching the admin bookings table:
+   paid     paid in full at booking (Pay now)
+   later    Reserve now, pay later: the card is charged automatically 5 days before the start
+   pending  Pay now chosen, but the payment hasn't reached us yet (for example, waiting on the bank)
+   failed   the bank declined it; the spot is held for a while so the traveller can pay another way
+   Cancelled bookings show their refund instead. */
+const payOf=t=>t.pay||{kind:'paid',brand:'Visa',last:'4242'};
+const chargeOn=t=>new Date(d(t.start)-5*24*HOUR);
+const holdUntil=()=>new Date(+NOW+22*HOUR);
+const brandMk=b=>`<span class="brandmk">${b==='Mastercard'?'MC':b==='Amex'?'AMEX':'VISA'}</span>`;
+const PAYST={paid:['ok','Paid in full','check'],later:['info','Pay later','card'],pending:['warn','Payment pending','clock'],failed:['bad','Payment failed','alert']};
+function payChip(t){const p=payOf(t),[c,,ic]=PAYST[p.kind],h=holdUntil();
+  const txt={paid:`Paid, ${p.brand} ${p.last}`,later:`Pay later, charged ${fShort(chargeOn(t))}`,pending:`Payment pending, finish by ${fShort(h)}`,failed:`Payment failed, pay by ${fShort(h)}`}[p.kind];
+  return `<span class="pay ${c}">${svg(ic)}${txt}</span>`}
+function payPanel(t){const p=payOf(t),[c,lab,ic]=PAYST[p.kind],ch=chargeOn(t),h=holdUntil();
+  const sub={paid:p.on?`Paid ${fShort(d(p.on))}, ${fTime(d(p.on))}`:'Paid at booking',later:`Charged automatically on ${fShort(ch)}`,pending:'Waiting for your bank to confirm',failed:'Declined by your bank'}[p.kind];
+  let h2=`<section class="panel" id="pay-panel"><div class="head"><h3>Payment</h3><span class="pstat ${c}">${svg(ic)}${lab}</span></div>
+    <div class="pm">${brandMk(p.brand)}<span class="t"><b>${p.brand} ending ${p.last}</b><small>${sub}</small></span>${p.kind==='later'?`<button class="linkish" data-paycard>Change card</button>`:''}</div>`;
+  if(p.kind==='later')h2+=`<ol class="paysteps"><li class="done"><b>${svg('check')}Booked</b>${fShort(d(t.booked))}. Nothing charged</li><li><b>${svg('send')}Reminder</b>Email on ${fShort(new Date(+ch-2*24*HOUR))}</li><li><b>${svg('card')}Card charged</b>${fShort(ch)}, ${fTime(ch)}</li></ol>
+    <p class="note info">Cancel before ${fShort(ch)} and you’re never charged. Rather pay now? You can, and nothing else changes.</p>
+    <div class="pacts"><button class="btn" data-paynow="${t.id}">${svg('card')}Pay now instead</button></div>`;
+  if(p.kind==='pending')h2+=`<p class="note warn">We haven’t received your payment yet. If your bank asked you to confirm in its app, finish that step. We hold your spot until <b>${fShort(h)}, ${fTime(h)}</b>; after that the booking is released and nothing is charged.</p>
+    <div class="pacts"><button class="btn primary" data-paynow="${t.id}">Finish payment</button><button class="btn" data-paycard>Use another card</button></div>`;
+  if(p.kind==='failed')h2+=`<p class="note bad">${p.brand} ending ${p.last} was declined, so this booking isn’t paid and nothing was charged. Pay by <b>${fShort(h)}, ${fTime(h)}</b> to keep your spot.</p>
+    <div class="pacts"><button class="btn primary" data-paycard>Pay with another card</button><button class="btn" data-paynow="${t.id}">Try ${p.brand} ${p.last} again</button></div>`;
+  return h2+bill(t,{paid:'Total paid',later:`To be charged on ${fShort(ch)}`,pending:'Total to pay',failed:'Total to pay'}[p.kind])+'</section>'}
+function renderPayAlert(){const el=$('#payalert');const t=T().find(t=>t.status==='upcoming'&&['pending','failed'].includes(payOf(t).kind));
+  el.hidden=!t;if(!t)return;const k=payOf(t).kind,h=holdUntil();
+  el.className='payalert '+(k==='failed'?'bad':'warn');
+  el.innerHTML=`<div class="msg">${svg(k==='failed'?'alert':'clock')}<span><b>${k==='failed'?'Payment failed':'Payment pending'}: ${t.title}.</b> ${k==='failed'?'Your bank declined the card.':'We haven’t received it yet.'} Pay by ${fShort(h)}, ${fTime(h)} to keep your spot.</span></div><button class="btn primary" data-open="${t.id}">${k==='failed'?'Pay now':'Finish payment'}</button>`}
+function renderPayments(){
+  const st=t=>{if(t.status==='cancelled')return['ok','Refunded'];const p=payOf(t);return p.kind==='later'?['info','Due '+fShort(chargeOn(t))]:PAYST[p.kind]};
+  const rows=T().slice().sort((a,b)=>d(b.start)-d(a.start)).map(t=>{const p=payOf(t),[c,l]=st(t);
+    return `<div class="ph-row"><span><b>${t.title}</b><small>${fShort(d(t.start))} ${fDate(d(t.start),{year:'numeric'})} · ${t.ref}</small></span><span class="m">${brandMk(p.brand)}${p.brand} ${p.last}</span><span class="st"><span class="pstat ${c}">${l}</span></span><span class="amt num">${t.status==='cancelled'?`+${money(t.refund)}<small>of ${money(total(t))}</small>`:money(total(t))}</span></div>`}).join('');
+  $('#payhist').innerHTML=rows?`<div class="ph-row h"><span>Booking</span><span>Method</span><span>Status</span><span class="amt">Amount</span></div>`+rows:'<p style="font-size:14px;color:var(--cn-muted)">Payments for your bookings will show here.</p>'}
 function bill(t,label,open){
   const L=(a,b,v,cls='')=>`<tr class="${cls}"><td>${a}${b?`<small>${b}</small>`:''}</td><td>${v}</td></tr>`;
   return `<div class="bill-total"><span>${label}<small class="price-k" style="display:block;font-weight:400">Includes taxes and fees</small></span><b class="num">${money(total(t))}</b></div>
@@ -1097,8 +1179,11 @@ function row(t){
   let state='',side=`<div><div class="amt num">${money(tot)}</div><div class="amt-k">Total, incl. taxes and fees</div></div>`;
   if(t.status==='upcoming'){
     const r=refundNow(t);
-    state=`<span class="state ${r.kind}">${svg('shield','i')} ${isFree(t)?`Free cancellation until ${fShort(cutoff(t))}`:'Confirmed'}</span>`;
+    state=`<div class="states"><span class="state ${r.kind}">${svg('shield','i')} ${isFree(t)?`Free cancellation until ${fShort(cutoff(t))}`:'Confirmed'}</span>${payChip(t)}</div>`;
+    const k=payOf(t).kind;
+    side=`<div><div class="amt num">${money(tot)}</div><div class="amt-k ${k==='later'?'due':k==='paid'?'':'unpaid'}">${k==='paid'?'Paid, incl. taxes and fees':k==='later'?`Due ${fShort(chargeOn(t))}`:'Not paid yet'}</div></div>`;
   }else if(t.status==='past'){
+    side=`<div><div class="amt num">${money(tot)}</div><div class="amt-k">Paid, ${payOf(t).brand} ${payOf(t).last}</div></div>`;
     state=t.reviewed?`<span class="state ok">${svg('check')} Thanks, your review is live</span>`:
       `<div class="review">How was it with ${t.hostShort}? <span class="stars" data-rate="${t.id}">${[1,2,3,4,5].map(n=>`<button type="button" data-star="${n}" aria-label="${n} out of 5"><svg viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9l-5.2 2.8 1-5.9-4.3-4.1 5.9-.8z"/></svg></button>`).join('')}</span></div>`;
   }else{
@@ -1185,9 +1270,7 @@ function openSheet(id){
         <button class="btn" data-msg="${t.id}">${svg('chat')}Message</button></div></section>
       <section class="panel"><div class="head"><h3>What to bring</h3><span id="pack-count"></span></div>
         <ul class="pack">${t.pack.map((p,i)=>`<li><label><input type="checkbox" data-pack="${t.id}-${i}" ${packState[t.id+'-'+i]?'checked':''}><span>${p}</span></label></li>`).join('')}</ul></section>
-      <section class="panel"><h3>What you paid</h3>
-        ${bill(t,'Total paid, Visa ending 4242')}
-      </section>
+      ${payPanel(t)}
       ${policyPanel(t)}`;
     $('#sh-foot').innerHTML=`<button class="btn primary" data-reschedule>${svg('swap')}Change date</button>${calBtn(t)}`;
   } else if(t.status==='past'){
@@ -1524,6 +1607,9 @@ function openTrip(id){sheetPushed=true;go('trip/'+id)}
 function leaveTrip(){if(sheetPushed){sheetPushed=false;history.back()}else{history.replaceState(null,'','#bookings');route()}}
 addEventListener('hashchange',route);
 document.addEventListener('change',e=>{if(e.target.matches('[data-rough]')){setup.rough=e.target.checked;renderPlan()}});
+/* prototype: switch the Mirissa booking between the four payment states */
+const syncPayDemo=()=>{$('#paydemo').value=payOf(trips.find(t=>t.id==='mirissa')).kind};
+document.addEventListener('change',e=>{if(e.target.id!=='paydemo')return;const t=trips.find(t=>t.id==='mirissa');t.pay={kind:e.target.value,brand:'Visa',last:'4242',...(e.target.value==='paid'?{on:t.booked}:{})};renderAll();if(cur&&cur.id==='mirissa'&&$('#sheet').classList.contains('open'))openSheet('mirissa')});
 document.addEventListener('click',e=>{
   const b=e.target.closest('button,a,[data-pin]');
   if(!e.target.closest('#calmenu'))$('#calmenu').classList.remove('open');
@@ -1536,6 +1622,8 @@ document.addEventListener('click',e=>{
   if(b.id==='hamb'){$('#drawer').classList.add('open');b.setAttribute('aria-expanded','true');return}
   if(x.drawerClose!==undefined){$('#drawer').classList.remove('open');$('#hamb').setAttribute('aria-expanded','false')}
   if(b.id==='demo-toggle'){e.preventDefault();EMPTY=!EMPTY;b.textContent=EMPTY?'Back to the sample traveller':'Preview as a new traveller (empty states)';renderAll();scrollTo({top:0})}
+  if(x.paynow){const t=trips.find(t=>t.id===x.paynow);t.pay={...payOf(t),kind:'paid',on:NOW.toISOString()};renderAll();openSheet(t.id);toast('Payment received. Thanks!');syncPayDemo()}
+  if(x.paycard!==undefined)toast('Opens your saved cards, or add a new one');
   if(x.cat&&!b.disabled){cat=x.cat;renderCats()}
   if(x.stab){stab=x.stab;page=1;renderTimeline();$('#st-'+stab).focus()}
   if(x.page&&!b.disabled){page=+x.page;renderTimeline();const top=$('#bk-bar').getBoundingClientRect().top+scrollY-80;if(scrollY>top)scrollTo({top,behavior:'smooth'})}
@@ -1582,10 +1670,12 @@ document.addEventListener('mouseover',e=>{
   $$('.trip').forEach(r=>r.classList.toggle('selected',!!id&&r.dataset.trip===id&&!!e.target.closest('[data-pin]')));
 });
 
-function renderAll(){renderCards();renderHeader();renderNext();renderTimeline();renderMap();renderPlan();renderSaved();renderPartners()}
+function renderAll(){renderCards();renderHeader();renderNext();renderPayAlert();renderPayments();renderTimeline();renderMap();renderPlan();renderSaved();renderPartners()}
 const hr=+NOW.toLocaleTimeString('en-GB',{...TZ,hour:'2-digit',hour12:false});
 $('#greet').textContent=`${hr<12?'Good morning':hr<18?'Good afternoon':'Good evening'}, John`;
-renderAll();
+/* ?pay=later|pending|failed|paid opens with the Mirissa booking in that payment state (used for screenshots) */
+{const q=new URLSearchParams(location.search).get('pay');if(PAYST[q])trips.find(t=>t.id==='mirissa').pay={kind:q,brand:'Visa',last:'4242',...(q==='paid'?{on:'2026-09-14T18:30:00+05:30'}:{})}}
+renderAll();syncPayDemo();
 route();
 document.fonts?.ready.then(placePerf);
 

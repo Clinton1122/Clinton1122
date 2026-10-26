@@ -17,6 +17,26 @@ The current draft is an account page: a welcome banner, stat boxes, and then the
 3. **Trips in the order people look for them.** **Upcoming** comes first, soonest at the top, below a dashed **Today** line. **Past trips** come next, newest first, with a one-tap star review. **Cancelled and refunds** comes last, with a four-step refund tracker. Category chips (All, Experiences, Stays, Transportation) sit above.
 4. **"Your Sri Lanka" map.** A real outline of the island (Natural Earth data) with the trips plotted and joined in date order. Done, next (pulsing), upcoming, cancelled and saved places each look different. Hovering a pin highlights the matching trip, and clicking it opens the details. No other marketplace dashboard has this, and it fits a Sri Lanka-only brand.
 
+## v6: payment method and status (Akila, 26 Oct)
+
+Akila asked where travellers see how a booking is paid and where that stands. It now shows in four places, using the same states as the admin bookings table:
+
+| State | When | What the traveller sees |
+| --- | --- | --- |
+| Paid in full | Pay now, payment received | "Paid, Visa 4242" on the booking; "Paid in full" with the date in the details |
+| Pay later | Reserve now, pay later | "Pay later, charged Sat 3 Oct"; in the details: Booked (nothing charged), reminder email 2 days before, card charged 5 days before the start; "Pay now instead" and "Change card" |
+| Payment pending | Pay now chosen, payment not received yet (for example the bank is waiting for the traveller to confirm) | Amber "Payment pending"; a notice above the hero with the hold time; "Finish payment" |
+| Payment failed | The bank declined the card | Red "Payment failed"; the notice above the hero; "Pay with another card" or "Try again" |
+| Refunded | Cancelled bookings | The refund tracker, as before |
+
+- **My bookings list:** each upcoming booking shows its payment line under the cancellation line, and the amount says "Paid", "Due Sat 3 Oct" or "Not paid yet".
+- **Trip details:** "What you paid" is now **Payment**: the status, the card used, the pay-later timeline or what to do next, then the price breakdown.
+- **Above the hero:** a notice only when something needs action (pending or failed), with the deadline and a button.
+- **Settings and payments → Payments:** every booking with its card, status and amount, refunds included.
+- **Prototype:** the footer has "Preview the Mirissa payment" to switch between the four states. Add `?pay=later`, `pending`, `failed` or `paid` to the address to open in one.
+
+Also in this round: in dark mode every input field has a lighter fill than its card and a stronger border, so search, the booking widget and checkout fields read clearly as places to type.
+
 ## v3: changes from the 7 Oct feedback call
 
 | Feedback | What changed |
