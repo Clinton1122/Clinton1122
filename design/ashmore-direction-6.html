@@ -541,6 +541,21 @@ p{margin:0}
 .hv-side .acts{display:flex;flex-wrap:wrap;gap:.75rem 1.25rem;align-items:center;margin-top:.5rem}
 .home-visit{border-top:1px solid var(--hair)}
 @media (max-width:860px){.hv{grid-template-columns:1fr}}
+.hv{align-items:center}
+.hv-copy{display:grid;gap:clamp(1.5rem,3vw,2.5rem)}
+.hv-photo,.ap-call,.v-photos figure{margin:0}
+.hv-photo .pic,.ap-call .pic,.v-photos .pic{overflow:hidden;border-radius:var(--r-lg);background:var(--bg-2)}
+.hv-photo .pic{aspect-ratio:4/3}
+.ap-call{margin-top:clamp(2.5rem,5vw,4rem)}
+.ap-call .pic{aspect-ratio:21/9}
+.v-photos{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(.75rem,1.6vw,1.25rem);margin-top:clamp(2.5rem,5vw,4rem)}
+.v-photos .pic{aspect-ratio:4/3}
+.v-photos figure:first-child .pic{aspect-ratio:auto;height:100%}
+.v-photos figure:first-child{display:grid;grid-template-rows:1fr auto}
+.hv-photo img,.ap-call img,.v-photos img{width:100%;height:100%;object-fit:cover;display:block}
+.ap-call img{object-position:50% 0%}
+.hv-photo figcaption,.ap-call figcaption,.v-photos figcaption{margin-top:.7rem;font-size:var(--s-xs);color:var(--mute)}
+@media (max-width:760px){.v-photos{grid-template-columns:1fr}.v-photos figure:first-child .pic{aspect-ratio:4/3;height:auto}.ap-call .pic{aspect-ratio:4/3}}
 .status-line{display:inline-flex;align-items:center;gap:.55rem;font-weight:500}
 .status-line i{width:.55rem;height:.55rem;border-radius:50%;background:var(--mute)}
 .status-line.is-open i{background:#2F9E55}
@@ -836,16 +851,19 @@ p{margin:0}
 
   <section class="section home-visit" id="home-visit" aria-labelledby="hv-h">
     <div class="wrap hv">
-      <div>
-        <p class="label kicker">Visit us</p>
-        <h2 class="sec-title" id="hv-h">Book online, <em>any time.</em></h2>
-      </div>
-      <div class="hv-side">
+      <div class="hv-copy">
+        <div>
+          <p class="label kicker">Visit us</p>
+          <h2 class="sec-title" id="hv-h">Book online, <em>any time.</em></h2>
+        </div>
+        <div class="hv-side">
         <p class="status-line" id="hvOpen"><i aria-hidden="true"></i><span>Mon–Fri from 8:45am</span></p>
         <p class="big">11 Drummond Street South, Ballarat</p>
         <a class="num" href="tel:+61353311959">(03) 5331 1959</a>
         <div class="acts"><a class="btn btn-light" href="#book">Book online</a><a class="tlink" href="#visit">Hours, parking and paying</a></div>
+        </div>
       </div>
+      <figure class="hv-photo"><div class="pic"><img src="img/reception-phone.jpg" loading="lazy" alt="A smiling receptionist in Ashmore scrubs on the phone at the front desk, the pink Ashmore Dentistry sign on the wall behind her."></div><figcaption>Rather talk to someone? Reception answers from 8:45am, Monday to Friday.</figcaption></figure>
     </div>
   </section>
 </main>
@@ -909,6 +927,7 @@ p{margin:0}
         <li><b>You decide together</b><p>Your dentist explains the options. You choose what happens and when.</p></li>
         <li><b>You stay in control</b><p>Use your signal whenever you need a break. Everything stops.</p></li>
       </ol>
+      <figure class="ap-call"><div class="pic"><img src="img/reception-phone.jpg" loading="lazy" alt="A smiling receptionist in Ashmore scrubs on the phone at the front desk, the pink Ashmore Dentistry sign on the wall behind her."></div><figcaption>Step one is a phone call. Say you're nervous, and reception will let the team know before you arrive.</figcaption></figure>
     </div>
   </section>
 
@@ -1189,6 +1208,10 @@ p{margin:0}
             <div><b>Arriving</b><p>Come up the path to the front door. Reception is straight down the hall.</p></div>
           </div>
         </div>
+      </div>
+      <div class="v-photos">
+        <figure><div class="pic"><img src="img/inside-hall.jpg" loading="lazy" alt="The front hall of Ashmore House: a white arch, pendant lights, stained glass around the front door and a sign pointing to reception."></div><figcaption>Through the front door and down the hall.</figcaption></figure>
+        <figure><div class="pic"><img src="img/reception-welcome.jpg" loading="lazy" alt="A smiling member of the Ashmore team at the reception desk, holding out a small gift bag."></div><figcaption>Reception, where the team will welcome you.</figcaption></figure>
       </div>
     </div>
   </section>
