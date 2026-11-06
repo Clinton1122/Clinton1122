@@ -44,3 +44,8 @@ All 37 open comments were answered in Figma. Main changes:
 - Store: fully redesigned as a clean, category-led landing (`03-store.jpg`) plus a category page template (`03b-store-portable-powerboxes.jpg`). The previous Store frame is archived in Figma.
 - What is a PowerBox, Product, Checkout, Calculator and Blog: copy and layout fixes from the comments.
 - New AI image prompts (H1b, H1c, H14, W8) are at the end of `../ai-references/AI-IMAGE-PROMPTS.md`.
+
+## Campaigns and announcements (Black Friday example)
+
+- **Announcement bar** (Figma component "Announcement bar (site-wide, dismissible)"): a thin yellow bar above the menu on every page except checkout. Edit its Label, Message and Link properties for each campaign; hide it when nothing is running.
+- **Campaign hero slide** (`01-home-campaign-slide.jpg`): goes first in the homepage hero carousel while a campaign runs, then is removed. `[X]%` and dates are placeholders for the real offer.
