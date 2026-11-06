@@ -235,3 +235,24 @@ Slot: Partners > "Who can join" · Aspect 5:4 · References: front
 - Store: all PowerBox product images (cut-outs). Heavy-duty photos are still the old website images until the photo shoot.
 - Social impact: hero (LEH_2982), "The Akure team" (LEH_2967a).
 - Partners: hero (LEH_2856).
+
+---
+
+## New images requested in the CEO's Figma comments (Nov 2026)
+
+### H1b and H1c. Homepage hero carousel slides 2 and 3
+The CEO wants the hero to show the PowerBox with solar panels, and to scroll through use cases. Slide 1 stays as the family living room (H1). Aspect 16:9, keep the left 45% calm and dark for the headline. References: front + three-quarter cut-outs.
+
+> H1b: Cinematic wide photo, 16:9. Two Nigerian solar engineers in black Lumey Energy T-shirts finishing an installation on the flat roof of a modern Nigerian house at golden hour: a row of black solar panels, a neat cable running down to a yellow Lumey PowerBox (bright yellow metal front panel with small black ventilation dots, red digital displays, round chrome fan grille, black casing and carry strap) standing on the terrace, its display lit. The homeowner smiles beside them. Subject and PowerBox in the right half; left 45% falls into soft shadow/sky for text. Warm golden light, 35mm, photorealistic, no text, no extra logos.
+
+> H1c: Cinematic wide photo, 16:9. A busy small Nigerian business at dusk (a tailoring shop with sewing machines running, lights and a fan on) while the street outside is dark; a yellow Lumey PowerBox on the floor by the counter powers everything, solar panels visible on the shop's roof through the window. Subject in the right half, left 45% darker for text. Warm practical light, 35mm, photorealistic, no text, no extra logos.
+
+### H14. Homepage "Sell Lumey. Earn with every box." (partner section)
+Aspect 5:4. References: front.
+
+> Photorealistic photo, 5:4. A smiling Nigerian woman shop owner standing in front of her electronics shop, a bright yellow "Approved Lumey Partner" banner above the door, a yellow Lumey PowerBox (bright yellow metal front panel with small black ventilation dots, red display, round chrome fan grille, black casing) on the counter, two customers browsing. Warm late-afternoon light, 35mm, candid. No other text or logos.
+
+### W8. What is a PowerBox, "Plug and play" card
+The CEO said the current photo does not show plug and play. Aspect 16:9. References: front.
+
+> Photorealistic close-up, 16:9. A hand plugging a TV plug straight into the AC socket on the front of a yellow Lumey PowerBox (bright yellow metal front panel with small black ventilation dots, red digital displays, red switches, round chrome fan grille, black casing). A TV and a standing fan are already running from the box. No wall socket or extension cable in view. Nigerian living room, warm evening light, shallow depth of field. No text, no extra logos.

@@ -35,3 +35,12 @@ The JPGs in this folder are exports of each Figma frame.
   The Higgsfield account had 0 credits, so no images were generated yet.
 - Testimonials, impact figures, commission rates, store list, bank details and accessory prices are placeholders.
 - Heavy-duty product photos are the current site's images until the photo shoot.
+
+## CEO Figma comments, round 1 (4 Nov 2026)
+
+All 37 open comments were answered in Figma. Main changes:
+
+- Home: tagline under the logo on every page, "Choose PowerBox", Verify and Contact in the menu, 10+ years made dominant, Akure changed to Nigeria, bolder section labels, dark testimonials with video thumbnails, dark products band, taller calculator teaser, full-width social impact, new "Verify your PowerBox" section, Sell Lumey moved before the footer, hero carousel indicator.
+- Store: fully redesigned as a clean, category-led landing (`03-store.jpg`) plus a category page template (`03b-store-portable-powerboxes.jpg`). The previous Store frame is archived in Figma.
+- What is a PowerBox, Product, Checkout, Calculator and Blog: copy and layout fixes from the comments.
+- New AI image prompts (H1b, H1c, H14, W8) are at the end of `../ai-references/AI-IMAGE-PROMPTS.md`.
