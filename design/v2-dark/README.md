@@ -49,3 +49,12 @@ All 37 open comments were answered in Figma. Main changes:
 
 - **Announcement bar** (Figma component "Announcement bar (site-wide, dismissible)"): a thin yellow bar above the menu on every page except checkout. Edit its Label, Message and Link properties for each campaign; hide it when nothing is running.
 - **Campaign hero slide** (`01-home-campaign-slide.jpg`): goes first in the homepage hero carousel while a campaign runs, then is removed. `[X]%` and dates are placeholders for the real offer.
+
+## Mobile versions (390 × 844, iPhone 14 size)
+
+Figma page "Mobile (dark)". Exports are in `mobile/`, with `mobile/overview.jpg` showing the top of every screen.
+
+- Every desktop screen has a mobile version (01 to 11, plus 03b), as well as the open menu (`00-menu-open.jpg`).
+- Rows of cards become sideways swipe rows (use cases, testimonials, best sellers, reviews, filters).
+- The floating assistant and the product sticky buy bar are fixed elements, shown separately in `00-fixed-elements.jpg` so they do not cover content in the static screens.
+- Checkout and order received use a simplified header with no announcement bar.
