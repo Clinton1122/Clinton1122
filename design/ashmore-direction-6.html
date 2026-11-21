@@ -625,6 +625,32 @@ p{margin:0}
 .nf-links a:hover span{transform:translateX(3px)}
 .nf-call a{font-weight:600}
 @media (max-width:760px){.nf-links{grid-template-columns:1fr}}
+
+/* Package table */
+.pk-wrap{border:1px solid var(--hair);border-radius:var(--r-lg);overflow:hidden;background:var(--bg)}
+.pk-table{width:100%;border-collapse:collapse;table-layout:fixed}
+.pk-table th,.pk-table td{padding:1rem 1.25rem;border-bottom:1px solid var(--hair);text-align:center;vertical-align:middle;font-weight:400}
+.pk-table tbody tr:last-child th,.pk-table tbody tr:last-child td{border-bottom:0}
+.pk-table tbody th{text-align:left;color:var(--ink);font-weight:500;width:28%}
+.pk-table thead th{vertical-align:bottom;padding-block:1.5rem 1.25rem}
+.pk-corner{width:28%}
+.pk-name{display:block;font-family:var(--display);font-weight:400;font-size:var(--s-lg);line-height:1.1;color:var(--ink)}
+.pk-sub{display:block;margin-top:.35rem;font-size:var(--s-xs);color:var(--mute);line-height:1.35}
+.pk-price{display:block;margin-top:.75rem;font-family:var(--display);font-weight:300;font-size:var(--s-lg);font-variant-numeric:tabular-nums;color:var(--coral-text)}
+.pk-table .pk-feat{background:var(--bg-2)}
+.pk-yes{width:1.3rem;height:1.3rem;color:var(--coral-text);display:inline-block;vertical-align:middle}
+.pk-no{color:var(--mute)}
+.pk-txt{font-size:var(--s-sm);color:var(--ink)}
+.pk-foot{margin-top:1.25rem;color:var(--mute);font-size:var(--s-sm);max-width:70ch}
+.pk-example{display:inline-block;margin-left:.35rem;font-size:var(--s-xs);font-weight:600;color:var(--coral-text)}
+.pk-cta{display:flex;flex-wrap:wrap;gap:.75rem 1.5rem;align-items:center;margin-top:1.75rem}
+.pk-cards{display:none;list-style:none;margin:0;padding:0;gap:1rem}
+.pk-card{border:1px solid var(--hair);border-radius:var(--r-lg);padding:1.25rem;background:var(--bg)}
+.pk-card.pk-feat{background:var(--bg-2)}
+.pk-card ul{list-style:none;margin:1rem 0 0;padding:1rem 0 0;border-top:1px solid var(--hair);display:grid;gap:.6rem}
+.pk-card li{display:flex;gap:.6rem;align-items:flex-start;font-size:var(--s-sm)}
+.pk-card .pk-yes{flex:none;margin-top:.1rem}
+@media (max-width:760px){.pk-wrap{display:none}.pk-cards{display:grid}}
 </style>
 
 <!-- Lacework pattern drawn after Ashmore House's cast-iron verandah lace; one per surface colour -->
@@ -1555,6 +1581,11 @@ p{margin:0}
       fit:['Your teeth are crowded, gapped or crooked','You would rather not have metal braces','You want to take them out to eat and brush'],
       fitNote:'Your dentist will tell you honestly if aligners suit your teeth, or if something else would work better.',
       media:[['img/tx-scan.jpg','A dentist in Ashmore scrubs taking a digital scan of a patient\'s teeth with a handheld wand, the 3D image building on the screen beside them.','Your teeth are scanned in 3D with a small handheld wand.'],['img/tx-scan-review.jpg','A dentist pointing to a 3D model of a patient\'s teeth on a screen while the patient looks on and smiles.','Then you see your teeth on screen and talk through the plan together.']],
+      packages:{ title:'Invisalign packages.', lede:'Three ways to start, depending on how much your teeth need to move. Your dentist will recommend one at your consultation.',
+        example:true,
+        cols:[{name:'Minor',sub:'Small gaps or slight crowding',price:'From $X,XXX'},{name:'Moderate',sub:'Crowding, spacing or bite changes',price:'From $X,XXX',featured:true},{name:'Comprehensive',sub:'Bigger moves, full treatment',price:'From $X,XXX'}],
+        rows:[['Consultation and 3D scan',[true,true,true]],['See your plan on screen first',[true,true,true]],['Aligner sets','Up to 10','Up to 20','As many as needed'],['Check-in visits','Every 8 to 10 weeks','Every 6 to 8 weeks','Every 6 to 8 weeks'],['Refinement aligners',[false,'1 round','Included']],['Retainers at the end',[true,true,true]],['Take-home whitening',[false,false,true]]],
+        foot:'Prices are a guide. You get a written quote before treatment starts, and can pay over time with Zip Pay or DentiCare.' },
       who:'aba', whoNote:'Dr Aba Saeed has a strong interest in braces and aligners, with further training in orthodontics.',
       steps:[['Talk it through','Say what you would like to change. Your dentist checks whether aligners suit you.'],['See the plan','You see the plan and the cost before you agree to anything.'],['Wear your aligners','You wear them most of the day and night, and swap to each new set as planned.'],['Check-ins','Regular visits to see how your teeth are moving.']],
       stepsNote:'From first conversation to your final retainer.',
@@ -1578,6 +1609,20 @@ p{margin:0}
   };
   var SLUG = {'Implants':'implants','Invisalign':'invisalign','Emergency treatment':'emergency'};
   var txMain = document.getElementById('view-tx');
+  /* Package table: a comparison table on wide screens, one card per package on phones */
+  function packTable(pk){
+    var tick = '<svg class="pk-yes" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l3.5 3.5L16 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="sr">Included</span>';
+    var dash = '<span class="pk-no" aria-hidden="true">–</span><span class="sr">Not included</span>';
+    var rows = pk.rows.map(function(r){ return { label:r[0], vals: Array.isArray(r[1]) ? r[1] : r.slice(1) }; });
+    var val = function(v){ return v === true ? tick : v === false ? dash : '<span class="pk-txt">' + v + '</span>'; };
+    var table = '<div class="pk-wrap"><table class="pk-table"><caption class="sr">' + pk.title + '</caption><thead><tr><td class="pk-corner"></td>' +
+      pk.cols.map(function(c){ return '<th scope="col"' + (c.featured ? ' class="pk-feat"' : '') + '><span class="pk-name">' + c.name + '</span><span class="pk-sub">' + c.sub + '</span><span class="pk-price">' + c.price + '</span></th>'; }).join('') +
+      '</tr></thead><tbody>' + rows.map(function(r){ return '<tr><th scope="row">' + r.label + '</th>' + r.vals.map(function(v,i){ return '<td' + (pk.cols[i].featured ? ' class="pk-feat"' : '') + '>' + val(v) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div>';
+    var cards = '<ul class="pk-cards">' + pk.cols.map(function(c,i){ return '<li class="pk-card' + (c.featured ? ' pk-feat' : '') + '"><p class="pk-name">' + c.name + '</p><p class="pk-sub">' + c.sub + '</p><p class="pk-price">' + c.price + '</p><ul>' +
+      rows.map(function(r){ var v = r.vals[i]; return v === false ? '' : '<li>' + (v === true ? tick + '<span>' + r.label + '</span>' : tick + '<span>' + r.label + ': ' + v + '</span>') + '</li>'; }).join('') + '</ul></li>'; }).join('') + '</ul>';
+    return '<section class="section pk" aria-labelledby="pk-h"><div class="wrap"><div class="steps-head"><h2 class="sec-title" id="pk-h">' + pk.title + '</h2><p>' + pk.lede + '</p></div>' + table + cards +
+      '<p class="pk-foot">' + pk.foot + (pk.example ? ' <span class="pk-example">Example layout: your own packages and prices will go here.</span>' : '') + '</p><div class="pk-cta"><a class="btn btn-light" href="#book">Book a consultation</a><span class="phone" style="color:var(--mute)">or call ' + PHONE + '</span></div></div></section>';
+  }
   function renderTx(key){
     var t = TX[key], tel = 'tel:+61353311959', w = t.who ? BY[t.who] : null;
     var book = t.urgent ? tel : '#book';
@@ -1595,6 +1640,7 @@ p{margin:0}
       (t.media ? '<section class="tx-media" style="padding-bottom:clamp(4rem,9vw,8rem)" aria-label="Photos"><div class="wrap">' + t.media.map(function(m){ return '<figure><div class="pic"><img src="' + m[0] + '" alt="' + m[1] + '"></div><figcaption>' + m[2] + '</figcaption></figure>'; }).join('') + '</div></section>' : '') +
       '<section class="section steps-wrap" aria-labelledby="st-h"><div class="wrap"><div class="steps-head"><h2 class="sec-title" id="st-h">What happens.</h2><p>' + t.stepsNote + '</p></div><ol class="steps">' +
         t.steps.map(function(s){ return '<li><b>' + s[0] + '</b><p>' + s[1] + '</p></li>'; }).join('') + '</ol></div></section>' +
+      (t.packages ? packTable(t.packages) : '') +
       (w ? '<section class="section who" aria-labelledby="who-h"><div class="wrap"><h2 id="who-h">Who you can see.</h2><div class="who-card"><div class="pic"><img src="' + w.img + '" alt="' + w.name + '"></div><div><p class="label" style="margin-bottom:.4rem">' + w.role + '</p><h3>' + w.name + '</h3><p>' + t.whoNote + '</p><div class="acts"><a class="btn btn-light" href="#book">Book with ' + w.first + '</a><a class="tlink" href="#team-' + w.slug + '">Read profile</a></div></div></div></div></section>' : '') +
       '<section class="section money" style="border-top:1px solid var(--hair)" aria-labelledby="mo-h"><div class="wrap"><div><h2 id="mo-h">What it costs.</h2><p class="lead">You will know the cost before treatment starts. Ask us for a written quote.</p><div class="price"><span>Cost</span><b>' + t.price + '</b></div></div>' +
         '<div class="pay2"><div><b>Zip Pay</b><p>Pay for treatment in instalments. Ask us how it works.</p></div><div><b>DentiCare</b><p>Payment plans tailored to your treatment, arranged before you start.</p></div><div><b>Health funds</b><p>Bring your health fund card and we\'ll help you claim.</p></div></div></div></section>' +
