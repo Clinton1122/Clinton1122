@@ -59,6 +59,17 @@ Our job, per the brief: keep this content and behaviour, and redesign how it loo
 7. **Type:** the dashboards use Bricolage Grotesque and Manrope; the traveller site uses Inter. Keep that split?
 8. **Hotel flow:** confirm it's part of the USD 800 scope.
 
+## 5a. Akila's answers (23 Nov)
+
+1. **Real dates confirmed.** "Full refund until Sat 12 Sep" is the right way. It lets the app show everything programmatically instead of fixed phrases like "Free cancellation up to 48 hours".
+2. **Style guide:** use it if it's right, otherwise adjust it. Our call.
+3. **Fee and commission:** if no money was collected, the traveller gets the full amount; if it was, 5% applies. Commission is set per partner on the admin side and doesn't affect travellers. So partner payout lines use the partner's own commission rate, not one fixed figure.
+4. **Referral:** a discount code still exists, but partners can only share it through their link. The link opens a dedicated landing page, not the partner's profile. Akila can share the full development briefing; we asked for it. His landing page link (claude.ai artifact 9WcSYYWQtRTJ9DfxYE2Cgm) isn't publicly shared, so we couldn't open it.
+5. **Decision time:** our team aims for 2 to 3 days, but it can take longer depending on the information received. Copy should say "aims to decide by [date]" rather than promise a fixed date.
+6. **Cancellation Policy card:** screenshot received. Today: preset cards (Flexible, Moderate, Strict) with bullet summaries on the right; Custom opens a free-text box (500 characters); a separate "Refund Schedule" card below has accordion tiers ("Tier 1, Earliest cancellation: if cancelled at least 7 days before, 100%", "Tier 2, Moderate notice: 3 days, 50%", "Tier 3, Last minute: 1 day, 10%"). The brief replaces the text box and the separate card with compact tier rows inside the Custom card. A draft listing to open: My Experiences → Draft → edit "5-Day Cultural Triangle and Hill Country Private Tour (Copy)".
+
+Still open: SMS or WhatsApp notifications (Q3), weather extras for partner cancellation (Q4), fonts (Q7), hotel scope (Q8).
+
 ## 6. Our own designs that the new rules change
 
 - "Free cancellation up to 48 hours before" appears on the listing, checkout, homepage and category cards, and in the traveller dashboard. It becomes the policy's own tiers with real dates. The homepage and category cards aren't in the brief's list, but need the same change.
