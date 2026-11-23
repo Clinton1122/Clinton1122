@@ -83,7 +83,7 @@ One layout for both portals. Only the menu changes.
 - **Top bar, 72 px:** page title on phones, search (admin), notifications, help, dark mode, account.
 - **Page header:**
   - breadcrumb ("Dashboard / Refunds")
-  - title in H1
+  - page title (H2 30, the dashboard scale)
   - one line saying what the page is for
   - page actions on the right (Export CSV, Add)
 - **Content:** max width 1200 px, 32 px padding. Summary cards, then tabs and filters, then the list.
@@ -218,3 +218,11 @@ Effort:
 | Admin Staff and roles | Needs Akila's functional brief | L | Later |
 
 The "Now" rows are the refund work (about 3.5 weeks). "Next" and "Later" are the later redesign. With the components and shell already in place, most of those are reskins (S), so they can be estimated and done in stages.
+
+---
+
+## Boards
+
+- Figma: page "Dashboard system plan" in the Ceylon Nooks file (boards P 00 to P 08), plus real components: Status pill (5 tones × icon) and Button (4 types × 52/48/40), with auto layout and variants.
+- `Ceylon-Dashboard-Plan.html`: the same nine boards as one standalone page (fonts embedded).
+- `boards/P00.png` to `boards/P08.png`: exports for quick viewing.
