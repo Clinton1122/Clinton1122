@@ -199,12 +199,12 @@ Effort:
 
 | Screen | What changes | Effort | Stage |
 | --- | --- | --- | --- |
-| Partner Refunds (+ reply, cancel as partner) | New screens from the canvas, in the system | L | Now (refund work) |
+| Partner Refunds (+ reply, cancel as partner) | New screens from the canvas, in the system; cancel as partner adds an evidence field, "Stop new bookings for this date" and "Cancel all bookings on this day" | L | Now (refund work) |
 | Partner listing form, Cancellation Policy card | Tiers inside Custom, no text box, no separate card | M | Now |
 | Admin Refunds (queue, detail, decision, bulk, waiting) | New screens from the canvas | L | Now |
 | Admin Custom policy approval | New | L | Now |
 | Admin Automatic refund checks | New | M | Now |
-| Partner notifications and payout statement lines | New lines and emails | M | Now |
+| Partner notifications and payout statement lines | Email and WhatsApp messages, badge, statement lines | M | Now |
 | Shell (both portals) | New shell, menus renamed and grouped | M | Now, built once |
 | Partner Reservations | Phone cards; filters into a sheet on phones | M | Next |
 | Partner Dashboard | Same content, new cards; referral card follows Akila's link brief | M | Next |

@@ -68,7 +68,10 @@ Our job, per the brief: keep this content and behaviour, and redesign how it loo
 5. **Decision time:** our team aims for 2 to 3 days, but it can take longer depending on the information received. Copy should say "aims to decide by [date]" rather than promise a fixed date.
 6. **Cancellation Policy card:** screenshot received. Today: preset cards (Flexible, Moderate, Strict) with bullet summaries on the right; Custom opens a free-text box (500 characters); a separate "Refund Schedule" card below has accordion tiers ("Tier 1, Earliest cancellation: if cancelled at least 7 days before, 100%", "Tier 2, Moderate notice: 3 days, 50%", "Tier 3, Last minute: 1 day, 10%"). The brief replaces the text box and the separate card with compact tier rows inside the Custom card. A draft listing to open: My Experiences → Draft → edit "5-Day Cultural Triangle and Hill Country Private Tour (Copy)".
 
-Still open: SMS or WhatsApp notifications (Q3), weather extras for partner cancellation (Q4), fonts (Q7), hotel scope (Q8).
+7. **Notifications (23 Nov):** email and WhatsApp, no SMS. Every notification in the scenario map needs a short WhatsApp version alongside the email.
+8. **Weather cancellations (23 Nov):** yes to all three: an optional evidence field (photo, file or link), "Stop new bookings for this date", and "Cancel all bookings on this day".
+
+Still open: fonts (Q7), hotel scope (Q8).
 
 ## 6. Our own designs that the new rules change
 
