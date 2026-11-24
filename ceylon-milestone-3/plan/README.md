@@ -199,7 +199,7 @@ The "Now" rows are the refund work (about 3.5 weeks). "Next" and "Later" are the
 
 ## Boards
 
-- Figma: page "Dashboard system plan" (P 00 to P 08, v2 from 24 Nov). The first version is kept below in a section marked superseded.
+- Figma: page "Dashboard system plan", in four sections: 1 Designs (screens only), 2 Notes (how to explain each design), 3 System (components, tokens, statuses), 4 Planning (inventory, redesign map). The first version is kept below, marked superseded.
   - P 00 Why the dashboards change · P 01 Inventory by tab · P 02 Partner Refunds · P 03 Admin Refunds · P 04 Partner on a phone (Refunds, Today, cancel a day) · P 05 Components · P 06 Tokens · P 07 Status language · P 08 Redesign map
 - `Ceylon-Dashboard-Plan.html`: all boards in one standalone page (fonts and photos embedded).
 - `boards/P00.png` to `boards/P08.png`: exports. `boards/source-v2.html`: editable source.
