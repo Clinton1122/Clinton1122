@@ -193,6 +193,8 @@ Effort:
 | Admin Coupons, Reviews, Configs, Ledger | Reskin | S | Later |
 | Admin Staff and roles | Needs Akila's functional brief | L | Later |
 
+Akila, 24 Nov: Ledger is admin only. Do the cancellation process for all three users first (the "Now" rows); after that, "Next" and "Later" can go in any order we prefer.
+
 The "Now" rows are the refund work (about 3.5 weeks). "Next" and "Later" are the later redesign. With the components and shell already in place, most of those are reskins (S), so they can be estimated and done in stages.
 
 ---

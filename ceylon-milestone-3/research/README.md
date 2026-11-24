@@ -71,6 +71,8 @@ Our job, per the brief: keep this content and behaviour, and redesign how it loo
 7. **Notifications (23 Nov):** email and WhatsApp, no SMS. Every notification in the scenario map needs a short WhatsApp version alongside the email.
 8. **Weather cancellations (23 Nov):** yes to all three: an optional evidence field (photo, file or link), "Stop new bookings for this date", and "Cancel all bookings on this day".
 
+9. **Plan review (24 Nov):** Akila is reviewing the plan. Ledger is admin only. Order of work: finish the cancellation process for all three users (partner, admin, traveller) first; after that, the other screens in whatever order we prefer.
+
 Still open: fonts (Q7), hotel scope (Q8).
 
 ## 6. Our own designs that the new rules change
