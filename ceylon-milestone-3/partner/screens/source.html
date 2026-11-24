@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Partner cancellation screens</title>
+<!--V2CSS-->
+<style>
+.back{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:700;color:var(--body)}
+.back svg{transform:rotate(180deg)}
+.rh h1{font-family:var(--h);font-size:34px;letter-spacing:-.6px;line-height:1.1;margin-top:10px}
+.rh p{font-size:15px;color:var(--mut);margin-top:6px}
+.rh p b{color:var(--ink)}
+.rgrid{display:grid;grid-template-columns:1fr 448px;gap:28px;margin-top:24px;align-items:start}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px 24px}
+.card+.card{margin-top:16px}
+.card h3{font-size:16px;font-weight:800}
+.card .lead{font-size:14px;color:var(--body);line-height:1.5;margin-top:6px}
+.says2{display:grid;grid-template-columns:96px 1fr;gap:18px}
+.says2 img{width:96px;height:96px;border-radius:14px;object-fit:cover}
+.says2 q{display:block;font-size:18px;line-height:1.5;font-weight:500;quotes:"“" "”";margin-top:8px}
+.steps{list-style:none;margin-top:14px}
+.steps li{display:grid;grid-template-columns:28px 1fr;gap:12px;position:relative;padding-bottom:16px}
+.steps li:not(:last-child)::after{content:"";position:absolute;left:13px;top:28px;bottom:0;width:2px;background:var(--line)}
+.steps .d{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:12.5px;font-weight:800;background:#fff;border:2px solid var(--inp);color:var(--mut)}
+.steps .d.now{background:var(--ink);border-color:var(--ink);color:#fff}
+.steps .d.done{background:var(--ok);border-color:var(--ok);color:#fff}
+.steps .d.miss{background:var(--bad);border-color:var(--bad);color:#fff}
+.steps b{display:block;font-size:14.5px}
+.steps small{display:block;font-size:13px;color:var(--mut);margin-top:2px;line-height:1.45}
+.steps q{display:block;margin-top:8px;padding:10px 12px;border-radius:12px;background:var(--page);font-size:13.5px;line-height:1.5;color:var(--body);quotes:"“" "”"}
+.info{display:grid;grid-template-columns:20px 1fr;gap:10px;padding:14px 16px;border-radius:14px;font-size:13.5px;line-height:1.5}
+.info.i{background:var(--info-bg);color:var(--info)}
+.info.w{background:var(--warn-bg);color:var(--warn)}
+.info.b{background:var(--bad-bg);color:var(--bad)}
+.info.n{background:var(--neu-bg);color:var(--body)}
+.info b{color:inherit;font-weight:800}
+.rp{background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden}
+.rp .tk{padding:20px 24px 18px;border-bottom:2px dashed var(--line);position:relative}
+.rp .tk .nt{position:absolute;bottom:-11px;width:20px;height:20px;border-radius:50%;background:var(--page)}
+.rp .tk .nt.l{left:-11px}.rp .tk .nt.r{right:-11px}
+.rp .bd{padding:20px 24px}
+.rp .ftr{padding:16px 24px 20px;border-top:1px solid var(--line);background:#FBFAF8}
+.rp .ftr .btn{width:100%;height:52px}
+.rp .ftr small{display:block;text-align:center;font-size:12.5px;color:var(--mut);margin-top:10px}
+.cc{display:grid;grid-template-columns:22px 1fr;gap:12px;border:1px solid var(--inp);border-radius:14px;padding:13px 15px;margin-top:8px;background:#fff}
+.cc .r{width:20px;height:20px;border-radius:50%;border:2px solid var(--inp);margin-top:1px}
+.cc b{display:block;font-size:15px}
+.cc small{display:block;font-size:13px;color:var(--mut);margin-top:2px;line-height:1.4}
+.cc.on{border:2px solid var(--ink);padding:12px 14px}
+.cc.on .r{border:6px solid var(--ink)}
+.cc .x{grid-column:2;margin-top:12px}
+.cc.err{border:2px solid var(--bad);padding:12px 14px}
+.dates{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.dt{border:1px solid var(--inp);border-radius:12px;padding:10px 12px;font-size:13px;color:var(--mut);line-height:1.35}
+.dt b{display:block;font-size:14.5px;color:var(--ink)}
+.dt.on{border:2px solid var(--ink);padding:9px 11px;background:var(--page)}
+.dt.add{display:flex;align-items:center;gap:8px;font-weight:700;color:var(--pri-t)}
+.ta{border:1px solid var(--inp);border-radius:12px;min-height:84px;padding:12px 14px;font-size:14px;color:var(--mut);line-height:1.5;background:#fff}
+.ta.err{border:2px solid var(--bad);padding:11px 13px}
+.ta.fill{color:var(--ink)}
+.fl2{margin-top:18px}
+.fl2 label{display:block;font-size:13.5px;font-weight:700;margin-bottom:7px}
+.fl2 label span{font-weight:500;color:var(--mut)}
+.fl2 .h{font-size:12.5px;color:var(--mut);margin-top:6px}
+.fl2 .e{font-size:12.5px;color:var(--bad);font-weight:700;margin-top:6px}
+.panel-frame{background:var(--page);padding:28px;width:504px}
+.panel-frame .pcap{font-size:13px;font-weight:700;color:var(--mut);margin-bottom:12px}
+.stbox{padding:18px 24px;border-bottom:1px solid var(--line)}
+.stbox .ttl{display:flex;align-items:center;gap:8px;font-size:17px;font-weight:800}
+.stbox p{font-size:14px;color:var(--body);line-height:1.5;margin-top:6px}
+/* phone pages */
+.pgh{height:56px;flex:none;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:0 16px;font-size:16px;font-weight:800}
+.pgh svg.bkk{transform:rotate(180deg)}
+.tstrip{display:flex;align-items:center;gap:8px;padding:10px 16px;background:var(--bad-bg);color:var(--bad);font-size:13.5px;font-weight:700;flex:none}
+.tstrip b{font-family:var(--h);font-size:18px}
+.pscroll2{flex:1;overflow:hidden;padding:16px}
+.sbar2{flex:none;background:#fff;border-top:1px solid var(--line);padding:12px 16px 26px;box-shadow:0 -8px 24px rgba(28,26,23,.06)}
+.sbar2 .btn{width:100%;height:52px}
+.sbar2 small{display:block;text-align:center;font-size:12px;color:var(--mut);margin-top:8px}
+/* bookings day */
+.dstrip{display:flex;gap:8px;margin-top:20px}
+.dstrip .day{width:76px;padding:10px 0 12px;border-radius:16px}
+.dstrip .day b{font-size:24px}
+.bk{display:grid;grid-template-columns:72px 1fr auto auto;gap:18px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px 20px;margin-top:10px}
+.bk img{width:72px;height:72px;border-radius:14px;object-fit:cover}
+.bk b{display:block;font-size:16px}
+.bk small{display:block;font-size:13.5px;color:var(--mut);margin-top:3px}
+.bk .pk{font-family:var(--h);font-weight:700;font-size:24px;text-align:right}
+.bk .pk small{font-family:var(--t);font-size:12.5px;font-weight:600}
+.dlg2{position:absolute;left:50%;top:96px;transform:translateX(-50%);width:600px;background:#fff;border-radius:22px;box-shadow:0 24px 60px rgba(0,0,0,.25);overflow:hidden}
+.dlg2 .dh{padding:22px 26px 0;display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.dlg2 h2{font-family:var(--h);font-size:26px;letter-spacing:-.4px;line-height:1.15}
+.dlg2 .db{padding:10px 26px 20px}
+.dlg2 .df{padding:16px 26px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:10px;align-items:center;background:#FBFAF8}
+.scrim2{position:absolute;inset:0;background:rgba(28,26,23,.45)}
+/* listing form */
+.stepper{display:flex;gap:6px;margin-top:20px}
+.stepper span{flex:1;display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:14px;background:#fff;border:1px solid var(--line);font-size:14px;font-weight:700;color:var(--body)}
+.stepper span i{font-style:normal;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:800;background:var(--ok);color:#fff;flex:none}
+.stepper span.on{border:2px solid var(--ink);color:var(--ink);padding:11px 13px}
+.stepper span.on i{background:var(--ink)}
+.presets{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:14px}
+.pre{border:1px solid var(--inp);border-radius:14px;padding:14px;background:#fff}
+.pre b{display:block;font-size:15px}
+.pre small{display:block;font-size:12.5px;color:var(--mut);margin-top:4px;line-height:1.4}
+.pre .mt{display:flex;gap:2px;margin-top:12px}
+.pre .mt span{height:5px;border-radius:3px}
+.pre.on{border:2px solid var(--ink);padding:13px;background:var(--page)}
+.tr2{display:flex;align-items:center;gap:10px;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:#fff;font-size:14.5px;margin-top:8px}
+.tr2 .n2{font-size:12.5px;font-weight:800;color:var(--mut);width:46px}
+.tr2 .box{height:42px;min-width:60px;padding:0 12px;border:1px solid var(--inp);border-radius:10px;display:grid;place-items:center;font-weight:700}
+.tr2 .x{margin-left:auto;color:var(--mut)}
+.tr2.fixed{background:var(--page);color:var(--body)}
+.tr2 .sw2{width:10px;height:10px;border-radius:3px;flex:none}
+.prev{background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px}
+.prev h3{font-size:16px;font-weight:800}
+.wl{margin-top:16px;border-top:1px solid var(--line)}
+.wl div{display:grid;grid-template-columns:12px 1fr;gap:10px;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px;color:var(--body)}
+.wl div b{color:var(--ink)}
+.wl i{width:10px;height:10px;border-radius:3px}
+.formbar{display:flex;align-items:center;gap:12px;margin-top:28px;padding-top:20px;border-top:1px solid var(--line)}
+/* notifications */
+.mail{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.mail .mh{padding:16px 22px;border-bottom:1px solid var(--line);font-size:13px;color:var(--mut);line-height:1.6;background:#FBFAF8}
+.mail .mh b{color:var(--ink)}
+.mail .mb{padding:26px 30px 30px}
+.mail .mb h2{font-family:var(--h);font-size:26px;letter-spacing:-.4px;line-height:1.15}
+.mail .mb p{font-size:15px;line-height:1.6;color:var(--body);margin-top:12px}
+.chat{background:#EFE9E1;border-radius:22px;padding:18px;display:flex;flex-direction:column;gap:10px}
+.chat .ch{display:flex;align-items:center;gap:10px;padding:4px 4px 10px;border-bottom:1px solid rgba(0,0,0,.06);font-size:14px;font-weight:800}
+.chat .ch small{display:block;font-weight:600;font-size:12px;color:var(--mut)}
+.bub{background:#fff;border-radius:4px 16px 16px 16px;padding:12px 14px;font-size:14px;line-height:1.5;max-width:420px;color:var(--ink);box-shadow:0 1px 1px rgba(0,0,0,.06)}
+.bub .tg{display:block;font-size:11.5px;font-weight:800;color:var(--pri-t);margin-bottom:4px}
+.bub u{color:var(--info);text-decoration:none;font-weight:700}
+.bub .tm{display:block;text-align:right;font-size:11px;color:var(--mut);margin-top:4px}
+/* flow notes */
+.flow{display:flex;align-items:stretch;gap:0;margin-top:22px}
+.flow .fs{flex:1;background:var(--page);border-radius:16px;padding:16px 18px}
+.flow .fs b{display:block;font-size:15px}
+.flow .fs span{display:block;font-size:13.5px;color:var(--body);line-height:1.5;margin-top:4px}
+.flow .fs em{font-style:normal;display:inline-block;font-size:11.5px;font-weight:800;color:var(--pri-t);margin-bottom:6px}
+.flow .ar{width:36px;display:grid;place-items:center;color:var(--mut);flex:none}
+</style>
+</head>
+<body>
+<!--SPRITE-->
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="today" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></symbol>
+  <symbol id="rain" viewBox="0 0 24 24"><path d="M7 15a4.5 4.5 0 1 1 1.2-8.8A5.5 5.5 0 0 1 18.5 9a3.5 3.5 0 0 1-.5 7H7z"/><path d="M8 19l-1 2M12 19l-1 2M16 19l-1 2"/></symbol>
+  <symbol id="clip" viewBox="0 0 24 24"><path d="M20 11.5l-8.2 8.2a5 5 0 0 1-7.1-7.1L13 4.3a3.3 3.3 0 0 1 4.7 4.7l-8.3 8.3a1.7 1.7 0 0 1-2.4-2.4l7.6-7.6"/></symbol>
+  <symbol id="arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="hour" viewBox="0 0 24 24"><path d="M7 3h10M7 21h10M8 3c0 5 8 5 8 9s-8 4-8 9M16 3c0 5-8 5-8 9"/></symbol>
+  <symbol id="lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
+  <symbol id="cam" viewBox="0 0 24 24"><path d="M4 8h3l2-2.5h6L17 8h3v11H4z"/><circle cx="12" cy="13.5" r="3.5"/></symbol>
+  <symbol id="info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+  <symbol id="money" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/></symbol>
+  <symbol id="send" viewBox="0 0 24 24"><path d="M4 12l16-8-6 16-2.5-6.5z"/></symbol>
+</svg>
+
+<!-- ================= R1  REPLY PAGE, AGREE A REFUND ================= -->
+<div class="fig-frame screen" id="r1" data-name="Partner · Reply to a request · Agree a refund · desktop 1440" style="width:1440px;background:var(--page)">
+  <div class="hd px-p"><span class="logo"><!--LOGO--><span class="portal">Partner</span></span><span class="sp"></span><span class="slt"><svg class="i s"><use href="#clock"/></svg>Sri Lanka <b>12:12 PM</b></span><span class="icb"><svg class="i"><use href="#help"/></svg></span><span class="icb"><svg class="i"><use href="#bell"/></svg><i class="dot"></i></span><span class="me">AS</span></div>
+  <div class="band px-p"><div class="tray"><span><svg class="i"><use href="#today"/></svg>Today</span><span><svg class="i"><use href="#cal"/></svg>Bookings</span><span class="on"><svg class="i"><use href="#back"/></svg>Refunds<em>2</em></span><span><svg class="i"><use href="#chat"/></svg>Messages<em>1</em></span><span><svg class="i"><use href="#compass"/></svg>Listings</span><span><svg class="i"><use href="#wallet"/></svg>Money</span><span><svg class="i"><use href="#user"/></svg>Account</span></div></div>
+  <div class="px-p" style="padding-top:28px;padding-bottom:64px">
+    <span class="back"><svg class="i s"><use href="#arrow"/></svg>Refunds</span>
+    <div class="rh"><h1>Daniel asked for a refund</h1><p>Pidurangala sunset hike · <b>Wed 23 Sep, 4:00 PM</b> · 2 adults · booking <b class="n">CNE71230415</b></p></div>
+    <div class="rgrid">
+      <div>
+        <div class="card"><div class="says2"><img src="@img:pidurangala:240" alt=""><div><span class="lab">Daniel says · Tue 22 Sep, 8:05 AM</span><q>I've come down with a fever and the doctor says I should rest for three days. Could we have some of it back?</q><div class="chips"><span class="chip">Illness</span><span class="chip f"><svg class="i s"><use href="#clip"/></svg>doctor-note.pdf</span><span class="chip f"><svg class="i s"><use href="#chat"/></svg>Message Daniel</span></div></div></div></div>
+        <div class="card"><h3>Your policy for this booking: Moderate</h3><p class="lead">Daniel asked after the 50% period ended, so your policy gives him nothing back. That's why it's your call first.</p>
+          <div class="pl" style="margin-top:8px"><div class="track"><span class="f" style="flex:36"></span><span class="h" style="flex:36"></span><span class="z" style="flex:28"></span><span class="pin" style="left:89%"><b>Asked Tue 8:05 AM</b><i></i></span></div>
+          <div class="ticks"><span style="flex:36"><b>Full refund</b>until Wed 16 Sep, 4:00 PM</span><span style="flex:36"><b>50% back</b>until Sun 20 Sep, 4:00 PM</span><span style="flex:28"><b>No refund</b>after that</span></div></div>
+          <div class="mini" style="margin-top:18px;border-top:1px solid var(--line);padding-top:12px"><span>Daniel paid</span><b class="n">USD 120.00</b></div><div class="mini" style="border:0"><span>Your payout for this booking</span><b class="n">USD 98.40</b></div></div>
+        <div class="card"><h3>What happens next</h3>
+          <ol class="steps"><li><span class="d now">1</span><span><b>You reply</b><small>By 8:05 PM today. You can change your reply until our team decides.</small></span></li>
+          <li><span class="d">2</span><span><b>Our team decides</b><small>The trip is tomorrow, so we'll decide before it starts. We usually go with what you agree.</small></span></li>
+          <li><span class="d">3</span><span><b>You both hear the outcome</b><small>By email, WhatsApp and here in Refunds. Daniel never sees your note.</small></span></li></ol></div>
+        <div class="info n" style="margin-top:16px"><svg class="i s" style="margin-top:2px"><use href="#info"/></svg><span>Any refund comes out of this booking's payout. If you've already been paid for it, it's taken from your next payout and shows on your statement.</span></div>
+      </div>
+      <div class="rp">
+        <div class="tk"><i class="nt l"></i><i class="nt r"></i><span class="lab">Reply within</span><div class="clock hot"><b>7</b><i>h</i><b>53</b><i>m</i></div><div class="due">By 8:05 PM today, Tue 22 Sep</div><small style="display:block;font-size:13px;color:var(--mut);margin-top:3px">The trip is in under 3 days, so you have 12 hours.</small></div>
+        <div class="bd">
+          <span class="lab">Your reply</span>
+          <div class="cc"><span class="r"></span><span><b>Offer another date</b><small>Keep the booking and move it. Nobody pays a fee.</small></span></div>
+          <div class="cc on"><span class="r"></span><span><b>Agree a refund</b><small>Choose how much goes back to Daniel.</small></span>
+            <div class="x"><div class="seg" style="width:100%"><span style="flex:1;justify-content:center">Full</span><span class="on" style="flex:1;justify-content:center">Half</span><span style="flex:1;justify-content:center">Other amount</span></div>
+              <div class="rc" style="background:var(--page);border:0;margin-top:12px;padding:12px 14px">
+                <div class="ln"><span>Refund you agree</span><span class="dl"></span><span class="v n">USD 60.00</span></div>
+                <div class="ln"><span>Processing fee, 5% of 120.00</span><span class="dl"></span><span class="v n">−USD 6.00</span></div>
+                <div class="ln sum"><span>Daniel gets back</span><span class="dl"></span><span class="v n">USD 54.00</span></div>
+                <div class="ln" style="margin-top:4px"><span>Your payout</span><span class="dl"></span><span class="v n"><s style="color:var(--mut);font-weight:500;margin-right:6px">98.40</s>USD 49.20</span></div>
+              </div></div></div>
+          <div class="cc"><span class="r"></span><span><b>Keep my policy</b><small>No refund. Tell our team why.</small></span></div>
+          <div class="cc"><span class="r"></span><span><b>It was on our side</b><small>Daniel gets everything back, with no fee.</small></span></div>
+          <div class="fl2"><label>Note for our team <span>(optional)</span></label><div class="ta">Anything that helps us decide. Daniel won't see this.</div></div>
+        </div>
+        <div class="ftr"><span class="btn p">Send reply to our team</span><small>You can change it until our team decides.</small></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= R2  REPLY PANEL STATES ================= -->
+<div class="fig-frame panel-frame" id="r2a" data-name="Partner · Reply panel · Offer another date">
+  <div class="pcap">Offer another date</div>
+  <div class="rp">
+    <div class="tk"><i class="nt l"></i><i class="nt r"></i><span class="lab">Reply within</span><div class="clock hot"><b>7</b><i>h</i><b>53</b><i>m</i></div><div class="due">By 8:05 PM today, Tue 22 Sep</div></div>
+    <div class="bd"><span class="lab">Your reply</span>
+      <div class="cc on"><span class="r"></span><span><b>Offer another date</b><small>Keep the booking and move it. Nobody pays a fee.</small></span>
+        <div class="x"><div class="dates"><div class="dt"><b>Thu 24 Sep</b>4:00 PM · 6 spots</div><div class="dt on"><b>Sat 26 Sep</b>4:00 PM · 4 spots</div><div class="dt"><b>Sun 27 Sep</b>4:00 PM · 8 spots</div><div class="dt add"><svg class="i s"><use href="#cal"/></svg>Another date</div></div>
+        <div class="info i" style="margin-top:12px"><svg class="i s" style="margin-top:2px"><use href="#info"/></svg><span>Daniel has <b>24 hours</b> to accept. If he says no or doesn't answer, it goes to our team. Your payout stays <b>USD 98.40</b>.</span></div></div></div>
+      <div class="cc"><span class="r"></span><span><b>Agree a refund</b><small>Choose how much goes back to Daniel.</small></span></div>
+      <div class="cc"><span class="r"></span><span><b>Keep my policy</b><small>No refund. Tell our team why.</small></span></div>
+      <div class="cc"><span class="r"></span><span><b>It was on our side</b><small>Daniel gets everything back, with no fee.</small></span></div>
+    </div>
+    <div class="ftr"><span class="btn p">Offer Sat 26 Sep to Daniel</span><small>We send the offer from Ceylon Nooks, not from you.</small></div>
+  </div>
+</div>
+
+<div class="fig-frame panel-frame" id="r2b" data-name="Partner · Reply panel · Keep my policy, missing reason">
+  <div class="pcap">Keep my policy, sent without a reason</div>
+  <div class="rp">
+    <div class="tk"><i class="nt l"></i><i class="nt r"></i><span class="lab">Reply within</span><div class="clock hot"><b>7</b><i>h</i><b>51</b><i>m</i></div><div class="due">By 8:05 PM today, Tue 22 Sep</div></div>
+    <div class="bd"><span class="lab">Your reply</span>
+      <div class="cc"><span class="r"></span><span><b>Offer another date</b><small>Keep the booking and move it. Nobody pays a fee.</small></span></div>
+      <div class="cc"><span class="r"></span><span><b>Agree a refund</b><small>Choose how much goes back to Daniel.</small></span></div>
+      <div class="cc on"><span class="r"></span><span><b>Keep my policy</b><small>No refund. Tell our team why.</small></span>
+        <div class="x"><div class="fl2" style="margin-top:0"><label>Why do you want to keep your policy?</label><div class="ta err"></div><div class="e">Tell our team why in a sentence or two, then send.</div></div>
+        <div class="mini" style="margin-top:10px;border:0"><span>Your payout stays</span><b class="n">USD 98.40</b></div></div></div>
+      <div class="cc"><span class="r"></span><span><b>It was on our side</b><small>Daniel gets everything back, with no fee.</small></span></div>
+    </div>
+    <div class="ftr"><span class="btn p">Send reply to our team</span><small>Our team reads your reason before deciding.</small></div>
+  </div>
+</div>
+
+<div class="fig-frame panel-frame" id="r2c" data-name="Partner · Reply panel · It was on our side">
+  <div class="pcap">It was on our side</div>
+  <div class="rp">
+    <div class="tk"><i class="nt l"></i><i class="nt r"></i><span class="lab">Reply within</span><div class="clock hot"><b>7</b><i>h</i><b>50</b><i>m</i></div><div class="due">By 8:05 PM today, Tue 22 Sep</div></div>
+    <div class="bd"><span class="lab">Your reply</span>
+      <div class="cc"><span class="r"></span><span><b>Offer another date</b><small>Keep the booking and move it. Nobody pays a fee.</small></span></div>
+      <div class="cc"><span class="r"></span><span><b>Agree a refund</b><small>Choose how much goes back to Daniel.</small></span></div>
+      <div class="cc"><span class="r"></span><span><b>Keep my policy</b><small>No refund. Tell our team why.</small></span></div>
+      <div class="cc on"><span class="r"></span><span><b>It was on our side</b><small>Daniel gets everything back, with no fee.</small></span>
+        <div class="x"><div class="rc" style="background:var(--page);border:0;padding:12px 14px">
+          <div class="ln sum" style="border:0;margin:0;padding-top:4px"><span>Daniel gets back</span><span class="dl"></span><span class="v n">USD 120.00</span></div>
+          <div class="ln"><span>Processing fee</span><span class="dl"></span><span class="v n">None</span></div>
+          <div class="ln"><span>Your payout</span><span class="dl"></span><span class="v n"><s style="color:var(--mut);font-weight:500;margin-right:6px">98.40</s>USD 0.00</span></div></div>
+          <div class="info w" style="margin-top:10px"><svg class="i s" style="margin-top:2px"><use href="#alert"/></svg><span>This cancels the booking now, without waiting for our team, and the date opens up again.</span></div></div></div>
+    </div>
+    <div class="ftr"><span class="btn d">Cancel and refund Daniel in full</span><small>Daniel hears it from Ceylon Nooks straight away.</small></div>
+  </div>
+</div>
+
+<div class="fig-frame panel-frame" id="r2d" data-name="Partner · Reply panel · Sent, with our team">
+  <div class="pcap">After sending</div>
+  <div class="rp">
+    <div class="stbox" style="background:var(--warn-bg)"><div class="ttl" style="color:var(--warn)"><svg class="i"><use href="#hour"/></svg>With our team</div><p>Reply sent Tue 22 Sep, 12:14 PM. We'll decide before the trip on Wed 23 Sep, 4:00 PM.</p></div>
+    <div class="bd"><span class="lab">Your reply</span>
+      <div style="font-size:17px;font-weight:800;margin-top:6px">Agree a refund: half, USD 60.00</div>
+      <div class="rc" style="background:var(--page);border:0;margin-top:12px;padding:12px 14px">
+        <div class="ln"><span>Daniel gets back</span><span class="dl"></span><span class="v n">USD 54.00</span></div>
+        <div class="ln"><span>Your payout if approved</span><span class="dl"></span><span class="v n"><s style="color:var(--mut);font-weight:500;margin-right:6px">98.40</s>USD 49.20</span></div></div>
+      <div class="fl2"><label>Your note for our team</label><div class="ta fill" style="min-height:0">He sounded genuinely unwell. Happy to give half back.</div></div>
+    </div>
+    <div class="ftr" style="display:flex;gap:10px"><span class="btn" style="flex:1;height:48px">Change my reply</span><span class="btn" style="flex:1;height:48px">Add a note</span></div>
+  </div>
+</div>
+
+<div class="fig-frame panel-frame" id="r2e" data-name="Partner · Reply panel · Window closed">
+  <div class="pcap">Reply window closed, no reply</div>
+  <div class="rp">
+    <div class="tk" style="background:var(--neu-bg)"><i class="nt l"></i><i class="nt r"></i><span class="lab">Reply window</span><div class="clock" style="color:var(--mut)"><b style="font-size:40px;letter-spacing:-.5px">Closed</b></div><div class="due" style="color:var(--body)">At 8:05 PM, Tue 22 Sep</div></div>
+    <div class="bd"><p style="font-size:15px;line-height:1.55;color:var(--body)">Our team is deciding now, without your reply. You can still add a note, and we'll read it before we decide.</p>
+      <div class="fl2"><label>Note for our team</label><div class="ta">For example, anything you've already spent on this booking.</div></div></div>
+    <div class="ftr"><span class="btn">Add note</span></div>
+  </div>
+</div>
+
+<!-- ================= D1  REQUEST DETAIL, WITH OUR TEAM ================= -->
+<div class="fig-frame screen" id="d1" data-name="Partner · Request details · With our team · desktop 1440" style="width:1440px;background:var(--page)">
+  <div class="hd px-p"><span class="logo"><!--LOGO--><span class="portal">Partner</span></span><span class="sp"></span><span class="slt"><svg class="i s"><use href="#clock"/></svg>Sri Lanka <b>12:15 PM</b></span><span class="icb"><svg class="i"><use href="#help"/></svg></span><span class="icb"><svg class="i"><use href="#bell"/></svg></span><span class="me">AS</span></div>
+  <div class="band px-p"><div class="tray"><span><svg class="i"><use href="#today"/></svg>Today</span><span><svg class="i"><use href="#cal"/></svg>Bookings</span><span class="on"><svg class="i"><use href="#back"/></svg>Refunds<em>2</em></span><span><svg class="i"><use href="#chat"/></svg>Messages<em>1</em></span><span><svg class="i"><use href="#compass"/></svg>Listings</span><span><svg class="i"><use href="#wallet"/></svg>Money</span><span><svg class="i"><use href="#user"/></svg>Account</span></div></div>
+  <div class="px-p" style="padding-top:28px;padding-bottom:64px">
+    <span class="back"><svg class="i s"><use href="#arrow"/></svg>Refunds</span>
+    <div class="rh"><h1>Tom's refund request</h1><p>Kandy temple and tea country · <b>Fri 25 Sep, 8:00 AM</b> · 1 adult · booking <b class="n">CNE71228840</b></p></div>
+    <div class="rgrid">
+      <div class="card"><h3>What's happened</h3>
+        <ol class="steps" style="margin-top:18px">
+          <li><span class="d done">✓</span><span><b>Tom asked for a refund</b><small>Sun 20 Sep, 6:10 PM · 4 days before the trip · Family emergency</small><q>My father's been taken to hospital in Colombo and I need to stay with him this week.</q></span></li>
+          <li><span class="d done">✓</span><span><b>You agreed to refund USD 80.00</b><small>Mon 21 Sep, 9:02 AM · 15 hours into your 24</small><q>Happy to give half. The tea factory tickets are already bought.</q></span></li>
+          <li><span class="d now">3</span><span><b>Our team decides</b><small>We aim to decide by Wed 23 Sep. We usually go with what you agreed.</small></span></li>
+          <li><span class="d">4</span><span><b>You both hear the outcome</b><small>By email, WhatsApp and here. If it's refunded, Tom's money reaches his card within 10 working days.</small></span></li>
+        </ol>
+        <div class="pl" style="margin-top:6px;padding-top:18px;border-top:1px solid var(--line)"><div class="top"><span>Your policy for this booking: <b>Strict</b></span><span>Tom asked inside “no refund”</span></div>
+          <div class="track"><span class="f" style="flex:30"></span><span class="h" style="flex:40"></span><span class="z" style="flex:30"></span><span class="pin" style="left:80%"><b>Asked Sun 6:10 PM</b><i></i></span></div>
+          <div class="ticks"><span style="flex:30"><b>Full refund</b>until Fri 11 Sep</span><span style="flex:40"><b>50% back</b>until Fri 18 Sep</span><span style="flex:30"><b>No refund</b>after that</span></div></div>
+      </div>
+      <div class="rp">
+        <div class="stbox" style="background:var(--warn-bg)"><div class="ttl" style="color:var(--warn)"><svg class="i"><use href="#hour"/></svg>With our team</div><p>We aim to decide by <b>Wed 23 Sep</b>. Nothing for you to do unless something changes.</p></div>
+        <div class="bd"><span class="lab">Your reply</span><div style="font-size:17px;font-weight:800;margin-top:6px">Agree a refund: USD 80.00</div>
+          <div class="rc" style="background:var(--page);border:0;margin-top:14px;padding:12px 14px">
+            <div class="ln"><span>Tom paid</span><span class="dl"></span><span class="v n">USD 160.00</span></div>
+            <div class="ln"><span>Refund you agreed</span><span class="dl"></span><span class="v n">USD 80.00</span></div>
+            <div class="ln"><span>Processing fee, 5% of 160.00</span><span class="dl"></span><span class="v n">−USD 8.00</span></div>
+            <div class="ln sum"><span>Tom gets back</span><span class="dl"></span><span class="v n">USD 72.00</span></div>
+            <div class="ln" style="margin-top:4px"><span>Your payout if approved</span><span class="dl"></span><span class="v n"><s style="color:var(--mut);font-weight:500;margin-right:6px">131.20</s>USD 65.60</span></div></div></div>
+        <div class="ftr" style="display:flex;gap:10px;flex-wrap:wrap"><span class="btn" style="flex:1;height:48px">Change my reply</span><span class="btn" style="flex:1;height:48px">Add a note</span><span class="btn lk" style="width:100%;height:auto;margin-top:4px">Message Tom</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= M1-M3  PHONE REPLY ================= -->
+<div class="fig-frame phone" id="m1" data-name="Partner · Reply · Agree a refund · phone 390">
+  <div class="sb"><span>12:12</span><span>●●● 4G</span></div>
+  <div class="pgh"><svg class="i bkk"><use href="#arrow"/></svg>Reply to Daniel</div>
+  <div class="tstrip"><svg class="i"><use href="#clock"/></svg><b class="n">7h 53m</b> left · by 8:05 PM today</div>
+  <div class="pscroll2">
+    <div class="tripc" style="margin:0"><img src="@img:pidurangala:120" alt=""><span><b>Pidurangala sunset hike</b><small>Wed 23 Sep, 4:00 PM · paid USD 120.00</small></span><span></span></div>
+    <div class="cc" style="margin-top:12px"><span class="r"></span><span><b>Offer another date</b><small>Nobody pays a fee</small></span></div>
+    <div class="cc on"><span class="r"></span><span><b>Agree a refund</b></span>
+      <div class="x" style="margin-top:8px"><div class="seg" style="width:100%"><span style="flex:1;justify-content:center;padding:0 6px">Full</span><span class="on" style="flex:1;justify-content:center;padding:0 6px">Half</span><span style="flex:1;justify-content:center;padding:0 6px">Other</span></div>
+        <div class="rc" style="background:var(--page);border:0;margin-top:10px;padding:8px 12px">
+          <div class="ln" style="font-size:13px"><span>Daniel gets back</span><span class="dl"></span><span class="v n">USD 54.00</span></div>
+          <div class="ln" style="font-size:13px"><span>after 5% fee</span><span class="dl"></span><span class="v n">−6.00</span></div>
+          <div class="ln sum" style="font-size:14px"><span>Your payout</span><span class="dl"></span><span class="v n"><s style="color:var(--mut);font-weight:500;margin-right:4px">98.40</s>49.20</span></div></div></div></div>
+    <div class="cc"><span class="r"></span><span><b>Keep my policy</b><small>No refund, tell us why</small></span></div>
+    <div class="cc"><span class="r"></span><span><b>It was on our side</b><small>Full refund, no fee</small></span></div>
+    <div class="fl2" style="margin-top:14px"><label>Note for our team <span>(optional)</span></label><div class="ta" style="min-height:52px">Daniel won't see this</div></div>
+  </div>
+  <div class="sbar2"><span class="btn p">Send reply</span><small>You can change it until our team decides</small></div>
+</div>
+
+<div class="fig-frame phone" id="m2" data-name="Partner · Reply · Offer another date · phone 390">
+  <div class="sb"><span>12:12</span><span>●●● 4G</span></div>
+  <div class="pgh"><svg class="i bkk"><use href="#arrow"/></svg>Reply to Daniel</div>
+  <div class="tstrip"><svg class="i"><use href="#clock"/></svg><b class="n">7h 53m</b> left · by 8:05 PM today</div>
+  <div class="pscroll2">
+    <div class="tripc" style="margin:0"><img src="@img:pidurangala:120" alt=""><span><b>Pidurangala sunset hike</b><small>Wed 23 Sep, 4:00 PM · paid USD 120.00</small></span><span></span></div>
+    <div class="cc on" style="margin-top:12px"><span class="r"></span><span><b>Offer another date</b><small>Keep the booking, nobody pays a fee</small></span>
+      <div class="x" style="margin-top:10px"><div class="dates"><div class="dt"><b>Thu 24 Sep</b>4:00 PM</div><div class="dt on"><b>Sat 26 Sep</b>4:00 PM</div><div class="dt"><b>Sun 27 Sep</b>4:00 PM</div><div class="dt add"><svg class="i s"><use href="#cal"/></svg>Another</div></div>
+      <p style="font-size:12.5px;color:var(--mut);line-height:1.45;margin-top:10px">Daniel has 24 hours to accept. If he doesn't, it goes to our team.</p></div></div>
+    <div class="cc"><span class="r"></span><span><b>Agree a refund</b><small>Choose how much</small></span></div>
+    <div class="cc"><span class="r"></span><span><b>Keep my policy</b><small>No refund, tell us why</small></span></div>
+    <div class="cc"><span class="r"></span><span><b>It was on our side</b><small>Full refund, no fee</small></span></div>
+  </div>
+  <div class="sbar2"><span class="btn p">Offer Sat 26 Sep</span><small>Your payout stays USD 98.40</small></div>
+</div>
+
+<div class="fig-frame phone" id="m3" data-name="Partner · Reply sent · phone 390">
+  <div class="sb"><span>12:14</span><span>●●● 4G</span></div>
+  <div class="pgh"><svg class="i bkk"><use href="#arrow"/></svg>Daniel's request</div>
+  <div class="pscroll2">
+    <div style="text-align:center;padding:14px 6px 6px"><span class="icb" style="width:56px;height:56px;margin:0 auto;background:var(--ok-bg);color:var(--ok);border:0"><svg class="i" style="width:26px;height:26px"><use href="#check"/></svg></span>
+      <div style="font-family:var(--h);font-size:24px;font-weight:700;margin-top:12px;letter-spacing:-.3px">Reply sent</div>
+      <p style="font-size:14.5px;color:var(--body);line-height:1.5;margin-top:6px">You agreed to refund <b style="color:var(--ink)">USD 60.00</b>. Our team will decide before the trip tomorrow at 4:00 PM.</p></div>
+    <div class="rc" style="margin-top:14px;padding:12px 14px">
+      <div class="ln" style="font-size:13.5px"><span>Daniel gets back</span><span class="dl"></span><span class="v n">USD 54.00</span></div>
+      <div class="ln" style="font-size:13.5px"><span>Your payout if approved</span><span class="dl"></span><span class="v n"><s style="color:var(--mut);font-weight:500;margin-right:4px">98.40</s>USD 49.20</span></div></div>
+    <div class="card" style="margin-top:12px;padding:16px"><h3 style="font-size:15px">What happens next</h3>
+      <ol class="steps" style="margin-top:10px"><li><span class="d done">✓</span><span><b>You replied</b><small>Tue 22 Sep, 12:14 PM</small></span></li><li><span class="d now">2</span><span><b>Our team decides</b><small>Before Wed 23 Sep, 4:00 PM</small></span></li><li style="padding-bottom:0"><span class="d">3</span><span><b>You hear the outcome</b><small>On WhatsApp and by email</small></span></li></ol></div>
+    <div style="display:flex;gap:8px;margin-top:12px"><span class="btn" style="flex:1;height:46px">Change my reply</span><span class="btn" style="flex:1;height:46px">Add a note</span></div>
+  </div>
+  <div class="tb"><span><svg class="i"><use href="#today"/></svg>Today</span><span><svg class="i"><use href="#cal"/></svg>Bookings</span><span class="on"><svg class="i"><use href="#back"/></svg>Refunds<em>1</em></span><span><svg class="i"><use href="#chat"/></svg>Messages<em>1</em></span><span><svg class="i"><use href="#more"/></svg>More</span></div>
+</div>
+
+<!-- ================= C1  BOOKINGS DAY + CANCEL DAY DIALOG ================= -->
+<div class="fig-frame screen" id="c1" data-name="Partner · Bookings · Cancel a day · desktop 1440" style="width:1440px;height:1000px;background:var(--page);position:relative">
+  <div class="hd px-p"><span class="logo"><!--LOGO--><span class="portal">Partner</span></span><span class="sp"></span><span class="slt"><svg class="i s"><use href="#clock"/></svg>Sri Lanka <b>4:40 PM</b></span><span class="icb"><svg class="i"><use href="#help"/></svg></span><span class="icb"><svg class="i"><use href="#bell"/></svg></span><span class="me">AS</span></div>
+  <div class="band px-p"><div class="tray"><span><svg class="i"><use href="#today"/></svg>Today</span><span class="on"><svg class="i"><use href="#cal"/></svg>Bookings</span><span><svg class="i"><use href="#back"/></svg>Refunds</span><span><svg class="i"><use href="#chat"/></svg>Messages</span><span><svg class="i"><use href="#compass"/></svg>Listings</span><span><svg class="i"><use href="#wallet"/></svg>Money</span><span><svg class="i"><use href="#user"/></svg>Account</span></div></div>
+  <div class="px-p" style="padding-top:32px">
+    <div class="pt" style="display:flex;justify-content:space-between;align-items:flex-end"><div><h1>Bookings</h1><p>Saturday 26 September: <b>3 trips, 7 travellers</b>. Heavy rain is forecast for Sigiriya and the east coast.</p></div><span class="btn"><svg class="i s"><use href="#dl"/></svg>Print the day's list</span></div>
+    <div class="dstrip"><div class="day"><small>Wed</small><b>23</b><i>2</i></div><div class="day"><small>Thu</small><b>24</b><i>0</i></div><div class="day wx"><small>Fri</small><b>25</b><i>1</i></div><div class="day on wx"><small>Sat</small><b>26</b><i>3</i></div><div class="day"><small>Sun</small><b>27</b><i>1</i></div><div class="day"><small>Mon</small><b>28</b><i>2</i></div><div class="day"><small>Tue</small><b>29</b><i>0</i></div></div>
+    <div class="bk"><img src="@img:sigiriya:160" alt=""><span><b>Sigiriya sunrise climb</b><small>Emma Walsh and 1 more · Lucas Martin and 1 more</small></span><span class="mny n">USD 680.00<small>4 travellers</small></span><span class="pk">4:30<small style="display:block">pickup</small></span></div>
+    <div class="bk"><img src="@img:trincomalee:160" alt=""><span><b>Pigeon Island snorkelling</b><small>Hiro Sato and 1 more</small></span><span class="mny n">USD 210.00<small>2 travellers</small></span><span class="pk">7:00<small style="display:block">pickup</small></span></div>
+    <div class="bk"><img src="@img:pidurangala:160" alt=""><span><b>Pidurangala sunset hike</b><small>Mei Tanaka</small></span><span class="mny n">USD 60.00<small>1 traveller</small></span><span class="pk">3:15<small style="display:block">pickup</small></span></div>
+  </div>
+  <div class="scrim2"></div>
+  <div class="dlg2">
+    <div class="dh"><h2>Cancel all trips on Saturday 26 September?</h2><span class="icb" style="border:0"><svg class="i"><use href="#x"/></svg></span></div>
+    <div class="db">
+      <p style="font-size:15px;color:var(--body);line-height:1.55">3 bookings, 7 travellers. They all get everything back, with no fee, and we tell each of them for you with other dates to choose from.</p>
+      <div class="rc" style="margin-top:14px;padding:12px 16px">
+        <div class="mini"><span>Sigiriya sunrise climb, 4 travellers</span><b class="n">USD 680.00</b></div>
+        <div class="mini"><span>Pigeon Island snorkelling, 2 travellers</span><b class="n">USD 210.00</b></div>
+        <div class="mini" style="border:0"><span>Pidurangala sunset hike, 1 traveller</span><b class="n">USD 60.00</b></div>
+        <div class="ln sum" style="margin-top:2px;padding-top:10px"><span>Back to travellers</span><span class="dl"></span><span class="v n">USD 950.00</span></div>
+        <div class="ln"><span>Your payout for these bookings</span><span class="dl"></span><span class="v n"><s style="color:var(--mut);font-weight:500;margin-right:6px">779.00</s>USD 0.00</span></div></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:16px">
+        <div><div style="font-size:13.5px;font-weight:700">Why can't the trips run?</div><div class="radios" style="grid-template-columns:1fr"><span class="on"><i></i>Weather or sea</span><span><i></i>Road closed</span><span><i></i>Something else</span></div></div>
+        <div><div style="font-size:13.5px;font-weight:700">Evidence <span style="font-weight:500;color:var(--mut)">(optional)</span></div>
+          <div class="inp" style="margin-top:8px;font-size:13.5px;color:var(--ink)"><svg class="i s"><use href="#clip"/></svg>meteo.gov.lk/warning-26-sep</div>
+          <span class="chip f" style="height:36px;margin-top:8px"><svg class="i s"><use href="#cam"/></svg>Add a photo</span>
+          <div class="cbx" style="margin-top:12px"><i><svg class="i" style="width:13px;height:13px;stroke-width:3"><use href="#check"/></svg></i><span><b>Stop new bookings for Sat 26 Sep</b><small>Open it again any time from Listings.</small></span></div></div>
+      </div>
+    </div>
+    <div class="df"><span class="btn">Keep the trips</span><span class="btn p">Cancel 3 bookings and refund USD 950.00</span></div>
+  </div>
+</div>
+
+<!-- ================= C2  PHONE, CANCEL ONE BOOKING ================= -->
+<div class="fig-frame phone" id="c2" data-name="Partner · Cancel one booking · phone 390">
+  <div class="sb" style="background:#C9C4BD"><span>4:40</span><span>●●● 4G</span></div>
+  <div class="scrim"></div>
+  <div class="sheet" style="top:96px">
+    <div class="grab"></div>
+    <div class="sbd">
+      <h2>Cancel Emma's booking?</h2>
+      <p style="font-size:14px;color:var(--body);line-height:1.5;margin-top:6px">Sigiriya sunrise climb · Sat 26 Sep, 6:00 AM · 2 adults</p>
+      <div class="rc" style="padding:10px 14px;margin-top:12px;border-radius:14px">
+        <div class="ln sum" style="border:0;margin:0;padding-top:4px;font-size:14.5px"><span>Emma gets back</span><span class="dl"></span><span class="v n">USD 340.00</span></div>
+        <div class="ln" style="font-size:13.5px"><span>Processing fee</span><span class="dl"></span><span class="v n">None</span></div>
+        <div class="ln" style="font-size:13.5px"><span>Your payout</span><span class="dl"></span><span class="v n"><s style="color:var(--mut);font-weight:500;margin-right:4px">279.00</s>USD 0.00</span></div></div>
+      <div style="font-size:13.5px;font-weight:700;margin-top:16px">Why can't it run?</div>
+      <div class="radios"><span><i></i>Weather or sea</span><span class="on"><i></i>Can't run it</span><span><i></i>Road closed</span><span><i></i>Something else</span></div>
+      <div class="fl2" style="margin-top:14px"><label>Tell Emma why <span>(optional)</span></label><div class="ta fill" style="min-height:62px;font-size:13.5px">Our guide is unwell and we have no one else certified for the climb that morning. So sorry.</div></div>
+      <div class="cbx"><i style="background:#fff;border:2px solid var(--inp)"></i><span><b>Stop new bookings for Sat 26 Sep</b><small>Only this trip, only that day.</small></span></div>
+    </div>
+    <div class="sbar"><span class="btn p" style="width:100%;height:52px">Cancel and refund USD 340.00</span><span style="display:block;text-align:center;font-size:12.5px;color:var(--mut);margin-top:10px">We'll suggest other dates and similar trips to Emma</span></div>
+  </div>
+</div>
+
+<!-- ================= P1  LISTING FORM, POLICY CARD ================= -->
+<div class="fig-frame screen" id="p1" data-name="Partner · Listing form · Cancellation policy, Custom · desktop 1440" style="width:1440px;background:var(--page)">
+  <div class="hd px-p"><span class="logo"><!--LOGO--><span class="portal">Partner</span></span><span class="sp"></span><span class="slt"><svg class="i s"><use href="#clock"/></svg>Sri Lanka <b>10:05 AM</b></span><span class="icb"><svg class="i"><use href="#help"/></svg></span><span class="icb"><svg class="i"><use href="#bell"/></svg></span><span class="me">AS</span></div>
+  <div class="band px-p"><div class="tray"><span><svg class="i"><use href="#today"/></svg>Today</span><span><svg class="i"><use href="#cal"/></svg>Bookings</span><span><svg class="i"><use href="#back"/></svg>Refunds</span><span><svg class="i"><use href="#chat"/></svg>Messages</span><span class="on"><svg class="i"><use href="#compass"/></svg>Listings</span><span><svg class="i"><use href="#wallet"/></svg>Money</span><span><svg class="i"><use href="#user"/></svg>Account</span></div></div>
+  <div class="px-p" style="padding-top:28px;padding-bottom:56px">
+    <span class="back"><svg class="i s"><use href="#arrow"/></svg>Experiences</span>
+    <div class="rh"><h1>Sigiriya sunrise climb</h1><p>Draft · last saved 10:02 AM</p></div>
+    <div class="stepper"><span><i>✓</i>Core details</span><span><i>✓</i>Itinerary</span><span><i>✓</i>Logistics</span><span class="on"><i>4</i>Pricing and policy</span></div>
+    <div style="display:grid;grid-template-columns:1fr 380px;gap:28px;margin-top:28px;align-items:start">
+      <div class="card" style="padding:26px 28px">
+        <h3 style="font-size:20px;font-family:var(--h)">Cancellation policy</h3>
+        <p class="lead">How much a traveller gets back if they cancel. They see it as real dates on your listing and at checkout, and cancelling inside it is instant.</p>
+        <div class="presets">
+          <div class="pre"><b>Flexible</b><small>Full refund up to 2 days before</small><div class="mt"><span style="flex:8;background:#1F6B44"></span><span style="flex:2;background:var(--inp)"></span></div></div>
+          <div class="pre"><b>Moderate</b><small>Full up to 7 days, half up to 3 days</small><div class="mt"><span style="flex:5;background:#1F6B44"></span><span style="flex:3;background:#D9A021"></span><span style="flex:2;background:var(--inp)"></span></div></div>
+          <div class="pre"><b>Strict</b><small>Full up to 14 days, half up to 7 days</small><div class="mt"><span style="flex:3;background:#1F6B44"></span><span style="flex:3;background:#D9A021"></span><span style="flex:4;background:var(--inp)"></span></div></div>
+          <div class="pre"><b>Non-refundable</b><small>No refunds and no pay later</small><div class="mt"><span style="flex:10;background:var(--inp)"></span></div></div>
+          <div class="pre on"><b>Custom</b><small>Your own tiers, up to 4. Checked by our team</small><div class="mt"><span style="flex:3;background:#1F6B44"></span><span style="flex:3;background:#D9A021"></span><span style="flex:2;background:#E9C46A"></span><span style="flex:2;background:var(--inp)"></span></div></div>
+        </div>
+        <div style="margin-top:24px;font-size:15px;font-weight:800">Your tiers</div>
+        <div class="tr2"><span class="sw2" style="background:#1F6B44"></span><span class="n2">Tier 1</span>If cancelled at least <span class="box">14</span><div class="seg"><span class="on">days</span><span>hours</span></div> before, <span class="box">100</span>% back <svg class="i x"><use href="#x"/></svg></div>
+        <div class="tr2"><span class="sw2" style="background:#D9A021"></span><span class="n2">Tier 2</span>If cancelled at least <span class="box">7</span><div class="seg"><span class="on">days</span><span>hours</span></div> before, <span class="box">50</span>% back <svg class="i x"><use href="#x"/></svg></div>
+        <div class="tr2"><span class="sw2" style="background:#E9C46A"></span><span class="n2">Tier 3</span>If cancelled at least <span class="box">2</span><div class="seg"><span class="on">days</span><span>hours</span></div> before, <span class="box">25</span>% back <svg class="i x"><use href="#x"/></svg></div>
+        <div class="tr2 fixed"><span class="sw2" style="background:var(--inp)"></span><span class="n2">After</span>Less than 2 days before: no refund<span style="margin-left:auto;font-size:12.5px;color:var(--mut)">Updates itself</span></div>
+        <span class="btn lk" style="margin-top:10px"><svg class="i s"><use href="#plus"/></svg>Add a tier (1 more allowed)</span>
+        <div class="info i" style="margin-top:18px"><svg class="i s" style="margin-top:2px"><use href="#info"/></svg><span><b>Custom policies are checked by our team</b> before your listing goes live, usually within 2 working days. Travellers who already booked keep the policy they agreed to.</span></div>
+        <div class="formbar"><span class="btn">Back</span><span class="sp" style="flex:1"></span><span class="btn">Save draft</span><span class="btn p">Submit for review</span></div>
+      </div>
+      <div class="prev">
+        <h3>What travellers will see</h3>
+        <p style="font-size:13.5px;color:var(--mut);margin-top:4px;line-height:1.45">For a trip on <b style="color:var(--ink)">Sat 26 Sep, 6:00 AM</b>, booked today.</p>
+        <div class="pl" style="margin-top:4px"><div class="track"><span class="f" style="flex:32"></span><span class="h" style="flex:28"></span><span class="h" style="flex:20;background:#E9C46A"></span><span class="z" style="flex:20"></span></div></div>
+        <div class="wl">
+          <div><i style="background:#1F6B44"></i><span><b>Full refund</b> until Sat 12 Sep, 6:00 AM</span></div>
+          <div><i style="background:#D9A021"></i><span><b>50% back</b> until Sat 19 Sep, 6:00 AM</span></div>
+          <div><i style="background:#E9C46A"></i><span><b>25% back</b> until Thu 24 Sep, 6:00 AM</span></div>
+          <div><i style="background:var(--inp)"></i><span><b>No refund</b> after that</span></div>
+        </div>
+        <div class="info n" style="margin-top:16px"><svg class="i s" style="margin-top:2px"><use href="#money"/></svg><span><b>Pay later:</b> travellers who choose it are charged on <b>Thu 10 Sep</b>, 2 days before the full refund ends.</span></div>
+        <p style="font-size:12.5px;color:var(--mut);margin-top:12px;line-height:1.45">A 5% processing fee is taken from refunds when a traveller cancels. It's never taken when you cancel.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= N1  NOTIFICATIONS (design) ================= -->
+<div class="fig-frame doc" id="n1" data-name="Partner · Email and WhatsApp messages" style="background:var(--page)">
+  <div class="k">Partner messages</div>
+  <h1 style="font-size:40px">Email and WhatsApp, for every refund event</h1>
+  <p class="lede">Every refund event sends a WhatsApp message and an email, and adds a badge on Refunds. WhatsApp messages are short and link straight to the screen to act on. Partners can turn WhatsApp off in Account.</p>
+  <div style="display:grid;grid-template-columns:1fr 460px;gap:40px;margin-top:40px;align-items:start">
+    <div class="mail">
+      <div class="mh"><b>Ceylon Nooks</b> &lt;partners@ceylonnooks.com&gt;<br>To: Arkam Sahdi<br>Subject: <b>Daniel asked for a refund. Please reply by 8:05 PM today</b></div>
+      <div class="mb">
+        <!--LOGO-->
+        <h2 style="margin-top:22px">Daniel asked for a refund on Pidurangala sunset hike</h2>
+        <p>Hi Arkam, Daniel Okafor has asked for some of his money back for <b style="color:var(--ink)">Wed 23 Sep, 4:00 PM</b> (2 adults, paid USD 120.00).</p>
+        <div class="says" style="padding:16px 18px;border:0;background:var(--page);border-radius:14px;margin-top:16px"><span class="lab">Daniel says</span><q style="font-size:16px">I've come down with a fever and the doctor says I should rest for three days. Could we have some of it back?</q></div>
+        <p>Your Moderate policy gives no refund at this point. You can offer another date, agree a refund, keep your policy, or tell us it was on your side.</p>
+        <div style="display:flex;align-items:center;gap:16px;margin-top:22px"><span class="btn p">Reply to Daniel</span><span style="font-size:14px;color:var(--bad);font-weight:700">7 h 55 min left · by 8:05 PM today (Sri Lanka time)</span></div>
+        <p style="font-size:13.5px;color:var(--mut);margin-top:22px">The trip is in under 3 days, so you have 12 hours instead of 24. If you don't reply, our team decides without you.</p>
+      </div>
+    </div>
+    <div class="chat">
+      <div class="ch"><span class="me" style="width:36px;height:36px;background:var(--pri);color:#fff">CN</span><span>Ceylon Nooks Partners<small>WhatsApp business account</small></span></div>
+      <div class="bub"><span class="tg">New refund request</span>Daniel Okafor asked for a refund on <b>Pidurangala sunset hike, Wed 23 Sep</b>. Your policy gives no refund. Reply by <b>8:05 PM today</b>: <u>ceylonnooks.com/r/71230415</u><span class="tm">12:05 PM</span></div>
+      <div class="bub"><span class="tg">3 hours left</span>3 hours left to reply to Daniel. After 8:05 PM our team decides without your reply: <u>ceylonnooks.com/r/71230415</u><span class="tm">5:05 PM</span></div>
+      <div class="bub"><span class="tg">Decided</span>Our team refunded Daniel USD 60.00, as you agreed. Your payout for this booking is now <b>USD 49.20</b>: <u>ceylonnooks.com/r/71230415</u><span class="tm">Wed 9:40 AM</span></div>
+      <div class="bub"><span class="tg">New date accepted</span>Hannah accepted <b>Wed 7 Oct</b> for Sigiriya sunrise climb. Nothing to refund, and your payout stays USD 279.00.<span class="tm">Wed 7:12 AM</span></div>
+    </div>
+  </div>
+  <table class="t" style="margin-top:44px">
+    <tr><th style="width:300px">Event</th><th>WhatsApp</th><th>Email</th><th>Badge on Refunds</th></tr>
+    <tr><td>New refund request</td><td>Yes</td><td>Yes</td><td>Yes, until replied</td></tr>
+    <tr><td>3 hours left to reply</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+    <tr><td>Reply window closed with no reply</td><td>Yes</td><td>Yes</td><td>No</td></tr>
+    <tr><td>Traveller accepted or declined a new date</td><td>Yes</td><td>Yes</td><td>No</td></tr>
+    <tr><td>Our team decided</td><td>Yes, with the new payout</td><td>Yes, with the receipt</td><td>No</td></tr>
+    <tr><td>Traveller cancelled inside your policy</td><td>Yes</td><td>Yes</td><td>No</td></tr>
+    <tr><td>Custom policy approved or sent back</td><td>Yes</td><td>Yes</td><td>On Listings</td></tr>
+  </table>
+  <p class="cap" style="margin-top:14px;font-size:14px">For the developers: WhatsApp business messages need templates approved by Meta before they can be sent, so the wording above is written to fit a template, with the variable parts in bold.</p>
+</div>
+
+<!-- ================= F1  FLOW NOTES ================= -->
+<div class="fig-frame doc" id="f1" data-name="Notes · Partner cancellation, how it fits together">
+  <div class="k">Notes · partner side of cancellations</div>
+  <h1 style="font-size:40px">How the partner screens fit together</h1>
+  <p class="lede">There are three ways a partner deals with cancellations. These notes go with the designs in section 1, in the order a partner would meet them.</p>
+
+  <h2 style="margin-top:44px">1 · A traveller asks for more than the policy gives</h2>
+  <div class="flow">
+    <div class="fs"><em>Refunds list</em><b>Request card</b><span>Shows who's asking, why, the policy as dates, and how long the partner has to reply.</span></div><div class="ar"><svg class="i"><use href="#arrow"/></svg></div>
+    <div class="fs"><em>Reply</em><b>Pick one of four replies</b><span>Offer another date, agree a refund (full, half or an amount), keep the policy (reason required), or say it was on their side.</span></div><div class="ar"><svg class="i"><use href="#arrow"/></svg></div>
+    <div class="fs"><em>Sent</em><b>With our team</b><span>A receipt shows what the traveller gets and the new payout. The partner can change the reply or add a note until we decide.</span></div><div class="ar"><svg class="i"><use href="#arrow"/></svg></div>
+    <div class="fs"><em>Outcome</em><b>Decided</b><span>WhatsApp and email with the new payout. The request moves to Closed.</span></div>
+  </div>
+  <div class="c2" style="margin-top:18px;gap:28px">
+    <p class="cap" style="font-size:14.5px;margin:0"><b style="color:var(--ink)">Things to point out to Akila.</b> The receipt updates as soon as the partner picks a reply, so they see what it costs them before sending. “Offer another date” lists real dates with free spots. “It was on our side” cancels straight away with a full refund and no fee, so it uses the dark button and a warning instead of orange.</p>
+    <p class="cap" style="font-size:14.5px;margin:0"><b style="color:var(--ink)">Edge cases covered.</b> A reply without a reason when keeping the policy shows an error. If the window closes with no reply, the panel says so and the partner can still add a note. A trip in under 3 days gets a 12 hour window and a red clock.</p>
+  </div>
+
+  <h2 style="margin-top:44px">2 · The partner can't run a trip</h2>
+  <div class="flow">
+    <div class="fs"><em>Bookings or Today</em><b>Pick the day</b><span>Days with a weather warning show a rain mark.</span></div><div class="ar"><svg class="i"><use href="#arrow"/></svg></div>
+    <div class="fs"><em>One booking or the whole day</em><b>Cancel</b><span>Reason, optional evidence (photo or link), and “Stop new bookings for this date”. The receipt shows the total going back to travellers.</span></div><div class="ar"><svg class="i"><use href="#arrow"/></svg></div>
+    <div class="fs"><em>Done</em><b>Travellers refunded in full</b><span>No fee. We message each traveller with other dates and similar trips. The partner's payout for those bookings becomes 0.</span></div>
+  </div>
+
+  <h2 style="margin-top:44px">3 · The partner sets the policy</h2>
+  <div class="flow">
+    <div class="fs"><em>Listing form, step 4</em><b>Choose a policy</b><span>Four presets, each with a small bar showing its shape, or Custom.</span></div><div class="ar"><svg class="i"><use href="#arrow"/></svg></div>
+    <div class="fs"><em>Custom</em><b>Up to 4 tiers</b><span>“If cancelled at least 14 days before, 100% back.” The last row updates itself. Replaces today's free-text box and separate Refund Schedule card.</span></div><div class="ar"><svg class="i"><use href="#arrow"/></svg></div>
+    <div class="fs"><em>Preview</em><b>What travellers see</b><span>The same policy as real dates for an example trip, plus the pay later charge date. Custom goes to our team before the listing is live.</span></div>
+  </div>
+
+  <div class="kept" style="margin-top:44px"><div><h2>Messages</h2><p>Every event goes out on WhatsApp and by email, and adds a badge on Refunds where there's something to do (see the messages board). Akila confirmed WhatsApp and email on 23 Nov, with no SMS.</p></div><div><h2>Still to design on the partner side</h2><p>Payout statement lines for refunds (in Money). The policy card and cancelling a day on a phone use the same parts as the desktop versions; we'll add them if Akila wants to see them.</p></div></div>
+</div>
+</body>
+</html>
