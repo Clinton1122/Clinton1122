@@ -74,48 +74,24 @@ What the inventory shows:
 
 ---
 
-## 2. One shell
+## 2. One shell (v2, 24 Nov)
 
-One layout for both portals. Only the menu changes.
+The same shell as the traveller site, so partner, admin and traveller feel like one product.
 
 **Desktop (1440)**
-- **Side navigation, 248 px:** logo and portal name, menu groups, account at the bottom.
-- **Top bar, 72 px:** page title on phones, search (admin), notifications, help, dark mode, account.
-- **Page header:**
-  - breadcrumb ("Dashboard / Refunds")
-  - page title (H2 30, the dashboard scale)
-  - one line saying what the page is for
-  - page actions on the right (Export CSV, Add)
-- **Content:** max width 1200 px, 32 px padding. Summary cards, then tabs and filters, then the list.
-- **Side panel (details):** 560 px from the right, over a scrim. Header, scrolling body, sticky action bar.
-- **Toasts:** bottom centre, 2.4 s.
+- **Header, 64 px:** logo with the portal name ("Partner" or "Admin"), Sri Lanka time (every deadline is Sri Lanka time; Akila works from Australia), help, notifications, account. Admin also gets search.
+- **Section tabs:** the traveller site's tab tray, with count badges. No sidebar.
+  - Partner: Today, Bookings, Refunds, Messages, Listings, Money, Account
+  - Admin: Today, Refunds, Payouts, Bookings, Listings, Policies, People, Settings
+- **Width:** partner pages use the traveller site's 1136 px column (calm, few items). Admin pages use the full width, with a list and detail side by side (queue work, no drawer).
+- **Page heading:** the title plus one sentence that sums up the situation ("2 travellers are waiting for your reply. Daniel's is due first, in 7 h 55 min."). This replaces the summary cards.
 
-**Phone (390), installed as an app (PWA)**
-- **Top bar:** menu button, page title, notifications.
-- **Bottom tab bar** with the four most-used items:
-  - Partner: Dashboard, Reservations, Refunds, Messages
-  - Admin: Dashboard, Refunds, Payouts, Listings
-  - "More" opens the full menu.
-- **Every table becomes a list of cards:**
-  - the first column becomes the card title
-  - status and amount sit on the right
-  - the details open in a full-screen panel
-- **Sticky action bar** at the bottom of a panel. Touch targets are at least 44 px.
-- **Offline and installed states:** a slim banner says "You're offline. Showing what was last loaded."
+**Phone (390), installed as an app**
+- The tabs become a bottom bar: Today, Bookings, Refunds, Messages, More.
+- Requests are cards with the four replies on them; confirmations are bottom sheets with a pinned action.
+- Partner "Today" has a day strip; a day with bad weather links to "Cancel this day".
 
-**Menus**
-- Partner:
-  - Dashboard
-  - MY LISTINGS: Experiences, Stays, Transport
-  - BOOKINGS: Reservations, Refunds, Messages, Reviews
-  - MONEY: Payouts, Bank details
-  - ACCOUNT: Business profile, Settings
-- Admin:
-  - Dashboard
-  - MARKETPLACE: Listings, Policy approvals
-  - PEOPLE: Providers, Travellers, Profile edits
-  - BOOKINGS & FINANCE: Reservations, Refunds, Payouts, Ledger
-  - SETTINGS: Coupons, Reviews, Configs, Staff and roles
+**Five decisions** (board P 00): one product, not three · what needs you comes first at full size · time is the headline (big clock, real dates, policy line) · money reads like a receipt · colour only for "act now".
 
 ---
 
@@ -223,6 +199,7 @@ The "Now" rows are the refund work (about 3.5 weeks). "Next" and "Later" are the
 
 ## Boards
 
-- Figma: page "Dashboard system plan" in the Ceylon Nooks file (boards P 00 to P 08), plus real components: Status pill (5 tones × icon) and Button (4 types × 52/48/40), with auto layout and variants.
-- `Ceylon-Dashboard-Plan.html`: the same nine boards as one standalone page (fonts embedded).
-- `boards/P00.png` to `boards/P08.png`: exports for quick viewing.
+- Figma: page "Dashboard system plan" (P 00 to P 08, v2 from 24 Nov). The first version is kept below in a section marked superseded.
+  - P 00 Why the dashboards change · P 01 Inventory by tab · P 02 Partner Refunds · P 03 Admin Refunds · P 04 Partner on a phone (Refunds, Today, cancel a day) · P 05 Components · P 06 Tokens · P 07 Status language · P 08 Redesign map
+- `Ceylon-Dashboard-Plan.html`: all boards in one standalone page (fonts and photos embedded).
+- `boards/P00.png` to `boards/P08.png`: exports. `boards/source-v2.html`: editable source.

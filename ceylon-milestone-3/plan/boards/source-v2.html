@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Ceylon Nooks dashboards</title>
+<style>
+/*FONTS*/
+:root{
+  --pri:#F15623;--pri-t:#C43D12;--tint:#FDF1EA;--deep:#2B1A10;
+  --ink:#1C1A17;--body:#4A443D;--mut:#6B645C;--line:#E7E2DB;--inp:#D9D2C8;--page:#F7F5F2;--tray:#F0EDE8;--sf:#FFFFFF;
+  --ok:#1F6B44;--ok-bg:#EAF6EE;--warn:#6B4600;--warn-bg:#FFF4DB;--bad:#9B1C12;--bad-bg:#FEECEB;--info:#244A7A;--info-bg:#E4ECF7;--neu:#4A443D;--neu-bg:#F3EFE9;
+  --h:'Bricolage Grotesque',Georgia,serif;--t:Manrope,system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#DDD7CE;font-family:var(--t);color:var(--ink);display:flex;flex-direction:column;gap:96px;padding:48px;align-items:flex-start;-webkit-font-smoothing:antialiased}
+.fig-frame{position:relative;overflow:hidden;flex:none}
+.n{font-variant-numeric:tabular-nums}
+svg.i{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+svg.s{width:15px;height:15px}
+img{display:block}
+
+/* ---------- presentation frame: screen + why column ---------- */
+.pres{display:flex;background:#fff}
+.pres>.screen{width:1440px;flex:none;background:var(--page);border-right:1px solid var(--line)}
+.why{width:420px;flex:none;padding:56px 40px;background:#fff}
+.why .k{font-size:13px;font-weight:700;color:var(--pri-t)}
+.why h2{font-family:var(--h);font-size:28px;line-height:1.15;letter-spacing:-.4px;margin-top:8px}
+.why>p{font-size:15px;line-height:1.6;color:var(--body);margin-top:12px}
+.why ol{list-style:none;margin-top:28px;display:flex;flex-direction:column;gap:22px;counter-reset:w}
+.why li{display:grid;grid-template-columns:28px 1fr;gap:12px;font-size:14.5px;line-height:1.55;color:var(--body)}
+.why li>.wn{font-style:normal;width:26px;height:26px;border-radius:50%;background:var(--ink);color:#fff;font-size:12.5px;font-weight:800;display:grid;place-items:center}
+.why li b{display:block;color:var(--ink);font-size:15px;margin-bottom:2px}
+.why .vs{margin-top:32px;padding-top:24px;border-top:1px solid var(--line);font-size:13.5px;line-height:1.55;color:var(--mut)}
+.why .vs b{color:var(--ink)}
+
+/* ---------- shell ---------- */
+.hd{height:64px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px}
+.hd .logo{display:flex;align-items:center;gap:12px}
+.hd .logo svg{height:26px;width:auto}
+.hd .portal{font-size:13px;font-weight:700;color:var(--mut);padding-left:12px;border-left:1px solid var(--line);line-height:20px}
+.hd .sp{flex:1}
+.slt{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 12px;border-radius:999px;background:var(--page);font-size:13px;font-weight:600;color:var(--body)}
+.slt b{color:var(--ink)}
+.icb{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;color:var(--body);position:relative;flex:none}
+.icb .dot{position:absolute;right:8px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--pri);border:2px solid #fff}
+.me{width:40px;height:40px;border-radius:50%;background:#EFE4DA;color:var(--deep);display:grid;place-items:center;font-weight:800;font-size:13px;flex:none}
+.srch{display:flex;align-items:center;gap:10px;width:420px;height:40px;padding:0 14px;border:1px solid var(--inp);border-radius:12px;color:var(--mut);font-size:14px;margin-left:20px}
+.srch kbd{margin-left:auto;font:600 11.5px var(--t);color:var(--mut);border:1px solid var(--line);border-radius:6px;padding:1px 6px}
+.band{background:#fff;border-bottom:1px solid var(--line);padding-top:14px;padding-bottom:14px}
+.tray{display:flex;gap:2px;padding:5px;border-radius:14px;background:var(--tray);width:max-content}
+.tray span{display:inline-flex;align-items:center;gap:9px;height:42px;padding:0 16px;border-radius:10px;font-size:15px;font-weight:600;color:var(--body);white-space:nowrap}
+.tray span svg{color:var(--mut)}
+.tray span.on{background:#fff;color:var(--ink);font-weight:700;box-shadow:0 1px 2px rgba(28,26,23,.10)}
+.tray span.on svg{color:var(--pri)}
+.tray em{font-style:normal;min-width:19px;height:19px;padding:0 5px;border-radius:999px;background:var(--pri);color:#fff;font-size:11px;font-weight:800;display:grid;place-items:center}
+.px-p{padding-left:152px;padding-right:152px}
+.px-a{padding-left:32px;padding-right:32px}
+
+/* ---------- page heading ---------- */
+.pt h1{font-family:var(--h);font-size:34px;line-height:1.1;letter-spacing:-.6px}
+.pt p{font-size:17px;line-height:1.5;color:var(--body);margin-top:8px}
+.pt p b{color:var(--ink)}
+.pt p .hot{color:var(--bad);font-weight:700}
+.link{color:var(--pri-t);font-weight:700;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px}
+.sec{display:flex;align-items:baseline;gap:8px;font-size:17px;font-weight:800}
+.sec small{font-size:15px;font-weight:600;color:var(--mut)}
+
+/* ---------- request card (partner, act now) ---------- */
+.rq{display:grid;grid-template-columns:184px 1fr 248px;background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden}
+.rq>img{width:184px;height:100%;object-fit:cover}
+.rq .mn{padding:24px 28px 24px}
+.rq .who{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.rq .who b{font-size:19px;font-weight:800}
+.rq .who span{font-size:14px;color:var(--mut)}
+.rq .trip{font-size:14.5px;color:var(--body);margin-top:3px}
+.rq .trip b{color:var(--ink)}
+.rq q{display:block;font-size:18px;line-height:1.5;font-weight:500;color:var(--ink);margin-top:16px;quotes:"“" "”";max-width:560px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.chip{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 11px;border-radius:999px;background:var(--neu-bg);font-size:13px;font-weight:700;color:var(--body)}
+.chip.f{background:#fff;border:1px solid var(--inp);color:var(--ink)}
+.rq .pay{font-size:13.5px;color:var(--mut);margin-top:14px}
+.rq .pay b{color:var(--ink)}
+.stub{position:relative;border-left:2px dashed var(--line);padding:24px 24px 22px;display:flex;flex-direction:column}
+.stub .bref{margin-top:auto;padding-top:16px;font-size:12.5px;color:var(--mut);line-height:1.4}
+.stub .bref b{display:block;font-size:14px;color:var(--ink);letter-spacing:.3px}
+.stub .nt{position:absolute;left:-11px;width:20px;height:20px;border-radius:50%;background:var(--page)}
+.stub .nt.t{top:-11px}.stub .nt.b{bottom:-11px}
+.lab{font-size:13px;font-weight:700;color:var(--mut)}
+.clock{font-family:var(--h);font-weight:700;letter-spacing:-1.5px;line-height:1;margin-top:6px;display:flex;align-items:baseline;gap:2px;font-variant-numeric:tabular-nums}
+.clock b{font-size:56px;font-weight:700}
+.clock i{font-style:normal;font-size:22px;font-weight:500;letter-spacing:0;margin:0 8px 0 2px;color:inherit;opacity:.75}
+.clock.hot{color:var(--bad)}
+.due{font-size:14.5px;font-weight:700;margin-top:10px}
+.due+small{display:block;font-size:13px;line-height:1.45;color:var(--mut);margin-top:3px}
+.rep{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
+.rep .btn{height:44px;padding:0 16px;font-size:14px}
+.rep .btn.lk{margin-left:6px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:48px;padding:0 18px;border-radius:12px;border:1px solid var(--inp);background:#fff;font:700 14.5px var(--t);color:var(--ink);white-space:nowrap}
+.btn.p{background:var(--pri);border-color:var(--pri);color:#fff;font-weight:800}
+.btn.d{background:var(--ink);border-color:var(--ink);color:#fff}
+.btn.sm{height:40px;padding:0 14px;font-size:13.5px}
+.btn.lk{border:0;background:none;height:auto;padding:4px 0;color:var(--pri-t);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px}
+.btn .h{font-weight:600;opacity:.8;font-size:12.5px}
+
+/* ---------- policy line ---------- */
+.pl{margin-top:18px}
+.pl .top{display:flex;justify-content:space-between;font-size:13px;color:var(--mut)}
+.pl .top b{color:var(--ink)}
+.track{position:relative;display:flex;gap:3px;margin-top:30px}
+.track span{height:8px;border-radius:4px}
+.track .f{background:#1F6B44}.track .h{background:#D9A021}.track .z{background:var(--inp)}
+.ticks{display:flex;gap:3px;margin-top:8px;font-size:12.5px;line-height:1.35;color:var(--body)}
+.ticks span b{display:block;color:var(--ink);font-size:12.5px}
+.pin{position:absolute;top:-26px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center}
+.pin b{font-size:11.5px;font-weight:800;color:#fff;background:var(--ink);border-radius:6px;padding:2px 7px;white-space:nowrap}
+.pin i{width:2px;height:12px;background:var(--ink)}
+
+/* ---------- queue rows (waiting, closed) ---------- */
+.ql{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.qr{display:grid;grid-template-columns:52px 1fr auto;gap:16px;align-items:center;padding:16px 20px;border-top:1px solid var(--line)}
+.qr:first-child{border-top:0}
+.qr img{width:52px;height:52px;border-radius:12px;object-fit:cover}
+.qr b{display:block;font-size:15px}
+.qr .tr{display:block;font-size:13.5px;color:var(--mut);margin-top:1px}
+.st{display:flex;align-items:flex-start;gap:7px;font-size:13.5px;font-weight:600;line-height:1.4;margin-top:6px}
+.st svg{margin-top:1px}
+.st.info{color:var(--info)}.st.warn{color:var(--warn)}.st.ok{color:var(--ok)}.st.neu{color:var(--mut)}.st.bad{color:var(--bad)}
+.mny{text-align:right;font-size:15px;font-weight:700}
+.mny small{display:block;font-size:12.5px;font-weight:500;color:var(--mut);margin-top:2px}
+.mny s{color:var(--mut);font-weight:500;margin-right:6px}
+.qr.closed{padding:14px 20px;background:#FBFAF8}
+.qr.closed b{font-size:14px;color:var(--body)}
+
+/* ---------- receipt ---------- */
+.rc{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px 22px}
+.rc h3{font-size:15px;font-weight:800}
+.rc .ln{display:flex;align-items:baseline;gap:8px;font-size:14px;color:var(--body);padding:7px 0}
+.rc .ln::after{content:none}
+.rc .ln .dl{flex:1;border-bottom:1.5px dotted #CFC7BC;transform:translateY(-4px)}
+.rc .ln .v{color:var(--ink);font-weight:600}
+.rc .ln.sum{border-top:1.5px solid var(--ink);margin-top:6px;padding-top:12px;font-weight:800;color:var(--ink);font-size:15px}
+.rc .ln.sum .dl{border:0}
+.rc .ln.sum .v{font-weight:800}
+.rc .ft{font-size:12.5px;color:var(--mut);margin-top:10px;line-height:1.45}
+
+/* ---------- admin ---------- */
+.aq{display:flex;flex-direction:column;gap:8px}
+.ai{border:1px solid var(--line);border-radius:16px;padding:14px 16px;background:transparent}
+.ai.sel{background:#fff;border:2px solid var(--ink);padding:13px 15px}
+.ai .r1{display:flex;justify-content:space-between;gap:10px;font-size:15px;font-weight:800}
+.ai .r1 span{font-size:13.5px;font-weight:700;color:var(--body);white-space:nowrap}
+.ai .r1 span.hot{color:var(--bad)}
+.ai .r2{font-size:13.5px;color:var(--mut);margin-top:2px}
+.seg{display:inline-flex;border:1px solid var(--inp);border-radius:12px;overflow:hidden;background:#fff}
+.seg span{height:40px;padding:0 14px;display:flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;color:var(--body);border-left:1px solid var(--inp);white-space:nowrap}
+.seg span:first-child{border-left:0}
+.seg span.on{background:var(--ink);color:#fff}
+.seg span em{font-style:normal;font-weight:600;opacity:.75}
+.bulk{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:16px;background:var(--ok-bg);color:var(--ok);font-size:13.5px;line-height:1.4}
+.bulk b{color:#123F28}
+.dp{background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden}
+.dp .ph{position:relative;height:148px}
+.dp .ph img{width:100%;height:148px;object-fit:cover}
+.dp .ph .sh{position:absolute;inset:0;background:linear-gradient(180deg,rgba(28,26,23,0) 20%,rgba(28,26,23,.78) 100%)}
+.dp .ph .tx{position:absolute;left:28px;right:28px;bottom:18px;color:#fff;display:flex;justify-content:space-between;align-items:flex-end;gap:16px}
+.dp .ph h2{font-family:var(--h);font-size:28px;letter-spacing:-.4px;line-height:1.1}
+.dp .ph p{font-size:14px;opacity:.9;margin-top:4px}
+.dp .ph .ref{font-size:12.5px;font-weight:700;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:5px 10px;white-space:nowrap}
+.facts{display:grid;grid-template-columns:1.15fr 1fr 1fr;border-bottom:1px solid var(--line)}
+.facts>div{padding:20px 28px;border-left:1px solid var(--line)}
+.facts>div:first-child{border-left:0}
+.facts .big{font-family:var(--h);font-size:24px;font-weight:700;margin-top:6px;letter-spacing:-.3px}
+.facts p{font-size:13.5px;color:var(--body);line-height:1.45;margin-top:4px}
+.facts .wn{display:flex;gap:6px;align-items:flex-start;font-size:13px;font-weight:700;color:var(--warn);margin-top:8px;line-height:1.4}
+.says{padding:20px 28px;border-bottom:1px solid var(--line)}
+.says q{display:block;font-size:17px;line-height:1.5;font-weight:500;quotes:"“" "”";margin-top:6px;max-width:760px}
+.dec{display:grid;grid-template-columns:1fr 340px;gap:28px;padding:22px 28px}
+.fl{display:flex;flex-direction:column;gap:7px;margin-bottom:16px}
+.fl .seg{align-self:flex-start}
+.fl label{font-size:13.5px;font-weight:700}
+.fl small{font-size:12.5px;color:var(--mut)}
+.inp{height:46px;border:1px solid var(--inp);border-radius:12px;padding:0 14px;display:flex;align-items:center;gap:8px;font-size:15px;background:#fff}
+.inp.sel{justify-content:space-between}
+.inp.ta{height:64px;align-items:flex-start;padding-top:12px;color:var(--mut);font-size:14px}
+.inp.err{border:2px solid var(--bad);padding:0 13px}
+.dbar{display:flex;align-items:center;gap:12px;padding:16px 28px;border-top:1px solid var(--line);background:#FBFAF8}
+
+/* ---------- phone ---------- */
+.phones{width:1760px;background:#fff;display:flex;gap:44px;padding:64px 72px;align-items:flex-start}
+.ph-intro{width:300px;flex:none}
+.phone{width:390px;height:844px;flex:none;border-radius:36px;border:1px solid var(--line);overflow:hidden;background:var(--page);display:flex;flex-direction:column;position:relative}
+.phone .sb{height:44px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 26px;font-size:14px;font-weight:700;background:#fff}
+.phone .phd{height:56px;flex:none;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;padding:0 16px}
+.phone .phd svg.lg{height:22px;width:auto}
+.phone .pb{flex:1;overflow:hidden;padding:18px 16px}
+.phone .pt h1{font-size:28px}
+.phone .pt p{font-size:15px}
+.tb{height:78px;flex:none;background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);padding:8px 4px 20px}
+.tb span{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:11px;font-weight:700;color:var(--mut);position:relative}
+.tb span.on{color:var(--ink)}.tb span.on svg{color:var(--pri)}
+.tb em{position:absolute;top:-2px;left:calc(50% + 4px);min-width:16px;height:16px;border-radius:999px;background:var(--pri);color:#fff;font-style:normal;font-size:10px;display:grid;place-items:center;padding:0 4px}
+.mrq{background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;margin-top:16px}
+.mrq .top{display:grid;grid-template-columns:56px 1fr;gap:12px;padding:16px 16px 0}
+.mrq .top img{width:56px;height:56px;border-radius:12px;object-fit:cover}
+.mrq q{display:block;padding:12px 16px 0;font-size:15.5px;line-height:1.5;font-weight:500;quotes:"“" "”"}
+.mrq .tm{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin:14px 16px 0;padding-top:12px;border-top:2px dashed var(--line)}
+.mrq .clock b{font-size:40px}.mrq .clock i{font-size:17px;margin:0 6px 0 1px}
+.mrq .g2{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:14px 16px 16px}
+.mrq .g2 .btn{height:46px;font-size:13.5px;padding:0 10px}
+.days{display:flex;gap:6px;margin:14px -16px 0;padding:0 16px;overflow:hidden}
+.day{flex:none;width:58px;border-radius:14px;border:1px solid var(--line);background:#fff;padding:8px 0 10px;display:flex;flex-direction:column;align-items:center;gap:1px}
+.day small{font-size:11.5px;font-weight:700;color:var(--mut)}
+.day b{font-family:var(--h);font-size:20px}
+.day i{font-style:normal;font-size:11px;font-weight:700;color:var(--body);margin-top:3px;display:flex;align-items:center;gap:3px}
+.day.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.day.on small,.day.on i{color:rgba(255,255,255,.78)}
+.day.wx i{color:var(--info)}
+.day.on.wx i{color:#BFD3F2}
+.tripc{display:grid;grid-template-columns:48px 1fr auto;gap:12px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px;margin-top:8px}
+.tripc img{width:48px;height:48px;border-radius:10px;object-fit:cover}
+.tripc b{display:block;font-size:14.5px}.tripc small{display:block;font-size:12.5px;color:var(--mut);margin-top:1px}
+.tripc .tm2{font-family:var(--h);font-weight:700;font-size:17px}
+.wxbox{margin-top:12px;border-radius:16px;background:var(--info-bg);color:var(--info);padding:14px;font-size:13.5px;line-height:1.45;display:grid;grid-template-columns:22px 1fr;gap:10px}
+.wxbox b{color:#17335A}
+.sheet{position:absolute;left:0;right:0;bottom:0;top:120px;background:#fff;border-radius:24px 24px 0 0;box-shadow:0 -10px 40px rgba(28,26,23,.22);display:flex;flex-direction:column}
+.sheet .grab{width:40px;height:5px;border-radius:3px;background:var(--inp);margin:10px auto 0}
+.sheet .sbd{padding:14px 18px 0;flex:1;overflow:hidden}
+.sheet h2{font-family:var(--h);font-size:24px;letter-spacing:-.3px}
+.sheet .sbar{padding:14px 18px 26px;border-top:1px solid var(--line);box-shadow:0 -8px 24px rgba(28,26,23,.06)}
+.scrim{position:absolute;inset:0;background:rgba(28,26,23,.45)}
+.radios{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.radios span{height:42px;border:1px solid var(--inp);border-radius:12px;display:flex;align-items:center;gap:8px;padding:0 12px;font-size:13.5px;font-weight:700;color:var(--body)}
+.radios span i{width:16px;height:16px;border-radius:50%;border:2px solid var(--inp);flex:none}
+.radios span.on{border:2px solid var(--ink);color:var(--ink);padding:0 11px}
+.radios span.on i{border:5px solid var(--ink)}
+.cbx{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.45;margin-top:14px}
+.cbx i{width:20px;height:20px;border-radius:6px;background:var(--ink);flex:none;display:grid;place-items:center;color:#fff;margin-top:1px}
+.cbx small{display:block;font-size:12.5px;color:var(--mut)}
+.mini{display:flex;justify-content:space-between;font-size:13.5px;padding:7px 0;border-bottom:1px solid var(--neu-bg);color:var(--body)}
+.mini b{color:var(--ink)}
+
+/* ---------- doc boards ---------- */
+.doc{width:1440px;background:#fff;padding:72px 96px 96px}
+.doc .k{font-size:14px;font-weight:700;color:var(--pri-t)}
+.doc h1{font-family:var(--h);font-size:48px;line-height:1.06;letter-spacing:-1.2px;margin-top:10px;max-width:980px}
+.doc .lede{font-size:18px;line-height:1.6;color:var(--body);margin-top:16px;max-width:820px}
+.doc h2{font-family:var(--h);font-size:26px;letter-spacing:-.3px}
+.doc .sub{font-size:15px;color:var(--mut);margin-top:6px;line-height:1.5;max-width:760px}
+.cmp{display:grid;grid-template-columns:600px 1fr;gap:56px;margin-top:48px;align-items:start}
+.cmp .shot{border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.cmp .shot img{width:600px}
+.cap{font-size:13.5px;color:var(--mut);margin-top:10px;line-height:1.5}
+.dec5{list-style:none;counter-reset:d;display:flex;flex-direction:column}
+.dec5 li{display:grid;grid-template-columns:52px 1fr;gap:16px;padding:20px 0;border-top:1px solid var(--line)}
+.dec5 li:first-child{border-top:0;padding-top:0}
+.dec5 li>.wn{font-style:normal;font-family:var(--h);font-size:30px;font-weight:700;color:var(--pri);line-height:1}
+.dec5 b{display:block;font-size:18px;font-weight:800}
+.dec5 p{font-size:15px;line-height:1.55;color:var(--body);margin-top:4px}
+.kept{margin-top:40px;display:grid;grid-template-columns:1fr 1fr;gap:56px;padding-top:32px;border-top:1px solid var(--line)}
+.kept p{font-size:15px;line-height:1.6;color:var(--body);margin-top:8px}
+table.t{width:100%;border-collapse:collapse;font-size:14.5px}
+table.t th{text-align:left;font-size:13px;font-weight:700;color:var(--mut);padding:0 14px 10px 0;border-bottom:1.5px solid var(--ink)}
+table.t td{padding:13px 14px 13px 0;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.45;color:var(--body)}
+table.t td:first-child{font-weight:700;color:var(--ink)}
+.dim{color:var(--mut)}
+.c2{display:grid;grid-template-columns:1fr 1fr;gap:64px}
+.sw{display:flex;border-radius:16px;overflow:hidden;height:120px;margin-top:20px}
+.sw div{display:flex;flex-direction:column;justify-content:flex-end;padding:12px 14px;font-size:12.5px;line-height:1.35}
+.sw div b{font-size:13.5px}
+.tyrow{display:grid;grid-template-columns:240px 1fr;align-items:baseline;gap:24px;padding:14px 0;border-bottom:1px solid var(--line)}
+.tyrow code{font-size:13px;color:var(--mut);font-family:var(--t);font-weight:600}
+.bx{border:1px solid var(--line);border-radius:18px;padding:24px;background:var(--page)}
+.bx>h3{font-size:16px;font-weight:800}
+.bx>p{font-size:13.5px;color:var(--mut);margin-top:4px;line-height:1.5}
+.lane{display:flex;flex-direction:column;gap:0}
+.lane .it{display:grid;grid-template-columns:1fr 34px;gap:14px;padding:14px 0;border-top:1px solid var(--line)}
+.lane .it b{display:block;font-size:15px}
+.lane .it span{font-size:13.5px;color:var(--mut);line-height:1.45}
+.lane .it i{font-style:normal;width:30px;height:30px;border-radius:8px;display:grid;place-items:center;font-size:13px;font-weight:800;border:1.5px solid var(--ink)}
+.lane .it i.L{background:var(--ink);color:#fff}
+.lane .it i.S{border-color:var(--inp);color:var(--mut)}
+.toast{display:inline-flex;align-items:center;gap:10px;height:46px;padding:0 16px;border-radius:12px;background:var(--ink);color:#fff;font-size:14px;font-weight:600}
+</style>
+</head>
+<body>
+<!--SPRITE-->
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="today" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></symbol>
+  <symbol id="rain" viewBox="0 0 24 24"><path d="M7 15a4.5 4.5 0 1 1 1.2-8.8A5.5 5.5 0 0 1 18.5 9a3.5 3.5 0 0 1-.5 7H7z"/><path d="M8 19l-1 2M12 19l-1 2M16 19l-1 2"/></symbol>
+  <symbol id="pin" viewBox="0 0 24 24"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></symbol>
+  <symbol id="clip" viewBox="0 0 24 24"><path d="M20 11.5l-8.2 8.2a5 5 0 0 1-7.1-7.1L13 4.3a3.3 3.3 0 0 1 4.7 4.7l-8.3 8.3a1.7 1.7 0 0 1-2.4-2.4l7.6-7.6"/></symbol>
+  <symbol id="arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="hour" viewBox="0 0 24 24"><path d="M7 3h10M7 21h10M8 3c0 5 8 5 8 9s-8 4-8 9M16 3c0 5-8 5-8 9"/></symbol>
+  <symbol id="money" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6.5 9.5v.01M17.5 14.5v.01"/></symbol>
+  <symbol id="lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
+  <symbol id="cam" viewBox="0 0 24 24"><path d="M4 8h3l2-2.5h6L17 8h3v11H4z"/><circle cx="12" cy="13.5" r="3.5"/></symbol>
+</svg>
+
+<!-- =============== P00  WHY =============== -->
+<div class="fig-frame doc" id="p00" data-name="P 00  Why the dashboards change, and what stays">
+  <div class="k">Dashboard plan · for Akila · 25 Nov 2026</div>
+  <h1>A refund that's due in 7 hours shouldn't look like one that closed last week</h1>
+  <p class="lede">Today's Refunds page and the canvas both give every request the same weight: a row in a table. Partners mostly work on their phones, between trips. They should be able to see who's waiting for them, how long they have and what it costs, without reading a table. These five decisions shape every screen in the plan.</p>
+  <div class="cmp">
+    <div>
+      <div class="shot"><img src="@shot:live-refunds:1200" alt="Live partner Refunds page today"></div>
+      <p class="cap"><b style="color:var(--ink)">Today, app2.ceylonnooks.com.</b> Four summary cards, a banner with the old 24 hour rule, then a table. LKR on the cards, $ in the rows. On a phone the table is 970 px wide.</p>
+      <p class="cap" style="margin-top:16px"><b style="color:var(--ink)">The canvas</b> fixes the rules and the wording, and it's the content we keep. Its layout is the same pattern, though: four equal cards, filter tabs, a five-column table and a drawer.</p>
+    </div>
+    <ol class="dec5">
+      <li><i class="wn">01</i><span><b>One product, not three</b><p>Partner and admin use the traveller site's header, tab tray, page width and photos. A partner who has browsed Ceylon Nooks already knows how to get around.</p></span></li>
+      <li><i class="wn">02</i><span><b>What needs you comes first, at full size</b><p>A request that needs a reply is a large card with the traveller's own words, the deadline and the replies, ready to act on. Everything waiting on someone else is a quiet list below it. There are no summary cards.</p></span></li>
+      <li><i class="wn">03</i><span><b>Time is the headline</b><p>Deadlines use the same big clock as the traveller's pickup time, in Sri Lanka time and with the real date. Policies are drawn as a line of real dates, with a marker where the traveller asked.</p></span></li>
+      <li><i class="wn">04</i><span><b>Money reads like a receipt</b><p>Paid, refund, fee, what the traveller gets and what changes in the payout, one line each with the total underneath. The same receipt appears on partner, admin and statement screens.</p></span></li>
+      <li><i class="wn">05</i><span><b>Colour only for “act now”</b><p>Red is for things with a deadline on you. Everything else is plain words with a small icon. With less colour on screen, the urgent items are easy to spot.</p></span></li>
+    </ol>
+  </div>
+  <div class="kept">
+    <div><h2>What we keep</h2><p>Every rule, status and line of copy from the brief and the canvas. The style guide's colours (the same as the traveller site), Bricolage Grotesque and Manrope, the spacing scale, borders on cards instead of shadows, and the 12 and 18 px corners.</p></div>
+    <div><h2>Partner and admin are built differently on purpose</h2><p>Partners have a few requests a week, mostly on a phone, so their pages are calm and use the traveller site's 1136 px width. The admin team works through a queue on a laptop, so admin pages use the full width: the list on the left and the request on the right, with no drawer opening and closing.</p></div>
+  </div>
+</div>
+
+<!-- =============== P02  PARTNER REFUNDS =============== -->
+<div class="fig-frame pres" id="p02" data-name="P 02  Partner Refunds, desktop 1440">
+ <div class="screen">
+  <div class="hd px-p"><span class="logo"><!--LOGO--><span class="portal">Partner</span></span><span class="sp"></span><span class="slt"><svg class="i s"><use href="#clock"/></svg>Sri Lanka <b>12:10 PM</b></span><span class="icb"><svg class="i"><use href="#help"/></svg></span><span class="icb"><svg class="i"><use href="#bell"/></svg><i class="dot"></i></span><span class="me">AS</span></div>
+  <div class="band px-p"><div class="tray"><span><svg class="i"><use href="#today"/></svg>Today</span><span><svg class="i"><use href="#cal"/></svg>Bookings</span><span class="on"><svg class="i"><use href="#back"/></svg>Refunds<em>2</em></span><span><svg class="i"><use href="#chat"/></svg>Messages<em>1</em></span><span><svg class="i"><use href="#compass"/></svg>Listings</span><span><svg class="i"><use href="#wallet"/></svg>Money</span><span><svg class="i"><use href="#user"/></svg>Account</span></div></div>
+  <div class="px-p" style="padding-top:36px;padding-bottom:64px">
+   <div class="pt" style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px"><div><h1>Refunds</h1><p><b>2 travellers</b> are waiting for your reply. Daniel's is due first, <span class="hot">in 7 h 55 min</span>.</p></div><span style="font-size:14.5px;display:flex;gap:20px"><span class="link">All refunds (11)</span><span class="link">Your policies</span></span></div>
+
+   <div class="sec" style="margin-top:32px">Waiting for your reply <small>2</small></div>
+   <div class="rq" style="margin-top:14px">
+     <img src="@img:pidurangala:420" alt="">
+     <div class="mn">
+       <div class="who"><b>Daniel Okafor</b><span>2 adults · booked Sat 12 Sep</span></div>
+       <div class="trip">Pidurangala sunset hike · <b>Wed 23 Sep, 4:00 PM</b></div>
+       <q>I've come down with a fever and the doctor says I should rest for three days. Could we have some of it back?</q>
+       <div class="chips"><span class="chip">Illness</span><span class="chip f"><svg class="i s"><use href="#clip"/></svg>doctor-note.pdf</span></div>
+       <div class="pl"><div class="top"><span>Your policy for this booking: <b>Moderate</b></span><span>Paid USD 120.00 · your payout <b class="n">USD 98.40</b></span></div>
+         <div class="track"><span class="f" style="flex:36"></span><span class="h" style="flex:36"></span><span class="z" style="flex:28"></span><span class="pin" style="left:89%"><b>Asked Tue 8:05 AM</b><i></i></span></div>
+         <div class="ticks"><span style="flex:36"><b>Full refund</b>until Wed 16 Sep, 4:00 PM</span><span style="flex:36"><b>50% back</b>until Sun 20 Sep, 4:00 PM</span><span style="flex:28"><b>No refund</b>after that</span></div></div>
+       <div class="rep"><span class="btn p">Offer another date</span><span class="btn">Agree a refund</span><span class="btn">Keep my policy</span><span class="btn lk">It was on our side</span></div>
+     </div>
+     <div class="stub"><i class="nt t"></i><i class="nt b"></i>
+       <span class="lab">Reply within</span>
+       <div class="clock hot"><b>7</b><i>h</i><b>55</b><i>m</i></div>
+       <div class="due">By 8:05 PM today, Tue 22 Sep</div><small>The trip is in under 3 days, so you have 12 hours instead of 24. After that, our team decides.</small>
+       <div class="bref">Booking<b class="n">CNE71230415</b></div>
+     </div>
+   </div>
+   <div class="rq" style="margin-top:16px">
+     <img src="@img:sigiriya:420" alt="">
+     <div class="mn">
+       <div class="who"><b>Emma Walsh</b><span>2 adults · booked Mon 7 Sep</span></div>
+       <div class="trip">Sigiriya sunrise climb · <b>Sat 26 Sep, 6:00 AM</b></div>
+       <q>Our flight into Colombo has been moved to Saturday afternoon, so we'll miss the climb. Can we have a refund?</q>
+       <div class="chips"><span class="chip">Travel changed</span><span class="chip f"><svg class="i s"><use href="#clip"/></svg>flight-change.png</span></div>
+       <div class="pl"><div class="top"><span>Your policy for this booking: <b>Strict</b></span><span>Paid USD 340.00 · your payout <b class="n">USD 279.00</b></span></div>
+         <div class="track"><span class="f" style="flex:26"></span><span class="h" style="flex:37"></span><span class="z" style="flex:37"></span><span class="pin" style="left:79%"><b>Asked Tue 6:52 AM</b><i></i></span></div>
+         <div class="ticks"><span style="flex:26"><b>Full refund</b>until Sat 12 Sep, 6:00 AM</span><span style="flex:37"><b>50% back</b>until Sat 19 Sep, 6:00 AM</span><span style="flex:37"><b>No refund</b>after that</span></div></div>
+       <div class="rep"><span class="btn p">Offer another date</span><span class="btn">Agree a refund</span><span class="btn">Keep my policy</span><span class="btn lk">It was on our side</span></div>
+     </div>
+     <div class="stub"><i class="nt t"></i><i class="nt b"></i>
+       <span class="lab">Reply within</span>
+       <div class="clock"><b>18</b><i>h</i><b>42</b><i>m</i></div>
+       <div class="due">By 6:52 AM tomorrow, Wed 23 Sep</div><small>After that, our team decides without your reply.</small>
+       <div class="bref">Booking<b class="n">CNE71231806</b></div>
+     </div>
+   </div>
+
+   <div style="display:grid;grid-template-columns:1fr 340px;gap:32px;margin-top:44px;align-items:start">
+     <div>
+       <div class="sec">Waiting on someone else <small>3</small></div>
+       <div class="ql" style="margin-top:14px">
+         <div class="qr"><img src="@img:sigiriya:120" alt=""><span><b>Hannah Becker</b><span class="tr">Sigiriya sunrise climb · Sun 4 Oct</span><span class="st info"><svg class="i s"><use href="#cal"/></svg>You offered Wed 7 Oct. Hannah has until 9:00 AM tomorrow to accept.</span></span><span class="mny n">USD 279.00<small>unchanged if she accepts</small></span></div>
+         <div class="qr"><img src="@img:kandy-temple:120" alt=""><span><b>Tom Reid</b><span class="tr">Kandy temple and tea country · Fri 25 Sep</span><span class="st warn"><svg class="i s"><use href="#hour"/></svg>With our team. You agreed to USD 80.00 back. We aim to decide by Wed 23 Sep.</span></span><span class="mny n"><s>131.20</s>USD 65.60<small>if approved</small></span></div>
+         <div class="qr"><img src="@img:pidurangala:120" alt=""><span><b>Mei Tanaka</b><span class="tr">Pidurangala sunset hike · Sat 26 Sep</span><span class="st warn"><svg class="i s"><use href="#hour"/></svg>With our team. Your reply window closed on Sun 20 Sep. You can still add a note.</span></span><span class="mny n">USD 98.40<small>until we decide</small></span></div>
+         <div class="qr closed"><span></span><span><b>Closed in the last 30 days: Lucas Martin, Priya Nair and 4 more</b></span><span class="link" style="font-size:13.5px">Show</span></div>
+       </div>
+     </div>
+     <div class="rc" style="margin-top:38px">
+       <h3>September so far</h3>
+       <div class="ln"><span>Refunded to travellers</span><span class="dl"></span><span class="v n">USD 590.00</span></div>
+       <div class="ln"><span>Bookings affected</span><span class="dl"></span><span class="v n">3</span></div>
+       <div class="ln sum"><span>Taken from your payouts</span><span class="dl"></span><span class="v n">−USD 484.10</span></div>
+       <div class="ft">Shown line by line on your statement for 1 to 30 Sep. <span class="link">See statement</span></div>
+     </div>
+   </div>
+  </div>
+ </div>
+ <aside class="why">
+  <div class="k">Partner · Refunds</div>
+  <h2>Who's waiting, how long you have, what it costs</h2>
+  <p>Built for a partner opening this between trips: the answer to “do I need to do anything?” is the first sentence on the page.</p>
+  <ol>
+    <li><i class="wn">1</i><span><b>The headline sentence does the summary</b>“2 travellers are waiting. Daniel's is due first, in 7 h 55 min.” It replaces the four summary cards, and it reads the same on a phone.</span></li>
+    <li><i class="wn">2</i><span><b>A request is a ticket, not a row</b>The photo, the traveller's own words and their evidence on the left. The replies sit under their words. On the right, the stub with the clock, the same shape as the traveller's pickup card.</span></li>
+    <li><i class="wn">3</i><span><b>The policy is drawn as real dates</b>Green, amber and grey stretches with the date each one ends, and a marker where the traveller asked. The partner can see at a glance why the request came to them.</span></li>
+    <li><i class="wn">4</i><span><b>Offering another date is the main button</b>The booking stays, nobody pays a fee, and it's the outcome the brief prefers. The other three replies sit next to it in the same row, so none is hidden.</span></li>
+    <li><i class="wn">5</i><span><b>Everything else is quieter</b>Requests waiting on the traveller or on our team are plain rows with a sentence each. Closed ones fold into a single line. Money for the month is one small receipt.</span></li>
+  </ol>
+  <p class="vs"><b>From the canvas:</b> the statuses, the countdown rules, the four replies, the payout preview and every amount. <b>Changed:</b> the layout and the order of things on the page.</p>
+ </aside>
+</div>
+
+<!-- =============== P03  ADMIN REFUNDS =============== -->
+<div class="fig-frame pres" id="p03" data-name="P 03  Admin Refunds, desktop 1440">
+ <div class="screen">
+  <div class="hd px-a"><span class="logo"><!--LOGO--><span class="portal">Admin</span></span><span class="srch"><svg class="i s"><use href="#search"/></svg>Search bookings, partners, travellers<kbd>/</kbd></span><span class="sp"></span><span class="slt"><svg class="i s"><use href="#clock"/></svg>Sri Lanka <b>12:10 PM</b></span><span class="icb"><svg class="i"><use href="#bell"/></svg><i class="dot"></i></span><span class="me" style="background:#E4ECF7;color:#244A7A">AL</span></div>
+  <div class="band px-a"><div class="tray"><span><svg class="i"><use href="#today"/></svg>Today</span><span class="on"><svg class="i"><use href="#back"/></svg>Refunds<em>4</em></span><span><svg class="i"><use href="#wallet"/></svg>Payouts</span><span><svg class="i"><use href="#cal"/></svg>Bookings</span><span><svg class="i"><use href="#list"/></svg>Listings<em>1</em></span><span><svg class="i"><use href="#doc"/></svg>Policies<em>3</em></span><span><svg class="i"><use href="#users"/></svg>People</span><span><svg class="i"><use href="#gear"/></svg>Settings</span></div></div>
+  <div class="px-a" style="display:grid;grid-template-columns:420px 1fr;gap:28px;padding-top:28px;padding-bottom:40px">
+   <div>
+     <div class="pt"><h1 style="font-size:30px">Refunds</h1><p style="font-size:15.5px"><b>4 need a decision.</b> Sofia's trip starts first, <span class="hot">in 45 hours</span>.</p></div>
+     <div class="seg" style="margin-top:18px"><span class="on">To decide <em>4</em></span><span>With partners <em>2</em></span><span>Closed</span></div>
+     <div class="bulk" style="margin-top:14px"><svg class="i"><use href="#check"/></svg><span><b>3 partners agreed to a refund.</b> No trip has started and nothing is flagged.</span><span class="btn sm d" style="margin-left:auto">Apply all 3</span></div>
+     <div class="aq" style="margin-top:14px">
+       <div class="ai sel"><div class="r1">Sofia Ricci<span class="hot">Trip in 45 h</span></div><div class="r2">Blue whale watching · Mirissa Ocean Co.</div><div class="st neu" style="margin-top:8px"><svg class="i s"><use href="#hour"/></svg>Partner didn't reply in time</div></div>
+       <div class="ai"><div class="r1">Emma Walsh<span>Trip Sat 26 Sep</span></div><div class="r2">Sigiriya sunrise climb · Arkam Sahdi</div><div class="st ok" style="margin-top:8px"><svg class="i s"><use href="#check"/></svg>Partner agreed to USD 170.00 back</div></div>
+       <div class="ai"><div class="r1">Hiro Sato<span>Trip Sun 27 Sep</span></div><div class="r2">Pigeon Island snorkelling · Trinco Dive Centre</div><div class="st info" style="margin-top:8px"><svg class="i s"><use href="#alert"/></svg>Partner says it was on their side</div></div>
+       <div class="ai"><div class="r1">Ravi Menon<span>Trip Mon 28 Sep</span></div><div class="r2">Galle Fort walk · Old Town Walks</div><div class="st neu" style="margin-top:8px"><svg class="i s"><use href="#lock"/></svg>Partner wants to keep the policy</div></div>
+     </div>
+   </div>
+   <div class="dp">
+     <div class="ph"><img src="@img:mirissa-whale:1800" alt=""><span class="sh"></span><div class="tx"><div><h2>Sofia Ricci asked for a refund</h2><p>Blue whale watching with Mirissa Ocean Co. · Thu 24 Sep, 9:30 AM · paid USD 190.00 by card</p></div><span class="ref">CNE71229977</span></div></div>
+     <div class="facts">
+       <div><span class="lab">The policy gives</span><div class="big">50% back</div><p>Custom v2, the version Sofia booked under.</p><div class="wn"><svg class="i s"><use href="#alert"/></svg>Changed to v3 on Mon 14 Sep, after she booked</div></div>
+       <div><span class="lab">The partner</span><div class="big">No reply</div><p>Their window closed today at 9:30 AM. Not paid out yet.</p></div>
+       <div><span class="lab">The traveller</span><div class="big">First request</div><p>3 trips since March 2025, no refunds.</p></div>
+     </div>
+     <div class="says"><span class="lab">Sofia says</span><q>The coast road is closed after the landslide near Galle, and the bus company says it won't reopen before Friday. We can't get to Mirissa.</q><div class="chips"><span class="chip">Road closed</span><span class="chip f"><svg class="i s"><use href="#clip"/></svg>news.lk/landslide-galle</span></div></div>
+     <div class="dec">
+       <div>
+         <div class="fl"><label>Refund</label><div class="seg"><span>Policy, <em>USD 95.00</em></span><span class="on">Full, <em>USD 190.00</em></span><span>Other amount</span></div></div>
+         <div class="fl"><label>Processing fee</label><div class="seg"><span>Standard, <em>USD 9.50</em></span><span>Reduced</span><span class="on">Waived</span></div></div>
+         <div class="fl"><label>Reason, for the record</label><span class="inp sel">Medical or emergency<svg class="i"><use href="#down"/></svg></span><small>Needed whenever you go beyond the policy.</small></div>
+       </div>
+       <div class="rc" style="background:var(--page);border-color:var(--page)">
+         <div class="ln"><span>Sofia paid</span><span class="dl"></span><span class="v n">USD 190.00</span></div>
+         <div class="ln"><span>Refund</span><span class="dl"></span><span class="v n">USD 190.00</span></div>
+         <div class="ln"><span>Processing fee, waived</span><span class="dl"></span><span class="v n">USD 0.00</span></div>
+         <div class="ln sum"><span>Sofia gets back</span><span class="dl"></span><span class="v n">USD 190.00</span></div>
+         <div class="ln" style="margin-top:6px"><span>From the partner's payout</span><span class="dl"></span><span class="v n">−USD 155.80</span></div>
+         <div class="ln"><span>Our commission returned</span><span class="dl"></span><span class="v n">−USD 34.20</span></div>
+         <div class="ft">Uses Mirissa Ocean Co.'s own commission rate, 18%.</div>
+       </div>
+     </div>
+     <div class="dbar"><span class="link" style="font-size:14px">Preview the emails</span><span class="sp" style="flex:1"></span><span class="btn">Decline</span><span class="btn p">Refund USD 190.00 and tell both</span></div>
+   </div>
+  </div>
+ </div>
+ <aside class="why">
+  <div class="k">Admin · Refunds</div>
+  <h2>A queue the team can get through</h2>
+  <p>Decisions are what admins do here all day. The list and the request sit side by side, so moving to the next one is a single click.</p>
+  <ol>
+    <li><i class="wn">1</i><span><b>Ordered by when the trip starts</b>The trip is the real deadline, so it's on the right of every item: as hours and in red inside 48 hours, as a date after that.</span></li>
+    <li><i class="wn">2</i><span><b>The partner's stance is in words</b>“Partner agreed to USD 170.00 back” instead of a pill. You can triage the queue without opening anything.</span></li>
+    <li><i class="wn">3</i><span><b>Three facts, side by side</b>What the policy gives, what the partner said and the traveller's history. The “policy changed since booking” warning sits right under the policy it's about.</span></li>
+    <li><i class="wn">4</i><span><b>Choices on the left, the receipt on the right</b>Every change to the refund or the fee updates the receipt, down to what comes out of the partner's payout and our commission.</span></li>
+    <li><i class="wn">5</i><span><b>Bulk only where it's safe</b>The green strip appears only when partners agreed, no trip has started and nothing is flagged, the same rules as the canvas.</span></li>
+  </ol>
+  <p class="vs"><b>From the canvas:</b> the eight reasons, the fee options, the warnings, guest history and bulk rules. <b>Changed:</b> a split view instead of a table and a drawer, and the photo header so each request is easy to recognise.</p>
+ </aside>
+</div>
+
+<!-- =============== P04  PHONES =============== -->
+<div class="fig-frame phones" id="p04" data-name="P 04  Partner on a phone 390: Refunds, Today, cancel a day">
+  <div class="ph-intro">
+    <div style="font-size:14px;font-weight:700;color:var(--pri-t)">Partner · phone</div>
+    <h1 style="font-family:var(--h);font-size:34px;line-height:1.1;letter-spacing:-.6px;margin-top:10px">Made for a phone in one hand, between trips</h1>
+    <p style="font-size:15.5px;line-height:1.6;color:var(--body);margin-top:14px">It'll be installed as an app for about a year, so the phone layout is designed first, not squeezed down from desktop.</p>
+    <ol class="dec5" style="margin-top:28px">
+      <li><i class="wn">01</i><span><b style="font-size:16px">Tabs at the bottom</b><p style="font-size:14px">Today, Bookings, Refunds and Messages are a thumb away. Everything else is under More.</p></span></li>
+      <li><i class="wn">02</i><span><b style="font-size:16px">Reply right from the card</b><p style="font-size:14px">The four replies are on the request itself. One tap opens the reply with that choice already picked.</p></span></li>
+      <li><i class="wn">03</i><span><b style="font-size:16px">Cancel a whole day</b><p style="font-size:14px">Weather usually affects everyone booked that day. Tap the day, then cancel it once, with evidence and new bookings stopped. Agreed by Akila on 23 Nov.</p></span></li>
+    </ol>
+  </div>
+
+  <div class="phone">
+    <div class="sb"><span>12:10</span><span>●●● 4G</span></div>
+    <div class="phd"><!--LOGOSM--><span class="sp" style="flex:1"></span><span class="icb" style="width:38px;height:38px"><svg class="i"><use href="#bell"/></svg><i class="dot"></i></span></div>
+    <div class="pb">
+      <div class="pt"><h1>Refunds</h1><p><b>2 travellers</b> are waiting for you. Daniel's is due <span class="hot">in 7 h 55 min</span>.</p></div>
+      <div class="mrq">
+        <div class="top"><img src="@img:pidurangala:120" alt=""><span><b style="font-size:16px;display:block">Daniel Okafor</b><span style="font-size:13px;color:var(--mut)">Pidurangala sunset hike<br>Wed 23 Sep, 4:00 PM</span></span></div>
+        <q>I've come down with a fever and the doctor says I should rest for three days.</q>
+        <div class="chips" style="padding:0 16px"><span class="chip">Illness</span><span class="chip f"><svg class="i s"><use href="#clip"/></svg>doctor-note.pdf</span></div>
+        <div class="tm"><span><span class="lab">Reply within</span><div class="clock hot"><b>7</b><i>h</i><b>55</b><i>m</i></div></span><span style="text-align:right;font-size:12.5px;color:var(--mut);line-height:1.4">By 8:05 PM today<br>Policy gives no refund</span></div>
+        <div class="g2"><span class="btn p">Offer a date</span><span class="btn">Agree a refund</span><span class="btn">Keep my policy</span><span class="btn">It was us</span></div>
+      </div>
+      <div class="ql" style="margin-top:12px"><div class="qr" style="grid-template-columns:44px 1fr auto;padding:12px 14px;gap:12px"><img src="@img:sigiriya:120" alt="" style="width:44px;height:44px;border-radius:10px"><span><b style="font-size:14.5px">Emma Walsh</b><span class="tr" style="font-size:12.5px">Sigiriya sunrise climb</span></span><span style="font-family:var(--h);font-weight:700;font-size:18px" class="n">18h 42m</span></div></div>
+    </div>
+    <div class="tb"><span><svg class="i"><use href="#today"/></svg>Today</span><span><svg class="i"><use href="#cal"/></svg>Bookings</span><span class="on"><svg class="i"><use href="#back"/></svg>Refunds<em>2</em></span><span><svg class="i"><use href="#chat"/></svg>Messages<em>1</em></span><span><svg class="i"><use href="#more"/></svg>More</span></div>
+  </div>
+
+  <div class="phone">
+    <div class="sb"><span>12:10</span><span>●●● 4G</span></div>
+    <div class="phd"><!--LOGOSM--><span class="sp" style="flex:1"></span><span class="icb" style="width:38px;height:38px"><svg class="i"><use href="#bell"/></svg><i class="dot"></i></span></div>
+    <div class="pb">
+      <div class="pt"><h1>Good afternoon, Arkam</h1><p>Tomorrow: <b>2 trips, 6 travellers</b>. First pickup at <b>4:30 AM</b>.</p></div>
+      <div class="days">
+        <div class="day"><small>Tue</small><b>22</b><i>1</i></div>
+        <div class="day"><small>Wed</small><b>23</b><i>2</i></div>
+        <div class="day"><small>Thu</small><b>24</b><i>0</i></div>
+        <div class="day wx"><small>Fri</small><b>25</b><i><svg class="i" style="width:11px;height:11px"><use href="#rain"/></svg>1</i></div>
+        <div class="day on wx"><small>Sat</small><b>26</b><i><svg class="i" style="width:11px;height:11px"><use href="#rain"/></svg>3</i></div>
+        <div class="day"><small>Sun</small><b>27</b><i>1</i></div>
+      </div>
+      <div style="font-size:15px;font-weight:800;margin-top:18px">Saturday 26 September</div>
+      <div class="tripc"><img src="@img:sigiriya:120" alt=""><span><b>Sigiriya sunrise climb</b><small>Pickup 4:30 AM · 4 travellers</small></span><span class="tm2">4:30</span></div>
+      <div class="tripc"><img src="@img:trincomalee:120" alt=""><span><b>Pigeon Island snorkelling</b><small>Pickup 7:00 AM · 2 travellers</small></span><span class="tm2">7:00</span></div>
+      <div class="tripc"><img src="@img:pidurangala:120" alt=""><span><b>Pidurangala sunset hike</b><small>Pickup 3:15 PM · 1 traveller</small></span><span class="tm2">3:15</span></div>
+      <div class="wxbox"><svg class="i"><use href="#rain"/></svg><span><b>Heavy rain or rough seas?</b> If you can't run trips that day, cancel the whole day at once. Everyone gets a full refund, with no fee.<br><span style="font-weight:800;text-decoration:underline;text-underline-offset:3px;display:inline-block;margin-top:6px">Cancel Sat 26 Sep</span></span></div>
+    </div>
+    <div class="tb"><span class="on"><svg class="i"><use href="#today"/></svg>Today</span><span><svg class="i"><use href="#cal"/></svg>Bookings</span><span><svg class="i"><use href="#back"/></svg>Refunds<em>2</em></span><span><svg class="i"><use href="#chat"/></svg>Messages<em>1</em></span><span><svg class="i"><use href="#more"/></svg>More</span></div>
+  </div>
+
+  <div class="phone">
+    <div class="sb" style="background:#C9C4BD"><span>12:10</span><span>●●● 4G</span></div>
+    <div class="scrim"></div>
+    <div class="sheet">
+      <div class="grab"></div>
+      <div class="sbd">
+        <h2>Cancel Saturday 26 September?</h2>
+        <p style="font-size:14px;color:var(--body);line-height:1.5;margin-top:6px">3 bookings, 7 travellers. They all get everything back, with no fee, and we tell each of them for you.</p>
+        <div class="rc" style="padding:12px 14px;margin-top:12px;border-radius:14px">
+          <div class="mini"><span>Sigiriya sunrise climb, 4</span><b class="n">USD 680.00</b></div>
+          <div class="mini"><span>Pigeon Island snorkelling, 2</span><b class="n">USD 210.00</b></div>
+          <div class="mini" style="border:0"><span>Pidurangala sunset hike, 1</span><b class="n">USD 60.00</b></div>
+          <div class="ln sum" style="margin-top:2px;padding-top:10px;font-size:14px"><span>Back to travellers</span><span class="dl"></span><span class="v n">USD 950.00</span></div>
+        </div>
+        <div style="font-size:13.5px;font-weight:700;margin-top:16px">Why can't the trips run?</div>
+        <div class="radios"><span class="on"><i></i>Weather or sea</span><span><i></i>Road closed</span><span><i></i>Can't run it</span><span><i></i>Something else</span></div>
+        <div style="font-size:13.5px;font-weight:700;margin-top:14px">Evidence <span style="font-weight:500;color:var(--mut)">(optional)</span></div>
+        <div style="display:flex;gap:8px;margin-top:8px"><span class="chip f" style="height:38px"><svg class="i s"><use href="#cam"/></svg>Add a photo</span><span class="chip f" style="height:38px"><svg class="i s"><use href="#clip"/></svg>Paste a link</span></div>
+        <div class="cbx"><i><svg class="i" style="width:13px;height:13px;stroke-width:3"><use href="#check"/></svg></i><span><b>Stop new bookings for Sat 26 Sep</b><small>You can open the day again from Listings.</small></span></div>
+      </div>
+      <div class="sbar"><span class="btn p" style="width:100%;height:52px">Cancel 3 bookings</span><span style="display:block;text-align:center;font-size:13px;color:var(--mut);margin-top:10px">Your payout for these bookings becomes USD 0.00</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- =============== P05  COMPONENTS =============== -->
+<div class="fig-frame doc" id="p05" data-name="P 05  Components" style="background:var(--page)">
+  <div class="k">Components</div>
+  <h1>The parts behind every dashboard screen</h1>
+  <p class="lede">These are the ones the refund screens need first. Each will be a Figma component with auto layout and variants, and a phone size where it differs. Payouts, Bookings and the rest reuse them later.</p>
+
+  <div style="display:grid;grid-template-columns:1.25fr 1fr;gap:24px;margin-top:44px">
+    <div class="bx"><h3>Deadline clock</h3><p>Calm over 3 hours, red in the last 3 hours or when the window is 12 hours, closed when it's over.</p>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px">
+        <div style="background:#fff;border-radius:14px;padding:16px"><span class="lab">Reply within</span><div class="clock"><b>18</b><i>h</i><b>42</b><i>m</i></div><div class="due" style="font-size:13.5px">By 6:52 AM tomorrow</div></div>
+        <div style="background:#fff;border-radius:14px;padding:16px"><span class="lab">Reply within</span><div class="clock hot"><b>2</b><i>h</i><b>10</b><i>m</i></div><div class="due" style="font-size:13.5px">By 2:20 PM today</div></div>
+        <div style="background:#fff;border-radius:14px;padding:16px"><span class="lab">Reply window</span><div class="clock" style="color:var(--mut)"><b style="font-size:34px;letter-spacing:-.5px">Closed</b></div><div class="due" style="font-size:13.5px;color:var(--body)">Our team is deciding</div></div>
+      </div></div>
+    <div class="bx"><h3>Section tabs</h3><p>The traveller site's tray. Partner and admin each have their own set, and on a phone it becomes the bottom bar.</p>
+      <div class="tray" style="margin-top:18px;background:#fff"><span><svg class="i"><use href="#today"/></svg>Today</span><span class="on" style="background:var(--page);box-shadow:none"><svg class="i"><use href="#back"/></svg>Refunds<em>2</em></span><span><svg class="i"><use href="#chat"/></svg>Messages</span></div>
+      <div class="seg" style="margin-top:16px"><span class="on">To decide <em>4</em></span><span>With partners <em>2</em></span><span>Closed</span></div></div>
+
+    <div class="bx" style="grid-column:1/-1"><h3>Policy line</h3><p>Every policy drawn the same way: what comes back, until which real date. The marker shows where a request was made. The same line is used on the listing, at checkout, in the partner's policy card and in admin approvals.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-top:10px">
+        <div class="pl" style="background:#fff;border-radius:14px;padding:16px"><div class="top"><b>Flexible</b><span>trip Sat 26 Sep, 6 AM</span></div><div class="track"><span class="f" style="flex:70"></span><span class="z" style="flex:30"></span><span class="pin" style="left:40%"><b>Booked</b><i></i></span></div><div class="ticks"><span style="flex:70"><b>Full refund</b>until Thu 24 Sep, 6 AM</span><span style="flex:30"><b>None</b></span></div></div>
+        <div class="pl" style="background:#fff;border-radius:14px;padding:16px"><div class="top"><b>Custom, 4 tiers</b><span>Mirissa Ocean Co. v3</span></div><div class="track"><span class="f" style="flex:30"></span><span class="h" style="flex:22"></span><span class="h" style="flex:18;opacity:.6"></span><span class="z" style="flex:30"></span><span class="pin" style="left:62%"><b>Asked</b><i></i></span></div><div class="ticks"><span style="flex:30"><b>100%</b>to 15 Sep</span><span style="flex:22"><b>50%</b>to 22 Sep</span><span style="flex:18"><b>25%</b>to 24 Sep</span><span style="flex:30"><b>None</b></span></div></div>
+        <div class="pl" style="background:#fff;border-radius:14px;padding:16px"><div class="top"><b>Non-refundable</b><span>no pay later</span></div><div class="track"><span class="z" style="flex:100"></span></div><div class="ticks"><span><b>No refund</b>You can still ask; the partner and our team decide</span></div></div>
+      </div></div>
+
+    <div class="bx"><h3>Queue rows, three weights</h3><p>Act now is a card (see P 02). Waiting on someone is a row with a sentence. Closed is muted and folded away.</p>
+      <div class="ql" style="margin-top:16px">
+        <div class="qr"><img src="@img:sigiriya:120" alt=""><span><b>Hannah Becker</b><span class="tr">Sigiriya sunrise climb · Sun 4 Oct</span><span class="st info"><svg class="i s"><use href="#cal"/></svg>Hannah has until 9:00 AM tomorrow to accept Wed 7 Oct</span></span><span class="mny n">USD 279.00</span></div>
+        <div class="qr"><img src="@img:kandy-temple:120" alt=""><span><b>Tom Reid</b><span class="tr">Kandy temple and tea country · Fri 25 Sep</span><span class="st warn"><svg class="i s"><use href="#hour"/></svg>With our team, aiming to decide by Wed 23 Sep</span></span><span class="mny n"><s>131.20</s>65.60</span></div>
+        <div class="qr closed"><img src="@img:galle-fort:120" alt="" style="width:40px;height:40px;opacity:.7"><span><b>Lucas Martin</b><span class="st neu" style="margin-top:2px"><svg class="i s"><use href="#check"/></svg>Cancelled within your policy, 50% back on Fri 18 Sep</span></span><span class="mny n" style="color:var(--mut)">139.50</span></div>
+      </div></div>
+    <div class="bx"><h3>Receipt</h3><p>Every amount in one place, line by line, with dotted leaders and the total underlined. Used on partner, admin and statement screens.</p>
+      <div class="rc" style="margin-top:16px">
+        <div class="ln"><span>Tom paid</span><span class="dl"></span><span class="v n">USD 160.00</span></div>
+        <div class="ln"><span>Refund you agreed</span><span class="dl"></span><span class="v n">USD 80.00</span></div>
+        <div class="ln"><span>Processing fee, 5% of 160.00, paid by Tom</span><span class="dl"></span><span class="v n">−USD 8.00</span></div>
+        <div class="ln sum"><span>Tom gets back</span><span class="dl"></span><span class="v n">USD 72.00</span></div>
+        <div class="ln" style="margin-top:6px"><span>Your payout</span><span class="dl"></span><span class="v n"><s style="color:var(--mut);font-weight:500;margin-right:6px">131.20</s>USD 65.60</span></div>
+      </div></div>
+
+    <div class="bx"><h3>Status in words</h3><p>A small icon and a sentence, coloured by tone. A filled colour is only used for act now, so it always stands out.</p>
+      <div style="background:#fff;border-radius:14px;padding:6px 16px 14px;margin-top:16px">
+        <div class="st bad" style="margin-top:10px"><svg class="i s"><use href="#clock"/></svg>Reply in 7 h 55 min</div>
+        <div class="st info" style="margin-top:10px"><svg class="i s"><use href="#cal"/></svg>Waiting for Hannah to accept Wed 7 Oct</div>
+        <div class="st warn" style="margin-top:10px"><svg class="i s"><use href="#hour"/></svg>With our team, aiming to decide by Wed 23 Sep</div>
+        <div class="st ok" style="margin-top:10px"><svg class="i s"><use href="#check"/></svg>Refunded USD 80.00 on Tue 22 Sep</div>
+        <div class="st neu" style="margin-top:10px"><svg class="i s"><use href="#check"/></svg>Cancelled within your policy</div>
+        <div class="st neu" style="margin-top:10px"><svg class="i s"><use href="#lock"/></svg>No refund. The booking is still on</div>
+      </div></div>
+    <div class="bx"><h3>Day strip and trip row</h3><p>The partner's next days, with how many trips each day has and a rain mark where there's a weather warning. Tapping a day shows its trips and the option to cancel the day.</p>
+      <div class="days" style="margin:16px 0 0;padding:0">
+        <div class="day"><small>Wed</small><b>23</b><i>2</i></div><div class="day"><small>Thu</small><b>24</b><i>0</i></div><div class="day wx"><small>Fri</small><b>25</b><i><svg class="i" style="width:11px;height:11px"><use href="#rain"/></svg>1</i></div><div class="day on wx"><small>Sat</small><b>26</b><i><svg class="i" style="width:11px;height:11px"><use href="#rain"/></svg>3</i></div><div class="day"><small>Sun</small><b>27</b><i>1</i></div>
+      </div>
+      <div class="tripc" style="margin-top:12px"><img src="@img:trincomalee:120" alt=""><span><b>Pigeon Island snorkelling</b><small>Pickup 7:00 AM · 2 travellers</small></span><span class="tm2">7:00</span></div></div>
+
+    <div class="bx"><h3>Buttons</h3><p>One orange button per screen. Dark is for bulk or confirm actions, and the outline style for everything else. 52 px on page actions, 48 in cards and sheets, 40 in rows.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:16px"><span class="btn p" style="height:52px">Offer another date</span><span class="btn d">Apply all 3</span><span class="btn">Keep my policy</span><span class="btn sm">View</span><span class="btn lk">It was on our side</span></div></div>
+    <div class="bx"><h3>Fields and choices</h3><p>Labels sit above fields. Helper text explains why something is needed, and errors say what to do.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px">
+        <div class="fl" style="margin:0"><label>Amount back to Emma</label><span class="inp n">USD 170.00</span><small>Between USD 1.00 and USD 340.00</small></div>
+        <div class="fl" style="margin:0"><label>Why keep your policy?</label><span class="inp err" style="color:var(--mut);font-size:14px">Required</span><small style="color:var(--bad);font-weight:700">Tell our team why, in a sentence.</small></div>
+      </div>
+      <div class="radios" style="margin-top:6px"><span class="on"><i></i>Weather or sea</span><span><i></i>Road closed</span></div></div>
+
+    <div class="bx" style="grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;align-items:start"><div><h3 style="font-size:16px;font-weight:800">Sheet (phone) and dialog (desktop)</h3><p style="font-size:13.5px;color:var(--mut);margin-top:4px;line-height:1.5">On a phone, confirmations slide up from the bottom with the action pinned. On desktop they're a centred dialog with the same content. See “Cancel a day” on P 04.</p></div>
+      <div><h3 style="font-size:16px;font-weight:800">Empty state</h3><div style="background:#fff;border-radius:14px;padding:18px;margin-top:10px;display:flex;gap:14px;align-items:center"><span class="icb" style="width:44px;height:44px;background:var(--ok-bg);color:var(--ok);border:0"><svg class="i"><use href="#check"/></svg></span><span><b style="font-size:15px;display:block">Nobody's waiting on you</b><span style="font-size:13.5px;color:var(--mut)">New requests show up here and on your phone.</span></span></div></div>
+      <div><h3 style="font-size:16px;font-weight:800">Toast</h3><div style="margin-top:10px"><span class="toast"><svg class="i" style="color:#9BE0B4"><use href="#check"/></svg>Date offered to Daniel</span></div></div></div>
+  </div>
+</div>
+
+<!-- =============== P06  TOKENS =============== -->
+<div class="fig-frame doc" id="p06" data-name="P 06  Tokens">
+  <div class="k">Tokens</div>
+  <h1>The style guide's tokens, plus one new style: the clock</h1>
+  <p class="lede">The colours are the same <b>--cn-*</b> tokens the traveller site already uses, so all three products match. Developers map each one in code once. The dark values come from the traveller site's dark mode.</p>
+  <div class="c2" style="margin-top:44px">
+    <div><h2>Colour, by how much you see it</h2><p class="sub">Most of the screen is warm neutrals. Orange is for the one main action and the selected tab. Red only appears when something is due.</p>
+      <div class="sw"><div style="flex:58;background:#F7F5F2"><b>Page</b>#F7F5F2</div><div style="flex:22;background:#FFFFFF;border:1px solid var(--line)"><b>Surface</b>#FFFFFF</div><div style="flex:10;background:#1C1A17;color:#fff"><b>Ink</b>#1C1A17</div><div style="flex:6;background:#F15623;color:#fff"><b>Orange</b></div><div style="flex:4;background:#9B1C12"></div></div>
+      <table class="t" style="margin-top:24px"><tr><th>Token</th><th>Value</th><th>Use</th></tr>
+        <tr><td>Primary</td><td class="n">#F15623</td><td>The one main button, the selected tab icon, badges</td></tr>
+        <tr><td>Primary text</td><td class="n">#C43D12</td><td>Links and orange text on white (passes contrast)</td></tr>
+        <tr><td>Ink / Body / Muted</td><td class="n">#1C1A17 / #4A443D / #6B645C</td><td>Headings and numbers / text / helper text</td></tr>
+        <tr><td>Border / Input / Tray</td><td class="n">#E7E2DB / #D9D2C8 / #F0EDE8</td><td>Cards / fields and outline buttons / the tab tray</td></tr>
+        <tr><td>Page / Surface</td><td class="n">#F7F5F2 / #FFFFFF</td><td>Background / cards and header</td></tr>
+        <tr><td>Policy line</td><td class="n">#1F6B44 · #D9A021 · #D9D2C8</td><td>Full refund · part refund · none</td></tr>
+      </table></div>
+    <div><h2>Status tones</h2><p class="sub">Text colour on its background. A status always has words and an icon, never colour alone. Neutral is new, for closed items. Success uses one green.</p>
+      <table class="t" style="margin-top:24px"><tr><th>Tone</th><th>Text on background</th><th>Means</th></tr>
+        <tr><td><span class="st bad" style="margin:0"><svg class="i s"><use href="#clock"/></svg>Danger</span></td><td class="n">#9B1C12 on #FEECEB</td><td>Something is due from you</td></tr>
+        <tr><td><span class="st warn" style="margin:0"><svg class="i s"><use href="#hour"/></svg>Warning</span></td><td class="n">#6B4600 on #FFF4DB</td><td>With our team; needs care</td></tr>
+        <tr><td><span class="st info" style="margin:0"><svg class="i s"><use href="#cal"/></svg>Info</span></td><td class="n">#244A7A on #E4ECF7</td><td>Waiting on someone else; weather</td></tr>
+        <tr><td><span class="st ok" style="margin:0"><svg class="i s"><use href="#check"/></svg>Success</span></td><td class="n">#1F6B44 on #EAF6EE</td><td>Refunded, moved, agreed</td></tr>
+        <tr><td><span class="st neu" style="margin:0"><svg class="i s"><use href="#check"/></svg>Neutral</span></td><td class="n">#4A443D on #F3EFE9</td><td>Closed, nothing to do</td></tr>
+      </table></div>
+  </div>
+  <h2 style="margin-top:56px">Type</h2><p class="sub">Bricolage Grotesque for titles and the clock, Manrope for everything else. Tabular numbers for money, times and codes.</p>
+  <div style="margin-top:12px">
+    <div class="tyrow"><code>Clock · Bricolage 56/700, tabular</code><div class="clock" style="margin:0"><b>7</b><i>h</i><b>55</b><i>m</i></div></div>
+    <div class="tyrow"><code>Page title · Bricolage 34/700</code><span style="font-family:var(--h);font-size:34px;font-weight:700;letter-spacing:-.6px">Refunds</span></div>
+    <div class="tyrow"><code>Headline sentence · Manrope 17/500</code><span style="font-size:17px;color:var(--body)"><b style="color:var(--ink)">2 travellers</b> are waiting for your reply. Daniel's is due first.</span></div>
+    <div class="tyrow"><code>Traveller's words · Manrope 18/500</code><span style="font-size:18px;font-weight:500">“I've come down with a fever and the doctor says I should rest.”</span></div>
+    <div class="tyrow"><code>Row title · Manrope 15/800</code><span style="font-size:15px;font-weight:800">Hannah Becker</span></div>
+    <div class="tyrow"><code>Label · Manrope 13/700</code><span style="font-size:13px;font-weight:700;color:var(--mut)">Reply within</span></div>
+  </div>
+  <div class="c2" style="margin-top:48px">
+    <div><h2>Spacing</h2><p class="sub">4 · 8 · 12 · 16 · 20 · 24 · 32 · 48. There's less space inside a card than between cards, so related things read as a group.</p></div>
+    <div><h2>Corners and depth</h2><p class="sub">12 for buttons and fields · 18 for cards · 22 for request cards and sheets · round for pills and avatars. Cards have a 1 px border. Only sheets and dialogs float, with a shadow over a dark scrim.</p></div>
+  </div>
+</div>
+
+<!-- =============== P07  STATUS LANGUAGE =============== -->
+<div class="fig-frame doc" id="p07" data-name="P 07  One status, three ways of saying it">
+  <div class="k">Status language</div>
+  <h1>One status, said three ways</h1>
+  <p class="lede">The developers store one fixed status. Each person sees it in their own words, with the same tone everywhere. Travellers never see red for a refund, because there's never anything they have to do in time.</p>
+  <table class="t" style="margin-top:40px">
+    <tr><th style="width:170px">Status</th><th>Traveller sees</th><th>Partner sees</th><th>Admin sees</th></tr>
+    <tr><td>Reply needed</td><td><span class="st info" style="margin:0"><svg class="i s"><use href="#hour"/></svg>Waiting for Arkam to reply, by 6:52 AM Wed 23 Sep</span></td><td><span class="st bad" style="margin:0"><svg class="i s"><use href="#clock"/></svg>Reply in 18 h 42 min</span></td><td><span class="st info" style="margin:0"><svg class="i s"><use href="#hour"/></svg>With partner, reply due 6:52 AM</span></td></tr>
+    <tr><td>New date offered</td><td><span class="st bad" style="margin:0;color:var(--pri-t)"><svg class="i s"><use href="#cal"/></svg>New date offered: accept by 9:00 AM Tue</span></td><td><span class="st info" style="margin:0"><svg class="i s"><use href="#cal"/></svg>Waiting for Hannah to accept</span></td><td><span class="st info" style="margin:0"><svg class="i s"><use href="#cal"/></svg>With partner, date offered</span></td></tr>
+    <tr><td>With our team</td><td><span class="st warn" style="margin:0"><svg class="i s"><use href="#hour"/></svg>Our team aims to decide by Wed 23 Sep</span></td><td><span class="st warn" style="margin:0"><svg class="i s"><use href="#hour"/></svg>With our team</span></td><td><span class="st bad" style="margin:0"><svg class="i s"><use href="#clock"/></svg>To decide · trip in 45 h</span></td></tr>
+    <tr><td>Refunded</td><td><span class="st ok" style="margin:0"><svg class="i s"><use href="#check"/></svg>Refund on its way, in your account by Fri 9 Oct</span></td><td><span class="st ok" style="margin:0"><svg class="i s"><use href="#check"/></svg>Refunded USD 80.00</span></td><td><span class="st ok" style="margin:0"><svg class="i s"><use href="#check"/></svg>Refunded</span></td></tr>
+    <tr><td>Within policy</td><td><span class="st neu" style="margin:0"><svg class="i s"><use href="#check"/></svg>Cancelled, refund sent to your card</span></td><td><span class="st neu" style="margin:0"><svg class="i s"><use href="#check"/></svg>Cancelled within your policy</span></td><td><span class="st neu" style="margin:0"><svg class="i s"><use href="#check"/></svg>Closed, automatic</span></td></tr>
+    <tr><td>Not charged</td><td><span class="st neu" style="margin:0"><svg class="i s"><use href="#check"/></svg>Cancelled. Nothing was charged</span></td><td><span class="st neu" style="margin:0"><svg class="i s"><use href="#check"/></svg>Cancelled, not charged</span></td><td><span class="st neu" style="margin:0"><svg class="i s"><use href="#check"/></svg>Closed, automatic</span></td></tr>
+    <tr><td>No refund</td><td><span class="st neu" style="margin:0"><svg class="i s"><use href="#lock"/></svg>Request declined. Your booking is still on</span></td><td><span class="st neu" style="margin:0"><svg class="i s"><use href="#lock"/></svg>No refund</span></td><td><span class="st neu" style="margin:0"><svg class="i s"><use href="#lock"/></svg>Declined</span></td></tr>
+    <tr><td>Date moved</td><td><span class="st ok" style="margin:0"><svg class="i s"><use href="#cal"/></svg>Moved to Wed 7 Oct, 6:00 AM</span></td><td><span class="st ok" style="margin:0"><svg class="i s"><use href="#cal"/></svg>Date moved</span></td><td><span class="st neu" style="margin:0"><svg class="i s"><use href="#cal"/></svg>Closed, date moved</span></td></tr>
+    <tr><td>Partner cancelled</td><td><span class="st info" style="margin:0"><svg class="i s"><use href="#rain"/></svg>Arkam cancelled for weather. Full USD 340.00 back</span></td><td><span class="st neu" style="margin:0"><svg class="i s"><use href="#check"/></svg>Refunded in full</span></td><td><span class="st neu" style="margin:0"><svg class="i s"><use href="#check"/></svg>Closed, partner cancelled</span></td></tr>
+    <tr><td>Payment failed</td><td><span class="st neu" style="margin:0"><svg class="i s"><use href="#x"/></svg>Card declined, booking cancelled, no fee</span></td><td><span class="st neu" style="margin:0"><svg class="i s"><use href="#x"/></svg>Cancelled, payment failed</span></td><td><span class="st neu" style="margin:0"><svg class="i s"><use href="#x"/></svg>Closed, payment failed</span></td></tr>
+  </table>
+  <div class="kept" style="margin-top:36px"><div><h2>Red means it's on you</h2><p>The same status is red for one person and calm for the others. A reply needed is red for the partner and a plain line for the traveller. A request to decide is red for admin and amber for the partner. Travellers get orange text only when they have something to accept.</p></div><div><h2>Words carry the facts</h2><p>Amounts and real dates go in the status whenever they fit. Times are Sri Lanka time, and each screen says so once. “Our team aims to decide by…” uses Akila's 2 to 3 days and never promises. The fee is always called a processing fee.</p></div></div>
+</div>
+
+<!-- =============== P01  INVENTORY =============== -->
+<div class="fig-frame doc" id="p01" data-name="P 01  Every screen, and where it lives in the new tabs">
+  <div class="k">Inventory</div>
+  <h1>Every screen, and which tab it moves to</h1>
+  <p class="lede">This is everything in both portals today (app2.ceylonnooks.com, 22 Nov) and on the canvas. In the new shell, each screen sits under one of a few tabs instead of a long sidebar.</p>
+  <div class="c2" style="margin-top:44px">
+    <div><h2>Partner, 7 tabs</h2>
+      <table class="t" style="margin-top:18px"><tr><th>Tab</th><th>Screens</th></tr>
+        <tr><td>Today</td><td>Dashboard becomes Today: the next days, pickups, what's waiting on you, weather. Referral card follows Akila's link brief</td></tr>
+        <tr><td>Bookings</td><td>Reservations, export, print the day's list</td></tr>
+        <tr><td>Refunds</td><td>Requests, reply, cancel as partner, cancel a day</td></tr>
+        <tr><td>Messages</td><td>Conversations with travellers</td></tr>
+        <tr><td>Listings</td><td>Experiences, add or edit (with the Cancellation Policy card), Stays and Transport (coming soon), Reviews</td></tr>
+        <tr><td>Money</td><td>Payouts (was Earnings), statements, Bank details (was Bank Accounts). Ledger leaves the partner menu</td></tr>
+        <tr><td>Account</td><td>Business profile (was Account Settings), Settings, notifications on WhatsApp and email</td></tr>
+        <tr><td class="dim">Outside</td><td class="dim">Log in, reset, sign up and business profile in 4 steps</td></tr>
+      </table></div>
+    <div><h2>Admin, 8 tabs</h2>
+      <table class="t" style="margin-top:18px"><tr><th>Tab</th><th>Screens</th></tr>
+        <tr><td>Today</td><td>Dashboard: what needs attention, with links into each queue; GMV, revenue, pipeline</td></tr>
+        <tr><td>Refunds</td><td>To decide, with partners, closed; automatic refund checks (new)</td></tr>
+        <tr><td>Payouts</td><td>Batch approval, holds, payout rules, Ledger</td></tr>
+        <tr><td>Bookings</td><td>Reservations in every currency</td></tr>
+        <tr><td>Listings</td><td>All listings by type, waiting for approval</td></tr>
+        <tr><td>Policies</td><td>Custom policy approvals (new), with version history</td></tr>
+        <tr><td>People</td><td>Partners (directory, pending, suspended), profile edits, travellers, blocked</td></tr>
+        <tr><td>Settings</td><td>Coupons, reviews, configs (vehicle and tour types, categories), staff and roles (needs a brief)</td></tr>
+      </table></div>
+  </div>
+  <p class="cap" style="margin-top:28px;font-size:14.5px;max-width:900px">What the inventory showed: the same ten building blocks repeat in every screen, and six partner tables are wider than a phone (640 to 970 px on a 390 px screen). Each table gets a phone row built from the queue row component.</p>
+</div>
+
+<!-- =============== P08  MAP =============== -->
+<div class="fig-frame doc" id="p08" data-name="P 08  Redesign map: now, next, later">
+  <div class="k">Redesign map</div>
+  <h1>What changes, and when</h1>
+  <p class="lede">S means a reskin into the new parts. M means the layout changes too. L means a new or reworked screen. “Now” is the refund work, about 3.5 weeks plus the WhatsApp and weather additions. Once the shell and parts exist, most of “Next” and “Later” are reskins and can be done in stages.</p>
+  <div style="display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:48px;margin-top:44px;align-items:start">
+    <div class="lane"><h2>Now · the refund work</h2><p class="sub" style="margin-bottom:12px">Through 15 Dec</p>
+      <div class="it"><span><b>Shell for both portals</b><span>Header, tab tray, phone tab bar, Sri Lanka time</span></span><i>M</i></div>
+      <div class="it"><span><b>Partner Refunds, reply, cancel as partner</b><span>Request cards, reply sheet, cancel a day with evidence and stop bookings</span></span><i class="L">L</i></div>
+      <div class="it"><span><b>Partner Cancellation Policy card</b><span>Presets and Custom tiers drawn with the policy line; no free-text box</span></span><i>M</i></div>
+      <div class="it"><span><b>Notifications and statement lines</b><span>Email and WhatsApp for every refund event, Refunds badge</span></span><i>M</i></div>
+      <div class="it"><span><b>Admin Refunds</b><span>Split view, decision, waiting, bulk apply</span></span><i class="L">L</i></div>
+      <div class="it"><span><b>Admin Policies</b><span>Custom policy approval with versions</span></span><i class="L">L</i></div>
+      <div class="it"><span><b>Admin automatic refund checks</b><span>A sample of automatic refunds, with a way to flag one</span></span><i>M</i></div>
+      <div class="it"><span><b>Traveller listing, checkout, dashboard</b><span>Policy line with real dates, pay later date, request tracker</span></span><i>M</i></div>
+    </div>
+    <div class="lane"><h2>Next · partner</h2><p class="sub" style="margin-bottom:12px">To estimate after Now</p>
+      <div class="it"><span><b>Today</b><span>Replaces Dashboard: day strip, pickups, waiting on you</span></span><i class="L">L</i></div>
+      <div class="it"><span><b>Bookings</b><span>Phone rows, filters in a sheet</span></span><i>M</i></div>
+      <div class="it"><span><b>Money</b><span>Payouts and Bank details in one place</span></span><i>M</i></div>
+      <div class="it"><span><b>Listings, Reviews, Messages</b><span>Reskin, phone rows</span></span><i class="S">S</i></div>
+      <div class="it"><span><b>Account, sign up, log in</b><span>Already close to the style guide</span></span><i class="S">S</i></div>
+    </div>
+    <div class="lane"><h2>Later · admin</h2><p class="sub" style="margin-bottom:12px">To estimate after Next</p>
+      <div class="it"><span><b>Today</b><span>Needs attention links into each queue</span></span><i class="S">S</i></div>
+      <div class="it"><span><b>Payouts</b><span>Canvas batch approval in the new parts</span></span><i>M</i></div>
+      <div class="it"><span><b>Listings, People, Bookings</b><span>Split view where there's a queue, table where there isn't</span></span><i class="S">S</i></div>
+      <div class="it"><span><b>Settings</b><span>Coupons, reviews, configs</span></span><i class="S">S</i></div>
+      <div class="it"><span><b>Staff and roles</b><span>Needs Akila's brief first</span></span><i class="L">L</i></div>
+    </div>
+  </div>
+  <div class="kept" style="margin-top:44px"><div><h2>Questions for Akila</h2><p>1. Are the tab names right for partners (Today, Bookings, Refunds, Messages, Listings, Money, Account)?<br>2. Is Ledger fine to keep for admin only?<br>3. Is there anything in Next you'd like moved into Now?</p></div><div><h2>Still open</h2><p>Fonts on the traveller site (Inter) versus the dashboards (Bricolage and Manrope). Hotel flow in the USD 800 scope. The referral development briefing and a public link to its landing page.</p></div></div>
+</div>
+</body>
+</html>
