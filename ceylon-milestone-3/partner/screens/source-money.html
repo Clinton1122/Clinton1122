@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Partner payouts and refunds</title>
+<!--V2CSS-->
+<!--PCSS-->
+<style>
+.plist{display:flex;flex-direction:column;gap:8px}
+.pi{display:grid;grid-template-columns:1fr auto;gap:4px 12px;padding:14px 16px;border:1px solid var(--line);border-radius:16px;background:transparent}
+.pi b{font-size:15px}
+.pi .amt{font-weight:800;font-size:15px;text-align:right}
+.pi small{font-size:13px;color:var(--mut)}
+.pi .s{text-align:right;font-size:12.5px;font-weight:700}
+.pi.sel{background:#fff;border:2px solid var(--ink);padding:13px 15px}
+.pd{background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden}
+.pd .top{padding:22px 26px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.pd .top h2{font-family:var(--h);font-size:26px;letter-spacing:-.4px}
+.pd .top p{font-size:14px;color:var(--mut);margin-top:4px}
+.pd .big{text-align:right}
+.pd .big b{display:block;font-family:var(--h);font-size:30px;letter-spacing:-.5px}
+.pd .big small{font-size:12.5px;color:var(--mut)}
+.grp{padding:18px 26px 8px}
+.grp .gh2{display:flex;justify-content:space-between;align-items:baseline;font-size:15px;font-weight:800}
+.grp .gh2 small{font-size:13px;font-weight:600;color:var(--mut)}
+table.pt{width:100%;border-collapse:collapse;margin-top:10px;font-size:14px}
+table.pt th{text-align:right;font-size:12.5px;font-weight:700;color:var(--mut);padding:0 0 8px 12px;border-bottom:1px solid var(--line)}
+table.pt th:first-child{text-align:left;padding-left:0}
+table.pt td{text-align:right;padding:12px 0 12px 12px;border-bottom:1px solid var(--line);vertical-align:top;font-variant-numeric:tabular-nums;color:var(--body)}
+table.pt td:first-child{text-align:left;padding-left:0}
+table.pt td.yr{color:var(--ink);font-weight:800}
+table.pt .who{display:grid;grid-template-columns:40px 1fr;gap:10px;align-items:center}
+table.pt .who img{width:40px;height:40px;border-radius:10px;object-fit:cover}
+table.pt .who b{display:block;color:var(--ink);font-size:14.5px}
+table.pt .who small{display:block;font-size:12.5px;color:var(--mut);margin-top:1px}
+table.pt .rf{color:var(--bad);font-weight:700}
+.rtag{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:var(--warn);margin-top:4px}
+.tot{padding:6px 26px 22px}
+.tot .rc{background:var(--page);border:0;padding:14px 18px}
+.payfoot{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px 26px;border-top:1px solid var(--line);background:#FBFAF8;font-size:13.5px;color:var(--mut)}
+.payfoot b{color:var(--ink)}
+/* statement page */
+.a4{width:900px;background:#fff;padding:56px 60px 64px;color:var(--ink)}
+.a4 .sh{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1.5px solid var(--ink);padding-bottom:18px}
+.a4 .sh svg{height:24px;width:auto}
+.a4 .sh .r{text-align:right;font-size:12.5px;color:var(--mut);line-height:1.5}
+.a4 .sh .r b{color:var(--ink)}
+.a4 h2{font-family:var(--h);font-size:20px;letter-spacing:-.2px;margin-top:30px}
+.a4 .sub{font-size:12.5px;color:var(--mut);margin-top:4px;line-height:1.5}
+table.stt{width:100%;border-collapse:collapse;margin-top:12px;font-size:12.5px;font-variant-numeric:tabular-nums}
+table.stt th{text-align:right;font-weight:700;color:var(--mut);padding:0 0 7px 8px;border-bottom:1px solid var(--ink);font-size:11.5px}
+table.stt th:first-child,table.stt td:first-child{text-align:left;padding-left:0}
+table.stt td{text-align:right;padding:8px 0 8px 8px;border-bottom:1px solid var(--line);color:var(--body);vertical-align:top}
+table.stt td:first-child b{color:var(--ink)}
+table.stt td small{display:block;color:var(--mut);font-size:11.5px}
+table.stt tr.hl td{background:#FFF8F4}
+table.stt tr.sum td{border-bottom:0;border-top:1.5px solid var(--ink);font-weight:800;color:var(--ink);padding-top:10px}
+table.stt .rf{color:var(--bad);font-weight:700}
+.a4 .nts{margin-top:28px;padding-top:14px;border-top:1px solid var(--line);font-size:11.5px;color:var(--mut);line-height:1.6}
+.a4 .pf{display:flex;justify-content:space-between;margin-top:26px;font-size:11px;color:var(--mut)}
+</style>
+</head>
+<body>
+<!--SPRITE-->
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="today" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></symbol>
+  <symbol id="arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="hour" viewBox="0 0 24 24"><path d="M7 3h10M7 21h10M8 3c0 5 8 5 8 9s-8 4-8 9M16 3c0 5-8 5-8 9"/></symbol>
+  <symbol id="info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+  <symbol id="money" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/></symbol>
+</svg>
+
+<!-- ================= Y1  MONEY, PAYOUT DETAIL ================= -->
+<div class="fig-frame screen" id="y1" data-name="Partner · Money · Payout with refund lines · desktop 1440" style="width:1440px;background:var(--page)">
+  <div class="hd px-p"><span class="logo"><!--LOGO--><span class="portal">Partner</span></span><span class="sp"></span><span class="slt"><svg class="i s"><use href="#clock"/></svg>Sri Lanka <b>10:20 AM</b></span><span class="icb"><svg class="i"><use href="#help"/></svg></span><span class="icb"><svg class="i"><use href="#bell"/></svg></span><span class="me">AS</span></div>
+  <div class="band px-p"><div class="tray"><span><svg class="i"><use href="#today"/></svg>Today</span><span><svg class="i"><use href="#cal"/></svg>Bookings</span><span><svg class="i"><use href="#back"/></svg>Refunds</span><span><svg class="i"><use href="#chat"/></svg>Messages</span><span><svg class="i"><use href="#compass"/></svg>Listings</span><span class="on"><svg class="i"><use href="#wallet"/></svg>Money</span><span><svg class="i"><use href="#user"/></svg>Account</span></div></div>
+  <div class="px-p" style="padding-top:32px;padding-bottom:64px">
+    <div class="pt" style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px"><div><h1>Money</h1><p>Your next payout is on <b>Thu 24 Sep</b>: about <b>LKR 130,923</b> for 3 bookings, after one refund.</p></div><div class="seg"><span class="on">Payouts</span><span>Statements</span><span>Bank details</span></div></div>
+    <div style="display:grid;grid-template-columns:340px 1fr;gap:28px;margin-top:28px;align-items:start">
+      <div class="plist">
+        <span class="lab" style="margin-bottom:2px">September</span>
+        <div class="pi sel"><b>Thu 24 Sep</b><span class="amt n">LKR 130,923.25</span><small>3 bookings · 1 refund line</small><span class="s" style="color:var(--info)">Scheduled</span></div>
+        <div class="pi"><b>Mon 21 Sep</b><span class="amt n">LKR 245,880.00</span><small>5 bookings</small><span class="s" style="color:var(--ok)">Paid</span></div>
+        <div class="pi"><b>Thu 17 Sep</b><span class="amt n">LKR 84,012.50</span><small>2 bookings</small><span class="s" style="color:var(--ok)">Paid</span></div>
+        <div class="pi"><b>Mon 14 Sep</b><span class="amt n">LKR 167,390.75</span><small>4 bookings</small><span class="s" style="color:var(--ok)">Paid</span></div>
+        <div class="pi"><b>Thu 10 Sep</b><span class="amt n">LKR 97,436.00</span><small>2 bookings</small><span class="s" style="color:var(--ok)">Paid</span></div>
+        <span class="link" style="font-size:13.5px;margin-top:6px">Earlier payouts</span>
+      </div>
+      <div class="pd">
+        <div class="top"><div><h2>Payout for Thu 24 Sep</h2><p>CN-P26-00172 · bookings that ended Mon 21 to Wed 23 Sep</p></div><div class="big"><b class="n">LKR 130,923.25</b><small>estimate until the rate is fixed on Thu</small></div></div>
+        <div class="grp"><div class="gh2">Bookings in this payout <small>USD</small></div>
+          <table class="pt"><tr><th>Booking</th><th>Traveller paid</th><th>Commission</th><th>Refund, your share</th><th>You receive</th></tr>
+            <tr><td><div class="who"><img src="@img:pidurangala:100" alt=""><span><b>Daniel Okafor</b><small>Pidurangala sunset hike · Wed 23 Sep</small><span class="rtag"><svg class="i s"><use href="#back"/></svg>Cancelled, half refunded</span></span></div></td><td>120.00</td><td>−21.60</td><td class="rf">−49.20</td><td class="yr">49.20</td></tr>
+            <tr><td><div class="who"><img src="@img:sigiriya:100" alt=""><span><b>Olivia Chen</b><small>Sigiriya sunrise climb · Tue 22 Sep</small></span></div></td><td>340.00</td><td>−61.20</td><td class="dim">–</td><td class="yr">278.80</td></tr>
+            <tr><td><div class="who"><img src="@img:kandy-temple:100" alt=""><span><b>Priya Nair</b><small>Kandy temple and tea country · Mon 21 Sep</small></span></div></td><td>160.00</td><td>−28.80</td><td class="dim">–</td><td class="yr">131.20</td></tr>
+          </table></div>
+        <div class="grp"><div class="gh2">Refunds after an earlier payout <small>USD</small></div>
+          <table class="pt"><tr><td><div class="who"><img src="@img:galle-fort:100" alt=""><span><b>Mark Silva</b><small>Galle Fort walk · Sat 12 Sep · paid to you on Mon 14 Sep</small><span class="rtag"><svg class="i s"><use href="#back"/></svg>Refund agreed by our team on Mon 21 Sep</span></span></div></td><td class="rf" style="width:120px">−24.60</td></tr></table></div>
+        <div class="tot"><div class="rc">
+          <div class="ln"><span>Bookings, after refunds</span><span class="dl"></span><span class="v n">USD 459.20</span></div>
+          <div class="ln"><span>Refund after an earlier payout</span><span class="dl"></span><span class="v n">−USD 24.60</span></div>
+          <div class="ln sum"><span>Total in USD</span><span class="dl"></span><span class="v n">USD 434.60</span></div>
+          <div class="ln"><span>Rate on Thu 24 Sep, estimated</span><span class="dl"></span><span class="v n">1 USD = LKR 301.25</span></div>
+          <div class="ln"><span>Transfer fees, paid by Ceylon Nooks</span><span class="dl"></span><span class="v n">LKR 0.00</span></div>
+          <div class="ln sum"><span>You receive</span><span class="dl"></span><span class="v n">LKR 130,923.25</span></div></div></div>
+        <div class="payfoot"><span>To <b>Commercial Bank, ending 3307</b> · bank reference <b class="n">CN-P26-00172-USD</b></span><span class="link">Download as CSV</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= Y2  PHONE, REFUNDS MORE THAN EARNINGS ================= -->
+<div class="fig-frame phone" id="y2" data-name="Partner · Money · Refunds more than earnings · phone 390">
+  <div class="sb"><span>9:15</span><span>●●● 4G</span></div>
+  <div class="pgh"><svg class="i bkk"><use href="#arrow"/></svg>Payout for Mon 28 Sep</div>
+  <div class="pscroll2">
+    <div style="padding:6px 2px 0"><span class="lab">Nothing to send this time</span>
+      <div style="font-family:var(--h);font-size:34px;font-weight:700;letter-spacing:-.6px;margin-top:4px" class="n">LKR 0.00</div>
+      <p style="font-size:14.5px;line-height:1.5;color:var(--body);margin-top:6px">A refund was bigger than this payout's bookings, so <b style="color:var(--ink)">USD 229.60</b> comes off your next payout on <b style="color:var(--ink)">Thu 1 Oct</b>.</p></div>
+    <div class="card" style="padding:14px 16px;margin-top:14px">
+      <div style="font-size:13px;font-weight:800;color:var(--mut)">Bookings</div>
+      <div class="tripc" style="border:0;padding:8px 0 4px;margin:0"><img src="@img:pidurangala:120" alt=""><span><b>Ravi Perera</b><small>Pidurangala sunset hike · Sun 27 Sep</small></span><span class="n" style="font-weight:800">49.20</span></div>
+      <div style="font-size:13px;font-weight:800;color:var(--mut);margin-top:10px">Refund after an earlier payout</div>
+      <div class="tripc" style="border:0;padding:8px 0 4px;margin:0"><img src="@img:sigiriya:120" alt=""><span><b>Noah Fernando</b><small>Sigiriya climb · Sat 19 Sep · full refund, guide didn't arrive</small></span><span class="n" style="font-weight:800;color:var(--bad)">−278.80</span></div>
+    </div>
+    <div class="rc" style="margin-top:12px;padding:12px 16px">
+      <div class="ln" style="font-size:13.5px"><span>Bookings</span><span class="dl"></span><span class="v n">USD 49.20</span></div>
+      <div class="ln" style="font-size:13.5px"><span>Refund</span><span class="dl"></span><span class="v n">−USD 278.80</span></div>
+      <div class="ln sum" style="font-size:14.5px"><span>Carried to Thu 1 Oct</span><span class="dl"></span><span class="v n">−USD 229.60</span></div></div>
+    <div class="info n" style="margin-top:12px"><svg class="i s" style="margin-top:2px"><use href="#info"/></svg><span>You don't need to pay anything back. It just comes off your next payout.</span></div>
+  </div>
+  <div class="tb"><span><svg class="i"><use href="#today"/></svg>Today</span><span><svg class="i"><use href="#cal"/></svg>Bookings</span><span><svg class="i"><use href="#back"/></svg>Refunds</span><span><svg class="i"><use href="#chat"/></svg>Messages</span><span class="on"><svg class="i"><use href="#more"/></svg>More</span></div>
+</div>
+
+<!-- ================= Y3  MONTHLY STATEMENT, PAGE 2 ================= -->
+<div class="fig-frame a4" id="y3" data-name="Partner · Monthly statement, September, page 2 (PDF)">
+  <div class="sh"><!--LOGO--><div class="r"><b>Monthly statement · September 2026</b><br>ST-2609-00418 · Arkam Sahdi · P-00418</div></div>
+  <h2>Bookings paid in September</h2>
+  <p class="sub">Amounts are in the booking's currency until the last column. A refund shows on the booking it belongs to, as your share of what went back to the traveller. Shortened to 6 bookings for this example.</p>
+  <table class="stt">
+    <tr><th>Booking</th><th>Payout</th><th>Cur.</th><th>Value</th><th>Comm.</th><th>Refund</th><th>You receive</th><th>Rate</th><th>LKR sent</th></tr>
+    <tr><td><b>CNE71224410</b><small>Kandy temple and tea · 8 Sep</small></td><td>00151</td><td>USD</td><td>160.00</td><td>−28.80</td><td>–</td><td>131.20</td><td>302.10</td><td>39,635.52</td></tr>
+    <tr><td><b>CNE71225032</b><small>Galle Fort walk · 12 Sep</small></td><td>00158</td><td>USD</td><td>60.00</td><td>−10.80</td><td>–</td><td>49.20</td><td>301.80</td><td>14,848.56</td></tr>
+    <tr class="hl"><td><b>CNE71226118</b><small>Sigiriya sunrise climb · 18 Sep · cancelled inside policy</small></td><td>00165</td><td>USD</td><td>340.00</td><td>−61.20</td><td class="rf">−139.40</td><td>139.40</td><td>301.60</td><td>42,043.04</td></tr>
+    <tr><td><b>CNE71228102</b><small>Sigiriya sunrise climb · 22 Sep</small></td><td>00172</td><td>USD</td><td>340.00</td><td>−61.20</td><td>–</td><td>278.80</td><td>301.25</td><td>83,988.50</td></tr>
+    <tr class="hl"><td><b>CNE71230415</b><small>Pidurangala sunset hike · 23 Sep · half refunded</small></td><td>00172</td><td>USD</td><td>120.00</td><td>−21.60</td><td class="rf">−49.20</td><td>49.20</td><td>301.25</td><td>14,821.50</td></tr>
+    <tr><td><b>CNE71228311</b><small>Kandy temple and tea · 21 Sep</small></td><td>00172</td><td>USD</td><td>160.00</td><td>−28.80</td><td>–</td><td>131.20</td><td>301.25</td><td>39,524.00</td></tr>
+  </table>
+  <h2>Refunds taken from a later payout</h2>
+  <p class="sub">The trip was already paid to you, then a refund was agreed. Your share comes off the next payout instead.</p>
+  <table class="stt">
+    <tr><th>Booking</th><th>First paid in</th><th>Refund agreed</th><th>Reason</th><th>Taken in</th><th>Cur.</th><th>Your share</th><th>Rate</th><th>LKR</th></tr>
+    <tr class="hl"><td><b>CNE71225032</b><small>Galle Fort walk · Mark Silva</small></td><td>00158</td><td>21 Sep</td><td>Goodwill</td><td>00172</td><td>USD</td><td class="rf">−24.60</td><td>301.25</td><td class="rf">−7,410.75</td></tr>
+    <tr class="hl"><td><b>CNE71227290</b><small>Sigiriya sunrise climb · Noah Fernando</small></td><td>00165</td><td>25 Sep</td><td>Partner at fault</td><td>00175, carried</td><td>USD</td><td class="rf">−278.80</td><td>–</td><td class="dim">to October</td></tr>
+  </table>
+  <table class="stt" style="margin-top:22px">
+    <tr><th>September summary</th><th>LKR</th></tr>
+    <tr><td>Bookings, after refunds on them</td><td>234,861.12</td></tr>
+    <tr><td>Refunds taken from a later payout</td><td class="rf">−7,410.75</td></tr>
+    <tr class="sum"><td>Paid to your bank in September</td><td>227,450.37</td></tr>
+    <tr><td>Carried to October: refund still to come off</td><td class="rf">USD −229.60</td></tr>
+  </table>
+  <div class="nts">Your share of a refund is the refund times what you receive from a booking (82% for your account). The traveller's 5% processing fee is never taken from you. When a refund is bigger than a payout, the rest comes off the next one; you never need to pay us back directly. This statement isn't a tax invoice. Questions? Message us from your partner dashboard and quote ST-2609-00418.</div>
+  <div class="pf"><span>Ceylon Nooks · Statement ST-2609-00418 · Arkam Sahdi</span><span>Page 2 of 2</span></div>
+</div>
+
+<!-- ================= Y4  NOTES ================= -->
+<div class="fig-frame doc" id="y4" data-name="Notes · How refunds show in payouts and statements">
+  <div class="k">Notes · partner money</div>
+  <h1 style="font-size:40px">How refunds show up in a partner's money</h1>
+  <p class="lede">Partners are paid in LKR every Monday and Thursday for bookings that have ended, one transfer per currency. A refund can reach their money in three ways, and each one has its own place on screen and on the statement.</p>
+  <div class="flow" style="margin-top:36px">
+    <div class="fs"><em>Before payout</em><b>On the booking's own line</b><span>The refund is agreed before the booking is paid out (Daniel, half refunded). The booking shows a “Refund, your share” amount and a small tag, and the partner receives the rest.</span></div><div class="ar"><svg class="i"><use href="#arrow"/></svg></div>
+    <div class="fs"><em>After payout</em><b>As its own line in the next payout</b><span>The partner was already paid, then a refund was agreed (Mark, goodwill). It shows under “Refunds after an earlier payout”, with the date it was first paid.</span></div><div class="ar"><svg class="i"><use href="#arrow"/></svg></div>
+    <div class="fs"><em>Bigger than the payout</em><b>Carried to the next payout</b><span>The refund is more than the payout's bookings (Noah, USD 278.80). Nothing is sent, the payout says why, and the rest comes off the next payout. The partner never has to pay us back directly.</span></div>
+  </div>
+  <div class="c2" style="margin-top:36px;gap:40px">
+    <div><h2>The numbers, all the same rule</h2><p class="sub" style="max-width:none">The partner's share of a refund is the refund times their payout rate (82% in these examples; each partner's real rate is set in admin). Daniel's half refund is USD 60.00, so Arkam's share is USD 49.20. The 5% processing fee is paid by the traveller and never touches the partner. When a partner cancels, the refund is the whole booking, so their payout for it becomes 0.</p></div>
+    <div><h2>Where it connects</h2><p class="sub" style="max-width:none">The “September so far” receipt on the Refunds page links here. A refund's request page shows which payout it was taken from. The monthly PDF (page 2) adds a Refund column on each booking and a separate table for refunds taken from a later payout, so it matches the Money screen line for line. The structure follows Akila's existing payout and statement designs on the canvas.</p></div>
+  </div>
+</div>
+</body>
+</html>
