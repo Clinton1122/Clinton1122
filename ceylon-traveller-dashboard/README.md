@@ -139,3 +139,13 @@ Island outline: Natural Earth 1:10m, public domain.
 | Account tabs on phones | The tab strip now runs to the screen edge, so a cut-off tab shows there is more, with padding only at the real start and end (from the 22 Oct call). Swiping replaces the arrow buttons on phones. |
 | Map labels | Place names on the "Your Sri Lanka" map used to start inside their numbered pins. A style rule centred all pin text, overriding the labels' alignment. Names now sit clear of the pins. |
 | Figma | The 00 v4 frames were recaptured on both pages, and each page has a new "00b Dark mode" section. |
+
+
+## v7, cancellation policies (Milestone 3, 27 Nov 2026)
+
+- Each booking's policy is shown as tiers with real dates (Moderate on Sigiriya, the host's own policy on Mirissa), with a bar from booked to pickup and today's position.
+- Cancelling inside a refund period is instant: the dialog shows the % back, less 5% of the refund for payment processing (min $1). Pay later bookings that haven't been charged cancel for $0.00.
+- Pay later is charged on the earlier of 5 days before the start or 2 days before the full refund ends (Mirissa: Sat 26 Sep), with a reminder 3 days before.
+- After the refund periods, "Request a refund": the host replies first (12 h when the trip is within 3 days, otherwise 24 h), then our team decides, aiming for 2 to 3 days (before the trip when it's close). The booking stays on.
+- Request tracker on the booking, with a footer selector to preview every state: waiting for the host, new date offered (accept or no thanks), with our team, refunded, declined (booking still on), host cancelled (full refund, no fee).
+- `build_standalone.py` rebuilds `Ceylon-Traveller-Dashboard.html` with the photos inlined.

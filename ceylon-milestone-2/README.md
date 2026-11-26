@@ -296,3 +296,11 @@ Rebuilt on the structure of Akila's homepage demo (akilaliyanage.com/homepage), 
 | `trincomalee.jpg` | [Trincomalee Beach, Sri Lanka](https://www.flickr.com/photos/43296902@N00/39842113), Dennis S. Hurd | CC0 |
 
 The other photos are credited in the dashboard README.
+
+
+## Round 8, cancellation policies as real dates (Milestone 3, 27 Nov 2026)
+
+- Policies are tiers: Flexible, Moderate, Strict, the host's own, Non-refundable (prototype controls on the listing). Listing, checkout and confirmation show them as dated lines and a policy bar; only refund periods still to come are shown in the booking box.
+- Pay later: charged on the earlier of 5 days before the start or 2 days before the full refund ends, offered only when there's time to remind 3 days before; never on non-refundable listings.
+- Processing fee: 5% of the amount refunded (min USD 1), none if the host cancels.
+- Homepage and category cards and FAQs no longer say "Free cancellation up to 48 hours".
