@@ -73,6 +73,9 @@ Our job, per the brief: keep this content and behaviour, and redesign how it loo
 
 9. **Plan review (24 Nov):** Akila is reviewing the plan. Ledger is admin only. Order of work: finish the cancellation process for all three users (partner, admin, traveller) first; after that, the other screens in whatever order we prefer.
 
+10. **Payout screen feedback (26 Nov):** remove "Traveller paid" from the payout screen (only on the booking details page). Use the pricing model: base + add-ons (partner), partner VAT 18% collected on their behalf, commission 7% on base + add-ons, VAT processing fee 4.42% on the VAT, platform fee 9% paid by the traveller. Payouts grouped by currency, one transfer each. Partner refund and payout lines to be redone once Akila shares the pricing documents and the refund split rule.
+11. **Ledger (26 Nov):** don't design the ledger screen until Akila confirms; it needs clarification.
+
 Still open: fonts (Q7), hotel scope (Q8).
 
 ## 6. Our own designs that the new rules change
