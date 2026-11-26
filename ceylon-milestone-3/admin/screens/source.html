@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Admin cancellation screens</title>
+<!--V2CSS-->
+<!--PCSS-->
+<style>
+.ahd{height:64px}
+.qcol .pt h1{font-size:30px}
+.qcol .pt p{font-size:15.5px}
+.dp2{background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden}
+.dp2 .ph{position:relative;height:132px}
+.dp2 .ph img{width:100%;height:132px;object-fit:cover}
+.dp2 .ph .sh{position:absolute;inset:0;background:linear-gradient(180deg,rgba(28,26,23,0) 10%,rgba(28,26,23,.8) 100%)}
+.dp2 .ph .tx{position:absolute;left:26px;right:26px;bottom:16px;color:#fff;display:flex;justify-content:space-between;align-items:flex-end;gap:16px}
+.dp2 .ph h2{font-family:var(--h);font-size:26px;letter-spacing:-.4px;line-height:1.1}
+.dp2 .ph p{font-size:13.5px;opacity:.92;margin-top:4px}
+.dp2 .ph .ref{font-size:12.5px;font-weight:700;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:5px 10px;white-space:nowrap}
+.three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.three .rc{padding:14px 16px}
+.three .rc h4{font-size:13.5px;font-weight:800;display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px}
+.three .rc h4 small{font-size:12px;font-weight:600;color:var(--mut)}
+.three .rc .ln{font-size:13px;padding:5px 0}
+.three .rc .ln.sum{font-size:14px}
+.cost{color:var(--bad)}
+.gain{color:var(--ok)}
+.dec2{padding:20px 26px;border-bottom:1px solid var(--line)}
+.dec2>div:first-child{display:grid;grid-template-columns:1fr 1fr 1.15fr;gap:20px;align-items:start;margin-bottom:18px}
+.dec2>div:first-child .fl{margin:0!important}
+.st.info{display:flex;padding:0;background:none;border-radius:0;grid-template-columns:none}
+.lock{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--mut);margin-top:6px}
+.tag2{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 9px;border-radius:999px;font-size:12px;font-weight:800}
+.tag2.w{background:var(--warn-bg);color:var(--warn)}.tag2.i{background:var(--info-bg);color:var(--info)}.tag2.o{background:var(--ok-bg);color:var(--ok)}.tag2.n{background:var(--neu-bg);color:var(--body)}.tag2.b{background:var(--bad-bg);color:var(--bad)}
+.panelA{background:var(--page);padding:28px;width:1000px}
+.panelA .pcap{font-size:13px;font-weight:700;color:var(--mut);margin-bottom:12px}
+.chk{list-style:none;margin-top:10px}
+.chk li{display:grid;grid-template-columns:22px 1fr;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px;line-height:1.45;color:var(--body)}
+.chk li b{color:var(--ink)}
+.chk .ok{color:var(--ok)}.chk .wr{color:var(--warn)}
+.vcmp{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.vcmp .pl{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:0}
+.vcmp .pl.new{border:2px solid var(--ink);padding:13px 15px}
+table.at{width:100%;border-collapse:collapse;font-size:14px;background:#fff}
+table.at th{text-align:left;font-size:12.5px;font-weight:700;color:var(--mut);padding:12px 14px;border-bottom:1px solid var(--line);background:#FBFAF8}
+table.at td{padding:14px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--body);line-height:1.45}
+table.at td b{color:var(--ink);display:block}
+table.at td small{display:block;font-size:12.5px;color:var(--mut)}
+table.at td.r{text-align:right;font-variant-numeric:tabular-nums}
+table.at tr.flg td{background:#FFFAF0}
+.tblwrap{border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.mini2{display:flex;gap:18px;flex-wrap:wrap;font-size:14px;color:var(--body);margin-top:14px}
+.mini2 b{color:var(--ink)}
+</style>
+</head>
+<body>
+<!--SPRITE-->
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="today" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></symbol>
+  <symbol id="arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="hour" viewBox="0 0 24 24"><path d="M7 3h10M7 21h10M8 3c0 5 8 5 8 9s-8 4-8 9M16 3c0 5-8 5-8 9"/></symbol>
+  <symbol id="info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+  <symbol id="clip" viewBox="0 0 24 24"><path d="M20 11.5l-8.2 8.2a5 5 0 0 1-7.1-7.1L13 4.3a3.3 3.3 0 0 1 4.7 4.7l-8.3 8.3a1.7 1.7 0 0 1-2.4-2.4l7.6-7.6"/></symbol>
+  <symbol id="lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
+  <symbol id="flag" viewBox="0 0 24 24"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></symbol>
+  <symbol id="send" viewBox="0 0 24 24"><path d="M4 12l16-8-6 16-2.5-6.5z"/></symbol>
+  <symbol id="pen" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/></symbol>
+</svg>
+
+<!-- reusable admin header via template comment: ADMINHEAD(tab) -->
+
+<!-- ================= A1  TO DECIDE, SOFIA ================= -->
+<div class="fig-frame screen" id="a1" data-name="Admin · Refunds · To decide · desktop 1440" style="width:1440px;background:var(--page)">
+  <!--AHEAD:Refunds-->
+  <div class="px-a" style="display:grid;grid-template-columns:400px 1fr;gap:28px;padding-top:28px;padding-bottom:40px">
+   <div class="qcol">
+     <div class="pt"><h1>Refunds</h1><p><b>4 need a decision.</b> Sofia's trip starts first, <span class="hot">in 45 hours</span>.</p></div>
+     <div class="seg" style="margin-top:18px"><span class="on">To decide <em>4</em></span><span>With partners <em>2</em></span><span>Closed</span><span>Checks</span></div>
+     <div class="bulk" style="margin-top:14px"><svg class="i"><use href="#check"/></svg><span><b>2 can be applied together.</b> The partner agreed or it was their side, no trip has started and nothing is flagged.</span><span class="btn sm d" style="margin-left:auto">Review 2</span></div>
+     <div class="aq" style="margin-top:14px">
+       <div class="ai sel"><div class="r1">Sofia Ricci<span class="hot">Trip in 45 h</span></div><div class="r2">Blue whale watching · Mirissa Ocean Co.</div><div class="st neu" style="margin-top:8px"><svg class="i s"><use href="#hour"/></svg>Partner didn't reply in time</div></div>
+       <div class="ai"><div class="r1">Emma Walsh<span>Trip Sat 26 Sep</span></div><div class="r2">Sigiriya sunrise climb · Arkam Sahdi</div><div class="st ok" style="margin-top:8px"><svg class="i s"><use href="#check"/></svg>Partner agreed to 50% back</div></div>
+       <div class="ai"><div class="r1">Hiro Sato<span>Trip Sun 27 Sep</span></div><div class="r2">Pigeon Island snorkelling · Trinco Dive Centre</div><div class="st info" style="margin-top:8px"><svg class="i s"><use href="#alert"/></svg>Partner says it was on their side</div></div>
+       <div class="ai"><div class="r1">Ravi Menon<span>Trip Mon 28 Sep</span></div><div class="r2">Galle Fort walk · Old Town Walks</div><div class="st neu" style="margin-top:8px"><svg class="i s"><use href="#lock"/></svg>Partner wants to keep the policy</div></div>
+     </div>
+   </div>
+   <div class="dp2">
+     <div class="ph"><img src="@img:mirissa-whale:1800" alt=""><span class="sh"></span><div class="tx"><div><h2>Sofia Ricci asked for a refund</h2><p>Blue whale watching with Mirissa Ocean Co. · Thu 24 Sep, 9:30 AM · 2 adults · paid GBP 151.68 (USD 192.00) by card</p></div><span class="ref">CNE71229977</span></div></div>
+     <div class="facts">
+       <div><span class="lab">The policy gives</span><div class="big">50% back</div><p>Custom v2, the version Sofia booked under.</p><div class="wn"><svg class="i s"><use href="#alert"/></svg>Changed to v3 on Mon 14 Sep, after she booked</div></div>
+       <div><span class="lab">The partner</span><div class="big">No reply</div><p>Their 12 hour window closed today at 9:30 AM. Not paid out yet.</p></div>
+       <div><span class="lab">The traveller</span><div class="big">First request</div><p>3 trips since March 2025, no refunds.</p></div>
+     </div>
+     <div class="says"><span class="lab">Sofia says</span><q>The coast road is closed after the landslide near Galle, and the bus company says it won't reopen before Friday. We can't get to Mirissa.</q><div class="chips"><span class="chip">Road closed</span><span class="chip f"><svg class="i s"><use href="#clip"/></svg>news.lk/landslide-galle</span></div></div>
+     <div class="dec2">
+       <div>
+         <div class="fl" style="margin-bottom:14px"><label>Refund, % of the partner's price</label><div class="seg"><span>Policy, 50%</span><span class="on">Full</span><span>Other %</span></div><small>USD 150.00 price. VAT and service fee follow the same %.</small></div>
+         <div class="fl" style="margin-bottom:14px"><label>Processing fee, 5% of the refund</label><div class="seg"><span>Standard, USD 9.60</span><span class="on">Waived</span></div></div>
+         <div class="fl" style="margin-bottom:0"><label>Reason, for the record</label><span class="inp sel">Medical or emergency<svg class="i"><use href="#down"/></svg></span><small>Needed when you go beyond the policy or waive the fee.</small></div>
+       </div>
+       <div class="three">
+         <div class="rc"><h4>Sofia <small>paid in GBP</small></h4>
+           <div class="ln"><span>Price, 100%</span><span class="dl"></span><span class="v n">150.00</span></div>
+           <div class="ln"><span>VAT and service fee</span><span class="dl"></span><span class="v n">42.00</span></div>
+           <div class="ln"><span>Processing fee</span><span class="dl"></span><span class="v n">Waived</span></div>
+           <div class="ln sum"><span>Gets back</span><span class="dl"></span><span class="v n">USD 192.00</span></div>
+           <div class="ft" style="margin-top:2px">GBP 151.68 to her card</div></div>
+         <div class="rc"><h4>Mirissa Ocean Co. <small>12% commission</small></h4>
+           <div class="ln"><span>Would receive</span><span class="dl"></span><span class="v n">157.81</span></div>
+           <div class="ln"><span>Refund, their share</span><span class="dl"></span><span class="v n">−157.81</span></div>
+           <div class="ln sum"><span>Now receives</span><span class="dl"></span><span class="v n">USD 0.00</span></div>
+           <div class="ft" style="margin-top:2px">Not paid out yet, so nothing to recover</div></div>
+         <div class="rc"><h4>Ceylon Nooks <small>admin only</small></h4>
+           <div class="ln"><span>Service fee, commission, VAT handling</span><span class="dl"></span><span class="v n">0.00</span></div>
+           <div class="ln"><span>Card fee, not returned</span><span class="dl"></span><span class="v n cost">−6.92</span></div>
+           <div class="ln sum"><span>Net</span><span class="dl"></span><span class="v n cost">−USD 6.92</span></div>
+           <div class="ft" style="margin-top:2px">Card fee as reported by Airwallex</div></div>
+       </div>
+     </div>
+     <div class="dbar"><span class="link" style="font-size:14px">Preview the emails</span><span class="sp" style="flex:1"></span><span class="btn">Decline</span><span class="btn p">Refund USD 192.00 and tell both</span></div>
+   </div>
+  </div>
+</div>
+
+<!-- ================= A2  DECISION VARIANTS ================= -->
+<div class="fig-frame panelA" id="a2a" data-name="Admin · Decision · Partner agreed (Emma)">
+  <div class="pcap">Partner agreed: their answer is already filled in</div>
+  <div class="dp2">
+    <div class="stbox" style="background:var(--ok-bg)"><div class="ttl" style="color:var(--ok)"><svg class="i"><use href="#check"/></svg>Arkam agreed to refund 50% of his price</div><p style="color:#123F28">“Happy to refund half. The permit is already paid.” · Strict policy gives no refund at this point · Emma paid AUD 541.18 (USD 358.40)</p></div>
+    <div class="dec2" style="border:0">
+      <div>
+        <div class="fl" style="margin-bottom:14px"><label>Refund, % of the partner's price</label><div class="seg"><span class="on">Partner's 50%</span><span>Full</span><span>Other %</span></div><small>USD 280.00 price</small></div>
+        <div class="fl" style="margin-bottom:14px"><label>Processing fee, 5% of the refund</label><div class="seg"><span class="on">Standard, USD 8.96</span><span>Waived</span></div></div>
+        <div class="fl" style="margin:0"><label>Reason</label><span class="inp sel">Partner agreed to it<svg class="i"><use href="#down"/></svg></span></div>
+      </div>
+      <div class="three">
+        <div class="rc"><h4>Emma <small>paid in AUD</small></h4>
+          <div class="ln"><span>Price, 50%</span><span class="dl"></span><span class="v n">140.00</span></div>
+          <div class="ln"><span>VAT and service fee</span><span class="dl"></span><span class="v n">39.20</span></div>
+          <div class="ln"><span>Processing fee, 5%</span><span class="dl"></span><span class="v n">−8.96</span></div>
+          <div class="ln sum"><span>Gets back</span><span class="dl"></span><span class="v n">USD 170.24</span></div>
+          <div class="ft">AUD 257.06 to her card</div></div>
+        <div class="rc"><h4>Arkam Sahdi <small>10% commission</small></h4>
+          <div class="ln"><span>Would receive</span><span class="dl"></span><span class="v n">300.17</span></div>
+          <div class="ln"><span>Refund, his share</span><span class="dl"></span><span class="v n">−150.08</span></div>
+          <div class="ln sum"><span>Now receives</span><span class="dl"></span><span class="v n">USD 150.09</span></div></div>
+        <div class="rc"><h4>Ceylon Nooks <small>admin only</small></h4>
+          <div class="ln"><span>Service fee kept</span><span class="dl"></span><span class="v n">14.00</span></div>
+          <div class="ln"><span>Commission and VAT handling</span><span class="dl"></span><span class="v n">15.11</span></div>
+          <div class="ln"><span>Processing fee</span><span class="dl"></span><span class="v n">8.96</span></div>
+          <div class="ln"><span>Card fee, not returned</span><span class="dl"></span><span class="v n cost">−12.48</span></div>
+          <div class="ln sum"><span>Net</span><span class="dl"></span><span class="v n gain">USD 25.59</span></div></div>
+      </div>
+    </div>
+    <div class="dbar"><span class="tag2 o"><svg class="i s"><use href="#check"/></svg>Can be applied in bulk</span><span class="sp" style="flex:1"></span><span class="btn">Decline</span><span class="btn p">Refund USD 170.24 and tell both</span></div>
+  </div>
+</div>
+
+<div class="fig-frame panelA" id="a2b" data-name="Admin · Decision · On the partner's side (Hiro)">
+  <div class="pcap">The partner says it was on their side: full refund, no fee, locked</div>
+  <div class="dp2">
+    <div class="stbox" style="background:var(--info-bg)"><div class="ttl" style="color:var(--info)"><svg class="i"><use href="#alert"/></svg>Trinco Dive Centre says it was on their side</div><p style="color:#17335A">“Rough seas forecast. All Sunday dives are cancelled.” · Hiro paid USD 220.00 · partner not registered for VAT</p></div>
+    <div class="dec2" style="border:0">
+      <div>
+        <div class="fl" style="margin-bottom:14px"><label>Refund</label><div class="seg"><span class="on">Full, 100%</span></div><div class="lock"><svg class="i s"><use href="#lock"/></svg>Always full when it's the partner's side</div></div>
+        <div class="fl" style="margin-bottom:14px"><label>Processing fee</label><div class="seg"><span class="on">Waived</span></div><div class="lock"><svg class="i s"><use href="#lock"/></svg>No fee when it's the partner's or our side</div></div>
+        <div class="fl" style="margin:0"><label>Reason</label><span class="inp sel">Partner cancelled or at fault<svg class="i"><use href="#down"/></svg></span></div>
+      </div>
+      <div class="three">
+        <div class="rc"><h4>Hiro <small>paid in USD</small></h4>
+          <div class="ln"><span>Price, 100%</span><span class="dl"></span><span class="v n">200.00</span></div>
+          <div class="ln"><span>Service fee</span><span class="dl"></span><span class="v n">20.00</span></div>
+          <div class="ln"><span>Processing fee</span><span class="dl"></span><span class="v n">None</span></div>
+          <div class="ln sum"><span>Gets back</span><span class="dl"></span><span class="v n">USD 220.00</span></div></div>
+        <div class="rc"><h4>Trinco Dive Centre <small>8% commission</small></h4>
+          <div class="ln"><span>Would receive</span><span class="dl"></span><span class="v n">184.00</span></div>
+          <div class="ln"><span>Refund, their share</span><span class="dl"></span><span class="v n">−184.00</span></div>
+          <div class="ln sum"><span>Now receives</span><span class="dl"></span><span class="v n">USD 0.00</span></div></div>
+        <div class="rc"><h4>Ceylon Nooks <small>admin only</small></h4>
+          <div class="ln"><span>Fees and commission</span><span class="dl"></span><span class="v n">0.00</span></div>
+          <div class="ln"><span>Card fee, not returned</span><span class="dl"></span><span class="v n cost">−7.78</span></div>
+          <div class="ln sum"><span>Net</span><span class="dl"></span><span class="v n cost">−USD 7.78</span></div></div>
+      </div>
+    </div>
+    <div class="dbar"><span class="tag2 o"><svg class="i s"><use href="#check"/></svg>Can be applied in bulk</span><span class="sp" style="flex:1"></span><span class="btn p">Refund USD 220.00 and tell both</span></div>
+  </div>
+</div>
+
+<div class="fig-frame panelA" id="a2c" data-name="Admin · Decision · Decline (Ravi)">
+  <div class="pcap">Declining: the booking stays on, with a calm note to the traveller</div>
+  <div class="dp2">
+    <div class="stbox" style="background:var(--neu-bg)"><div class="ttl"><svg class="i"><use href="#lock"/></svg>Old Town Walks wants to keep the policy</div><p>“He booked the private guide for the whole morning; we turned away two groups.” · Moderate gives no refund · Ravi paid USD 115.20 · 2 earlier refunds in 12 months</p></div>
+    <div class="dec2" style="border:0">
+      <div>
+        <div class="fl" style="margin-bottom:14px"><label>Refund</label><div class="seg"><span class="on">No refund</span><span>Full</span><span>Other %</span></div></div>
+        <div class="fl" style="margin-bottom:14px"><label>Reason</label><span class="inp sel">Outside policy window<svg class="i"><use href="#down"/></svg></span></div>
+        <div class="fl" style="margin:0"><label>Note to Ravi</label><div class="ta fill" style="min-height:96px;font-size:13.5px">We're sorry, we can't refund this one: it's inside the no-refund period, and the guide has kept the morning for you. Your walk is still on for Mon 28 Sep at 8:00 AM, and you can move it to another date for free until Sun 27 Sep.</div></div>
+      </div>
+      <div>
+        <div class="three" style="grid-template-columns:1fr 1fr 1fr">
+          <div class="rc"><h4>Ravi</h4><div class="ln sum" style="border:0;margin:0"><span>Gets back</span><span class="dl"></span><span class="v n">USD 0.00</span></div><div class="ft">Booking still on</div></div>
+          <div class="rc"><h4>Old Town Walks</h4><div class="ln sum" style="border:0;margin:0"><span>Receives</span><span class="dl"></span><span class="v n">USD 96.48</span></div><div class="ft">Unchanged</div></div>
+          <div class="rc"><h4>Ceylon Nooks</h4><div class="ln sum" style="border:0;margin:0"><span>Net</span><span class="dl"></span><span class="v n gain">USD 14.45</span></div><div class="ft">After card fee 4.27</div></div>
+        </div>
+        <div class="says" style="border:1px solid var(--line);border-radius:14px;margin-top:14px;padding:14px 16px"><span class="lab">Email preview to Ravi</span><p style="font-size:14px;line-height:1.55;color:var(--body);margin-top:6px"><b style="color:var(--ink)">About your refund request for Galle Fort walk.</b> We're sorry, we can't refund this one… Your walk is still on for Mon 28 Sep at 8:00 AM. <span class="link">Change the date</span></p></div>
+      </div>
+    </div>
+    <div class="dbar"><span class="sp" style="flex:1"></span><span class="btn">Back</span><span class="btn d">Decline and tell both</span></div>
+  </div>
+</div>
+
+<!-- ================= A3  WITH PARTNERS ================= -->
+<div class="fig-frame screen" id="a3" data-name="Admin · Refunds · With partners, waiting · desktop 1440" style="width:1440px;background:var(--page)">
+  <!--AHEAD:Refunds-->
+  <div class="px-a" style="display:grid;grid-template-columns:400px 1fr;gap:28px;padding-top:28px;padding-bottom:40px">
+   <div class="qcol">
+     <div class="pt"><h1>Refunds</h1><p><b>2 are with partners.</b> They come back here when the partner replies or the window closes.</p></div>
+     <div class="seg" style="margin-top:18px"><span>To decide <em>4</em></span><span class="on">With partners <em>2</em></span><span>Closed</span><span>Checks</span></div>
+     <div class="aq" style="margin-top:14px">
+       <div class="ai sel"><div class="r1">Chloe Martin<span>Reply in 9 h 12 m</span></div><div class="r2">Nine Arch Bridge and Little Adam's Peak · Hill Country Walks</div><div class="st warn" style="margin-top:8px"><svg class="i s"><use href="#hour"/></svg>Waiting for the partner · trip Sat 26 Sep</div></div>
+       <div class="ai"><div class="r1">Hannah Becker<span>Accept by 9:00 AM</span></div><div class="r2">Sigiriya sunrise climb · Arkam Sahdi</div><div class="st info" style="margin-top:8px"><svg class="i s"><use href="#cal"/></svg>Date offered, waiting for Hannah</div></div>
+     </div>
+   </div>
+   <div class="dp2">
+     <div class="ph"><img src="@img:ella-nine-arch:1800" alt=""><span class="sh"></span><div class="tx"><div><h2>Chloe Martin asked for a refund</h2><p>Nine Arch Bridge and Little Adam's Peak with Hill Country Walks · Sat 26 Sep, 7:00 AM · paid EUR 104.63 (USD 115.20)</p></div><span class="ref">CNE71232051</span></div></div>
+     <div class="facts">
+       <div><span class="lab">The partner has</span><div class="big" style="color:var(--warn)">9 h 12 m</div><p>To reply, by 9:22 PM today. Reminder sent automatically at 3 hours left.</p></div>
+       <div><span class="lab">The policy gives</span><div class="big">No refund</div><p>Flexible. Chloe asked after the full refund ended on Thu 24 Sep.</p></div>
+       <div><span class="lab">The traveller</span><div class="big">First request</div><p>1 trip, no refunds.</p></div>
+     </div>
+     <div class="says"><span class="lab">Chloe says</span><q>I missed my train from Kandy and the next one gets in after the walk starts. Could I move it or get something back?</q><div class="chips"><span class="chip">Travel changed</span></div></div>
+     <div style="padding:20px 26px">
+       <div class="info i"><svg class="i s" style="margin-top:2px"><use href="#info"/></svg><span>When Hill Country Walks replies, or the window closes, this moves to <b>To decide</b>. Step in now only if it can't wait, for example the trip is about to start or there's a safety issue.</span></div>
+       <div class="fl" style="margin:16px 0 0;max-width:520px"><label>If you decide now: reason, for the record</label><span class="inp sel" style="color:var(--mut)">Choose a reason<svg class="i"><use href="#down"/></svg></span></div>
+     </div>
+     <div class="dbar"><span class="link" style="font-size:14px">Message the partner</span><span class="sp" style="flex:1"></span><span class="btn"><svg class="i s"><use href="#send"/></svg>Send a reminder now</span><span class="btn d">Decide now without waiting</span></div>
+   </div>
+  </div>
+</div>
+
+<!-- ================= A4  BULK APPLY ================= -->
+<div class="fig-frame screen" id="a4" data-name="Admin · Refunds · Apply 2 together · desktop 1440" style="width:1440px;height:960px;background:var(--page);position:relative">
+  <!--AHEAD:Refunds-->
+  <div class="px-a" style="display:grid;grid-template-columns:400px 1fr;gap:28px;padding-top:28px">
+   <div class="qcol"><div class="pt"><h1>Refunds</h1><p><b>4 need a decision.</b></p></div></div>
+   <div class="dp2" style="height:640px"></div>
+  </div>
+  <div class="scrim2"></div>
+  <div class="dlg2" style="width:720px">
+    <div class="dh"><h2>Apply 2 refunds together?</h2><span class="icb" style="border:0"><svg class="i"><use href="#x"/></svg></span></div>
+    <div class="db">
+      <p style="font-size:15px;color:var(--body);line-height:1.55">Only requests where the partner agreed or said it was their side, the trip hasn't started, the policy version matches and nothing is flagged.</p>
+      <table class="at" style="margin-top:14px;border:1px solid var(--line);border-radius:14px;overflow:hidden">
+        <tr><th>Request</th><th>Decision</th><th style="text-align:right">Traveller gets</th><th style="text-align:right">Partner now</th><th style="text-align:right">Our net</th></tr>
+        <tr><td><b>Emma Walsh</b><small>Sigiriya · Arkam Sahdi</small></td><td>50%, partner agreed<small>Standard fee</small></td><td class="r">USD 170.24</td><td class="r">150.09</td><td class="r">25.59</td></tr>
+        <tr><td><b>Hiro Sato</b><small>Pigeon Island · Trinco Dive Centre</small></td><td>Full, partner's side<small>No fee</small></td><td class="r">USD 220.00</td><td class="r">0.00</td><td class="r cost">−7.78</td></tr>
+        <tr><td><b>Total</b></td><td></td><td class="r"><b>USD 390.24</b></td><td class="r"><b>150.09</b></td><td class="r"><b>17.81</b></td></tr>
+      </table>
+      <div class="cbx" style="margin-top:14px"><i><svg class="i" style="width:13px;height:13px;stroke-width:3"><use href="#check"/></svg></i><span><b>Email and WhatsApp both sides</b><small>Each traveller and partner gets their own outcome message.</small></span></div>
+    </div>
+    <div class="df"><span class="btn">Review one by one</span><span class="btn p">Refund USD 390.24 to 2 travellers</span></div>
+  </div>
+</div>
+
+<!-- ================= A5  POLICY APPROVALS ================= -->
+<div class="fig-frame screen" id="a5" data-name="Admin · Policies · Custom policy approval · desktop 1440" style="width:1440px;background:var(--page)">
+  <!--AHEAD:Policies-->
+  <div class="px-a" style="display:grid;grid-template-columns:400px 1fr;gap:28px;padding-top:28px;padding-bottom:40px">
+   <div class="qcol">
+     <div class="pt"><h1>Policies</h1><p><b>3 custom policies</b> are waiting. A listing with a new custom policy can't go live until it's approved.</p></div>
+     <div class="seg" style="margin-top:18px"><span class="on">Waiting <em>3</em></span><span>Approved</span><span>Sent back</span></div>
+     <div class="aq" style="margin-top:14px">
+       <div class="ai sel"><div class="r1">Trinco Dive Centre<span>2 days</span></div><div class="r2">Pigeon Island snorkelling · change, v1 to v2</div><div class="st info" style="margin-top:8px"><svg class="i s"><use href="#doc"/></svg>Live listing, 12 bookings stay on v1</div></div>
+       <div class="ai"><div class="r1">Hill Country Walks<span>1 day</span></div><div class="r2">Ella rock sunrise hike · new listing</div><div class="st neu" style="margin-top:8px"><svg class="i s"><use href="#lock"/></svg>Listing waiting to go live</div></div>
+       <div class="ai"><div class="r1">Old Town Walks<span>5 hours</span></div><div class="r2">Galle Fort by night · new listing</div><div class="st neu" style="margin-top:8px"><svg class="i s"><use href="#lock"/></svg>Listing waiting to go live</div></div>
+     </div>
+   </div>
+   <div class="dp2">
+     <div class="ph"><img src="@img:trincomalee:1800" alt=""><span class="sh"></span><div class="tx"><div><h2>Trinco Dive Centre changed their policy</h2><p>Pigeon Island snorkelling · submitted Tue 22 Sep, 4:10 PM by Nadeesha Fernando · 10% commission</p></div><span class="ref">v1 → v2</span></div></div>
+     <div style="padding:22px 26px;border-bottom:1px solid var(--line)">
+       <div class="vcmp">
+         <div class="pl"><div class="top"><b>Now live: v1</b><span>approved Mon 3 Aug</span></div><div class="track"><span class="f" style="flex:72"></span><span class="h" style="flex:18"></span><span class="z" style="flex:10"></span></div><div class="ticks"><span style="flex:72"><b>100%</b>7+ days</span><span style="flex:18"><b>50%</b>2+ days</span><span style="flex:10"><b>None</b></span></div></div>
+         <div class="pl new"><div class="top"><b>Proposed: v2</b><span>3 tiers</span></div><div class="track"><span class="f" style="flex:50"></span><span class="h" style="flex:25"></span><span class="h" style="flex:15;background:#E9C46A"></span><span class="z" style="flex:10"></span></div><div class="ticks"><span style="flex:50"><b>100%</b>14+ days</span><span style="flex:25"><b>50%</b>7+ days</span><span style="flex:15"><b>25%</b>3+ days</span><span style="flex:10"><b>None</b></span></div></div>
+       </div>
+       <p style="font-size:14px;color:var(--body);margin-top:14px;line-height:1.5"><b style="color:var(--ink)">For a trip on Sat 31 Oct, travellers would see:</b> full refund until Sat 17 Oct · 50% until Sat 24 Oct · 25% until Wed 28 Oct · no refund after that. Pay later charged on Thu 15 Oct.</p>
+     </div>
+     <div style="display:grid;grid-template-columns:1fr 1fr;gap:26px;padding:20px 26px">
+       <div><span class="lab">Checks</span>
+         <ul class="chk">
+           <li><svg class="i s ok"><use href="#check"/></svg><span><b>Refund goes down as the trip gets closer</b></span></li>
+           <li><svg class="i s ok"><use href="#check"/></svg><span><b>3 tiers</b>, within the limit of 4</span></li>
+           <li><svg class="i s ok"><use href="#check"/></svg><span><b>12 existing bookings keep v1</b>, as agreed at checkout</span></li>
+           <li><svg class="i s wr"><use href="#alert"/></svg><span><b>Stricter than now in the first week.</b> A traveller cancelling 10 days before gets 50%, not 100%. Worth a look.</span></li>
+         </ul></div>
+       <div><span class="lab">Partner's note</span><div class="ta fill" style="min-height:0;margin-top:10px;font-size:14px">Boat costs went up and we kept losing full boats to late cancellations. The 25% tier is for people who cancel because of rough seas forecasts.</div>
+         <div class="fl" style="margin:16px 0 0"><label>Note back to the partner <span style="font-weight:500;color:var(--mut)">(needed to send back)</span></label><div class="ta" style="min-height:64px">They see this in Listings and by email.</div></div></div>
+     </div>
+     <div class="dbar"><span class="link" style="font-size:14px">Version history (2)</span><span class="sp" style="flex:1"></span><span class="btn"><svg class="i s"><use href="#pen"/></svg>Edit tiers</span><span class="btn">Send back</span><span class="btn p">Approve v2</span></div>
+   </div>
+  </div>
+</div>
+
+<!-- ================= A6  AUTOMATIC REFUND CHECKS ================= -->
+<div class="fig-frame screen" id="a6" data-name="Admin · Refunds · Automatic refund checks · desktop 1440" style="width:1440px;background:var(--page)">
+  <!--AHEAD:Refunds-->
+  <div class="px-a" style="padding-top:28px;padding-bottom:40px">
+    <div class="pt" style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px"><div><h1 style="font-size:30px">Automatic refund checks</h1><p style="font-size:15.5px">Cancellations inside a policy are refunded straight away. Each week we pick <b>10 of them at random</b> to check the system got it right.</p></div><div class="seg"><span>To decide</span><span>With partners</span><span>Closed</span><span class="on">Checks</span></div></div>
+    <div class="mini2"><span>Week of <b>Mon 21 Sep</b></span><span><b>46</b> automatic refunds</span><span><b>10</b> picked</span><span><b>7</b> checked</span><span><b style="color:var(--warn)">1</b> flagged</span></div>
+    <div class="tblwrap" style="margin-top:16px">
+      <table class="at">
+        <tr><th>Booking</th><th>Policy and tier</th><th>Cancelled</th><th>Refunded</th><th>Fee</th><th>Paid in</th><th>Check</th></tr>
+        <tr class="flg"><td><b>Liam O'Brien</b><small>Kandy temple and tea · Arkam Sahdi · CNE71229410</small></td><td>Moderate · 100% tier<small>Full refund ended Fri 18 Sep, 8:00 AM</small></td><td>Fri 18 Sep, 8:41 AM<small>41 minutes after the tier ended</small></td><td class="r">USD 170.24</td><td class="r">8.96</td><td>GBP</td><td><span class="tag2 w"><svg class="i s"><use href="#flag"/></svg>Flagged</span><small style="margin-top:4px">Should have been 50%. Time zone?</small></td></tr>
+        <tr><td><b>Ana Souza</b><small>Sigiriya sunrise climb · Arkam Sahdi</small></td><td>Strict · 50% tier</td><td>Sat 19 Sep, 2:10 AM</td><td class="r">USD 170.24</td><td class="r">8.96</td><td>EUR</td><td><span class="tag2 o"><svg class="i s"><use href="#check"/></svg>Right</span></td></tr>
+        <tr><td><b>Kenji Mori</b><small>Pigeon Island snorkelling · Trinco Dive Centre</small></td><td>Custom v1 · 100% tier</td><td>Sun 20 Sep, 11:05 AM</td><td class="r">USD 209.00</td><td class="r">11.00</td><td>JPY</td><td><span class="tag2 o"><svg class="i s"><use href="#check"/></svg>Right</span></td></tr>
+        <tr><td><b>Grace Lee</b><small>Blue whale watching · Mirissa Ocean Co.</small></td><td>Custom v3 · 50% tier</td><td>Mon 21 Sep, 6:30 PM</td><td class="r">USD 91.20</td><td class="r">4.80</td><td>AUD</td><td><span class="tag2 o"><svg class="i s"><use href="#check"/></svg>Right</span></td></tr>
+        <tr><td><b>Tom Becker</b><small>Galle Fort walk · Old Town Walks</small></td><td>Flexible · 100% tier<small>Pay later, not charged yet</small></td><td>Tue 22 Sep, 9:12 AM</td><td class="r">Nothing charged</td><td class="r">None</td><td>USD</td><td><span class="tag2 o"><svg class="i s"><use href="#check"/></svg>Right</span></td></tr>
+        <tr><td><b>Maya Patel</b><small>Ella rock sunrise hike · Hill Country Walks</small></td><td>Moderate · 50% tier</td><td>Tue 22 Sep, 1:48 PM</td><td class="r">USD 54.72</td><td class="r">2.88</td><td>USD</td><td><span class="btn sm" style="height:34px">Mark right</span> <span class="btn sm" style="height:34px">Flag</span></td></tr>
+      </table>
+    </div>
+    <div class="info w" style="margin-top:16px;max-width:900px"><svg class="i s" style="margin-top:2px"><use href="#alert"/></svg><span><b>Flagged refunds don't take money back from the traveller.</b> They go to the finance team to look at the cause, for example a tier ending in the traveller's time zone instead of Sri Lanka time.</span></div>
+  </div>
+</div>
+
+<!-- ================= A7-A8  ADMIN PHONE ================= -->
+<div class="fig-frame phone" id="a7" data-name="Admin · Refunds queue · phone 390">
+  <div class="sb"><span>12:10</span><span>●●● 4G</span></div>
+  <div class="phd"><!--LOGOSM--><span style="font-size:13px;font-weight:700;color:var(--mut);padding-left:10px;border-left:1px solid var(--line)">Admin</span><span class="sp" style="flex:1"></span><span class="icb" style="width:38px;height:38px"><svg class="i"><use href="#search"/></svg></span></div>
+  <div class="pb">
+    <div class="pt"><h1>Refunds</h1><p><b>4 need a decision.</b> Sofia's trip is <span class="hot">in 45 hours</span>.</p></div>
+    <div class="bulk" style="margin-top:12px;font-size:13px"><svg class="i"><use href="#check"/></svg><span><b>2 can be applied together</b></span><span class="btn sm d" style="margin-left:auto;height:36px">Review</span></div>
+    <div class="aq" style="margin-top:12px">
+      <div class="ai" style="background:#fff"><div class="r1">Sofia Ricci<span class="hot">45 h</span></div><div class="r2">Blue whale watching</div><div class="st neu" style="margin-top:6px"><svg class="i s"><use href="#hour"/></svg>No reply in time · policy 50%</div></div>
+      <div class="ai" style="background:#fff"><div class="r1">Emma Walsh<span>Sat</span></div><div class="r2">Sigiriya sunrise climb</div><div class="st ok" style="margin-top:6px"><svg class="i s"><use href="#check"/></svg>Partner agreed 50%</div></div>
+      <div class="ai" style="background:#fff"><div class="r1">Hiro Sato<span>Sun</span></div><div class="r2">Pigeon Island snorkelling</div><div class="st info" style="margin-top:6px"><svg class="i s"><use href="#alert"/></svg>Partner's side</div></div>
+    </div>
+  </div>
+  <div class="tb"><span><svg class="i"><use href="#today"/></svg>Today</span><span class="on"><svg class="i"><use href="#back"/></svg>Refunds<em>4</em></span><span><svg class="i"><use href="#wallet"/></svg>Payouts</span><span><svg class="i"><use href="#doc"/></svg>Policies<em>3</em></span><span><svg class="i"><use href="#more"/></svg>More</span></div>
+</div>
+
+<div class="fig-frame phone" id="a8" data-name="Admin · Decide · phone 390">
+  <div class="sb"><span>12:11</span><span>●●● 4G</span></div>
+  <div class="pgh"><svg class="i bkk"><use href="#arrow"/></svg>Sofia Ricci</div>
+  <div class="pscroll2">
+    <div class="tripc" style="margin:0"><img src="@img:mirissa-whale:120" alt=""><span><b>Blue whale watching</b><small>Thu 24 Sep, 9:30 AM · GBP 151.68</small></span><span></span></div>
+    <div class="mini2" style="margin-top:10px;font-size:13px;gap:10px"><span class="tag2 n">Policy 50%</span><span class="tag2 n">No partner reply</span><span class="tag2 w">Policy changed</span></div>
+    <q style="display:block;font-size:14.5px;line-height:1.5;margin-top:10px;quotes:'“' '”'">The coast road is closed after the landslide near Galle. We can't get to Mirissa.</q>
+    <div class="fl" style="margin:14px 0 10px"><label>Refund</label><div class="seg" style="width:100%"><span style="flex:1;justify-content:center">Policy 50%</span><span class="on" style="flex:1;justify-content:center">Full</span><span style="flex:1;justify-content:center">Other</span></div></div>
+    <div class="fl" style="margin-bottom:10px"><label>Fee</label><div class="seg" style="width:100%"><span style="flex:1;justify-content:center">Standard 9.60</span><span class="on" style="flex:1;justify-content:center">Waived</span></div></div>
+    <div class="fl" style="margin-bottom:10px"><label>Reason</label><span class="inp sel">Medical or emergency<svg class="i"><use href="#down"/></svg></span></div>
+    <div class="rc" style="padding:8px 14px">
+      <div class="ln" style="font-size:13px"><span>Sofia gets back</span><span class="dl"></span><span class="v n">USD 192.00</span></div>
+      <div class="ln" style="font-size:13px"><span>Partner now receives</span><span class="dl"></span><span class="v n">0.00</span></div>
+      <div class="ln sum" style="font-size:13.5px"><span>Our net</span><span class="dl"></span><span class="v n cost">−6.92</span></div></div>
+  </div>
+  <div class="sbar2"><span class="btn p">Refund USD 192.00</span><small>Both get an email and WhatsApp</small></div>
+</div>
+
+<!-- ================= A9  NOTES ================= -->
+<div class="fig-frame doc" id="a9" data-name="Notes · How the admin screens fit together">
+  <div class="k">Notes · admin side of cancellations</div>
+  <h1 style="font-size:40px">How the admin screens fit together</h1>
+  <p class="lede">Only requests for more than a policy gives reach admin. Cancellations inside a policy are refunded automatically, and a weekly sample is checked. Everything else is a queue the team works through, with the list and the open request side by side.</p>
+  <h2 style="margin-top:40px">1 · A request comes in</h2>
+  <div class="flow">
+    <div class="fs"><em>With partners</em><b>Waiting for the partner</b><span>12 or 24 hour window with a countdown, an automatic reminder at 3 hours left, a reminder button and “Decide now” for urgent cases (reason required).</span></div><div class="ar"><svg class="i"><use href="#arrow"/></svg></div>
+    <div class="fs"><em>To decide</em><b>Three facts, then the decision</b><span>What the policy gives (with a warning if it changed after booking), what the partner said, and the traveller's history. Ordered by when the trip starts.</span></div><div class="ar"><svg class="i"><use href="#arrow"/></svg></div>
+    <div class="fs"><em>Decide</em><b>%, fee, reason</b><span>Refund is a % of the partner's price; VAT and the service fee follow. Fee standard (5% of the refund, min USD 1) or waived. Three receipts: traveller, partner, Ceylon Nooks.</span></div><div class="ar"><svg class="i"><use href="#arrow"/></svg></div>
+    <div class="fs"><em>Closed</em><b>Both told</b><span>Email and WhatsApp to the partner, email to the traveller with the amount in the currency they paid.</span></div>
+  </div>
+  <div class="c2" style="margin-top:20px;gap:28px">
+    <p class="cap" style="font-size:14.5px;margin:0"><b style="color:var(--ink)">Things to point out to Akila.</b> Admin sees what the partner and traveller don't: the currency the traveller paid in next to USD, and Ceylon Nooks' own result on the decision, including the card fee that isn't returned (the real figure from Airwallex, as agreed). A goodwill full refund shows its real cost, USD 6.92 on Sofia's booking. When it's the partner's or our side, the refund is locked to full with no fee.</p>
+    <p class="cap" style="font-size:14.5px;margin:0"><b style="color:var(--ink)">Bulk.</b> Only requests where the partner agreed or said it was their side, the trip hasn't started, the policy version matches and nothing is flagged. The dialog shows each one and the totals before anything is sent.</p>
+  </div>
+  <h2 style="margin-top:40px">2 · Custom policies and checks</h2>
+  <div class="c2" style="margin-top:12px;gap:28px">
+    <p class="cap" style="font-size:14.5px;margin:0"><b style="color:var(--ink)">Policies tab.</b> The current and proposed versions drawn side by side with the same policy line partners and travellers see, an example with real dates and the pay later date, automatic checks (including “stricter than now”), the partner's note, and Approve, Edit tiers or Send back with a note. Existing bookings always keep the version they booked under.</p>
+    <p class="cap" style="font-size:14.5px;margin:0"><b style="color:var(--ink)">Checks.</b> 10 automatic refunds a week, picked at random. Mark right or flag. A flag never takes money back from a traveller; it goes to finance to find the cause. The example flag is a tier that ended in the wrong time zone.</p>
+  </div>
+  <div class="kept" style="margin-top:40px"><div><h2>Numbers used</h2><p>Akila's pricing model: price, VAT 18% when the partner is registered, a 10% service fee, commission set per partner (12%, 10% and 8% in these examples), VAT handling fee 4.42% of the VAT. Card fees are examples of what Airwallex reports.</p></div><div><h2>Not in this batch</h2><p>The Ledger (waiting for Akila's go-ahead) and the payout run review. The admin booking list with margin columns comes with the later admin redesign.</p></div></div>
+</div>
+</body>
+</html>
