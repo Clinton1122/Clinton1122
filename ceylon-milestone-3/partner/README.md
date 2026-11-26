@@ -14,7 +14,7 @@ Designed 25 Nov 2026, in the shell and parts from `../plan`. Figma: page **Partn
 
 Already in the plan: the Refunds list (desktop and phone) and the phone Today view and cancel-a-day sheet.
 
-Numbers used (all consistent): partner payout is 82% of what the traveller paid (each partner's real rate is set in admin); processing fee is 5% of the full amount paid; partner cancellations refund everything with no fee.
+Numbers follow Akila's pricing model (26 Nov): the traveller pays the partner's price + VAT 18% (collected for the partner) + a 10% service fee. The partner receives their price − 10% commission + VAT − the VAT handling fee (4.42% of the VAT). A refund is a percentage of the partner's price; the same percentage of the VAT and service fee goes back too, and 5% of the amount refunded is kept as a processing fee (none when the partner cancels). Commission is 10% in the examples; each partner's own rate is set in admin. Payouts don't show "Traveller paid", a transfer fee or an exchange fee.
 
 Files: `Ceylon-Partner-Cancellation.html` (all screens, standalone), `screens/*.png`, `screens/source.html` and `screens/build.js` (build with the plan's `v2.html` styles).
 
