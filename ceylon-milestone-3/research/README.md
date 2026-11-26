@@ -76,6 +76,11 @@ Our job, per the brief: keep this content and behaviour, and redesign how it loo
 10. **Payout screen feedback (26 Nov):** remove "Traveller paid" from the payout screen (only on the booking details page). Use the pricing model: base + add-ons (partner), partner VAT 18% collected on their behalf, commission 7% on base + add-ons, VAT processing fee 4.42% on the VAT, platform fee 9% paid by the traveller. Payouts grouped by currency, one transfer each. Partner refund and payout lines to be redone once Akila shares the pricing documents and the refund split rule.
 11. **Ledger (26 Nov):** don't design the ledger screen until Akila confirms; it needs clarification.
 
+12. **Refund split (26 Nov):** the partner only decides a percentage of their own booking value (price plus add-ons), because that's the only part they control. The same percentage is then applied to VAT and the service fee. The 5% processing fee is taken from the amount refunded. The partner is paid on the part that isn't refunded: their kept price, minus commission on it, plus the kept VAT, minus the VAT handling fee on that VAT.
+    - Worked example (VAT-registered, price with add-ons $240, VAT $43.20, service fee 10% $24.00, traveller paid $307.20, commission 10%), 70% refund: refunded $168 + $30.24 + $16.80 = $215.04; processing fee 5% = $10.75; back to card $204.29. Partner: $72 − $7.20 + $12.96 − $0.57 = $77.19. Ceylon Nooks: $7.20 + $7.20 + $0.57 + $10.75 = $25.72, less the card fee on the original payment ($10.74) = $14.98 net. Check: 204.29 + 77.19 + 25.72 = 307.20.
+    - Full refund (traveller cancels): $307.20 − 5% ($15.36) = $291.84 back.
+    - To confirm: two typos in the message ($72.19 should be $77.19, $25.27 should be $25.72); the card fee ($10.74 matches 3.4% + $0.30, while the pricing document says 3.45% + $0.30, which would be $10.90); no 5% fee when the partner cancels or is at fault, as in the brief.
+
 Still open: fonts (Q7), hotel scope (Q8).
 
 ## 6. Our own designs that the new rules change
