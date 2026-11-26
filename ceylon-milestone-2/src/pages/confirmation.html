@@ -195,7 +195,7 @@ body{background:var(--cn-page)}
 /* ================= Confirmation ================= */
 const q=new URLSearchParams(location.hash.slice(1));
 S.date=q.get('d')||'2026-10-28';S.time=q.get('t')||'08:00';S.adults=+(q.get('a')||2);S.children=+(q.get('c')||0);S.disc=+(q.get('disc')||0);
-L.policy=q.get('p')||'site';L.bnpl=q.get('b')!=='0';L.vat=q.get('v')!=='0';
+L.policy=q.get('p')||'moderate';L.bnpl=q.get('b')!=='0';L.vat=q.get('v')!=='0';
 const later=q.get('later')==='1', ref=q.get('ref')||'CNE71623408', name=q.get('fn')||'John', email=q.get('em')||'john.carter@example.com';
 const WAL={gpay:'Google Pay',apay:'Apple Pay',alipay:'Alipay'};
 const card=WAL[q.get('brand')]||`${({VISA:'Visa',MASTERCARD:'Mastercard',AMEX:'Amex'})[q.get('brand')]||'Visa'} ending ${q.get('card')||'4242'}`;
@@ -213,7 +213,7 @@ function render(){
   const ev=[
     {c:'done',ic:'check',w:'Today',b:later?'Reserved, card checked':'Booked and paid',p:later?`Your card was checked but not charged.`:`Your receipt is in your email.`},
     ...(later?[{c:'',ic:'bell',w:dLong(new Date(+chargeOn()-3*DAY)),b:'Payment reminder',p:`We’ll email you 3 days before the charge.`},{c:'',ic:'card',w:dLong(chargeOn()),b:`${fmt(t)} charged automatically`,p:`Cancel before this and your card is never charged.`}]:[]),
-    ...(sc!==3&&L.policy!=='custom'?[{c:'warn',ic:'shield',w:`${dLong(cutoff())}, ${ft(cutoff())}`,b:'Free cancellation ends',p:'After this, cancellations aren’t refunded.'}]:[]),
+    ...(sc!==3?dated().map((x,i,a)=>({c:'warn',ic:i?'clockback':'shield',w:`${dLong(x.until)}, ${ft(x.until)}`,b:x.p===100?'Full refund ends':`${x.p}% refund ends`,p:i===a.length-1?'After this, cancelling doesn’t give anything back.':`After this, cancelling gives ${a[i+1].p}% back, less the processing fee.`})):[]),
     {c:'',ic:'phone',w:dLong(new Date(+s-DAY)),b:'Aravinda gets in touch',p:'Aravinda confirms the pickup on WhatsApp, and the phone number appears on your booking.'},
     {c:'',ic:'pin',w:`${dLong(s)}, ${ft(s)}`,b:'Pickup from your hotel',p:'Wear clothes that cover shoulders and knees for the temple.'}
   ];

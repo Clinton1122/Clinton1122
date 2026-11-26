@@ -362,6 +362,18 @@ html[data-theme=dark] :is(.hsearch,.sf,.cardf,.kit) input{background-color:trans
   .mb-body{padding:16px 20px calc(24px + env(safe-area-inset-bottom))}
 }
 
+/* ---- cancellation policy as real dates (Milestone 3, Nov 2026) ---- */
+.ptrack{display:flex;gap:3px;margin:12px 0 4px}
+.ptrack i{display:block;height:8px;border-radius:4px;min-width:6px}
+.ptrack i.f,.ptiers i.f{background:#1F6B44}.ptrack i.h,.ptiers i.h{background:#D9A021}.ptrack i.q{background:#E9C46A}.ptrack i.z,.ptiers i.z{background:var(--cn-input,#D9D2C8)}
+.pdate{font-size:14px;color:var(--cn-body);margin-top:10px}
+.pdate b{color:var(--cn-ink)}
+.ptiers{list-style:none;margin:10px 0 6px;padding:0}
+.ptiers li{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--cn-border,#E7E2DB);font-size:15px;font-weight:600;color:var(--cn-ink)}
+.ptiers li.no{color:var(--cn-muted);font-weight:500}
+.ptiers li i{display:block;width:10px;height:10px;border-radius:3px;flex:none}
+html[data-theme=dark] .ptiers li{border-color:var(--dk-border,#3A3A40)}
+
 /* ================= Booking confirmation: no site header or footer (15 Oct) ================= */
 .ck-h{border-bottom:1px solid var(--cn-border);background:var(--dk-paper,#fff)}
 .ck-h .wrap{max-width:1040px;display:flex;align-items:center;justify-content:space-between;height:66px}
@@ -803,10 +815,11 @@ const dYear=d=>fd(d,{weekday:'short',day:'numeric',month:'short',year:'numeric'}
 /* listing settings (the host chooses these when creating the listing) */
 const L={
   host:'Aravinda Perera',hostShort:'Aravinda',
-  policy:'site',          // 'site' = Ceylon Nooks policy, 'custom' = host's own, 'nonref' = non-refundable listing
+  policy:'moderate',      // 'flexible' | 'moderate' | 'strict' preset, 'custom' = host's own tiers, 'nonref'
   bnpl:true,              // host accepts Reserve now, pay later
   custom:'Free cancellation up to 72 hours before the tour starts, for a full refund less the payment processing fee. Between 72 and 24 hours, 50% back. Less than 24 hours, no refund. If I cancel for weather or safety, you get a full refund or a free new date.',
   customShort:'Full refund up to 72 hours before. 50% back from 72 to 24 hours.',
+  customTiers:[[72,100],[24,50]], // hours before the start, % of the booking back
   creds:{sltda:true,police:true},
   vat:true,               // host is VAT registered: VAT (18%) is collected for the host on top of their price
   langs:['English','Sinhala','Tamil']
@@ -829,62 +842,89 @@ function feeRows(l,split,row){
 let POPSTYLE='brand';   // popup 4 state A colour: 'brand' (orange tint) or 'positive' (soft green), for review
 const gw=t=>Math.max(FEE_MIN,Math.round(t*FEE*100)/100);
 
-/* Which trust-link scenario applies (spec: akilaliyanage.com/trust-link)
-   1: more than 5 days away  -> free cancellation + reserve now, pay later
-   2: 48 hours to 5 days     -> free cancellation, pay now required
-   3: 48 hours or less       -> non-refundable */
+/* Cancellation policies (brief, Nov 2026): every policy is a list of tiers, shown to travellers
+   as real dates. A refund is that % of the booking; 5% of the amount refunded (min USD 1) is kept as
+   a processing fee, none if the host cancels. Cancelling inside a tier is instant. */
+const POL={flexible:{name:'Flexible',tiers:[[48,100]]},moderate:{name:'Moderate',tiers:[[168,100],[72,50]]},
+  strict:{name:'Strict',tiers:[[336,100],[168,50]]},custom:{name:'Host’s own',tiers:null},nonref:{name:'Non-refundable',tiers:[]}};
+const pol=()=>POL[L.policy==='site'?'moderate':L.policy]||POL.moderate;
+const tiersOf=()=>L.policy==='custom'?L.customTiers:pol().tiers;
+const relH=h=>h>=48?`${h/24} days`:`${h} hours`;
+const pctTxt=p=>p===100?'Full refund':`${p}% back`;
+/* dated tiers for the chosen start: [{p, until}] */
+const dated=()=>{const s=startAt();return s?tiersOf().map(([h,p])=>({p,h,until:new Date(+s-h*HOUR)})):[]};
+const pctNow=()=>{const s=startAt();if(!s)return 100;const left=(s-NOW)/HOUR;const t=tiersOf().find(([h])=>left>=h);return t?t[1]:0};
+const fullEnd=()=>{const t=dated().find(x=>x.p===100);return t?t.until:null};
+/* pay later: charged on the earlier of 5 days before the start or 2 days before the full refund ends,
+   offered only if there are 3 days left to remind before that, never on non-refundable listings */
+const chargeOn=()=>{const s=startAt(),a=new Date(+s-BNPL_D*DAY),f=fullEnd();return f&&+f-2*DAY<+a?new Date(+f-2*DAY):a};
+const remindOn=()=>new Date(+chargeOn()-3*DAY);
+const bnplOk=()=>L.bnpl&&L.policy!=='nonref'&&!!fullEnd()&&NOW<remindOn();
+const cutoff=()=>fullEnd()||startAt();
+/* which situation applies now
+   1: refundable and pay later possible   2: refundable, pay now   3: nothing back if cancelled now */
 function scenario(){
   if(L.policy==='nonref')return 3;
-  const s=startAt(); if(!s)return 1;
-  const h=(s-NOW)/HOUR;
-  if(h<=FREE_H)return 3;
-  if(h<=BNPL_D*24)return 2;
-  return 1;
+  if(!startAt())return 1;
+  if(pctNow()===0)return 3;
+  return bnplOk()?1:2;
 }
-const cutoff=()=>new Date(startAt()-FREE_H*HOUR);
-const chargeOn=()=>new Date(startAt()-BNPL_D*DAY);
+/* the policy as lines of text: dated when there's a date, relative when not */
+function polText(all){const d=dated().filter(x=>all||x.until>NOW);
+  if(!tiersOf().length)return ['No refund if you cancel'];
+  if(startAt())return [...d.map(x=>`${pctTxt(x.p)} until ${dLong(x.until)}, ${ft(x.until)}${x.until<=NOW?' (ended)':''}`),'No refund after that'];
+  return [...tiersOf().map(([h,p])=>`${pctTxt(p)} up to ${relH(h)} before`),`No refund in the last ${relH(tiersOf().at(-1)[0])}`]}
+/* the policy drawn as a line of stretches, widths in proportion to the time between booking and start */
+function polTrack(){const s=startAt(),d=dated();if(!s||!d.length)return '';
+  const span=+s-NOW,pts=d.map(x=>Math.max(0,+x.until-NOW)),cls=p=>p===100?'f':p>=50?'h':'q';
+  let prev=0,segs='';d.forEach((x,i)=>{const w=pts[i]-prev;if(w>0)segs+=`<i class="${cls(x.p)}" style="flex:${w}"></i>`;prev=Math.max(prev,pts[i])});
+  segs+=`<i class="z" style="flex:${Math.max(span-prev,span*.04)}"></i>`;
+  return `<div class="ptrack" aria-hidden="true">${segs}</div>`}
 
 /* Trust signal rows under Reserve Now, per the trust-link spec */
 function trustRows(sc){
-  const s=startAt(), fee='less a 5% payment processing fee';
+  const s=startAt();
   const icon=n=>`<span class="ic"><svg class="i"><use href="#i-${n}"/></svg></span>`;
-  if(sc===3) return `<div class="trow amber">${icon('alert')}<div class="tx"><button class="tl" data-pop="cancel">Non-refundable</button><span class="td">${L.policy==='nonref'?'This listing doesn’t offer refunds. Check your date and group before you book.':'Cancellations within 48 hours of your start time are not eligible for a refund.'}</span></div></div>`;
-  const cRow=L.policy==='custom'
-    ? `<div class="trow">${icon('doc')}<div class="tx"><b class="tl plain">${L.hostShort}’s cancellation policy</b><span class="td">${L.customShort}</span><button class="tl sm" data-goto="cancellation-policy">Read ${L.hostShort}’s full policy</button></div></div>`
-    : `<div class="trow">${icon('clockback')}<div class="tx"><button class="tl" data-pop="cancel">Free cancellation</button><span class="td">${s?`Cancel before ${dLong(cutoff())} · ${ft(cutoff())} for a full refund, ${fee}.`:`Cancel up to 48 hours before your start time for a full refund, ${fee}.`}</span></div></div>`;
-  if(!L.bnpl)return cRow;
+  if(sc===3) return `<div class="trow amber">${icon('alert')}<div class="tx"><button class="tl" data-pop="cancel">${L.policy==='nonref'?'Non-refundable':'No refund for this date'}</button><span class="td">${L.policy==='nonref'?'This listing doesn’t offer refunds. Check the date and details before you book.':`Your start time is inside the last ${relH(tiersOf().at(-1)[0])}, so cancelling wouldn’t give anything back.`}</span></div></div>`;
+  const src=L.policy==='custom'?`${L.hostShort}’s own policy`:`${pol().name} policy`;
+  const pt=polText();
+  const cRow=`<div class="trow">${icon(L.policy==='custom'?'doc':'clockback')}<div class="tx"><button class="tl" data-pop="cancel">${s?pt[0]:pt[0]}</button><span class="td">${pt.slice(1,-1).map(x=>'Then '+x.charAt(0).toLowerCase()+x.slice(1)).join('. ')}${pt.length>2?'. ':''}${src}. Less a 5% processing fee.</span></div></div>`;
+  if(!L.bnpl||L.policy==='nonref')return cRow;
   const bRow=sc===1
-    ? `<div class="trow bnpl">${icon('wallet')}<div class="tx"><button class="tl" data-pop="bnpl">Reserve now &amp; pay later</button><span class="td">Secure your spot today. Your card is charged automatically 5 days before your experience${s?`, on ${dLong(chargeOn())}`:''}.</span></div></div>`
-    : `<div class="trow off">${icon('card')}<div class="tx"><b class="tl">Pay now required</b><span class="td">Reserve now &amp; pay later isn’t available within 5 days of the service date.</span></div></div>`;
+    ? `<div class="trow bnpl">${icon('wallet')}<div class="tx"><button class="tl" data-pop="bnpl">Reserve now &amp; pay later</button><span class="td">${s?`Nothing to pay today. Charged automatically on ${dLong(chargeOn())}.`:'Nothing to pay today. Choose a date to see when you’d be charged.'}</span></div></div>`
+    : `<div class="trow off">${icon('card')}<div class="tx"><b class="tl">Pay now required</b><span class="td">Pay later needs time for a reminder before the charge, so it isn’t available this close to the date.</span></div></div>`;
   return cRow+bRow;
 }
 /* ---------- popups 4 and 5 ---------- */
 const mhead=t=>`<div class="grab"></div><div class="mh"><h2 id="m-title">${t}</h2><button class="icon-btn" data-mclose aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button></div>`;
-function feeBox(){const t=total(),f=gw(t);
-  return `<div class="feebox"><h4><svg class="i"><use href="#i-card"/></svg>Payment processing fee (5%, min. USD 1)</h4><p>When a paid booking is cancelled, our payment gateway charges a fee to reverse the transaction. This 5% fee is passed on at cost. Ceylon Nooks doesn’t keep it.</p>
-  <table><tr><td>Your booking amount</td><td>${fmt(t)}</td></tr><tr><td>Refund entitlement (100%)</td><td>${fmt(t)}</td></tr><tr><td>Gateway reversal fee (5%)</td><td>− ${fmt(f)}</td></tr><tr class="tot"><td>Returned to you</td><td>${fmt(t-f)}</td></tr></table>
-  <p class="est">Estimate only. The final amount is confirmed when our team reviews it. Refunds reach your card within 5 to 10 business days of approval.</p></div>`}
+function feeBox(){const t=total(),p=pctNow(),r=r2(t*p/100),f=r?Math.min(r,gw(r)):0;
+  return `<div class="feebox"><h4><svg class="i"><use href="#i-card"/></svg>Payment processing fee (5% of the refund, min. USD 1)</h4><p>When a paid booking is cancelled, the payment gateway charges to send the money back. We keep 5% of the amount refunded to cover it. There’s no fee if your host cancels.</p>
+  <table><tr><td>Your booking amount</td><td>${fmt(t)}</td></tr><tr><td>${startAt()?`If you cancel today (${p}%)`:'Refund (100%)'}</td><td>${fmt(r)}</td></tr><tr><td>Processing fee, 5% of ${fmt(r)}</td><td>− ${fmt(f)}</td></tr><tr class="tot"><td>Back to your card</td><td>${fmt(r2(r-f))}</td></tr></table>
+  <p class="est">Cancelling inside your policy is instant. Refunds reach your card within 5 to 10 working days, depending on your bank.</p></div>`}
 function popCancel(){
-  const sc=scenario(),s=startAt();
-  const stateA=`<div class="pstate${POPSTYLE==='positive'?' pos':''}"><svg class="i"><use href="#i-shield"/></svg><span><b>${s?`Free cancellation before ${dYear(cutoff())} · ${ft(cutoff())}`:'Free cancellation up to 48 hours before your start time'}</b><small>Calculated from your start time, not when you cancel. Times are Sri Lanka local time.</small></span></div>
-    <ul class="rules"><li><span class="dot ok"><svg class="i"><use href="#i-check"/></svg></span><span><b style="color:var(--cn-ink)">At least 48 hours before:</b> full refund, less the payment processing fee.</span></li><li><span class="dot no"><svg class="i"><use href="#i-x"/></svg></span><span><b style="color:var(--cn-ink)">Less than 48 hours before:</b> no refund.</span></li><li><span class="dot no"><svg class="i"><use href="#i-x"/></svg></span><span><b style="color:var(--cn-ink)">No-show without cancelling:</b> no refund. The host keeps the full payment.</span></li></ul>
+  const sc=scenario(),s=startAt(),pt=polText(),src=L.policy==='custom'?`${L.hostShort}’s own policy`:`${pol().name} policy`;
+  const stateA=`<div class="pstate${POPSTYLE==='positive'?' pos':''}"><svg class="i"><use href="#i-shield"/></svg><span><b>${pt[0]}</b><small>${src}${s?'':'. Choose a date to see the exact dates.'}</small></span></div>
+    ${polTrack()}
+    <ul class="rules">${pt.map((x,i)=>`<li><span class="dot ${i===pt.length-1?'no':'ok'}"><svg class="i"><use href="#i-${i===pt.length-1?'x':'check'}"/></svg></span><span><b style="color:var(--cn-ink)">${x}</b>${i===pt.length-1?'':', less the processing fee'}.</span></li>`).join('')}
+      <li><span class="dot ok"><svg class="i"><use href="#i-check"/></svg></span><span><b style="color:var(--cn-ink)">If ${L.hostShort} cancels:</b> everything back, with no fee.</span></li></ul>
+    <p style="font-size:13px;color:var(--cn-muted);margin-top:8px">Times are Sri Lanka time. Cancelling inside the policy is instant, from your booking.</p>
     <div class="resched"><svg class="i"><use href="#i-cal"/></svg><span><b>Plans changed? Move your date instead.</b> Change your date as often as you like at no cost, as long as your host has availability.</span></div>`;
-  const stateB=`<div class="pstate amber"><svg class="i"><use href="#i-alert"/></svg><span><b>This booking is non-refundable</b><small>${L.policy==='nonref'?'The host doesn’t offer refunds on this listing.':'Your start time is within 48 hours, so the free cancellation window has passed.'}</small></span></div>
-    <div class="exc"><b>Exceptional circumstances</b>If you have a genuine emergency, you can still send a request with an explanation. Refunds in these cases are at Ceylon Nooks’ discretion and aren’t guaranteed.</div>`;
-  openModal(`${mhead('Cancellation policy')}<div class="mb-body">${sc===3?stateB:stateA}${feeBox()}<a class="mlink" href="#" data-act="sitepol">View full cancellation policy<svg class="i"><use href="#i-arrow"/></svg></a></div>`);
+  const stateB=`<div class="pstate amber"><svg class="i"><use href="#i-alert"/></svg><span><b>${L.policy==='nonref'?'This booking is non-refundable':'No refund for this date'}</b><small>${L.policy==='nonref'?'The host doesn’t offer refunds on this listing.':`Your start time is inside the last ${relH(tiersOf().at(-1)[0])}, so the refund periods have passed.`}</small></span></div>
+    <div class="exc"><b>If something serious happens</b>You can still ask for a refund from your booking. We ask ${L.hostShort} first, then our team decides. Your booking stays on while we look at it.</div>`;
+  openModal(`${mhead('Cancellation policy')}<div class="mb-body">${sc===3?stateB:stateA}${sc===3?'':feeBox()}<a class="mlink" href="#" data-act="sitepol">View full cancellation policy<svg class="i"><use href="#i-arrow"/></svg></a></div>`);
 }
 function popBnpl(){
   const s=startAt(),t=total(),f=gw(t);
-  openModal(`${mhead('Reserve now &amp; pay later')}<div class="mb-body"><p>Secure your spot today with no upfront payment. Your card is charged automatically 5 days before your experience. No extra fees.</p>
+  openModal(`${mhead('Reserve now &amp; pay later')}<div class="mb-body"><p>Secure your spot today with no upfront payment. Your card is charged automatically on the earlier of 5 days before your experience or 2 days before your full refund ends. No extra fees.</p>
   <ol class="ssteps">
    <li><span class="n">1</span><div><b>Find your experience</b><p>Choose the experience you love. Your spot is held with no upfront payment.</p></div></li>
    <li><span class="n">2</span><div><b>Make a reservation</b><p>Reserve now with zero stress. Your card is checked but not charged.</p>${s?`<span class="when">Today</span>`:''}</div></li>
-   <li><span class="n">3</span><div><b>Payment is automatic</b><p>We’ll email you a reminder 3 days before the charge. Your card is charged 5 days before your start time.</p>${s?`<span class="when">Charged on ${dLong(chargeOn())}</span>`:''}</div></li>
+   <li><span class="n">3</span><div><b>Payment is automatic</b><p>We’ll email you a reminder 3 days before the charge, so you always have time to cancel for free.</p>${s?`<span class="when">Charged on ${dLong(chargeOn())}</span>`:''}</div></li>
    <li><span class="n">4</span><div><b>Enjoy your experience</b><p>You’re all set. Have a fantastic time!</p>${s?`<span class="when">${dLong(s)}, ${ft(s)}</span>`:''}</div></li>
   </ol>
   <div class="cancel2"><h4>If you need to cancel</h4>
-   <div class="r"><svg class="i"><use href="#i-check"/></svg><span><b style="color:var(--cn-ink)">Before the automatic charge</b> (more than 5 days before): your card is never charged. No fee.</span></div>
-   <div class="r fee"><svg class="i"><use href="#i-card"/></svg><span><b style="color:var(--cn-ink)">After the charge</b>: a 5% payment processing fee is taken off. It covers the gateway’s cost of reversing the payment and isn’t kept by Ceylon Nooks. For this booking: ${fmt(t)} × 5% = ${fmt(f)} fee, so ${fmt(t-f)} comes back to you.</span></div></div>
+   <div class="r"><svg class="i"><use href="#i-check"/></svg><span><b style="color:var(--cn-ink)">Before the automatic charge</b>${s?` (before ${dLong(chargeOn())})`:''}: your card is never charged. No fee.</span></div>
+   <div class="r fee"><svg class="i"><use href="#i-card"/></svg><span><b style="color:var(--cn-ink)">After the charge</b>: you get back what your policy gives, less 5% of the amount refunded for payment processing. For a full refund on this booking: ${fmt(t)} less ${fmt(f)}, so ${fmt(t-f)} comes back to you.</span></div></div>
   <a class="mlink" href="#" data-act="bnplpol">View full Reserve now &amp; pay later policy<svg class="i"><use href="#i-arrow"/></svg></a></div>`);
 }
 /* a host credential: what it means and what we checked. Shared by the listing and the host profile. */
@@ -903,7 +943,7 @@ function closeModal(){$('#modal').classList.remove('open');$('#mscrim').classLis
 /* ================= Confirmation ================= */
 const q=new URLSearchParams(location.hash.slice(1));
 S.date=q.get('d')||'2026-10-28';S.time=q.get('t')||'08:00';S.adults=+(q.get('a')||2);S.children=+(q.get('c')||0);S.disc=+(q.get('disc')||0);
-L.policy=q.get('p')||'site';L.bnpl=q.get('b')!=='0';L.vat=q.get('v')!=='0';
+L.policy=q.get('p')||'moderate';L.bnpl=q.get('b')!=='0';L.vat=q.get('v')!=='0';
 const later=q.get('later')==='1', ref=q.get('ref')||'CNE71623408', name=q.get('fn')||'John', email=q.get('em')||'john.carter@example.com';
 const WAL={gpay:'Google Pay',apay:'Apple Pay',alipay:'Alipay'};
 const card=WAL[q.get('brand')]||`${({VISA:'Visa',MASTERCARD:'Mastercard',AMEX:'Amex'})[q.get('brand')]||'Visa'} ending ${q.get('card')||'4242'}`;
@@ -921,7 +961,7 @@ function render(){
   const ev=[
     {c:'done',ic:'check',w:'Today',b:later?'Reserved, card checked':'Booked and paid',p:later?`Your card was checked but not charged.`:`Your receipt is in your email.`},
     ...(later?[{c:'',ic:'bell',w:dLong(new Date(+chargeOn()-3*DAY)),b:'Payment reminder',p:`We’ll email you 3 days before the charge.`},{c:'',ic:'card',w:dLong(chargeOn()),b:`${fmt(t)} charged automatically`,p:`Cancel before this and your card is never charged.`}]:[]),
-    ...(sc!==3&&L.policy!=='custom'?[{c:'warn',ic:'shield',w:`${dLong(cutoff())}, ${ft(cutoff())}`,b:'Free cancellation ends',p:'After this, cancellations aren’t refunded.'}]:[]),
+    ...(sc!==3?dated().map((x,i,a)=>({c:'warn',ic:i?'clockback':'shield',w:`${dLong(x.until)}, ${ft(x.until)}`,b:x.p===100?'Full refund ends':`${x.p}% refund ends`,p:i===a.length-1?'After this, cancelling doesn’t give anything back.':`After this, cancelling gives ${a[i+1].p}% back, less the processing fee.`})):[]),
     {c:'',ic:'phone',w:dLong(new Date(+s-DAY)),b:'Aravinda gets in touch',p:'Aravinda confirms the pickup on WhatsApp, and the phone number appears on your booking.'},
     {c:'',ic:'pin',w:`${dLong(s)}, ${ft(s)}`,b:'Pickup from your hotel',p:'Wear clothes that cover shoulders and knees for the temple.'}
   ];

@@ -92,3 +92,15 @@
   .mh{padding:10px 16px 12px 20px}
   .mb-body{padding:16px 20px calc(24px + env(safe-area-inset-bottom))}
 }
+
+/* ---- cancellation policy as real dates (Milestone 3, Nov 2026) ---- */
+.ptrack{display:flex;gap:3px;margin:12px 0 4px}
+.ptrack i{display:block;height:8px;border-radius:4px;min-width:6px}
+.ptrack i.f,.ptiers i.f{background:#1F6B44}.ptrack i.h,.ptiers i.h{background:#D9A021}.ptrack i.q{background:#E9C46A}.ptrack i.z,.ptiers i.z{background:var(--cn-input,#D9D2C8)}
+.pdate{font-size:14px;color:var(--cn-body);margin-top:10px}
+.pdate b{color:var(--cn-ink)}
+.ptiers{list-style:none;margin:10px 0 6px;padding:0}
+.ptiers li{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--cn-border,#E7E2DB);font-size:15px;font-weight:600;color:var(--cn-ink)}
+.ptiers li.no{color:var(--cn-muted);font-weight:500}
+.ptiers li i{display:block;width:10px;height:10px;border-radius:3px;flex:none}
+html[data-theme=dark] .ptiers li{border-color:var(--dk-border,#3A3A40)}

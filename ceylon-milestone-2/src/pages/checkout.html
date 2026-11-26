@@ -361,7 +361,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--cn-ink);outline-
 /* The listing passes the booking in the address: #d=2026-10-28&t=08:00&a=2&c=0&p=site&b=1&cur=USD */
 const q=new URLSearchParams(location.hash.slice(1));
 S.date=q.get('d')||'2026-10-28';S.time=q.get('t')||'08:00';S.adults=+(q.get('a')||2);S.children=+(q.get('c')||0);
-L.policy=q.get('p')||'site';L.bnpl=q.get('b')!=='0';L.vat=q.get('v')!=='0';
+L.policy=q.get('p')||'moderate';L.bnpl=q.get('b')!=='0';L.vat=q.get('v')!=='0';
 if(q.get('cur')&&CUR[q.get('cur')])setCur(q.get('cur'));
 let step=1,doneUpTo=0,payLater=false,promo=null,pm='card';
 /* Promo codes for the prototype: WELCOME10 works, EXPIRED20 is expired, BIGDEAL is worth more than our fee */
@@ -386,9 +386,8 @@ function checkKnown(){const em=$('#gem').value.trim().toLowerCase(),k=KNOWN.incl
 
 function gstTxt(){return [`${S.adults} adult${S.adults>1?'s':''}`,S.children&&`${S.children} child${S.children>1?'ren':''}`].filter(Boolean).join(', ')}
 function polLines(later){const sc=scenario(),s=startAt();
-  if(L.policy==='custom')return [['doc','Aravinda’s own cancellation policy: full refund up to 72 hours before.','']];
-  if(sc===3)return [['alert','Non-refundable. Your start time is within 48 hours.','amber']];
-  const a=[['shield',`Free cancellation until ${dLong(cutoff())}, ${ft(cutoff())}, less a 5% processing fee.`,'']];
+  if(sc===3)return [['alert',L.policy==='nonref'?'Non-refundable listing.':'No refund for this date: the refund periods have passed.','amber']];
+  const a=polText().slice(0,-1).map((x,i)=>[i?'clockback':L.policy==='custom'?'doc':'shield',x+(i?'':', less 5% of the refund'),'']);
   if(later)a.unshift(['check',`Cancel before ${dLong(chargeOn())} and you pay nothing at all.`,'']);
   return a}
 function render(){
@@ -410,19 +409,19 @@ function render(){
   // when to pay, with the cancellation terms that follow from each choice
   const pl=(a)=>`<span class="pol">${a.map(([ic,tx,c])=>`<span class="${c}">${svg(ic)}${tx}</span>`).join('')}</span>`;
   $('#opts').innerHTML=`<label class="opt"><input class="rad" type="radio" name="when" value="now" ${payLater?'':'checked'}><b>Pay now</b><span class="amt">${fmt(t)}</span><small>Pay the full amount today and you’re done.</small>${pl(polLines(false))}</label>`+
-    (L.bnpl?(canLater?`<label class="opt"><input class="rad" type="radio" name="when" value="later" ${payLater?'checked':''}><b>Reserve now, pay later</b><span class="amt">${fmt(0)} today</span><small>${fmt(t)} is charged automatically on ${dLong(chargeOn())}, 5 days before your tour. No extra fees.</small>${pl(polLines(true))}<button type="button" class="tl2" data-pop="bnpl">How pay later works</button></label>`
-      :`<div class="opt off"><input class="rad" type="radio" disabled><b>Reserve now, pay later</b><span></span><small>Not available within 5 days of the tour. Choose a date after ${dLong(new Date(+NOW+(BNPL_D+1)*DAY))} to pay later.</small></div>`):'');
+    (L.bnpl?(canLater?`<label class="opt"><input class="rad" type="radio" name="when" value="later" ${payLater?'checked':''}><b>Reserve now, pay later</b><span class="amt">${fmt(0)} today</span><small>${fmt(t)} is charged automatically on ${dLong(chargeOn())}. We email you 3 days before. No extra fees.</small>${pl(polLines(true))}<button type="button" class="tl2" data-pop="bnpl">How pay later works</button></label>`
+      :`<div class="opt off"><input class="rad" type="radio" disabled><b>Reserve now, pay later</b><span></span><small>${L.policy==='nonref'?'Not offered on non-refundable listings.':'Not available this close to the date: pay later needs time to remind you before the charge.'}</small></div>`):'');
   // payment method
   $('#card-hint').textContent=payLater?`Your card is checked today but not charged. We’ll email you 3 days before the charge on ${dLong(chargeOn())}.`:'Your card is charged when you confirm.';
   $$('.walletnote').forEach(n=>n.classList.toggle('on',n.id==='wn-'+pm));$('#cardbox').classList.toggle('on',pm==='card');
-  const pol=L.policy==='custom'?'Aravinda’s cancellation policy':sc===3?'the non-refundable terms for this booking':'the cancellation policy';
+  const pol=L.policy==='custom'?'Aravinda’s cancellation policy':sc===3?'the non-refundable terms for this booking':`the ${POL[L.policy==='site'?'moderate':L.policy].name} cancellation policy`;
   $('#agree').innerHTML=`I agree to ${pol}, the <a href="#" data-act="terms">booking terms</a> and the <a href="#" data-act="privacy">privacy policy</a>${payLater?`, and I authorise Ceylon Nooks to charge ${fmt(t)} on ${dLong(chargeOn())}`:''}.`;
   if(!$('#go').disabled)$('#go').innerHTML=payLater?'Reserve now, pay later':pm==='card'?`Confirm and pay ${fmt(t)}`:`Pay ${fmt(t)} with ${{gpay:'Google Pay',apay:'Apple Pay',alipay:'Alipay'}[pm]}`;
   // summary
   $('#t-date').textContent=dYear(s);$('#t-time').textContent=`${ft(s)} · about 6 to 8 hours`;$('#t-gst').textContent=gstTxt();
   const amber=sc===3;
   $('#canc').className='canc'+(amber?' amber':'');
-  $('#canc').innerHTML=`<span class="ic">${svg(amber?'alert':L.policy==='custom'?'doc':'shield')}</span><span>${amber?'Non-refundable. Your start time is within 48 hours.':L.policy==='custom'?'Aravinda’s own cancellation policy applies.':`Free cancellation until ${dLong(cutoff())}, ${ft(cutoff())}`} <button type="button" data-pop="cancel">Details</button></span>`;
+  $('#canc').innerHTML=`<span class="ic">${svg(amber?'alert':L.policy==='custom'?'doc':'shield')}</span><span>${amber?(L.policy==='nonref'?'Non-refundable listing.':'No refund for this date.'):polText()[0]} <button type="button" data-pop="cancel">Details</button></span>`;
   $('#s-lines').innerHTML=`<div class="ln"><span>${S.adults} adult${S.adults>1?'s':''} × ${fmt(RATE.adult)}</span><span>${fmt(l.a)}</span></div>`+
     (S.children?`<div class="ln"><span>${S.children} child${S.children>1?'ren':''} × ${fmt(RATE.child)}</span><span>${fmt(l.c)}</span></div>`:'')+
     feeRows(l,true,(k,v)=>`<div class="ln">${k}<span>${v}</span></div>`)+

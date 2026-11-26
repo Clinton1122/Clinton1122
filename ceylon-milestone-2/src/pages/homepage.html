@@ -530,8 +530,8 @@ body.hs-vis .hbar .hsearch,body.hs-vis .hbar [data-open-search]{visibility:hidde
       <details open><summary>What does “local hosts only” mean?<svg class="i"><use href="#i-plus"/></svg></summary><p>Every tour and activity on Ceylon Nooks is run by a Sri Lankan person, family or business. Their name is on the listing, and many show their Sri Lanka Tourism registration and police clearance on their profile.</p></details>
       <details><summary>Is the price I see the price I pay?<svg class="i"><use href="#i-plus"/></svg></summary><p>Yes. The price includes our service fee and any VAT. Nothing is added at checkout.</p></details>
       <details><summary>Can I talk to my host before booking?<svg class="i"><use href="#i-plus"/></svg></summary><p>Yes. Message them from the listing about pickups, food, kids or anything else, before you pay.</p></details>
-      <details><summary>What if my plans change?<svg class="i"><use href="#i-plus"/></svg></summary><p>Most experiences have free cancellation up to 48 hours before the start, less a 5% payment processing fee. Some hosts have their own policy, shown on the listing.</p></details>
-      <details><summary>Do I have to pay everything upfront?<svg class="i"><use href="#i-plus"/></svg></summary><p>Not always. Where a host offers Reserve now, pay later, your card is charged automatically 5 days before your experience.</p></details>
+      <details><summary>What if my plans change?<svg class="i"><use href="#i-plus"/></svg></summary><p>Every experience shows its cancellation policy as real dates for your booking, for example “Full refund until Sat 24 Oct, then 50% back until Tue 27 Oct”. Cancelling inside it is instant, less 5% of the refund for payment processing. If the host cancels, you get everything back.</p></details>
+      <details><summary>Do I have to pay everything upfront?<svg class="i"><use href="#i-plus"/></svg></summary><p>Not always. Where a host offers Reserve now, pay later, your card is charged automatically before your full refund ends, and we email you 3 days before so you can still cancel for free.</p></details>
     </div>
   </div>
 </section>
@@ -642,9 +642,9 @@ $('#dgrid').innerHTML=D.map(([n,r,t,im])=>`<a class="dcard" href="category.html"
 
 /* new listings (sample) */
 const L=[
- {img:'pidurangala',kind:'Tour in Sigiriya',t:'Sigiriya sunrise cycling and Pidurangala',h:'Lanka Trails Co.',f:'4 hours, hotel pickup',pol:'Free cancellation up to 48 hours before',p:86,u:'per person'},
+ {img:'pidurangala',kind:'Tour in Sigiriya',t:'Sigiriya sunrise cycling and Pidurangala',h:'Lanka Trails Co.',f:'4 hours, hotel pickup',pol:'Full refund up to 7 days before',p:86,u:'per person'},
  {img:'kandy-temple',kind:'Activity in Kandy',t:'Village cooking class in Kandy',h:'Spice Kitchen Kandy',f:'3 hours, small group',pol:'Reserve now, pay later',pl:1,p:49,u:'per person'},
- {img:'ella-nine-arch',kind:'Activity in Ella',t:'Tea estate walk and Nine Arches Bridge',h:'Nuwan Perera',f:'4 hours, small group',pol:'Free cancellation up to 48 hours before',p:64,u:'per person'},
+ {img:'ella-nine-arch',kind:'Activity in Ella',t:'Tea estate walk and Nine Arches Bridge',h:'Nuwan Perera',f:'4 hours, small group',pol:'Full refund up to 2 days before',p:64,u:'per person'},
  {img:'mirissa-whale',kind:'Activity in Mirissa',t:'Blue whale watching with breakfast',h:'Mirissa Ocean Co.',f:'5 hours, boat trip',pol:'Host’s own cancellation policy',p:95,u:'per person'}];
 $('#cards').innerHTML=L.map(x=>`<a class="card" href="listing.html"><div class="ph"><img src="${pic(x.img+'.jpg')}" alt="" loading="lazy"><span class="tagc">New</span><button class="fav" type="button" aria-label="Save">${svg('heart')}</button></div>
   <p class="kind">${x.kind}</p><h3>${x.t}</h3><p class="host">Hosted by ${x.h}</p><p class="facts">${x.f}</p>
