@@ -58,3 +58,11 @@ Figma page "Mobile (dark)". Exports are in `mobile/`, with `mobile/overview.jpg`
 - Rows of cards become sideways swipe rows (use cases, testimonials, best sellers, reviews, filters).
 - The floating assistant and the product sticky buy bar are fixed elements, shown separately in `00-fixed-elements.jpg` so they do not cover content in the static screens.
 - Checkout and order received use a simplified header with no announcement bar.
+
+## Round 3 (27 Nov 2026)
+
+- Much larger section tags (22px desktop, 15px mobile) and 56px section headings.
+- Product page per model: 600, 1500, 1900, 2600, 3100, 4000, 8000, 8000 Plus (desktop and mobile), each showing only what that model powers.
+- New 12 Projects and gallery page, with "Projects" added to the menu.
+- Sunset hero now includes the heavy-duty PowerBox. AI-looking images replaced with real Lumey photos and Victor's product shots.
+- Developer handoff: `../handoff/BRAND-GUIDE.md` and `../handoff/DEVELOPER-GUIDE.md`.
