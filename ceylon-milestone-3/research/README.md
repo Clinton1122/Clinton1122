@@ -81,7 +81,9 @@ Our job, per the brief: keep this content and behaviour, and redesign how it loo
     - Full refund (traveller cancels): $307.20 − 5% ($15.36) = $291.84 back.
     - Confirmed 26 Nov: $77.19 and $25.72 are right (typos in the message). Card fee: use the real value reported by the bank/Airwallex, not a formula. The $1 minimum on the 5% processing fee stays. If it's our side's or the partner's fault, the traveller gets a full refund with no fee.
 
-Still open: fonts (Q7), hotel scope (Q8).
+13. **Hotel flow (27 Nov):** confirmed as part of the USD 800 scope. The brief for it (what a hotel partner lists, how stays are booked and cancelled) is still needed from Akila.
+
+Still open: fonts (Q7).
 
 ## 6. Our own designs that the new rules change
 
