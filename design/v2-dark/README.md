@@ -1,6 +1,6 @@
 # Lumey website, V2 dark direction (CEO brief, 22 Oct 2026)
 
-Figma: https://www.figma.com/design/lyqlofnAeGi7G4MAPSAJ01/Lumey-energy-redesign, page "new direction".
+Figma: https://www.figma.com/design/lyqlofnAeGi7G4MAPSAJ01/Lumey-energy-redesign, page "Desktop (dark) — final".
 The JPGs in this folder are exports of each Figma frame.
 
 ## Where each CEO point lives
@@ -52,7 +52,7 @@ All 37 open comments were answered in Figma. Main changes:
 
 ## Mobile versions (390 × 844, iPhone 14 size)
 
-Figma page "Mobile (dark)". Exports are in `mobile/`, with `mobile/overview.jpg` showing the top of every screen.
+Figma page "Mobile (dark) — final". Exports are in `mobile/`, with `mobile/overview.jpg` showing the top of every screen.
 
 - Every desktop screen has a mobile version (01 to 11, plus 03b), as well as the open menu (`00-menu-open.jpg`).
 - Rows of cards become sideways swipe rows (use cases, testimonials, best sellers, reviews, filters).

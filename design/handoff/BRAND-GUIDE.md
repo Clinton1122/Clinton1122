@@ -2,7 +2,7 @@
 
 For the developer building the new Lumey website. Everything here matches the Figma file:
 https://www.figma.com/design/lyqlofnAeGi7G4MAPSAJ01/Lumey-energy-redesign
-(Desktop: page "new direction". Mobile: page "Mobile (dark)".)
+(Desktop: page "Desktop (dark) — final". Mobile: page "Mobile (dark) — final".)
 
 Where this guide and Figma disagree, Figma wins. Tell the designer so this guide can be fixed.
 

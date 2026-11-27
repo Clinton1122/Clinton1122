@@ -2,8 +2,8 @@
 
 Read this with `BRAND-GUIDE.md`. Design source: https://www.figma.com/design/lyqlofnAeGi7G4MAPSAJ01/Lumey-energy-redesign
 
-- **Desktop** frames are on the Figma page "new direction". Each one is named `NN Page — Desktop`.
-- **Mobile** frames are on the page "Mobile (dark)". Each one is named `NN Page — Mobile`.
+- **Desktop** frames are on the Figma page "Desktop (dark) — final". Each one is named `NN Page — Desktop`.
+- **Mobile** frames are on the page "Mobile (dark) — final". Each one is named `NN Page — Mobile`.
 - The JPG exports in `design/v2-dark/` (desktop) and `design/v2-dark/mobile/` are for quick reference only. Always measure from Figma.
 
 ---
