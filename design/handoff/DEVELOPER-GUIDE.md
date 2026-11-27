@@ -156,6 +156,6 @@ Questions during the build go to the designer as comments on the relevant Figma 
 
 ## 10. Photo shoot images
 
-The full Lumey studio shoot is in `design/ai-references/6-lumey-photo-shoot/` (22 photos, resized to 1600px). The originals, 2400×3600, are in the PDF the team shared.
+The full Lumey studio shoot is in `design/ai-references/6-lumey-photo-shoot/` (22 photos) and `design/ai-references/7-lumey-raw-photos/` (53 photos), resized to 1400–1600px. The originals, 2400px, are in the PDFs the team shared.
 
 **Naming check:** the product cartons in the shoot are labelled **LE Powerbox 550** (400W / 550Wh), **LE Powerbox 1200** (800W / 1200Wh) and **LE Powerbox 2100** (1500W / 2100Wh). The website uses the 600 / 1500 / 1900 / 2600 / 3100 naming. Confirm the final model names and specs with Lumey before building the product data.
