@@ -137,6 +137,7 @@ p{margin:0}
 .reply .body{font-size:var(--s-sm);line-height:1.5;max-width:40ch;margin-top:.9rem}
 .reply .facts{display:flex;flex-wrap:wrap;gap:.45rem;margin:1rem 0 0;padding:0;list-style:none;font-size:var(--s-xs);font-weight:500}
 .reply .facts li{background:rgba(27,20,19,.1);border-radius:999px;padding:.3rem .7rem}
+.reply .small{margin-top:.75rem;font-size:var(--s-xs);line-height:1.4;color:var(--on-coral-mute);max-width:44ch}
 .reply .tbc{background:#FBF1E4;color:#6E450A}
 .reply .acts{display:flex;flex-wrap:wrap;gap:.75rem 1.25rem;align-items:center}
 .reply .acts .tlink{color:var(--on-coral)}
@@ -232,13 +233,13 @@ p{margin:0}
 .house .wrap.inside{display:block;margin-top:clamp(3.5rem,7vw,6rem)}
 .inside-h{font-size:var(--s-xl);margin-bottom:clamp(1.5rem,3vw,2.5rem);max-width:none}
 .inside-h em{font-style:italic;color:var(--coral)}
-.inside-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(.75rem,1.6vw,1.25rem);list-style:none;margin:0;padding:0}
+.inside-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(.75rem,1.6vw,1.25rem);list-style:none;margin:0;padding:0}
 .inside-row figure{margin:0}
 .inside-pic{aspect-ratio:4/5;overflow:hidden;border-radius:var(--r-lg);background:var(--bg-2)}
 .inside-pic img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
 .inside-row li:hover .inside-pic img{transform:scale(1.03)}
 .inside-row figcaption{margin-top:.7rem;font-size:var(--s-xs);color:var(--mute)}
-@media (max-width:600px){.inside-row{grid-template-columns:1fr}}
+@media (max-width:900px){.inside-row{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (prefers-reduced-motion: reduce){.inside-pic img{transition:none}}
 
 /* Team: profile cards in a scroll-snap row (George: cards with Learn more / Book now) */
@@ -652,9 +653,14 @@ p{margin:0}
 .pk-card .pk-yes{flex:none;margin-top:.1rem}
 @media (max-width:760px){.pk-wrap{display:none}.pk-cards{display:grid}}
 
+/* Tagline band under the facts strip */
+.tagline .wrap{padding-block:clamp(2.5rem,5vw,4rem);text-align:center}
+.tagline p{font-family:var(--display);font-weight:300;font-size:var(--s-xl);line-height:1.1;letter-spacing:-.01em}
+.tagline em{font-style:italic;color:var(--coral)}
+
 /* light theme: pink display text deep enough to read on white and soft pink */
 :root{--coral-display:#D6505C}
-.ap-hero h1 em,.hv h2 em,.ab-head h1 em,.story-row > b,.book-copy h2 em,.inside-h em,.tgroup.calm-group h2,.t-row.calm-row h3,.t-row:hover h3,.steps li::before,.names li::after,.tx-group,.ask-row:has(input:checked) b{color:var(--coral-display)}
+.ap-hero h1 em,.tagline em,.hv h2 em,.ab-head h1 em,.story-row > b,.book-copy h2 em,.inside-h em,.tgroup.calm-group h2,.t-row.calm-row h3,.t-row:hover h3,.steps li::before,.names li::after,.tx-group,.ask-row:has(input:checked) b{color:var(--coral-display)}
 .more-head h2 em{color:var(--coral-display)!important}
 .ask-row input:checked{background:var(--coral-display);border-color:var(--coral-display)}
 </style>
@@ -714,7 +720,7 @@ p{margin:0}
       <div class="hero-top">
         <div class="hero-meta">
           <span>11 Drummond Street South, Ballarat</span>
-          <span class="open" id="openNow"><i aria-hidden="true"></i><span>Mon–Fri from 8:45am</span></span>
+          <span class="open" id="openNow"><i aria-hidden="true"></i><span>Mon–Fri from 8:30am</span></span>
         </div>
         <h1 id="q"><span class="ln">What's bringing</span> <span class="ln">you in <em>today?</em></span></h1>
       </div>
@@ -735,10 +741,14 @@ p{margin:0}
 
   <section class="facts-strip" aria-label="Ashmore at a glance">
     <div class="wrap">
-      <p class="fact"><b>35</b><span>years caring for<br>Ballarat's teeth</span></p>
-      <p class="fact"><b>9</b><span>dentists and oral<br>health therapists</span></p>
-      <p class="fact"><b>8pm</b><span>late appointments<br>every Thursday</span></p>
+      <p class="fact"><b>35</b><span>Celebrating thirty-five years of<br>caring for Ballarat's smiles</span></p>
+      <p class="fact"><b>7</b><span>clinicians, with over 100 years<br>of combined experience</span></p>
+      <p class="fact"><b>Same day</b><span>emergency<br>appointments</span></p>
     </div>
+  </section>
+
+  <section class="tagline" aria-label="Ashmore Dentistry">
+    <div class="wrap"><p>Ashmore Dentistry · <em>Ballarat's Home of Smiles™</em></p></div>
   </section>
 
   <section class="section" id="home-treatments" aria-labelledby="treat-h">
@@ -748,7 +758,7 @@ p{margin:0}
           <p class="label kicker">Treatments</p>
           <h2 class="sec-title" id="treat-h">Sorted by what you need.</h2>
         </div>
-        <p>Thirteen treatments, grouped by the reason you'd come in. Not sure which? Call and describe it, and we'll work it out together.</p>
+        <p>Our treatments are grouped by the reason you'd come in. Not sure which? Call and describe it, and we'll work it out together.</p>
       </div>
       <div class="t-rows">
         <div class="t-row"><h3>Keep teeth healthy</h3><ul>
@@ -759,12 +769,14 @@ p{margin:0}
           <li><a href="#emergency">Emergency treatment <span>→</span></a></li>
           <li><a href="#treatments">Root canals <span>→</span></a></li>
           <li><a href="#treatments">Wisdom teeth <span>→</span></a></li>
-          <li><a href="#implants">Implants <span>→</span></a></li></ul></div>
+          <li><a href="#implants">Implants <span>→</span></a></li>
+          <li><a href="#treatments">Dentures <span>→</span></a></li></ul></div>
         <div class="t-row"><h3>Change your smile</h3><ul>
-          <li><a href="#invisalign">Invisalign <span>→</span></a></li>
+          <li><a href="#invisalign">Invisalign (clear aligners) <span>→</span></a></li>
           <li><a href="#treatments">Braces <span>→</span></a></li>
           <li><a href="#treatments">Crowns + veneers <span>→</span></a></li>
-          <li><a href="#treatments">Bleaching <span>→</span></a></li></ul></div>
+          <li><a href="#treatments">Bleaching <span>→</span></a></li>
+          <li><a href="#treatments">Bonding <span>→</span></a></li></ul></div>
         <div class="t-row calm-row"><h3>Feel calmer</h3><ul>
           <li><a href="#anxious-patients">Anxious patients <span>→</span></a></li>
           <li><a href="#anxious-patients">Sleep dentistry <span>→</span></a></li></ul></div>
@@ -777,9 +789,9 @@ p{margin:0}
       <div class="team-head">
         <div>
           <p class="label kicker">Our team</p>
-          <h2 class="sec-title" id="team-h">Nine clinicians, one house.</h2>
+          <h2 class="sec-title" id="team-h">Seven clinicians, one house.</h2>
         </div>
-        <p>Six dentists and three oral health therapists. Choose who you'd like to see, or book with whoever is free first.</p>
+        <p>Our five dentists and two oral health therapists have over 100 years of combined experience, supported by more than twenty skilled staff. Your smile is in safe hands. Choose who you'd like to see, or book with whoever is next available.</p>
       </div>
       <div class="team-tools">
         <div class="filters" role="group" aria-label="Show">
@@ -791,9 +803,9 @@ p{margin:0}
       </div>
       <ul class="cards" id="cards" aria-label="Clinicians">
           <li class="card" data-kind="d">
-            <div class="portrait"><img src="img/team/george.jpg" alt="Dr George Abdemalek" loading="lazy" width="800" height="1000"></div>
-            <div class="card-body"><h3>Dr George Abdemalek</h3><p>Dentist</p></div>
-            <div class="card-acts"><a class="tlink" href="#team-george">Learn more</a><a class="btn btn-light" href="#book" aria-label="Book now with Dr George Abdemalek">Book now</a></div>
+            <div class="portrait"><img src="img/team/george.jpg" alt="Dr George Abdelmalek" loading="lazy" width="800" height="1000"></div>
+            <div class="card-body"><h3>Dr George Abdelmalek</h3><p>Dentist</p></div>
+            <div class="card-acts"><a class="tlink" href="#team-george">Learn more</a><a class="btn btn-light" href="#book" aria-label="Book now with Dr George Abdelmalek">Book now</a></div>
           </li>
           <li class="card" data-kind="d">
             <div class="portrait"><img src="img/team/anna.jpg" alt="Dr Anna Taylor" loading="lazy" width="800" height="1000"></div>
@@ -814,16 +826,6 @@ p{margin:0}
             <div class="portrait"><img src="img/team/sam.jpg" alt="Dr Sam Saeed" loading="lazy" width="800" height="1000"></div>
             <div class="card-body"><h3>Dr Sam Saeed</h3><p>Dentist</p></div>
             <div class="card-acts"><a class="tlink" href="#team-sam">Learn more</a><a class="btn btn-light" href="#book" aria-label="Book now with Dr Sam Saeed">Book now</a></div>
-          </li>
-          <li class="card" data-kind="d">
-            <div class="portrait"><img src="img/team/david.jpg" alt="Dr David Attia" loading="lazy" width="800" height="1000"></div>
-            <div class="card-body"><h3>Dr David Attia</h3><p>Dental surgeon</p></div>
-            <div class="card-acts"><a class="tlink" href="#team-david">Learn more</a><a class="btn btn-light" href="#book" aria-label="Book now with Dr David Attia">Book now</a></div>
-          </li>
-          <li class="card" data-kind="t">
-            <div class="portrait"><img src="img/team/lauren.jpg" alt="Lauren Rodda" loading="lazy" width="800" height="1000"></div>
-            <div class="card-body"><h3>Lauren Rodda</h3><p>Oral health therapist</p></div>
-            <div class="card-acts"><a class="tlink" href="#team-lauren">Learn more</a><a class="btn btn-light" href="#book" aria-label="Book now with Lauren Rodda">Book now</a></div>
           </li>
           <li class="card" data-kind="t">
             <div class="portrait"><img src="img/team/sophie.jpg" alt="Sophie Norden" loading="lazy" width="800" height="1000"></div>
@@ -851,7 +853,7 @@ p{margin:0}
         <ul class="mini" id="mini">
           <li><button type="button" data-pick="a-explain"><i aria-hidden="true"></i>Explain each step first<em class="go" aria-hidden="true">→</em></button></li>
           <li><button type="button" data-pick="a-talk"><i aria-hidden="true"></i>Just talk on the first visit<em class="go" aria-hidden="true">→</em></button></li>
-          <li><button type="button" data-pick="a-years"><i aria-hidden="true"></i>It's been a while<em class="go" aria-hidden="true">→</em></button></li>
+          <li><button type="button" data-pick="a-sleep"><i aria-hidden="true"></i>Let's explore sleep dentistry<em class="go" aria-hidden="true">→</em></button></li>
         </ul>
       </div>
     </div>
@@ -862,21 +864,22 @@ p{margin:0}
       <div class="copy">
         <p class="label">Ashmore House</p>
         <h2 id="house-h">Built in the gold rush. Still looking after Ballarat.</h2>
-        <p>Ashmore House went up at the height of Ballarat's gold rush in the late 1800s: brickwork, decorative cornices and cast-iron lace on the verandah. The practice inside has been part of town for 35 years, and became Ashmore Dentistry in 2019.</p>
+        <p>Ashmore House went up at the height of Ballarat's gold rush in the late 1800s: brickwork, decorative cornices and cast-iron lace on the verandah. The practice inside has been caring for Ballarat for 35 years.</p>
         <p class="addr">11 Drummond Street South, Ballarat VIC 3350</p>
         <p><a class="tlink" href="#about">The story of Ashmore House</a></p>
       </div>
       <figure style="margin:0">
-        <div class="window"><img src="img/front-gate.jpg" loading="lazy" alt="The front gate at number 11, with the stone path leading up to Ashmore House's front door."></div>
-        <figcaption class="window-cap">The front gate, 11 Drummond Street South.</figcaption>
+        <div class="window"><img src="img/front-gate.jpg" style="transform:scale(1.18);transform-origin:50% 38%" loading="lazy" alt="The front gate at number 11, with the stone path leading up to Ashmore House's front door."></div>
+        <figcaption class="window-cap">Welcome to our house.</figcaption>
       </figure>
     </div>
     <div class="wrap inside">
       <h3 class="inside-h">Heritage outside. <em>Modern dentistry inside.</em></h3>
       <ul class="inside-row">
-        <li><figure><div class="inside-pic"><img src="img/inside-hall.jpg" loading="lazy" alt="The front hall of Ashmore House: a white arch, pendant lights, stained glass around the front door and a sign pointing to reception."></div><figcaption>The front hall, with reception just ahead.</figcaption></figure></li>
-        <li><figure><div class="inside-pic"><img src="img/inside-sign.jpg" loading="lazy" alt="The pink Ashmore Dentistry sign on a sunlit wall beside a white door with stained-glass panels."></div><figcaption>Stained glass on the way in.</figcaption></figure></li>
-        <li><figure><div class="inside-pic"><img src="img/inside-xray.jpg" loading="lazy" alt="The practice's Dentsply Sirona Axeos X-ray unit, its screen set to a panoramic scan."></div><figcaption>Panoramic and 3D X-rays, taken on site.</figcaption></figure></li>
+        <li><figure><div class="inside-pic"><img src="img/inside-hall.jpg" loading="lazy" alt="The front hall of Ashmore House: a white arch, pendant lights, stained glass around the front door and a sign pointing to reception."></div><figcaption>Heritage features.</figcaption></figure></li>
+        <li><figure><div class="inside-pic"><img src="img/inside-sign.jpg" loading="lazy" alt="The pink Ashmore Dentistry sign on a sunlit wall beside a white door with stained-glass panels."></div><figcaption>Small details matter.</figcaption></figure></li>
+        <li><figure><div class="inside-pic"><img src="img/inside-xray.jpg" loading="lazy" alt="The practice's Dentsply Sirona Axeos X-ray unit, its screen set to a panoramic scan."></div><figcaption>State-of-the-art equipment.</figcaption></figure></li>
+        <li><figure><div class="inside-pic"><img src="img/reception-welcome.jpg" style="object-position:30% 50%" loading="lazy" alt="Robyn at the Ashmore reception desk, smiling and holding out a small gift bag."></div><figcaption>Robyn, helping Ballarat smile for over 30 years.</figcaption></figure></li>
       </ul>
     </div>
   </section>
@@ -889,13 +892,13 @@ p{margin:0}
           <h2 class="sec-title" id="hv-h">Book online, <em>any time.</em></h2>
         </div>
         <div class="hv-side">
-        <p class="status-line" id="hvOpen"><i aria-hidden="true"></i><span>Mon–Fri from 8:45am</span></p>
+        <p class="status-line" id="hvOpen"><i aria-hidden="true"></i><span>Mon–Fri from 8:30am</span></p>
         <p class="big">11 Drummond Street South, Ballarat</p>
         <a class="num" href="tel:+61353311959">(03) 5331 1959</a>
         <div class="acts"><a class="btn btn-light" href="#book">Book online</a><a class="tlink" href="#visit">Hours, parking and paying</a></div>
         </div>
       </div>
-      <figure class="hv-photo"><div class="pic"><img src="img/reception-phone.jpg" loading="lazy" alt="A smiling receptionist in Ashmore scrubs on the phone at the front desk, the pink Ashmore Dentistry sign on the wall behind her."></div><figcaption>Rather talk to someone? Reception answers from 8:45am, Monday to Friday.</figcaption></figure>
+      <figure class="hv-photo"><div class="pic"><img src="img/reception-phone.jpg" loading="lazy" alt="A smiling receptionist in Ashmore scrubs on the phone at the front desk, the pink Ashmore Dentistry sign on the wall behind her."></div><figcaption>Rather talk to someone? Reception answers from 8:30am, Monday to Friday.</figcaption></figure>
     </div>
   </section>
 </main>
@@ -988,7 +991,7 @@ p{margin:0}
       </div>
       <div class="side">
         <p class="num">(03) 5331 1959</p>
-        <p>Monday to Friday from 8:45am. Thursdays until 8pm.</p>
+        <p>Monday to Friday from 8:30am. Thursdays until 7:45pm.</p>
       </div>
     </div>
   </section>
@@ -1019,7 +1022,7 @@ p{margin:0}
       <ul class="vids">
         <li class="vid"><a href="#resources"><span class="vid-pic"><img src="img/inside-hall.jpg" loading="lazy" alt=""><span class="play" aria-hidden="true"></span></span><span class="vid-t">Welcome to Ashmore House</span><span class="vid-m">A walk from the front gate to the chair</span></a></li>
         <li class="vid"><a href="#resources"><span class="vid-pic"><img src="img/verandah-corner.jpg" loading="lazy" alt=""><span class="play" aria-hidden="true"></span></span><span class="vid-t">What happens at a check-up</span><span class="vid-m">Step by step, with one of our oral health therapists</span></a></li>
-        <li class="vid"><a href="#resources"><span class="vid-pic"><img src="img/team/george.jpg" loading="lazy" alt="" style="object-position:50% 25%"><span class="play" aria-hidden="true"></span></span><span class="vid-t">Meet Dr George Abdemalek</span><span class="vid-m">Why he looks after Ballarat's teeth</span></a></li>
+        <li class="vid"><a href="#resources"><span class="vid-pic"><img src="img/team/george.jpg" loading="lazy" alt="" style="object-position:50% 25%"><span class="play" aria-hidden="true"></span></span><span class="vid-t">Meet Dr George Abdelmalek</span><span class="vid-m">Why he looks after Ballarat's teeth</span></a></li>
       </ul>
     </div>
   </section>
@@ -1048,7 +1051,7 @@ p{margin:0}
         <li class="guide" data-topic="after"><p class="g-tag">Aftercare</p><h3>After wisdom teeth surgery</h3><p>Swelling, rest and the signs that mean you should call us.</p><a class="tlink" href="#resources">Read guide</a></li>
         <li class="guide" data-topic="after"><p class="g-tag">Aftercare</p><h3>Living with Invisalign</h3><p>Wearing, cleaning and swapping your aligners so treatment stays on track.</p><a class="tlink" href="#resources">Read guide</a></li>
         <li class="guide" data-topic="urgent"><p class="g-tag">Emergencies</p><h3>A knocked-out tooth</h3><p>Hold it by the crown, keep it moist in milk and call us straight away.</p><a class="tlink" href="#resources">Read guide</a></li>
-        <li class="guide" data-topic="urgent"><p class="g-tag">Emergencies</p><h3>Toothache before we open</h3><p>What helps until 8:45am, and when to go to hospital instead.</p><a class="tlink" href="#resources">Read guide</a></li>
+        <li class="guide" data-topic="urgent"><p class="g-tag">Emergencies</p><h3>Toothache before we open</h3><p>What helps until 8:30am, and when to go to hospital instead.</p><a class="tlink" href="#resources">Read guide</a></li>
         <li class="guide" data-topic="kids"><p class="g-tag">Kids</p><h3>Your child's first visit</h3><p>When to start, and how to make the dentist an ordinary part of growing up.</p><a class="tlink" href="#resources">Read guide</a></li>
         <li class="guide" data-topic="kids pay"><p class="g-tag">Kids · Paying</p><h3>The Child Dental Benefits Schedule</h3><p>Who's eligible and how to check before you book.</p><a class="tlink" href="#resources">Read guide</a></li>
         <li class="guide" data-topic="pay"><p class="g-tag">Paying</p><h3>Health funds and claiming</h3><p>Bring your card and we'll help you claim on the day.</p><a class="tlink" href="#resources">Read guide</a></li>
@@ -1082,7 +1085,7 @@ p{margin:0}
       </div>
       <div class="side">
         <p class="num">(03) 5331 1959</p>
-        <p>Monday to Friday from 8:45am. Thursdays until 8pm. Or email hello@ashmoredentistry.com.au.</p>
+        <p>Monday to Friday from 8:30am. Thursdays until 7:45pm. Or email hello@ashmoredentistry.com.au.</p>
       </div>
     </div>
   </section>
@@ -1095,7 +1098,7 @@ p{margin:0}
       <div class="tx-copy">
         <p class="crumb"><a href="#home">Home</a> / Treatments</p>
         <h1 id="ov-h">Treatments. <em style="font-style:italic">Sorted by what you need.</em></h1>
-        <p class="tx-lede">Thirteen treatments, grouped by the reason you'd come in. Every one starts with a conversation, and you'll know the cost before anything begins.</p>
+        <p class="tx-lede">Our treatments, grouped by the reason you'd come in. Every one starts with a conversation, and you'll know the cost before anything begins.</p>
       </div>
       <aside class="ov-side" aria-labelledby="ov-side-h">
         <h2 id="ov-side-h">Not sure which one you need?</h2>
@@ -1121,15 +1124,17 @@ p{margin:0}
           <li><a class="tcard" href="#treatments"><b>Root canals <span>→</span></b><p>Treat infection inside a tooth and save it.</p></a></li>
           <li><a class="tcard" href="#treatments"><b>Wisdom teeth <span>→</span></b><p>Assessment and removal.</p></a></li>
           <li><a class="tcard" href="#implants"><b>Implants <span>→</span></b><p>Replace a missing tooth with one fixed in place.</p></a></li>
+          <li><a class="tcard" href="#treatments"><b>Dentures <span>→</span></b><p>Removable replacement teeth, full or partial.</p></a></li>
         </ul>
       </div>
       <div class="tgroup">
         <div><h2>Change your smile</h2><p>Straighten, repair or brighten your teeth.</p></div>
         <ul class="tcards">
-          <li><a class="tcard" href="#invisalign"><b>Invisalign <span>→</span></b><p>Clear, removable aligners.</p></a></li>
+          <li><a class="tcard" href="#invisalign"><b>Invisalign (clear aligners) <span>→</span></b><p>Clear, removable aligners.</p></a></li>
           <li><a class="tcard" href="#treatments"><b>Braces <span>→</span></b><p>Fixed braces for bigger moves.</p></a></li>
           <li><a class="tcard" href="#treatments"><b>Crowns + veneers <span>→</span></b><p>Repair, reshape or cover teeth.</p></a></li>
           <li><a class="tcard" href="#treatments"><b>Bleaching <span>→</span></b><p>Whiten your natural teeth.</p></a></li>
+          <li><a class="tcard" href="#treatments"><b>Bonding <span>→</span></b><p>Repair chips and reshape teeth with tooth-coloured resin.</p></a></li>
         </ul>
       </div>
       <div class="tgroup calm-group">
@@ -1153,8 +1158,8 @@ p{margin:0}
     <div class="wrap">
       <div class="ap-copy">
         <p class="crumb"><a href="#home">Home</a> / Our team</p>
-        <h1 id="tm-h">Our team. <em>Nine clinicians, one house.</em></h1>
-        <p class="lede">Six dentists and three oral health therapists. Choose who you'd like to see, or book with whoever is free first.</p>
+        <h1 id="tm-h">Our team. <em>Seven clinicians, one house.</em></h1>
+        <p class="lede">Five dentists and two oral health therapists, with over 100 years of combined experience and more than twenty skilled support staff. Choose who you'd like to see, or book with whoever is next available.</p>
         <ul class="jump" id="jump" aria-label="Jump to a clinician"></ul>
       </div>
       <figure class="ap-photo"><img src="img/inside-hall.jpg" loading="lazy" alt="The front hall of Ashmore House: a white arch, pendant lights, stained glass around the front door and a sign pointing to reception."></figure>
@@ -1183,7 +1188,7 @@ p{margin:0}
         <p class="crumb"><a href="#home">Home</a> / Visit us</p>
         <h1 id="vi-h">Visit us. <em>We're at number 11.</em></h1>
         <p class="lede">Book online or call, then find your way to Ashmore House on Drummond Street South. Everything you need before your visit is on this page.</p>
-        <p class="status-line" id="vOpen"><i aria-hidden="true"></i><span>Mon–Fri from 8:45am</span></p>
+        <p class="status-line" id="vOpen"><i aria-hidden="true"></i><span>Mon–Fri from 8:30am</span></p>
         <ul class="jump" aria-label="On this page">
           <li><a href="#book">Book online</a></li><li><a href="#v-hours">Hours + finding us</a></li><li><a href="#v-first">Your first visit</a></li><li><a href="#paying">Paying</a></li>
         </ul>
@@ -1217,11 +1222,11 @@ p{margin:0}
           <table class="hours" id="hours">
             <caption class="sr">Opening hours</caption>
             <tbody>
-              <tr data-d="1"><th scope="row">Monday</th><td>8:45am – 6:00pm</td></tr>
-              <tr data-d="2"><th scope="row">Tuesday</th><td>8:45am – 6:00pm</td></tr>
-              <tr data-d="3"><th scope="row">Wednesday</th><td>8:45am – 6:00pm</td></tr>
-              <tr data-d="4" class="late"><th scope="row">Thursday</th><td>8:45am – 8:00pm</td></tr>
-              <tr data-d="5"><th scope="row">Friday</th><td>8:45am – 6:00pm</td></tr>
+              <tr data-d="1"><th scope="row">Monday</th><td>8:30am – 6:00pm</td></tr>
+              <tr data-d="2"><th scope="row">Tuesday</th><td>8:30am – 6:00pm</td></tr>
+              <tr data-d="3"><th scope="row">Wednesday</th><td>8:30am – 6:00pm</td></tr>
+              <tr data-d="4" class="late"><th scope="row">Thursday</th><td>8:30am – 7:45pm</td></tr>
+              <tr data-d="5"><th scope="row">Friday</th><td>8:30am – 6:00pm</td></tr>
             </tbody>
           </table>
           <p style="margin-top:1rem">Closed weekends and public holidays. In pain? See <a class="tlink" href="#emergency">emergency treatment</a>.</p>
@@ -1300,8 +1305,7 @@ p{margin:0}
       <div class="story">
         <div class="story-row"><b>Late 1800s</b><div><h3>Built in the gold rush</h3><p>Ashmore House went up at the height of Ballarat's gold rush: brickwork, decorative cornices and cast-iron lace on the verandah.</p></div></div>
         <div class="story-row"><b>35 years</b><div><h3>A practice for the town</h3><p>The dental practice inside has looked after Ballarat families for 35 years, many of them across several generations.</p></div></div>
-        <div class="story-row"><b>2019</b><div><h3>Ashmore Dentistry</h3><p>The practice took the name of the house it lives in, and a new look to go with it.</p></div></div>
-        <div class="story-row"><b>Today</b><div><h3>Nine clinicians, one house</h3><p>Six dentists and three oral health therapists, with modern equipment behind the original doors. <a class="tlink" href="#team">Meet the team</a></p></div></div>
+        <div class="story-row"><b>Today</b><div><h3>Seven clinicians, one house</h3><p>Five dentists and two oral health therapists, with modern equipment behind the original doors. <a class="tlink" href="#team">Meet the team</a></p></div></div>
       </div>
     </div>
   </section>
@@ -1390,7 +1394,7 @@ p{margin:0}
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ---------- Live opening status, in Ballarat time ---------- */
-  var HOURS = {1:[525,1080],2:[525,1080],3:[525,1080],4:[525,1200],5:[525,1080]}; // minutes from midnight
+  var HOURS = {1:[510,1080],2:[510,1080],3:[510,1080],4:[510,1185],5:[510,1080]}; // minutes from midnight
   var DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   function fmt(m){ var h = Math.floor(m/60), mm = m%60, ap = h >= 12 ? 'pm' : 'am'; h = h%12 || 12; return h + (mm ? ':' + String(mm).padStart(2,'0') : '') + ap; }
   try {
@@ -1413,29 +1417,34 @@ p{margin:0}
   /* ---------- Hero conversation ---------- */
   var A = [
     { label:"I'm nervous about the dentist", tag:"Nervous patients", title:"You're far from the only one.",
-      body:"Tell us when you call. The team will know before you arrive, and you can plan the visit around what helps.",
+      body:"Tell us when you call. The team will know before you arrive, and we can plan the visit around what helps.",
       facts:["Ask to just talk on the first visit","Sleep dentistry available"],
       cta:{label:"Plan a calmer visit", href:"#anxious-patients"}, link:null },
-    { label:"Something hurts", tag:"Emergency treatment", title:"Call us first thing.",
-      body:"Emergency treatment is part of what we do. Ring as soon as we open and tell us what's going on.",
-      facts:["From 8:45am, Mon–Fri","Until 8pm Thursdays","After hours, leave a message"],
+    { label:"Something hurts", tag:"Emergency treatment", title:"Same day appointments guaranteed*",
+      body:"Whether you've badly chipped your tooth or you have a toothache, we promise to be here when you need us most.",
+      small:"*When you call before 12 noon. If you call later in the day, we'll do our best to fit you in.",
+      facts:["Open 8:30am, Mon–Fri","Until 7:45pm Thursdays","After hours, leave a message"],
       cta:{label:"Call (03) 5331 1959", href:"tel:+61353311959"}, link:{label:"What to do", href:"#emergency"} },
     { label:"It's time for a check-up", tag:"Hygiene + prevention", title:"Easy. Pick a time that suits.",
       body:"A check-up and clean with one of our dentists or oral health therapists.",
-      facts:["Late appointments Thursdays","Zip Pay + DentiCare"],
-      cta:{label:"Book online", href:"#book"}, link:{label:"Opening hours", href:"#visit"} },
-    { label:"I want to change my smile", tag:"Invisalign · Braces · Veneers · Bleaching", title:"Start with a conversation.",
+      facts:["Late appointments Thursdays","GBT (Airflow) protocol"],
+      cta:{label:"Book online", href:"#book"}, link:[{label:"Opening hours", href:"#visit"},{label:"About GBT (Airflow)", href:"#treatments"}] },
+    { label:"I want to change my smile", tag:"Invisalign · Braces · Veneers · Bleaching · Bonding", title:"Start with a conversation.",
       body:"Talk through what you'd like to change and what's possible, before you commit to anything.",
-      facts:["Invisalign + braces","Crowns, veneers, bleaching","Written quote before you start"],
-      cta:{label:"Book online", href:"#book"}, link:{label:"All treatments", href:"#treatments"} },
-    { label:"Replace missing teeth", tag:"Implants · Crowns", title:"Let's talk about the gap.",
+      facts:["Invisalign + braces","Crowns, veneers, bleaching, bonding","Fully digital planning","Written quote before you start"],
+      cta:{label:"Book a smile consultation online", href:"#book"}, link:{label:"All treatments", href:"#treatments"} },
+    { label:"Replace missing teeth", tag:"Implants · Bridges · Dentures", title:"Let's talk about the gap.",
       body:"One tooth or several, your dentist will look at what's there and walk you through the ways to replace it.",
-      facts:["Implants + crowns","Written quote before you start","Zip Pay + DentiCare"],
-      cta:{label:"Book online", href:"#book"}, link:{label:"About implants", href:"#implants"} },
+      facts:["Implants · Bridges · Dentures","Written quote before you start","Zip Pay + DentiCare"],
+      cta:{label:"Book a consultation", href:"#book"}, link:{label:"About implants", href:"#implants"} },
     { label:"It's for my kids", tag:"Kids dental", title:"A family practice for life.",
-      body:"Bring the kids in early, so the dentist becomes a familiar, ordinary part of growing up.",
-      facts:["Thursday evenings work around school","Ask about the Child Dental Benefits Schedule"],
-      cta:{label:"Book online", href:"#book"}, link:{label:"Meet the team", href:"#team"} }
+      body:"Bring the kids in early so the dentist becomes a familiar, ordinary part of growing up.",
+      facts:["After-school hours available","Ask about the Child Dental Benefits Schedule: up to $1,158 every two years"],
+      cta:{label:"Book online", href:"#book"}, link:[{label:"Meet the team", href:"#team"},{label:"Child Dental Benefits Schedule", href:"https://www.servicesaustralia.gov.au/child-dental-benefits-schedule", ext:true}] },
+    { label:"New patient", tag:"New patients", title:"Welcome to Ashmore.",
+      body:"Your first visit is a full check-up and clean, and a chance to meet your dentist and ask anything you like.",
+      facts:["Book online, any time","Forms done at home","Health fund claims on the day"],
+      cta:{label:"Book online", href:"#book"}, link:{label:"Your first visit", href:"#v-first"} }
   ];
   var list = document.getElementById('answers'), top = document.getElementById('replyTop'),
       acts = document.getElementById('replyActs'), reply = document.getElementById('reply');
@@ -1453,10 +1462,10 @@ p{margin:0}
   function render(i){
     var a = A[i];
     top.innerHTML = '<p class="tag">' + a.tag + '</p><h2>' + a.title + '</h2><p class="body">' + a.body + '</p>' +
-      '<ul class="facts">' + a.facts.map(function(f){ return '<li>' + f + '</li>'; }).join('') + '</ul>';
+      '<ul class="facts">' + a.facts.map(function(f){ return '<li>' + f + '</li>'; }).join('') + '</ul>' + (a.small ? '<p class="small">' + a.small + '</p>' : '');
     var tel = a.cta.href.indexOf('tel:') === 0;
     acts.innerHTML = '<a class="btn btn-dark" href="' + a.cta.href + '">' + a.cta.label + '</a>' +
-      (a.link ? '<a class="tlink" href="' + a.link.href + '">' + a.link.label + '</a>' : '') +
+      [].concat(a.link || []).map(function(l){ return '<a class="tlink" href="' + l.href + '"' + (l.ext ? ' target="_blank" rel="noopener"' : '') + '>' + l.label + '</a>'; }).join('') +
       (tel ? '' : '<span class="phone">or call (03) 5331 1959</span>');
   }
   function restartBar(){ var bar = btns[idx].querySelector('.bar'); bar.style.animation = 'none'; void bar.offsetWidth; bar.style.animation = ''; }
@@ -1519,7 +1528,7 @@ p{margin:0}
 
   /* ---------- Clinicians (bios from Ashmore's current site, lightly edited) ---------- */
   var TEAM = [
-    { slug:'george', img:'img/team/george.jpg', kind:'d', name:'Dr George Abdemalek', first:'Dr George', role:'Dentist',
+    { slug:'george', img:'img/team/george.jpg', kind:'d', name:'Dr George Abdelmalek', first:'Dr George', role:'Dentist',
       bio:['George is a nice guy who happens to know a lot about teeth, and loves helping patients reach their dental goals.','He has a very calming nature, and takes the time to provide high quality treatment in a pain and stress free environment.'],
       tags:['Calm, unhurried care','General dentistry'] },
     { slug:'anna', img:'img/team/anna.jpg', kind:'d', name:'Dr Anna Taylor', first:'Dr Anna', role:'Dentist',
@@ -1534,12 +1543,6 @@ p{margin:0}
     { slug:'sam', img:'img/team/sam.jpg', kind:'d', name:'Dr Sam Saeed', first:'Dr Sam', role:'Dentist',
       bio:['Sam uses his communication skills to make every visit a good experience, with a warm and kind approach to all of his patients.','He has a special interest in high quality family dentistry, and looks forward to building lifelong relationships with Ballarat families.'],
       tags:['Family dentistry','General dentistry'] },
-    { slug:'david', img:'img/team/david.jpg', kind:'d', name:'Dr David Attia', first:'Dr David', role:'Dental surgeon',
-      bio:['David has a key interest in oral surgery, wisdom teeth removal, dental implants and gum surgery.','He enjoys working across disciplines with the rest of the team, to give patients complete, predictable and long-lasting treatment.'],
-      tags:['Oral surgery','Wisdom teeth',['Implants','#implants'],'Gum surgery'] },
-    { slug:'lauren', img:'img/team/lauren.jpg', kind:'t', name:'Lauren Rodda', first:'Lauren', role:'Oral health therapist',
-      bio:['Lauren started in dentistry as a dental assistant in 2005, then completed a Diploma in Dental Technology in 2010.','She went on to complete a Bachelor of Oral Health at Charles Sturt University in Wagga Wagga in 2014.'],
-      tags:['In dentistry since 2005','Cleans + prevention'] },
     { slug:'sophie', img:'img/team/sophie.jpg', kind:'t', name:'Sophie Norden', first:'Sophie', role:'Oral health therapist',
       bio:['Sophie has been an oral health therapist since graduating from the University of Melbourne in 2008.','She has a particular interest in treating gum disease, preventive care, orthodontics and teeth whitening, and in making treatment as comfortable as possible.'],
       tags:['Gum disease','Prevention','Orthodontics','Teeth whitening'] },
@@ -1572,7 +1575,6 @@ p{margin:0}
       fit:['A tooth is missing, or needs to come out','You would rather not wear a removable denture','A gap is making it harder to chew or smile'],
       fitNote:'Implants need healthy gums and enough bone to hold them. Your dentist checks this first, and talks you through the other ways to fill a gap if an implant isn\'t the best fit.',
       media:[['img/inside-xray.jpg','The practice\'s Dentsply Sirona Axeos X-ray unit, its screen set to a panoramic scan.','Planned with panoramic and 3D X-rays, taken on site.'],['img/inside-surgery.jpg','A dentist wearing magnifying loupes and a dental assistant, both in sterile blue gowns, treating a patient under a surgical light.','Placed in a fully sterile room.']],
-      who:'david', whoNote:'Dr David Attia has a key interest in oral surgery and dental implants.',
       steps:[['Talk it through','Your dentist examines the area and takes X-rays, often with a 3D scan, to plan where the implant will go.'],['See the plan','You see the plan, the timeline and the cost before you agree to anything.'],['Placing the implant','The post is placed with the area numbed, then left to heal and join with the bone.'],['Your new tooth','Once it has healed, a crown is made to match your other teeth and fitted on top.']],
       stepsNote:'From first conversation to your finished tooth.',
       price:'Written quote at your consultation',
@@ -1603,7 +1605,7 @@ p{margin:0}
       group:'Fix a problem', title:'Emergency treatment', urgent:true,
       lede:'Toothache, a broken tooth or a knocked-out tooth. Call us first, and tell us what happened.',
       cta:'Call ' + PHONE,
-      glance:[['Phone', PHONE],['Hours','Weekdays from 8:45am<br>Thursdays until 8pm'],['After hours','Leave a message. We call back when we open'],['Pay over time','Zip Pay · DentiCare']],
+      glance:[['Phone', PHONE],['Hours','Weekdays from 8:30am<br>Thursdays until 7:45pm'],['After hours','Leave a message. We call back when we open'],['Pay over time','Zip Pay · DentiCare']],
       fit:['A toothache that is getting worse','A broken, chipped or knocked-out tooth','Swelling in your gums or face'],
       fitNote:'For bleeding that will not stop, swelling that affects your breathing or swallowing, or a serious injury to your face, call 000 or go straight to the emergency department at Ballarat Base Hospital.',
       steps:[['Call when we open','Ring ' + PHONE + ' and say it is urgent.'],['Tell us what happened','The team asks a few questions to understand how urgent it is.'],['We fit you in','We find the soonest time we can see you.'],['Treatment, then next steps','Your dentist treats the problem and explains anything that should follow.']],
@@ -1633,7 +1635,7 @@ p{margin:0}
     var t = TX[key], tel = 'tel:+61353311959', w = t.who ? BY[t.who] : null;
     var book = t.urgent ? tel : '#book';
     txMain.innerHTML =
-      (t.urgent ? '<section class="urgent" aria-label="Urgent"><div class="wrap"><p>In pain now? Call us<b>' + PHONE + '</b></p><span class="status" id="txOpen"><i aria-hidden="true"></i><span>Mon–Fri from 8:45am</span></span></div></section>' : '') +
+      (t.urgent ? '<section class="urgent" aria-label="Urgent"><div class="wrap"><p>In pain now? Call us<b>' + PHONE + '</b></p><span class="status" id="txOpen"><i aria-hidden="true"></i><span>Mon–Fri from 8:30am</span></span></div></section>' : '') +
       '<section class="tx-hero" aria-labelledby="tx-h"><div class="wrap"><div class="tx-copy">' +
         '<p class="crumb"><a href="#home">Home</a> / <a href="#treatments">Treatments</a> / ' + t.group + '</p>' +
         '<p class="tx-group">' + t.group + '</p><h1 id="tx-h">' + t.title + '</h1><p class="tx-lede">' + t.lede + '</p>' +
@@ -1655,7 +1657,7 @@ p{margin:0}
       '<section class="calm calm-sm" aria-labelledby="cs-h"><div class="lace" aria-hidden="true"><svg><rect width="100%" height="100%" fill="url(#lace-coral)" opacity=".45"/></svg></div><div class="wrap"><h2 id="cs-h">Nervous about this? <em>Say so</em> when you book.</h2><a class="btn btn-dark" href="#anxious-patients">Plan a calmer visit</a></div></section>' +
       '<section class="section" aria-labelledby="mr-h"><div class="wrap"><div class="more-head"><h2 id="mr-h">More in <em style="color:var(--coral)">' + t.group + '</em></h2><a class="tlink" href="#treatments">All treatments</a></div><div class="more-list">' +
         t.more.map(function(m){ return '<a href="#' + (SLUG[m[0]] || 'treatments') + '"><b>' + m[0] + '</b><span>' + m[1] + ' →</span></a>'; }).join('') + '</div></div></section>' +
-      '<section class="tx-book" style="border-top:1px solid var(--hair)" aria-labelledby="bk-h"><div class="wrap"><h2 id="bk-h">' + (t.urgent ? 'Call first. We will take it from there.' : 'Start with a conversation.') + '</h2><div class="side">' + (t.urgent ? '' : '<a class="btn btn-light" href="#book">Book online</a>') + '<a class="num" href="' + tel + '">' + PHONE + '</a><p>Monday to Friday from 8:45am. Thursdays until 8pm.</p><p>11 Drummond Street South, Ballarat</p></div></div></section>';
+      '<section class="tx-book" style="border-top:1px solid var(--hair)" aria-labelledby="bk-h"><div class="wrap"><h2 id="bk-h">' + (t.urgent ? 'Call first. We will take it from there.' : 'Start with a conversation.') + '</h2><div class="side">' + (t.urgent ? '' : '<a class="btn btn-light" href="#book">Book online</a>') + '<a class="num" href="' + tel + '">' + PHONE + '</a><p>Monday to Friday from 8:30am. Thursdays until 7:45pm.</p><p>11 Drummond Street South, Ballarat</p></div></div></section>';
     var el = document.getElementById('txOpen'), src = document.getElementById('openNow');
     if (el && src){ el.querySelector('span').textContent = src.querySelector('span').textContent; if (src.classList.contains('is-open')) el.classList.add('is-open'); }
   }
